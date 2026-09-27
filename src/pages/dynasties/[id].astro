@@ -3,6 +3,8 @@ import { getEntry } from 'astro:content';
 import EntityLayout from '@/layouts/EntityLayout.astro';
 import Card from '@/components/Card.astro';
 import Related from '@/components/Related.astro';
+import MediaSection from '@/components/media/MediaSection.astro';
+import VideoFeature from '@/components/media/VideoFeature.astro';
 import { getDynasties, relatedToDynasty } from '@/lib/content';
 import { cards } from '@/lib/cards';
 import { formatRange, ordinal } from '@/lib/format';
@@ -22,6 +24,8 @@ const period = await getEntry(d.period);
 const related = await relatedToDynasty(dynasty.id);
 const nth = `${ordinal(d.number)} Dynasty`;
 const range = formatRange(d.start, d.end);
+const featuredVideo = related.videos.find((v) => v.data.youtubeId);
+const otherVideos = related.videos.filter((v) => v !== featuredVideo);
 ---
 
 <EntityLayout
@@ -30,6 +34,7 @@ const range = formatRange(d.start, d.end);
   kicker={`${period?.data.name} · ${range}`}
   lede={d.summary}
   glyph={GLYPHS.dynasties}
+  media={d.media}
   crumbs={[
     { label: 'Dynasties', href: '/dynasties/' },
     { label: nth, href: `/dynasties/${dynasty.id}/` },
@@ -70,8 +75,13 @@ const range = formatRange(d.start, d.end);
     <Related title="Artifacts" count={related.artifacts.length}>
       {related.artifacts.map((a) => <Card {...cards.artifact(a)} />)}
     </Related>
-    <Related title="Watch" count={related.videos.length}>
-      {related.videos.map((v) => <Card {...cards.video(v)} />)}
+    {featuredVideo && (
+      <MediaSection kicker="NeoKemet on YouTube" title="Watch the film">
+        <VideoFeature video={featuredVideo} />
+      </MediaSection>
+    )}
+    <Related title={featuredVideo ? 'More films' : 'Watch on NeoKemet'} count={otherVideos.length}>
+      {otherVideos.map((v) => <Card {...cards.video(v)} />)}
     </Related>
 
     <nav class="pager" aria-label="Dynasty navigation">

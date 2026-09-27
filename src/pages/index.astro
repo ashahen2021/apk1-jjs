@@ -3,6 +3,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import HeroScene from '@/components/HeroScene.astro';
 import Card from '@/components/Card.astro';
 import VideoEmbed from '@/components/VideoEmbed.astro';
+import EgyptMap from '@/components/media/EgyptMap.astro';
 import { getArtifacts, getDynasties, getMonuments, getPeriods, getPharaohs, getTombs, getVideos } from '@/lib/content';
 import { cards } from '@/lib/cards';
 import { formatRange } from '@/lib/format';
@@ -67,6 +68,19 @@ const stats = [
     <p><a class="btn btn--ghost" href="/timeline/">Explore all 30 dynasties</a></p>
   </section>
 
+  <section class="section container map-section" aria-labelledby="map-title-home">
+    <div class="map-intro">
+      <span class="kicker">The Two Lands</span>
+      <h2 id="map-title-home">A kingdom along one river</h2>
+      <p class="lede">
+        Almost every city, temple and tomb of ancient Egypt lies within a few kilometres of the Nile. Zoom into Memphis or
+        Thebes, or tap a marker to open its page.
+      </p>
+      <p><a class="btn btn--ghost" href="/monuments/">Browse all monuments</a></p>
+    </div>
+    <EgyptMap title="Map of ancient Egypt with its capitals, monuments and royal tombs" />
+  </section>
+
   <section class="section container" aria-labelledby="pharaohs-title">
     <div class="head">
       <div>
@@ -96,7 +110,7 @@ const stats = [
           </div>
         </div>
         <div>
-          <VideoEmbed youtubeId={featuredVideo.data.youtubeId} title={featuredVideo.data.title} />
+          <VideoEmbed youtubeId={featuredVideo.data.youtubeId} title={featuredVideo.data.title} duration={featuredVideo.data.duration} thumbnail={featuredVideo.data.thumbnail} overlay={false} />
           <p class="caption"><a href={`/videos/${featuredVideo.id}/`}>{featuredVideo.data.title}</a></p>
         </div>
       </div>
@@ -221,6 +235,12 @@ const stats = [
   .watch-inner { display: grid; gap: 2.5rem; align-items: center; }
   @media (min-width: 56rem) { .watch-inner { grid-template-columns: 2fr 3fr; gap: 4rem; } }
   .caption { margin-top: 0.75rem; font-size: var(--step--1); }
+
+  .map-section { display: grid; gap: 2rem; align-items: start; }
+  @media (min-width: 56rem) {
+    .map-section { grid-template-columns: 1fr 1.25fr; gap: 4rem; }
+    .map-intro { position: sticky; top: 6rem; }
+  }
 
   .split { display: grid; gap: 3rem; }
   @media (min-width: 56rem) { .split { grid-template-columns: 1fr 1fr; } }

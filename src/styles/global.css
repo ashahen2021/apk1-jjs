@@ -37,6 +37,9 @@ body::after {
 
 main { flex: 1; }
 
+/* Components set display on elements they also toggle with [hidden]. */
+[hidden] { display: none !important; }
+
 img, svg, video, iframe { display: block; max-width: 100%; }
 
 h1, h2, h3, h4 {

@@ -26,6 +26,8 @@ const { Content } = await render(tomb);
   kicker={`Tomb · ${ordinal(Number(t.dynasty.id))} Dynasty`}
   lede={t.site}
   glyph={GLYPHS.tombs}
+  media={t.media}
+  mapFocus={t.coordinates ? `tombs/${tomb.id}` : undefined}
   crumbs={[
     { label: 'Tombs', href: '/tombs/' },
     { label: t.code ?? t.name, href: `/tombs/${tomb.id}/` },

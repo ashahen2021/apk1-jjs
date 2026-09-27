@@ -27,7 +27,7 @@ const playlists = Object.entries(PLAYLISTS).map(([id, meta]) => ({
 >
   {featured && (
     <section class="featured" aria-labelledby="featured-title">
-      <VideoEmbed youtubeId={featured.data.youtubeId} title={featured.data.title} />
+      <VideoEmbed youtubeId={featured.data.youtubeId} title={featured.data.title} duration={featured.data.duration} thumbnail={featured.data.thumbnail} overlay={false} priority />
       <div>
         <span class="kicker">Featured</span>
         <h2 id="featured-title"><a href={`/videos/${featured.id}/`}>{featured.data.title}</a></h2>
@@ -43,7 +43,7 @@ const playlists = Object.entries(PLAYLISTS).map(([id, meta]) => ({
   {playlists.filter((p) => p.videos.length > 0).map((p) => (
     <section class="playlist" id={p.id} aria-labelledby={`${p.id}-title`}>
       <h2 id={`${p.id}-title`}>{p.label}</h2>
-      <p class="blurb">{p.blurb}</p>
+      <p class="blurb">{p.blurb}{'url' in p && p.url && <> <a href={p.url} rel="noopener">Open the playlist on YouTube →</a></>}</p>
       <div class="grid">
         {p.videos.map((v) => <Card {...cards.video(v)} />)}
       </div>

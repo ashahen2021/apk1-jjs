@@ -32,7 +32,7 @@ const jsonLd = v.youtubeId && v.published
       '@type': 'VideoObject',
       name: v.title,
       description: v.description,
-      thumbnailUrl: `https://i.ytimg.com/vi/${v.youtubeId}/hqdefault.jpg`,
+      thumbnailUrl: `https://i.ytimg.com/vi/${v.youtubeId}/maxresdefault.jpg`,
       uploadDate: v.published.toISOString(),
       duration: v.duration,
       embedUrl: `https://www.youtube-nocookie.com/embed/${v.youtubeId}`,
@@ -61,7 +61,7 @@ const jsonLd = v.youtubeId && v.published
   ]}
   jsonLd={jsonLd}
 >
-  <div slot="media" class="media"><VideoEmbed youtubeId={v.youtubeId} title={v.title} /></div>
+  <div slot="media" class="media"><VideoEmbed youtubeId={v.youtubeId} title={v.title} duration={v.duration} thumbnail={v.thumbnail} priority /></div>
 
   <Content />
   {v.chapters.length > 0 && (

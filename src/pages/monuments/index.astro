@@ -3,6 +3,7 @@ import ListingPage from '@/components/ListingPage.astro';
 import Card from '@/components/Card.astro';
 import { getMonuments } from '@/lib/content';
 import { cards } from '@/lib/cards';
+import EgyptMap from '@/components/media/EgyptMap.astro';
 import { GLYPHS } from '@/lib/site';
 
 const monuments = await getMonuments();
@@ -18,7 +19,14 @@ const monuments = await getMonuments();
   path="/monuments/"
   itemList={monuments.map((m) => ({ name: m.data.name, url: `/monuments/${m.id}/` }))}
 >
+  <div class="map-wrap">
+    <EgyptMap title="Map of the monuments of ancient Egypt" />
+  </div>
   <div class="grid">
     {monuments.map((m) => <Card {...cards.monument(m)} headingLevel="h2" />)}
   </div>
 </ListingPage>
+
+<style>
+  .map-wrap { max-width: 44rem; margin: 0 auto 4rem; }
+</style>

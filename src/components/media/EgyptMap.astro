@@ -1,0 +1,308 @@
+---
+/**
+ * Interactive map of ancient Egypt. Coastline and Nile come from Natural Earth
+ * (see scripts/build-map-data.mjs); monuments and tombs are plotted from their
+ * `coordinates` field, cities from src/data/places.ts.
+ *
+ * Rendered as inline SVG at build time: every site is a real link, so the map
+ * is crawlable and works without JavaScript. With JS it gains region zoom,
+ * layer filters and tap-friendly popovers.
+ */
+import { getMonuments, getTombs } from '@/lib/content';
+import { formatYear } from '@/lib/format';
+import { EXTENT, LAND_PATH, MAP_SOURCE, RIVERS, VIEWS, project, viewBox, viewFor } from '@/lib/map';
+import { PLACES, REGIONS } from '@/data/places';
+
+export interface Props {
+  /** Highlight one site, e.g. "monuments/abu-simbel", and start zoomed to its region. */
+  focus?: string;
+  /** Starting view id when there is no focus (defaults to all of Egypt). */
+  view?: string;
+  /** Compact landscape locator for detail pages. */
+  compact?: boolean;
+  title?: string;
+}
+const { focus, view, compact = false, title = 'Map of ancient Egypt' } = Astro.props;
+
+const [monuments, tombs] = await Promise.all([getMonuments(), getTombs()]);
+type Site = { id: string; layer: 'monument' | 'tomb' | 'place'; name: string; meta: string; href?: string; lat: number; lon: number; major: boolean; capital?: boolean };
+const sites: Site[] = [
+  ...PLACES.map((p) => ({ id: `places/${p.id}`, layer: 'place' as const, name: p.name, meta: p.note, lat: p.lat, lon: p.lon, major: !!p.major, capital: p.kind === 'capital' })),
+  ...tombs.filter((t) => t.data.coordinates).map((t) => ({
+    id: `tombs/${t.id}`, layer: 'tomb' as const, name: t.data.code ? `${t.data.code} · ${t.data.owner.split(',')[0]}` : t.data.name,
+    meta: t.data.site, href: `/tombs/${t.id}/`, lat: t.data.coordinates![0], lon: t.data.coordinates![1], major: false,
+  })),
+  ...monuments.filter((m) => m.data.coordinates).map((m) => ({
+    id: `monuments/${m.id}`, layer: 'monument' as const, name: m.data.name,
+    meta: `${m.data.type} · ${formatYear(m.data.built)}`, href: `/monuments/${m.id}/`, lat: m.data.coordinates![0], lon: m.data.coordinates![1], major: !!m.data.featured,
+  })),
+];
+
+const focused = sites.find((s) => s.id === focus);
+const start = focused ? viewFor(focused.lat, focused.lon) : (VIEWS.find((v) => v.id === view) ?? VIEWS[0]);
+const vb = viewBox(start);
+// Initial units-per-pixel guess for the no-JS render; JS corrects it on load.
+const u = (vb[2] / (compact ? 720 : 560)).toFixed(4);
+const graticule = { lats: [22, 24, 26, 28, 30, 32], lons: [29, 31, 33, 35] };
+---
+
+<figure class:list={['map', { 'map--compact': compact }]} data-map data-view={start.id}>
+  <div class="map-bar">
+    <div class="views" role="group" aria-label="Zoom to region">
+      {VIEWS.map((v) => (
+        <button type="button" data-view-btn={v.id} data-vb={viewBox(v).join(' ')} aria-pressed={v.id === start.id ? "true" : "false"}>{v.label}</button>
+      ))}
+    </div>
+    <div class="layers" role="group" aria-label="Show on map">
+      <label><input type="checkbox" data-layer="monument" checked /> <span class="key key--monument"></span>Monuments</label>
+      <label><input type="checkbox" data-layer="tomb" checked /> <span class="key key--tomb"></span>Tombs</label>
+      <label><input type="checkbox" data-layer="place" checked /> <span class="key key--place"></span>Cities</label>
+    </div>
+  </div>
+
+  <div class="stage">
+    <svg viewBox={vb.join(' ')} style={`--u:${u}`} role="img" aria-labelledby="map-title" data-svg>
+      <title id="map-title">{title}</title>
+      <rect class="sea" x={EXTENT.min[0]} y={EXTENT.min[1]} width={EXTENT.max[0] - EXTENT.min[0]} height={EXTENT.max[1] - EXTENT.min[1]} />
+      <g class="graticule">
+        {graticule.lats.map((lat) => { const y = project(lat, 0)[1]; return <line x1={EXTENT.min[0]} x2={EXTENT.max[0]} y1={y} y2={y} />; })}
+        {graticule.lons.map((lon) => { const x = project(0, lon)[0]; return <line y1={EXTENT.min[1]} y2={EXTENT.max[1]} x1={x} x2={x} />; })}
+      </g>
+      <path class="land" d={LAND_PATH} />
+      <g class="rivers">
+        {RIVERS.map((r) => <path class:list={['river', { branch: r.name !== 'Nile' }]} d={r.d} />)}
+      </g>
+      <g class="regions" aria-hidden="true">
+        {REGIONS.map((r) => { const [x, y] = project(r.lat, r.lon); return <g class="pin" style={`--x:${x};--y:${y}`}><text class="region">{r.name}</text></g>; })}
+      </g>
+      <g class="sites">
+        {sites.map((s) => {
+          const [x, y] = project(s.lat, s.lon);
+          const Tag = s.href ? 'a' : 'g';
+          return (
+            <Tag
+              class:list={['pin site', `site--${s.layer}`, { major: s.major, capital: s.capital, focused: s.id === focus }]}
+              style={`--x:${x};--y:${y}`}
+              href={s.href}
+              data-layer={s.layer}
+              data-name={s.name}
+              data-meta={s.meta}
+              data-href={s.href}
+              tabindex={s.href ? undefined : 0}
+              aria-label={`${s.name} — ${s.meta}`}
+            >
+              {s.id === focus && <circle class="halo" r="14" />}
+              {s.layer === 'monument' && <rect class="mark" x="-5" y="-5" width="10" height="10" transform="rotate(45)" />}
+              {s.layer === 'tomb' && <circle class="mark" r="5" />}
+              {s.layer === 'place' && <circle class="mark" r={s.capital ? 4.5 : 3.5} />}
+              <text class="label" x="9" y="4">{s.name}</text>
+            </Tag>
+          );
+        })}
+      </g>
+    </svg>
+
+    <div class="pop" data-pop hidden role="dialog" aria-live="polite">
+      <button type="button" class="pop-close" data-pop-close aria-label="Close">×</button>
+      <p class="pop-kind" data-pop-kind></p>
+      <p class="pop-name" data-pop-name></p>
+      <p class="pop-meta" data-pop-meta></p>
+      <a class="pop-link" data-pop-link href="#">Open page →</a>
+    </div>
+    <span class="north" aria-hidden="true">N ↑</span>
+  </div>
+  <figcaption>Coastline and Nile: {MAP_SOURCE}. Modern features such as Lake Nasser are omitted. Site positions are approximate.</figcaption>
+</figure>
+
+<script>
+  const KIND: Record<string, string> = { monument: 'Monument', tomb: 'Tomb', place: 'Ancient city' };
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.querySelectorAll<HTMLElement>('[data-map]').forEach((root) => {
+    const svg = root.querySelector<SVGSVGElement>('[data-svg]')!;
+    const pop = root.querySelector<HTMLElement>('[data-pop]')!;
+    let vb = svg.getAttribute('viewBox')!.split(' ').map(Number);
+
+    // Keep markers and labels a constant on-screen size at every zoom level.
+    const setUnits = () => {
+      const r = svg.getBoundingClientRect();
+      if (!r.width) return;
+      const scale = Math.min(r.width / vb[2], r.height / vb[3]);
+      svg.style.setProperty('--u', String(1 / scale));
+    };
+
+    // Hide labels that would collide with a higher-priority label or marker.
+    // Priority: the focused site, then monuments, tombs and cities.
+    const RANK: Record<string, number> = { monument: 1, tomb: 2, place: 3 };
+    const overlaps = (a: DOMRect, b: DOMRect) => a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom;
+    const declutter = () => {
+      const sites = [...root.querySelectorAll<SVGElement>('.site')].filter((s) => getComputedStyle(s).display !== 'none');
+      const taken = sites.map((s) => s.querySelector('.mark')!.getBoundingClientRect());
+      sites
+        .sort((a, b) => Number(b.classList.contains('focused')) - Number(a.classList.contains('focused')) || RANK[a.dataset.layer!] - RANK[b.dataset.layer!])
+        .forEach((s) => {
+          const label = s.querySelector<SVGTextElement>('.label')!;
+          label.classList.remove('is-hidden');
+          if (getComputedStyle(label).display === 'none') return;
+          const r = label.getBoundingClientRect();
+          const own = s.querySelector('.mark')!.getBoundingClientRect();
+          if (taken.some((t) => t !== own && overlaps(t, r) && !(t.x === own.x && t.y === own.y))) label.classList.add('is-hidden');
+          else taken.push(r);
+        });
+    };
+    new ResizeObserver(() => {
+      setUnits();
+      declutter();
+    }).observe(svg);
+
+    const zoomTo = (target: number[], id: string) => {
+      hidePop();
+      root.dataset.view = id;
+      root.querySelectorAll('[data-view-btn]').forEach((b) => b.setAttribute('aria-pressed', String((b as HTMLElement).dataset.viewBtn === id)));
+      const from = vb.slice();
+      const t0 = performance.now();
+      const dur = reduce ? 0 : 700;
+      const step = (now: number) => {
+        const k = dur ? Math.min(1, (now - t0) / dur) : 1;
+        const e = 1 - Math.pow(1 - k, 3);
+        vb = from.map((v, i) => v + (target[i] - v) * e);
+        svg.setAttribute('viewBox', vb.join(' '));
+        setUnits();
+        if (k < 1) requestAnimationFrame(step);
+        else declutter();
+      };
+      requestAnimationFrame(step);
+    };
+    root.querySelectorAll<HTMLButtonElement>('[data-view-btn]').forEach((b) =>
+      b.addEventListener('click', () => zoomTo(b.dataset.vb!.split(' ').map(Number), b.dataset.viewBtn!)),
+    );
+
+    root.querySelectorAll<HTMLInputElement>('[data-layer]').forEach((input) =>
+      input.addEventListener('change', () => {
+        root.classList.toggle(`hide-${input.dataset.layer}`, !input.checked);
+        hidePop();
+        declutter();
+      }),
+    );
+
+    // Popovers: the first tap on a marker explains it; the link inside opens the page.
+    const showPop = (site: SVGElement) => {
+      const d = site.dataset;
+      pop.querySelector('[data-pop-kind]')!.textContent = KIND[d.layer!] ?? '';
+      pop.querySelector('[data-pop-name]')!.textContent = d.name ?? '';
+      pop.querySelector('[data-pop-meta]')!.textContent = d.meta ?? '';
+      const link = pop.querySelector<HTMLAnchorElement>('[data-pop-link]')!;
+      link.hidden = !d.href;
+      if (d.href) link.href = d.href;
+      pop.hidden = false;
+      const stage = pop.parentElement!.getBoundingClientRect();
+      const mark = site.querySelector('.mark')!.getBoundingClientRect();
+      const x = mark.left + mark.width / 2 - stage.left;
+      const y = mark.top - stage.top;
+      pop.style.left = `${Math.max(8, Math.min(x - pop.offsetWidth / 2, stage.width - pop.offsetWidth - 8))}px`;
+      pop.style.top = `${y - pop.offsetHeight - 12 < 8 ? y + mark.height + 12 : y - pop.offsetHeight - 12}px`;
+      root.querySelectorAll('.site.active').forEach((s) => s.classList.remove('active'));
+      site.classList.add('active');
+    };
+    function hidePop() {
+      pop.hidden = true;
+      root.querySelectorAll('.site.active').forEach((s) => s.classList.remove('active'));
+    }
+    root.querySelectorAll<SVGElement>('.site').forEach((site) => {
+      site.addEventListener('click', (e) => {
+        e.preventDefault();
+        showPop(site);
+      });
+      site.addEventListener('keydown', (e) => {
+        if ((e as KeyboardEvent).key === 'Enter' && !site.dataset.href) showPop(site);
+      });
+    });
+    root.querySelector('[data-pop-close]')!.addEventListener('click', hidePop);
+    root.addEventListener('keydown', (e) => e.key === 'Escape' && hidePop());
+    svg.addEventListener('click', (e) => { if (!(e.target as Element).closest('.site')) hidePop(); });
+  });
+</script>
+
+<style>
+  .map { margin: 0; }
+  .map-bar { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.75rem 1.5rem; margin-bottom: 0.9rem; }
+  .views, .layers { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .views button {
+    font: inherit; font-size: 0.8rem; padding: 0.35rem 0.8rem; min-height: 2.25rem;
+    border: 1px solid var(--line-strong); border-radius: 999px; background: transparent; color: var(--text-muted); cursor: pointer;
+  }
+  .views button[aria-pressed='true'] { background: var(--gold); border-color: var(--gold); color: var(--basalt); }
+  .layers label { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.82rem; color: var(--text-muted); cursor: pointer; padding-inline: 0.3rem; }
+  .layers input { accent-color: var(--gold); }
+  .key { display: inline-block; width: 0.7rem; height: 0.7rem; }
+  .key--monument { background: var(--gold); transform: rotate(45deg) scale(0.85); }
+  .key--tomb { background: #6f9ee0; border-radius: 50%; }
+  .key--place { border: 1.5px solid var(--limestone); border-radius: 50%; }
+
+  .stage {
+    position: relative;
+    aspect-ratio: 5 / 7;
+    max-height: 82vh;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: #0e1822;
+  }
+  .map--compact { max-width: 52rem; }
+  .map--compact .stage { aspect-ratio: 4 / 3; max-height: 70vh; }
+  svg { width: 100%; height: 100%; display: block; touch-action: manipulation; }
+
+  .sea { fill: #0e1822; }
+  .graticule line { stroke: rgb(216 203 168 / 0.07); stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .land { fill: #2a2217; stroke: #6b5a3c; stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .river { fill: none; stroke: #3f7fb8; stroke-width: 2.4; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+  .river.branch { stroke-width: 1.6; }
+
+  /* Pins are positioned in map units, then scaled back to screen pixels. */
+  .pin { transform: translate(calc(var(--x) * 1px), calc(var(--y) * 1px)) scale(var(--u)); }
+  .region { font: 600 11px var(--font-display); letter-spacing: 0.3em; text-transform: uppercase; fill: rgb(216 203 168 / 0.32); text-anchor: middle; }
+  [data-view]:not([data-view='egypt']) .regions { display: none; }
+
+  .site { cursor: pointer; outline: none; }
+  .site .mark { stroke: var(--basalt); stroke-width: 1.5; transition: transform 0.2s var(--ease); }
+  .site--monument .mark { fill: var(--gold); }
+  .site--tomb .mark { fill: #6f9ee0; }
+  .site--place .mark { fill: var(--bg); stroke: var(--limestone); stroke-width: 1.6; }
+  .site--place.capital .mark { fill: var(--limestone); stroke: var(--bg); }
+  .site .label { font: 500 12px var(--font-body); fill: var(--text); paint-order: stroke; stroke: rgb(11 10 8 / 0.85); stroke-width: 3px; stroke-linejoin: round; }
+  .site .label.is-hidden { display: none; }
+  .site--place .label { font-family: var(--font-display); letter-spacing: 0.06em; fill: var(--limestone); }
+  /* At country scale only major places are labelled; monuments and tombs show as marks. */
+  [data-view='egypt'] .site:not(.site--place.major):not(.focused) .label { display: none; }
+  [data-view='egypt'] .site--place:not(.major) .mark { opacity: 0.6; }
+  .site:hover .mark, .site:focus-visible .mark, .site.active .mark { transform: scale(1.5); }
+  .site:focus-visible .label, .site.active .label { display: inline !important; fill: var(--accent-bright); }
+  .halo { fill: none; stroke: var(--accent-bright); stroke-width: 2; }
+  @media (prefers-reduced-motion: no-preference) {
+    .halo { animation: halo 2.2s var(--ease) infinite; transform-origin: center; transform-box: fill-box; }
+  }
+  @keyframes halo { from { opacity: 1; transform: scale(0.5); } to { opacity: 0; transform: scale(1.6); } }
+
+  .hide-monument .site--monument, .hide-tomb .site--tomb, .hide-place .site--place { display: none; }
+
+  .pop {
+    position: absolute;
+    z-index: 2;
+    width: min(16rem, calc(100% - 16px));
+    padding: 0.8rem 1rem 0.9rem;
+    border: 1px solid var(--line-strong);
+    border-top: 2px solid var(--gold);
+    border-radius: var(--radius);
+    background: rgb(20 18 14 / 0.96);
+    box-shadow: var(--shadow);
+  }
+  .pop p { margin: 0; }
+  .pop-kind { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); }
+  .pop-name { font-family: var(--font-display); font-size: 1.05rem; color: var(--limestone); margin: 0.15rem 0 !important; }
+  .pop-meta { font-size: 0.85rem; color: var(--text-muted); }
+  .pop-link { display: inline-block; margin-top: 0.5rem; font-size: 0.85rem; font-weight: 600; }
+  .pop-close { position: absolute; top: 0.2rem; right: 0.3rem; width: 2rem; height: 2rem; border: 0; background: none; color: var(--text-muted); font-size: 1.3rem; cursor: pointer; }
+
+  .north { position: absolute; right: 0.8rem; bottom: 0.6rem; font: 600 0.75rem var(--font-display); letter-spacing: 0.15em; color: var(--text-faint); pointer-events: none; }
+  figcaption { margin-top: 0.6rem; font-size: 0.75rem; color: var(--text-faint); }
+</style>

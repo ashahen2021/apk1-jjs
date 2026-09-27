@@ -1,15 +1,36 @@
 ---
+import { Picture } from 'astro:assets';
+import { creditLine, widthsFor, type MediaImage } from '@/lib/media';
+
 export interface Props {
   kicker?: string;
   title: string;
   lede?: string;
   glyph?: string;
+  /** Featured image shown full-bleed behind the title (the page's LCP image). */
+  image?: MediaImage;
 }
-const { kicker, title, lede, glyph } = Astro.props;
+const { kicker, title, lede, glyph, image } = Astro.props;
+const credit = image && creditLine(image);
 ---
 
-<section class="hero">
-  {glyph && <span class="glyph" aria-hidden="true">{glyph}</span>}
+<section class:list={['hero', { 'hero--image': image }]}>
+  {image && (
+    <div class="backdrop">
+      <Picture
+        src={image.src}
+        alt={image.alt}
+        formats={['avif', 'webp']}
+        widths={widthsFor(image.src, [640, 960, 1280, 1920, 2400])}
+        sizes="100vw"
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+      />
+    </div>
+  )}
+  {credit && <span class="hero-credit">{credit}</span>}
+  {!image && glyph && <span class="glyph" aria-hidden="true">{glyph}</span>}
   <div class="container">
     <slot name="above" />
     {kicker && <span class="kicker">{kicker}</span>}
@@ -42,4 +63,33 @@ const { kicker, title, lede, glyph } = Astro.props;
     pointer-events: none;
   }
   h1 { max-width: 20ch; }
+
+  .hero--image {
+    min-height: min(78vh, 44rem);
+    display: flex;
+    align-items: flex-end;
+    padding-top: 8rem;
+  }
+  .hero--image > .container { position: relative; z-index: 1; }
+  .backdrop { position: absolute; inset: 0; }
+  .backdrop :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%; }
+  @media (prefers-reduced-motion: no-preference) {
+    .backdrop :global(img) { animation: drift 24s var(--ease) both; }
+  }
+  @keyframes drift { from { transform: scale(1.08); } to { transform: scale(1); } }
+  .backdrop::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgb(11 10 8 / 0.35) 0%, rgb(11 10 8 / 0) 30%, rgb(11 10 8 / 0.55) 65%, var(--bg) 100%),
+      linear-gradient(90deg, rgb(11 10 8 / 0.7) 0%, rgb(11 10 8 / 0) 60%);
+  }
+  .hero--image h1 { text-shadow: 0 0.15em 1.2em rgb(0 0 0 / 0.7); }
+  .hero--image .lede { color: var(--text); text-shadow: 0 0.1em 0.8em rgb(0 0 0 / 0.8); }
+  .hero-credit {
+    position: absolute; right: var(--gutter); bottom: 1rem; z-index: 1;
+    font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgb(233 224 201 / 0.6);
+  }
+  @media (max-width: 40rem) { .hero-credit { bottom: auto; top: 5.2rem; } }
 </style>

@@ -1,0 +1,145 @@
+---
+/**
+ * 360° turntable from a folder of frames (src/assets/media/spins/<folder>/).
+ * The first frame is a normal optimised image; the rest are fetched only when
+ * the viewer scrolls into view. Drag, swipe, arrow keys or the slider rotate it.
+ */
+import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { creditLine, type MediaKind } from '@/lib/media';
+
+export interface Props { folder: string; alt: string; caption?: string; credit?: string; kind?: MediaKind; license?: string }
+const { folder, alt, caption, ...rest } = Astro.props;
+
+const all = import.meta.glob<ImageMetadata>('/src/assets/media/spins/**/*.{jpg,jpeg,png,webp}', { eager: true, import: 'default' });
+const frames = Object.entries(all)
+  .filter(([path]) => path.includes(`/spins/${folder}/`))
+  .sort(([a], [b]) => a.localeCompare(b))
+  .map(([, img]) => img);
+if (!frames.length) throw new Error(`SpinViewer: no frames found in src/assets/media/spins/${folder}/`);
+const urls = await Promise.all(frames.map(async (f) => (await getImage({ src: f, width: Math.min(f.width, 900), format: 'webp' })).src));
+const credit = creditLine(rest);
+---
+
+<figure class="spin" data-spin data-frames={JSON.stringify(urls)}>
+  <div class="stage" data-stage tabindex="0" role="img" aria-label={`${alt}. 360° view: drag, or use the left and right arrow keys, to turn the object.`}>
+    <img data-frame src={urls[0]} alt={alt} width={frames[0].width} height={frames[0].height} loading="lazy" decoding="async" draggable="false" />
+    <span class="badge">360°</span>
+    <p class="hint" data-hint>Drag to turn</p>
+    <div class="progress" data-progress hidden><span></span></div>
+  </div>
+  <div class="controls">
+    <button type="button" data-play aria-pressed="false">Auto-rotate</button>
+    <input type="range" min="0" max={urls.length - 1} value="0" aria-label="Rotation" data-range />
+  </div>
+  {(caption || credit) && <figcaption>{caption}{credit && <span>{credit}</span>}</figcaption>}
+</figure>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-spin]').forEach((root) => {
+    const urls: string[] = JSON.parse(root.dataset.frames!);
+    const img = root.querySelector<HTMLImageElement>('[data-frame]')!;
+    const stage = root.querySelector<HTMLElement>('[data-stage]')!;
+    const range = root.querySelector<HTMLInputElement>('[data-range]')!;
+    const play = root.querySelector<HTMLButtonElement>('[data-play]')!;
+    const hint = root.querySelector<HTMLElement>('[data-hint]')!;
+    const progress = root.querySelector<HTMLElement>('[data-progress]')!;
+    let frame = 0;
+    let timer = 0;
+    let loaded = false;
+
+    const preload = () => {
+      if (loaded) return;
+      loaded = true;
+      let done = 0;
+      progress.hidden = false;
+      urls.forEach((u) => {
+        const i = new Image();
+        i.onload = i.onerror = () => {
+          done++;
+          progress.style.setProperty('--p', String(done / urls.length));
+          if (done === urls.length) progress.hidden = true;
+        };
+        i.src = u;
+      });
+    };
+    new IntersectionObserver(([e], io) => {
+      if (e.isIntersecting) {
+        preload();
+        io.disconnect();
+      }
+    }, { rootMargin: '200px' }).observe(stage);
+
+    const show = (f: number) => {
+      frame = ((f % urls.length) + urls.length) % urls.length;
+      img.src = urls[frame];
+      range.value = String(frame);
+    };
+    const stop = () => {
+      clearInterval(timer);
+      timer = 0;
+      play.setAttribute('aria-pressed', 'false');
+    };
+    play.addEventListener('click', () => {
+      if (timer) return stop();
+      preload();
+      play.setAttribute('aria-pressed', 'true');
+      timer = window.setInterval(() => show(frame + 1), 90);
+    });
+    range.addEventListener('input', () => {
+      stop();
+      show(Number(range.value));
+    });
+
+    let startX = 0, startFrame = 0, dragging = false;
+    stage.addEventListener('pointerdown', (e) => {
+      dragging = true;
+      startX = e.clientX;
+      startFrame = frame;
+      hint.hidden = true;
+      stop();
+      stage.setPointerCapture(e.pointerId);
+    });
+    stage.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      // One full turn per stage width.
+      show(startFrame - Math.round(((e.clientX - startX) / stage.clientWidth) * urls.length));
+    });
+    stage.addEventListener('pointerup', () => (dragging = false));
+    stage.addEventListener('pointercancel', () => (dragging = false));
+    stage.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        e.preventDefault();
+        stop();
+        hint.hidden = true;
+        show(frame + (e.key === 'ArrowRight' ? 1 : -1));
+      }
+    });
+  });
+</script>
+
+<style>
+  .spin { margin: 0; max-width: 40rem; }
+  .stage {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    background: #0d0b09;
+    cursor: ew-resize;
+    touch-action: pan-y;
+    user-select: none;
+  }
+  .stage img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+  .badge { position: absolute; top: 0.8rem; left: 0.8rem; padding: 0.25rem 0.7rem; border-radius: 999px; background: rgb(11 10 8 / 0.72); border: 1px solid var(--line-strong); font-family: var(--font-display); font-size: 0.75rem; letter-spacing: 0.14em; color: var(--limestone); }
+  .hint { position: absolute; left: 50%; bottom: 1rem; transform: translateX(-50%); margin: 0; padding: 0.35rem 0.9rem; border-radius: 999px; background: rgb(11 10 8 / 0.72); font-size: 0.8rem; color: var(--text-muted); pointer-events: none; }
+  .progress { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgb(255 255 255 / 0.08); }
+  .progress span { display: block; height: 100%; width: calc(var(--p, 0) * 100%); background: var(--gold); transition: width 0.2s linear; }
+  .controls { display: flex; align-items: center; gap: 1rem; margin-top: 0.8rem; }
+  .controls button { font: inherit; font-size: 0.8rem; padding: 0.4rem 0.9rem; min-height: 2.5rem; border: 1px solid var(--line-strong); border-radius: 999px; background: transparent; color: var(--text-muted); cursor: pointer; white-space: nowrap; }
+  .controls button[aria-pressed='true'] { background: var(--gold); border-color: var(--gold); color: var(--basalt); }
+  .controls input { flex: 1; accent-color: var(--gold); }
+  figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.3rem 1rem; margin-top: 0.6rem; font-size: var(--step--1); color: var(--text-muted); }
+  figcaption span { color: var(--text-faint); font-size: 0.75rem; }
+</style>

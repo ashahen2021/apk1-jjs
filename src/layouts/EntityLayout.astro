@@ -2,12 +2,19 @@
 /**
  * Shared layout for every detail page (dynasty, pharaoh, monument, tomb,
  * artifact, video): hero with breadcrumbs, article body beside a fact sheet,
- * then related-content sections.
+ * the entry's media blocks, an optional locator map, then related content.
  */
+import { getImage } from 'astro:assets';
 import BaseLayout from './BaseLayout.astro';
 import PageHero from '@/components/PageHero.astro';
 import Breadcrumbs, { type Crumb } from '@/components/Breadcrumbs.astro';
 import FactList, { type MaybeFact } from '@/components/FactList.astro';
+import EntityMedia from '@/components/media/EntityMedia.astro';
+import MediaSection from '@/components/media/MediaSection.astro';
+import EgyptMap from '@/components/media/EgyptMap.astro';
+import type { CollectionEntry } from 'astro:content';
+
+type Media = CollectionEntry<'monuments'>['data']['media'];
 
 export interface Props {
   title: string;
@@ -19,12 +26,20 @@ export interface Props {
   facts: MaybeFact[];
   jsonLd?: Record<string, unknown>[];
   ogType?: 'article' | 'video.other';
+  media?: Media;
+  /** Site id for the locator map, e.g. "monuments/abu-simbel". */
+  mapFocus?: string;
 }
-const { title, description, kicker, lede, glyph, crumbs, facts, jsonLd, ogType = 'article' } = Astro.props;
+const { title, description, kicker, lede, glyph, crumbs, facts, jsonLd = [], ogType = 'article', media, mapFocus } = Astro.props;
+
+const hero = media?.hero;
+// The featured image doubles as the social sharing card and schema.org image.
+const og = hero && (await getImage({ src: hero.src, width: 1200, height: 630, fit: 'cover', format: 'jpg' }));
+const ld = og ? jsonLd.map((item) => ({ image: new URL(og.src, Astro.site).href, ...item })) : jsonLd;
 ---
 
-<BaseLayout title={title} description={description} jsonLd={jsonLd} type={ogType}>
-  <PageHero kicker={kicker} title={title} lede={lede} glyph={glyph}>
+<BaseLayout title={title} description={description} jsonLd={ld} type={ogType} image={og?.src}>
+  <PageHero kicker={kicker} title={title} lede={lede} glyph={glyph} image={hero}>
     <Breadcrumbs slot="above" items={crumbs} />
   </PageHero>
 
@@ -39,6 +54,12 @@ const { title, description, kicker, lede, glyph, crumbs, facts, jsonLd, ogType =
         <slot name="aside" />
       </aside>
     </div>
+    {media && <EntityMedia media={media} name={title} />}
+    {mapFocus && (
+      <MediaSection kicker="Location" title="On the map" lede="Tap a marker for details, or zoom out to see the whole Nile valley.">
+        <EgyptMap focus={mapFocus} compact title={`Map showing the location of ${title}`} />
+      </MediaSection>
+    )}
     <slot name="related" />
   </div>
 </BaseLayout>

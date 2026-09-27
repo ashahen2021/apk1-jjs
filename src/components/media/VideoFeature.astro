@@ -1,0 +1,38 @@
+---
+/** A film presented in full: embed plus format, length, date and description. */
+import type { CollectionEntry } from 'astro:content';
+import VideoEmbed from '@/components/VideoEmbed.astro';
+import { formatDuration } from '@/lib/format';
+import { FORMATS, PLAYLISTS } from '@/lib/site';
+
+export interface Props { video: CollectionEntry<'videos'> }
+const { video } = Astro.props;
+const v = video.data;
+const facts = [
+  FORMATS[v.format],
+  formatDuration(v.duration),
+  v.published?.toLocaleDateString('en-GB', { dateStyle: 'medium' }),
+  v.chapters.length ? `${v.chapters.length} chapters` : undefined,
+].filter(Boolean);
+---
+
+<div class="feature">
+  <VideoEmbed youtubeId={v.youtubeId} title={v.title} duration={v.duration} thumbnail={v.thumbnail} overlay={false} />
+  <div class="text">
+    <p class="facts">{facts.join(' · ')}</p>
+    <h3><a href={`/videos/${video.id}/`}>{v.title}</a></h3>
+    <p>{v.description}</p>
+    <p class="playlist">Playlist: {PLAYLISTS[v.playlist].label}</p>
+  </div>
+</div>
+
+<style>
+  .feature { display: grid; gap: 1.5rem; align-items: center; }
+  @media (min-width: 56rem) { .feature { grid-template-columns: 3fr 2fr; gap: 2.5rem; } }
+  .facts { font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
+  h3 { font-size: var(--step-1); }
+  h3 a { color: var(--limestone); text-decoration: none; }
+  h3 a:hover { color: var(--accent-bright); }
+  .text p { color: var(--text-muted); }
+  .playlist { font-size: var(--step--1); color: var(--text-faint) !important; }
+</style>

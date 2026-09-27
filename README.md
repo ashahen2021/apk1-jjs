@@ -42,6 +42,8 @@ src/
     format.ts         BCE dates, ordinals, durations
   components/         Header, Footer, Seo, Breadcrumbs, Card, Timeline, DynastyList,
                       VideoEmbed, HeroScene, FactList, Related, ListingPage, PageHero
+    media/            Gallery, CompareSlider, ModelViewer, Panorama, SpinViewer, EgyptMap, …
+  assets/media/       Source images (optimised at build)
   layouts/            BaseLayout (head/SEO/fonts), EntityLayout (all detail pages)
   pages/              Routes (see below)
   styles/             tokens.css (design tokens), global.css
@@ -91,6 +93,51 @@ Body text in Markdown.
 **A video** — create `src/content/videos/<slug>.md`. Leave `youtubeId` out while the film is in production (the page shows a "coming soon" poster); add `youtubeId`, `published` and `duration` when it goes live to enable the video player and `VideoObject` rich results.
 
 Monuments, tombs and artifacts follow the same pattern — see `src/content.config.ts` for every field. Years are signed integers: `-1279` means 1279 BCE.
+
+## Media system
+
+Every dynasty, pharaoh, monument, tomb and artifact accepts an optional `media` block (schema in `src/content.config.ts`). Pages render only the blocks an entry has, in a fixed order, so nothing shows placeholders.
+
+| Field | Renders as | Component |
+|---|---|---|
+| `media.hero` | Full-bleed page header, card image, social sharing image, schema.org `image` | `PageHero`, `Card` |
+| `media.gallery[]` | Grid with a swipeable, keyboard-friendly lightbox | `media/Gallery` |
+| `media.compare[]` | Before/after slider (native range input: keyboard + touch) | `media/CompareSlider` |
+| `media.model` | 3D viewer via `<model-viewer>`, with AR on supported phones — loaded only on click | `media/ModelViewer` |
+| `media.panorama` | Drag-to-look 360° panorama with compass (left edge = north) | `media/Panorama` |
+| `media.spin` | 360° turntable from a folder of frames | `media/SpinViewer` |
+| `coordinates` (monuments, tombs) | Locator map on the page | `media/EgyptMap` |
+
+Every image carries `alt` and may carry `caption`, `credit`, `license`, `sourceUrl` and `kind` (`photo`, `reconstruction`, `illustration`, `diagram`). Non-photographic kinds are labelled on the page so readers can tell evidence from interpretation.
+
+```yaml
+media:
+  hero:
+    src: ../../assets/media/monuments/abu-simbel/facade.jpg   # relative to the .md file
+    alt: The four colossi of Ramesses II on the facade of the Great Temple.
+    kind: photo
+    credit: Photo: Jane Doe
+    license: CC BY-SA 4.0
+    sourceUrl: https://commons.wikimedia.org/wiki/File:...
+  compare:
+    - before: { label: 1960, src: ..., alt: ... }
+      after:  { label: Today, src: ..., alt: ... }
+  model:
+    src: /models/abu-simbel.glb           # file in public/models
+    poster: ../../assets/media/monuments/abu-simbel/model-poster.png
+    alt: 3D model of the Great Temple.
+  spin:
+    folder: abu-simbel-colossus           # frames in src/assets/media/spins/<folder>/, sorted by name
+    alt: A colossus turning.
+```
+
+Videos accept an optional local `thumbnail`; otherwise YouTube's thumbnail is used. Players load from `youtube-nocookie.com` only after a click.
+
+**Performance.** Images live in `src/assets/media` and are converted to AVIF/WebP at responsive widths during the build; only the hero is loaded eagerly (`fetchpriority="high"`). The 3D viewer (~1 MB with three.js) is a separate chunk fetched on demand; turntable frames load when the viewer nears the screen; panoramas and gallery images are lazy.
+
+**The map.** Coastline and Nile come from [Natural Earth](https://www.naturalearthdata.com) (public domain), clipped and simplified by `npm run media:map` into `src/data/geo/egypt.json`. Ancient cities are listed in `src/data/places.ts`; monuments and tombs appear automatically from their `coordinates`.
+
+**Reconstructions.** The current showcase images, the Step Pyramid model and the pyramidion turntable are procedural three.js reconstructions built from published dimensions (`scripts/render/`). Re-render them with `CHROMIUM_PATH=/path/to/chrome npm run media:render`; replace or add to them with photographs or scans whenever licensed material is available.
 
 ## SEO
 

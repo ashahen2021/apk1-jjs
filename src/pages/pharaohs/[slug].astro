@@ -3,6 +3,8 @@ import { getEntry, render } from 'astro:content';
 import EntityLayout from '@/layouts/EntityLayout.astro';
 import Card from '@/components/Card.astro';
 import Related from '@/components/Related.astro';
+import MediaSection from '@/components/media/MediaSection.astro';
+import VideoFeature from '@/components/media/VideoFeature.astro';
 import { getPharaohs, relatedToPharaoh } from '@/lib/content';
 import { cards } from '@/lib/cards';
 import { formatRange, ordinal } from '@/lib/format';
@@ -19,6 +21,8 @@ const related = await relatedToPharaoh(pharaoh.id);
 const { Content } = await render(pharaoh);
 const reign = formatRange(p.reignStart, p.reignEnd);
 const nth = `${ordinal(Number(p.dynasty.id))} Dynasty`;
+const featuredVideo = related.videos.find((v) => v.data.youtubeId);
+const otherVideos = related.videos.filter((v) => v !== featuredVideo);
 ---
 
 <EntityLayout
@@ -27,6 +31,7 @@ const nth = `${ordinal(Number(p.dynasty.id))} Dynasty`;
   kicker={`Pharaoh · ${nth}`}
   lede={p.epithet}
   glyph={GLYPHS.pharaohs}
+  media={p.media}
   crumbs={[
     { label: 'Pharaohs', href: '/pharaohs/' },
     { label: p.name, href: `/pharaohs/${pharaoh.id}/` },
@@ -70,8 +75,13 @@ const nth = `${ordinal(Number(p.dynasty.id))} Dynasty`;
     <Related title="Artifacts" count={related.artifacts.length}>
       {related.artifacts.map((a) => <Card {...cards.artifact(a)} />)}
     </Related>
-    <Related title="Watch on NeoKemet" count={related.videos.length}>
-      {related.videos.map((v) => <Card {...cards.video(v)} />)}
+    {featuredVideo && (
+      <MediaSection kicker="NeoKemet on YouTube" title="Watch the film">
+        <VideoFeature video={featuredVideo} />
+      </MediaSection>
+    )}
+    <Related title={featuredVideo ? 'More films' : 'Watch on NeoKemet'} count={otherVideos.length}>
+      {otherVideos.map((v) => <Card {...cards.video(v)} />)}
     </Related>
   </Fragment>
 </EntityLayout>

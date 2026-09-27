@@ -30,6 +30,12 @@
   summary: Djoser and his architect Imhotep build the Step Pyramid at Saqqara, the first monumental stone building in the world.
 - id: "4"
   number: 4
+  media:
+    hero:
+      src: ../assets/media/monuments/great-pyramid-of-giza/giza-today.jpg
+      alt: The pyramids of Giza, built by the kings of the Fourth Dynasty, at golden hour.
+      kind: reconstruction
+      credit: NeoKemetAI 3D reconstruction
   name: Fourth Dynasty
   period: old-kingdom
   start: -2613

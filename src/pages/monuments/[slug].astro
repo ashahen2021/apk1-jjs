@@ -3,6 +3,8 @@ import { getEntries, render } from 'astro:content';
 import EntityLayout from '@/layouts/EntityLayout.astro';
 import Card from '@/components/Card.astro';
 import Related from '@/components/Related.astro';
+import MediaSection from '@/components/media/MediaSection.astro';
+import VideoFeature from '@/components/media/VideoFeature.astro';
 import { getMonuments, videosAbout } from '@/lib/content';
 import { cards } from '@/lib/cards';
 import { formatYear } from '@/lib/format';
@@ -16,6 +18,8 @@ const { monument } = Astro.props;
 const m = monument.data;
 const pharaohs = await getEntries(m.pharaohs);
 const videos = await videosAbout('monuments', monument.id);
+const featuredVideo = videos.find((v) => v.data.youtubeId);
+const otherVideos = videos.filter((v) => v !== featuredVideo);
 const { Content } = await render(monument);
 const mapUrl = m.coordinates && `https://www.openstreetmap.org/?mlat=${m.coordinates[0]}&mlon=${m.coordinates[1]}#map=16/${m.coordinates[0]}/${m.coordinates[1]}`;
 ---
@@ -26,6 +30,8 @@ const mapUrl = m.coordinates && `https://www.openstreetmap.org/?mlat=${m.coordin
   kicker={`Monument · ${m.type}`}
   lede={m.site}
   glyph={GLYPHS.monuments}
+  media={m.media}
+  mapFocus={`monuments/${monument.id}`}
   crumbs={[
     { label: 'Monuments', href: '/monuments/' },
     { label: m.name, href: `/monuments/${monument.id}/` },
@@ -56,8 +62,13 @@ const mapUrl = m.coordinates && `https://www.openstreetmap.org/?mlat=${m.coordin
     <Related title="Associated pharaohs" count={pharaohs.length}>
       {pharaohs.map((p) => <Card {...cards.pharaoh(p)} />)}
     </Related>
-    <Related title="Watch on NeoKemet" count={videos.length}>
-      {videos.map((v) => <Card {...cards.video(v)} />)}
+    {featuredVideo && (
+      <MediaSection kicker="NeoKemet on YouTube" title="Watch the film">
+        <VideoFeature video={featuredVideo} />
+      </MediaSection>
+    )}
+    <Related title={featuredVideo ? 'More films' : 'Watch on NeoKemet'} count={otherVideos.length}>
+      {otherVideos.map((v) => <Card {...cards.video(v)} />)}
     </Related>
   </Fragment>
 </EntityLayout>

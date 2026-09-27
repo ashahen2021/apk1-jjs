@@ -14,4 +14,8 @@ export default defineConfig({
   trailingSlash: 'ignore',
   integrations: [sitemap()],
   build: { format: 'directory' },
+  vite: {
+    // <model-viewer> (with three.js) is ~1 MB but is only fetched when a visitor opens a 3D model.
+    build: { chunkSizeWarningLimit: 1100 },
+  },
 });

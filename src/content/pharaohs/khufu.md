@@ -1,4 +1,10 @@
 ---
+media:
+  hero:
+    src: ../../assets/media/monuments/great-pyramid-of-giza/giza-as-built.jpg
+    alt: The Giza pyramids as Khufu's successors would have seen them, cased in polished white limestone.
+    kind: reconstruction
+    credit: NeoKemetAI 3D reconstruction
 name: Khufu
 epithet: Cheops to the Greeks
 dynasty: "4"

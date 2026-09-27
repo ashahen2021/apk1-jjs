@@ -1,0 +1,47 @@
+---
+/** Responsive, optimised image with optional caption and credit/kind line. */
+import { Picture } from 'astro:assets';
+import { creditLine, isSvg, widthsFor, type MediaImage } from '@/lib/media';
+
+export interface Props {
+  image: MediaImage;
+  sizes?: string;
+  widths?: number[];
+  priority?: boolean;
+  caption?: boolean;
+  class?: string;
+}
+const { image, sizes = '(min-width: 76rem) 70rem, 100vw', widths = [480, 800, 1200, 1600, 2000], priority = false, caption = true, class: cls } = Astro.props;
+const credit = creditLine(image);
+---
+
+<figure class:list={['figure', cls]}>
+  {isSvg(image.src) ? (
+    <img src={image.src.src} alt={image.alt} width={image.src.width} height={image.src.height} loading={priority ? 'eager' : 'lazy'} decoding="async" />
+  ) : (
+    <Picture
+      src={image.src}
+      alt={image.alt}
+      formats={['avif', 'webp']}
+      widths={widthsFor(image.src, widths)}
+      sizes={sizes}
+      loading={priority ? 'eager' : 'lazy'}
+      fetchpriority={priority ? 'high' : 'auto'}
+      decoding="async"
+    />
+  )}
+  {caption && (image.caption || credit) && (
+    <figcaption>
+      {image.caption && <span>{image.caption}</span>}
+      {credit && <span class="credit">{image.sourceUrl ? <a href={image.sourceUrl} rel="noopener">{credit}</a> : credit}</span>}
+    </figcaption>
+  )}
+</figure>
+
+<style>
+  .figure { margin: 0; }
+  .figure :global(img) { width: 100%; height: auto; border-radius: var(--radius); background: var(--bg-raised); }
+  figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 1rem; margin-top: 0.6rem; font-size: var(--step--1); color: var(--text-muted); }
+  .credit { color: var(--text-faint); font-size: 0.75rem; letter-spacing: 0.04em; }
+  .credit a { color: inherit; }
+</style>

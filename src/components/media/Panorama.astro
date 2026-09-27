@@ -1,0 +1,132 @@
+---
+/**
+ * 360° cylindrical panorama. The left edge of the image faces north and the
+ * view turns clockwise, which lets the viewer show a live compass heading.
+ * Drag, swipe or use the arrow keys; it drifts slowly until first touched.
+ */
+import { getImage } from 'astro:assets';
+import { creditLine, type MediaImage } from '@/lib/media';
+
+export interface Props { image: MediaImage }
+const { image } = Astro.props;
+const widths = [1440, 2880, 5760].filter((w) => w <= image.src.width);
+const variants = await Promise.all(widths.map((width) => getImage({ src: image.src, width, format: 'webp' })));
+const srcset = variants.map((v, i) => `${v.src} ${widths[i]}w`).join(', ');
+const ratio = image.src.width / image.src.height;
+const credit = creditLine(image);
+---
+
+<figure class="pano" data-pano style={`--ratio:${ratio}`}>
+  <div class="viewport" data-viewport tabindex="0" role="img" aria-label={`360° panorama: ${image.alt}. Use the left and right arrow keys to look around.`}>
+    <div class="track" data-track>
+      {[0, 1].map((copy) => (
+        <img src={variants.at(-2)?.src ?? variants[0].src} srcset={srcset} sizes="(max-width: 40rem) 1600px, 2400px" alt={copy ? '' : image.alt} aria-hidden={copy ? 'true' : undefined} loading="lazy" decoding="async" draggable="false" width={image.src.width} height={image.src.height} />
+      ))}
+    </div>
+    <div class="hud">
+      <span class="badge">360°</span>
+      <span class="compass" data-compass aria-hidden="true">N</span>
+    </div>
+    <p class="hint" data-hint>Drag to look around</p>
+  </div>
+  {(image.caption || credit) && <figcaption>{image.caption}{credit && <span>{credit}</span>}</figcaption>}
+</figure>
+
+<script>
+  const DIRS = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+  document.querySelectorAll<HTMLElement>('[data-pano]').forEach((root) => {
+    const viewport = root.querySelector<HTMLElement>('[data-viewport]')!;
+    const track = root.querySelector<HTMLElement>('[data-track]')!;
+    const compass = root.querySelector<HTMLElement>('[data-compass]')!;
+    const hint = root.querySelector<HTMLElement>('[data-hint]')!;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let offset = 0; // px scrolled from the north edge
+    let velocity = reduce ? 0 : 0.25;
+    let dragging = false;
+    let lastX = 0;
+    let visible = false;
+
+    const width = () => track.firstElementChild!.getBoundingClientRect().width;
+    const render = () => {
+      const w = width();
+      if (!w) return;
+      offset = ((offset % w) + w) % w;
+      track.style.transform = `translate3d(${-offset}px,0,0)`;
+      const heading = (((offset + viewport.clientWidth / 2) / w) * 360) % 360;
+      compass.textContent = `${DIRS[Math.round(heading / 45) % 8]} · ${Math.round(heading)}°`;
+    };
+    const loop = () => {
+      if (visible && !dragging && Math.abs(velocity) > 0.01) {
+        offset += velocity;
+        if (Math.abs(velocity) > 0.3) velocity *= 0.95; // inertia settles back to the gentle drift
+        render();
+      }
+      requestAnimationFrame(loop);
+    };
+    new IntersectionObserver(([e]) => (visible = e.isIntersecting)).observe(viewport);
+    requestAnimationFrame(loop);
+
+    viewport.addEventListener('pointerdown', (e) => {
+      dragging = true;
+      lastX = e.clientX;
+      velocity = 0;
+      hint.hidden = true;
+      viewport.setPointerCapture(e.pointerId);
+    });
+    viewport.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      const dx = e.clientX - lastX;
+      lastX = e.clientX;
+      offset -= dx;
+      velocity = -dx;
+      render();
+    });
+    const release = () => {
+      dragging = false;
+      if (reduce) velocity = 0;
+    };
+    viewport.addEventListener('pointerup', release);
+    viewport.addEventListener('pointercancel', release);
+    viewport.addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      e.preventDefault();
+      velocity = 0;
+      offset += (e.key === 'ArrowRight' ? 1 : -1) * width() / 24;
+      hint.hidden = true;
+      render();
+    });
+    new ResizeObserver(render).observe(viewport);
+  });
+</script>
+
+<style>
+  .pano { margin: 0; }
+  .viewport {
+    position: relative;
+    height: clamp(16rem, 42vw, 30rem);
+    overflow: hidden;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    background: #1c2530;
+    cursor: grab;
+    touch-action: pan-y;
+    user-select: none;
+  }
+  .viewport:active { cursor: grabbing; }
+  .track { display: flex; height: 100%; width: max-content; will-change: transform; }
+  .track img { height: 100%; width: auto; aspect-ratio: var(--ratio); max-width: none; pointer-events: none; }
+  .hud { position: absolute; top: 0.8rem; left: 0.8rem; right: 0.8rem; display: flex; justify-content: space-between; pointer-events: none; }
+  .badge, .compass {
+    padding: 0.25rem 0.7rem; border-radius: 999px;
+    background: rgb(11 10 8 / 0.72); border: 1px solid var(--line-strong);
+    font-family: var(--font-display); font-size: 0.75rem; letter-spacing: 0.14em; color: var(--limestone);
+  }
+  .compass { min-width: 6rem; text-align: center; }
+  .hint {
+    position: absolute; left: 50%; bottom: 1rem; transform: translateX(-50%); margin: 0;
+    padding: 0.35rem 0.9rem; border-radius: 999px; background: rgb(11 10 8 / 0.72);
+    font-size: 0.8rem; color: var(--text-muted); pointer-events: none;
+  }
+  figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.3rem 1rem; margin-top: 0.6rem; font-size: var(--step--1); color: var(--text-muted); }
+  figcaption span { color: var(--text-faint); font-size: 0.75rem; }
+</style>

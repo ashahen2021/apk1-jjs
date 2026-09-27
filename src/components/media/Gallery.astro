@@ -1,0 +1,147 @@
+---
+/**
+ * Illustration gallery with a lightweight lightbox (native <dialog>).
+ * Without JS each thumbnail links to the full-size image.
+ */
+import { Picture, getImage } from 'astro:assets';
+import { creditLine, isSvg, widthsFor, type MediaImage } from '@/lib/media';
+
+export interface Props { items: MediaImage[]; label?: string }
+const { items, label = 'Gallery' } = Astro.props;
+
+const entries = await Promise.all(
+  items.map(async (item) => ({
+    item,
+    full: isSvg(item.src) ? item.src.src : (await getImage({ src: item.src, width: Math.min(item.src.width, 2000), format: 'webp' })).src,
+    credit: creditLine(item),
+  })),
+);
+---
+
+<div class:list={['gallery', `gallery--${Math.min(entries.length, 4)}`]} data-gallery>
+  {entries.map(({ item, full, credit }, i) => (
+    <a class:list={['thumb', { 'thumb--diagram': item.kind === 'diagram' }]} href={full} data-index={i} data-full={full} data-alt={item.alt} data-caption={item.caption ?? ''} data-credit={credit} aria-label={`Open image: ${item.alt}`}>
+      {isSvg(item.src) ? (
+        <img src={item.src.src} alt={item.alt} width={item.src.width} height={item.src.height} loading="lazy" decoding="async" />
+      ) : (
+        <Picture src={item.src} alt={item.alt} formats={['avif', 'webp']} widths={widthsFor(item.src, [400, 700, 1000])} sizes="(min-width: 60rem) 33vw, (min-width: 36rem) 50vw, 100vw" loading="lazy" decoding="async" />
+      )}
+      {credit && <span class="badge">{credit.split(' · ')[0]}</span>}
+      {item.caption && <span class="cap">{item.caption}</span>}
+    </a>
+  ))}
+
+  <dialog class="lightbox" aria-label={label} data-lightbox>
+    <figure>
+      <img data-lb-img alt="" />
+      <figcaption><span data-lb-caption></span><span class="lb-credit" data-lb-credit></span></figcaption>
+    </figure>
+    <button type="button" class="lb-btn lb-close" data-lb-close aria-label="Close">×</button>
+    {entries.length > 1 && (
+      <>
+        <button type="button" class="lb-btn lb-prev" data-lb-step="-1" aria-label="Previous image">‹</button>
+        <button type="button" class="lb-btn lb-next" data-lb-step="1" aria-label="Next image">›</button>
+      </>
+    )}
+    <p class="lb-count" data-lb-count></p>
+  </dialog>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-gallery]').forEach((root) => {
+    const dialog = root.querySelector<HTMLDialogElement>('[data-lightbox]')!;
+    const img = dialog.querySelector<HTMLImageElement>('[data-lb-img]')!;
+    const thumbs = [...root.querySelectorAll<HTMLAnchorElement>('.thumb')];
+    let index = 0;
+
+    const show = (i: number) => {
+      index = (i + thumbs.length) % thumbs.length;
+      const d = thumbs[index].dataset;
+      img.src = d.full!;
+      img.alt = d.alt!;
+      dialog.querySelector('[data-lb-caption]')!.textContent = d.caption ?? '';
+      dialog.querySelector('[data-lb-credit]')!.textContent = d.credit ?? '';
+      dialog.querySelector('[data-lb-count]')!.textContent = thumbs.length > 1 ? `${index + 1} / ${thumbs.length}` : '';
+    };
+    thumbs.forEach((t, i) =>
+      t.addEventListener('click', (e) => {
+        e.preventDefault();
+        show(i);
+        dialog.showModal();
+      }),
+    );
+    dialog.querySelectorAll<HTMLButtonElement>('[data-lb-step]').forEach((b) => b.addEventListener('click', () => show(index + Number(b.dataset.lbStep))));
+    dialog.querySelector('[data-lb-close]')!.addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', (e) => e.target === dialog && dialog.close());
+    dialog.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') show(index + 1);
+      if (e.key === 'ArrowLeft') show(index - 1);
+    });
+    // Swipe between images on touch screens.
+    let startX: number | null = null;
+    dialog.addEventListener('pointerdown', (e) => (startX = e.clientX));
+    dialog.addEventListener('pointerup', (e) => {
+      if (startX !== null && Math.abs(e.clientX - startX) > 50) show(index + (e.clientX < startX ? 1 : -1));
+      startX = null;
+    });
+  });
+</script>
+
+<style>
+  .gallery { display: grid; gap: 0.9rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr)); }
+  .gallery--1 { grid-template-columns: 1fr; }
+  @media (min-width: 48rem) {
+    .gallery--3, .gallery--4 { grid-template-columns: repeat(6, 1fr); }
+    .gallery--3 .thumb:first-child, .gallery--4 .thumb:first-child { grid-column: span 6; }
+    .gallery--3 .thumb:not(:first-child) { grid-column: span 3; }
+    .gallery--4 .thumb:not(:first-child) { grid-column: span 2; }
+  }
+  .thumb {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--bg-raised);
+    cursor: zoom-in;
+  }
+  .thumb :global(img) { width: 100%; height: 100%; aspect-ratio: 16 / 10; object-fit: cover; transition: transform 0.8s var(--ease), filter 0.5s var(--ease); }
+  .gallery--3 .thumb:first-child :global(img), .gallery--4 .thumb:first-child :global(img) { aspect-ratio: 21 / 9; }
+  .thumb--diagram :global(img) { object-fit: contain; background: #14120e; }
+  .thumb:hover :global(img) { transform: scale(1.03); filter: brightness(1.08); }
+  .badge {
+    position: absolute; top: 0.6rem; left: 0.6rem;
+    padding: 0.15rem 0.55rem; border-radius: 999px;
+    background: rgb(11 10 8 / 0.75); border: 1px solid var(--line-strong);
+    font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--limestone);
+  }
+  .cap {
+    position: absolute; inset: auto 0 0 0;
+    padding: 2rem 0.9rem 0.7rem;
+    background: linear-gradient(transparent, rgb(11 10 8 / 0.9));
+    font-size: 0.85rem; color: var(--text);
+  }
+
+  .lightbox {
+    width: 100vw; height: 100dvh; max-width: none; max-height: none;
+    margin: 0; padding: clamp(1rem, 3vw, 3rem);
+    border: 0; background: rgb(8 7 5 / 0.96); color: var(--text);
+  }
+  .lightbox::backdrop { background: rgb(0 0 0 / 0.6); }
+  .lightbox[open] { display: grid; place-items: center; }
+  .lightbox figure { margin: 0; max-width: 100%; max-height: 100%; display: flex; flex-direction: column; align-items: center; }
+  .lightbox img { max-width: 100%; max-height: calc(100dvh - 9rem); object-fit: contain; border-radius: var(--radius); }
+  .lightbox figcaption { display: flex; flex-wrap: wrap; gap: 0.3rem 1rem; justify-content: center; margin-top: 0.9rem; text-align: center; color: var(--text-muted); font-size: var(--step--1); }
+  .lb-credit { color: var(--text-faint); }
+  .lb-btn {
+    position: absolute; display: grid; place-items: center;
+    width: 3rem; height: 3rem; border-radius: 50%;
+    border: 1px solid var(--line-strong); background: rgb(20 18 14 / 0.8);
+    color: var(--limestone); font-size: 1.6rem; cursor: pointer;
+  }
+  .lb-btn:hover { border-color: var(--gold); color: var(--accent-bright); }
+  .lb-close { top: 1rem; right: 1rem; }
+  .lb-prev { left: 1rem; top: 50%; transform: translateY(-50%); }
+  .lb-next { right: 1rem; top: 50%; transform: translateY(-50%); }
+  .lb-count { position: absolute; top: 1.6rem; left: 1.5rem; margin: 0; font-size: 0.8rem; letter-spacing: 0.2em; color: var(--text-faint); }
+</style>

@@ -1,29 +1,51 @@
 ---
 /**
- * Privacy-friendly, lightweight YouTube embed: shows the thumbnail and only
- * loads the YouTube player (from youtube-nocookie.com) after a click.
- * Without an ID it renders a "coming soon" poster.
+ * Privacy-friendly, lightweight YouTube embed. Shows a thumbnail (local image
+ * or YouTube's own, lazy-loaded) with title and duration, and only loads the
+ * player from youtube-nocookie.com after a click. Without an ID it renders a
+ * "coming soon" poster.
  */
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { formatDuration } from '@/lib/format';
+import { youtubeThumb } from '@/lib/media';
 import { YOUTUBE } from '@/lib/site';
 
-export interface Props { youtubeId?: string; title: string }
-const { youtubeId, title } = Astro.props;
+export interface Props {
+  youtubeId?: string;
+  title: string;
+  duration?: string;
+  thumbnail?: ImageMetadata;
+  /** Show the title bar over the thumbnail. */
+  overlay?: boolean;
+  priority?: boolean;
+}
+const { youtubeId, title, duration, thumbnail, overlay = true, priority = false } = Astro.props;
+const length = formatDuration(duration);
+const thumb = youtubeId && youtubeThumb(youtubeId);
 ---
 
-{youtubeId ? (
+{youtubeId || thumbnail ? (
   <div class="video" data-youtube-id={youtubeId} data-title={title}>
-    <img
-      src={`https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg`}
-      alt=""
-      width="480"
-      height="360"
-      loading="lazy"
-      decoding="async"
-    />
-    <a class="play" href={`https://www.youtube.com/watch?v=${youtubeId}`}>
-      <span class="play-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Play video: {title}</span>
-    </a>
+    {thumbnail ? (
+      <Picture src={thumbnail} alt="" formats={['avif', 'webp']} widths={[480, 960, 1440]} sizes="(min-width: 60rem) 60rem, 100vw" loading={priority ? 'eager' : 'lazy'} decoding="async" />
+    ) : (
+      thumb && <img src={thumb.large} srcset={thumb.srcset} sizes="(min-width: 60rem) 60rem, 100vw" alt="" width="1280" height="720" loading={priority ? 'eager' : 'lazy'} decoding="async" />
+    )}
+    {overlay && (
+      <div class="meta">
+        <span class="title">{title}</span>
+      </div>
+    )}
+    {length && <span class="duration">{length}</span>}
+    {youtubeId ? (
+      <a class="play" href={`https://www.youtube.com/watch?v=${youtubeId}`}>
+        <span class="play-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Play video: {title}</span>
+      </a>
+    ) : (
+      <div class="soon-badge">In production · <a href={YOUTUBE.subscribeUrl} rel="noopener">Subscribe to be notified</a></div>
+    )}
   </div>
 ) : (
   <div class="video video--soon">
@@ -36,6 +58,7 @@ const { youtubeId, title } = Astro.props;
 
 <script>
   document.querySelectorAll<HTMLElement>('.video[data-youtube-id]').forEach((el) => {
+    if (!el.dataset.youtubeId) return;
     el.querySelector('.play')?.addEventListener('click', (event) => {
       event.preventDefault();
       const iframe = document.createElement('iframe');
@@ -58,9 +81,22 @@ const { youtubeId, title } = Astro.props;
     background: #000;
     box-shadow: var(--shadow);
   }
-  .video img, .video :global(iframe) { width: 100%; height: 100%; object-fit: cover; border: 0; }
-  .play { position: absolute; inset: 0; display: grid; place-items: center; background: rgb(0 0 0 / 0.25); transition: background 0.3s var(--ease); }
-  .play:hover { background: rgb(0 0 0 / 0.1); }
+  .video img, .video :global(picture), .video :global(img), .video :global(iframe) { width: 100%; height: 100%; object-fit: cover; border: 0; display: block; }
+  .meta {
+    position: absolute; inset: 0 0 auto 0;
+    padding: 1rem 1.2rem 2.5rem;
+    background: linear-gradient(rgb(0 0 0 / 0.75), transparent);
+    pointer-events: none;
+  }
+  .title { font-family: var(--font-display); font-size: clamp(0.9rem, 0.8rem + 0.5vw, 1.15rem); color: #fff; text-shadow: 0 1px 6px rgb(0 0 0 / 0.8); }
+  .duration {
+    position: absolute; right: 0.7rem; bottom: 0.7rem;
+    padding: 0.15rem 0.5rem; border-radius: 3px;
+    background: rgb(0 0 0 / 0.8); color: #fff; font-size: 0.8rem; font-weight: 600; font-variant-numeric: tabular-nums;
+    pointer-events: none;
+  }
+  .play { position: absolute; inset: 0; display: grid; place-items: center; background: rgb(0 0 0 / 0.15); transition: background 0.3s var(--ease); }
+  .play:hover { background: rgb(0 0 0 / 0); }
   .play-icon {
     width: 5rem; height: 5rem;
     border-radius: 50%;
@@ -68,7 +104,9 @@ const { youtubeId, title } = Astro.props;
     background: rgb(11 10 8 / 0.7);
     box-shadow: var(--glow);
     position: relative;
+    transition: transform 0.3s var(--ease);
   }
+  .play:hover .play-icon { transform: scale(1.08); }
   .play-icon::after {
     content: '';
     position: absolute;
@@ -77,6 +115,12 @@ const { youtubeId, title } = Astro.props;
     border-style: solid;
     border-width: 0.8rem 0 0.8rem 1.3rem;
     border-color: transparent transparent transparent var(--gold);
+  }
+  .soon-badge {
+    position: absolute; left: 50%; bottom: 1rem; transform: translateX(-50%);
+    padding: 0.4rem 0.9rem; border-radius: 999px; white-space: nowrap;
+    background: rgb(11 10 8 / 0.8); border: 1px solid var(--line-strong);
+    font-size: 0.8rem; color: var(--text-muted);
   }
   .video--soon {
     display: flex;

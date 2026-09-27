@@ -1,0 +1,76 @@
+---
+/**
+ * Before/after comparison. A native range input drives the split, so it is
+ * keyboard- and screen-reader-accessible and works with touch out of the box.
+ */
+import { Picture } from 'astro:assets';
+import { creditLine, widthsFor, type MediaImage } from '@/lib/media';
+
+type Side = MediaImage & { label: string };
+export interface Props { before: Side; after: Side; caption?: string; start?: number }
+const { before, after, caption, start = 50 } = Astro.props;
+const sizes = '(min-width: 76rem) 70rem, 100vw';
+const widths = widthsFor(after.src, [640, 1000, 1400, 2000]);
+const credit = [...new Set([creditLine(before), creditLine(after)].filter(Boolean))].join(' / ');
+---
+
+<figure class="compare" data-compare style={`--pos:${start}%;aspect-ratio:${after.src.width}/${after.src.height}`}>
+  <div class="layer after">
+    <Picture src={after.src} alt={after.alt} formats={['avif', 'webp']} widths={widths} sizes={sizes} loading="lazy" decoding="async" />
+    <span class="tag tag--after">{after.label}</span>
+  </div>
+  <div class="layer before">
+    <Picture src={before.src} alt={before.alt} formats={['avif', 'webp']} widths={widths} sizes={sizes} loading="lazy" decoding="async" />
+    <span class="tag tag--before">{before.label}</span>
+  </div>
+  <div class="handle" aria-hidden="true"><span>‹ ›</span></div>
+  <input type="range" min="0" max="100" value={start} step="0.5" aria-label={`Compare: ${before.label} and ${after.label}`} data-compare-input />
+</figure>
+{(caption || credit) && (
+  <p class="compare-caption">{caption}{credit && <span>{credit}</span>}</p>
+)}
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-compare]').forEach((root) => {
+    const input = root.querySelector<HTMLInputElement>('[data-compare-input]')!;
+    const update = () => root.style.setProperty('--pos', `${input.value}%`);
+    input.addEventListener('input', update);
+    update();
+  });
+</script>
+
+<style>
+  .compare { position: relative; margin: 0; overflow: hidden; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--bg-raised); user-select: none; }
+  .layer, .layer :global(picture), .layer :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .layer :global(img) { object-fit: cover; }
+  .before { clip-path: inset(0 calc(100% - var(--pos)) 0 0); }
+  .tag {
+    position: absolute; top: 0.9rem;
+    padding: 0.25rem 0.7rem; border-radius: 999px;
+    background: rgb(11 10 8 / 0.75); border: 1px solid var(--line-strong);
+    font-family: var(--font-display); font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--limestone);
+  }
+  .tag--before { left: 0.9rem; }
+  .tag--after { right: 0.9rem; }
+  .handle {
+    position: absolute; top: 0; bottom: 0; left: var(--pos);
+    width: 2px; margin-left: -1px;
+    background: var(--accent-bright);
+    box-shadow: 0 0 1rem rgb(226 180 83 / 0.6);
+    pointer-events: none;
+  }
+  .handle span {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    display: grid; place-items: center;
+    width: 2.8rem; height: 2.8rem; border-radius: 50%;
+    border: 2px solid var(--accent-bright); background: rgb(11 10 8 / 0.8);
+    color: var(--accent-bright); font-size: 0.95rem; letter-spacing: 0.1em;
+  }
+  input {
+    position: absolute; inset: 0; width: 100%; height: 100%; margin: 0;
+    opacity: 0; cursor: ew-resize; touch-action: pan-y;
+  }
+  input:focus-visible + .handle, .compare:has(input:focus-visible) .handle span { outline: 2px solid var(--limestone); outline-offset: 3px; }
+  .compare-caption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.3rem 1rem; margin-top: 0.6rem; font-size: var(--step--1); color: var(--text-muted); }
+  .compare-caption span { color: var(--text-faint); font-size: 0.75rem; }
+</style>

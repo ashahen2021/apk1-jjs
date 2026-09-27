@@ -1,4 +1,14 @@
 ---
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+export interface CardImage {
+  /** Local image (optimised) or remote URL (e.g. a YouTube thumbnail). */
+  src: ImageMetadata | string;
+  srcset?: string;
+  alt: string;
+  badge?: string;
+}
 export interface Props {
   href: string;
   title: string;
@@ -6,13 +16,25 @@ export interface Props {
   meta?: string;
   text?: string;
   glyph?: string;
+  image?: CardImage;
   headingLevel?: 'h2' | 'h3';
 }
-const { href, title, kicker, meta, text, glyph, headingLevel: H = 'h3' } = Astro.props;
+const { href, title, kicker, meta, text, glyph, image, headingLevel: H = 'h3' } = Astro.props;
+const sizes = '(min-width: 76rem) 24rem, (min-width: 36rem) 45vw, 100vw';
 ---
 
-<article class="card" data-reveal>
-  {glyph && <span class="card-glyph" aria-hidden="true">{glyph}</span>}
+<article class:list={['card', { 'card--image': image }]} data-reveal>
+  {image && (
+    <div class="card-media">
+      {typeof image.src === 'string' ? (
+        <img src={image.src} srcset={image.srcset} sizes={sizes} alt={image.alt} width="640" height="360" loading="lazy" decoding="async" />
+      ) : (
+        <Picture src={image.src} alt={image.alt} formats={['avif', 'webp']} widths={[400, 640, 800]} sizes={sizes} loading="lazy" decoding="async" />
+      )}
+      {image.badge && <span class="card-badge">{image.badge}</span>}
+    </div>
+  )}
+  {glyph && !image && <span class="card-glyph" aria-hidden="true">{glyph}</span>}
   {kicker && <p class="card-kicker">{kicker}</p>}
   <H class="card-title"><a href={href}>{title}</a></H>
   {meta && <p class="card-meta">{meta}</p>}
@@ -54,6 +76,15 @@ const { href, title, kicker, meta, text, glyph, headingLevel: H = 'h3' } = Astro
     line-height: 1;
     color: var(--gold);
     opacity: 0.08;
+  }
+  .card--image { padding-top: 0; }
+  .card-media { position: relative; margin: 0 -1.5rem 1rem; aspect-ratio: 16 / 9; overflow: hidden; background: var(--bg); }
+  .card-media :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--ease); }
+  .card:hover .card-media :global(img) { transform: scale(1.04); }
+  .card-badge {
+    position: absolute; right: 0.6rem; bottom: 0.6rem;
+    padding: 0.1rem 0.45rem; border-radius: 3px;
+    background: rgb(0 0 0 / 0.8); color: #fff; font-size: 0.75rem; font-weight: 600; font-variant-numeric: tabular-nums;
   }
   .card-kicker { margin: 0; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); }
   .card-title { margin: 0; font-size: var(--step-1); }

@@ -1,8 +1,14 @@
 import type { CollectionEntry } from 'astro:content';
+import type { ImageMetadata } from 'astro';
 import { excerpt } from './content';
-import { formatRange, formatYear, ordinal } from './format';
+import { formatDuration, formatRange, formatYear, ordinal } from './format';
+import { youtubeThumb } from './media';
 import { FORMATS, GLYPHS } from './site';
-import type { Props as CardProps } from '@/components/Card.astro';
+import type { CardImage, Props as CardProps } from '@/components/Card.astro';
+
+type WithHero = { data: { media: { hero?: { src: ImageMetadata; alt: string } } } };
+/** Cards show the entry's featured image when it has one. */
+const heroImage = (e: WithHero): CardImage | undefined => e.data.media.hero && { src: e.data.media.hero.src, alt: e.data.media.hero.alt };
 
 /** Maps each content type to the props of a <Card>, so listings stay consistent. */
 export const cards = {
@@ -13,6 +19,7 @@ export const cards = {
     meta: `${formatRange(d.data.start, d.data.end)} · ${d.data.capital}`,
     text: d.data.summary,
     glyph: GLYPHS.dynasties,
+    image: heroImage(d),
   }),
   pharaoh: (p: CollectionEntry<'pharaohs'>): CardProps => ({
     href: `/pharaohs/${p.id}/`,
@@ -21,6 +28,7 @@ export const cards = {
     meta: `${p.data.epithet ? `${p.data.epithet} · ` : ''}${formatRange(p.data.reignStart, p.data.reignEnd)}`,
     text: excerpt(p.body),
     glyph: GLYPHS.pharaohs,
+    image: heroImage(p),
   }),
   monument: (m: CollectionEntry<'monuments'>): CardProps => ({
     href: `/monuments/${m.id}/`,
@@ -29,6 +37,7 @@ export const cards = {
     meta: `${m.data.site} · ${formatYear(m.data.built)}`,
     text: excerpt(m.body),
     glyph: GLYPHS.monuments,
+    image: heroImage(m),
   }),
   tomb: (t: CollectionEntry<'tombs'>): CardProps => ({
     href: `/tombs/${t.id}/`,
@@ -37,6 +46,7 @@ export const cards = {
     meta: t.data.site,
     text: excerpt(t.body),
     glyph: GLYPHS.tombs,
+    image: heroImage(t),
   }),
   artifact: (a: CollectionEntry<'artifacts'>): CardProps => ({
     href: `/artifacts/${a.id}/`,
@@ -45,6 +55,7 @@ export const cards = {
     meta: a.data.museum,
     text: excerpt(a.body),
     glyph: GLYPHS.artifacts,
+    image: heroImage(a),
   }),
   video: (v: CollectionEntry<'videos'>): CardProps => ({
     href: `/videos/${v.id}/`,
@@ -52,5 +63,16 @@ export const cards = {
     title: v.data.title,
     text: v.data.description,
     glyph: GLYPHS.videos,
+    image: videoImage(v),
   }),
 };
+
+function videoImage(v: CollectionEntry<'videos'>): CardImage | undefined {
+  const badge = formatDuration(v.data.duration);
+  if (v.data.thumbnail) return { src: v.data.thumbnail, alt: '', badge };
+  if (v.data.youtubeId) {
+    const t = youtubeThumb(v.data.youtubeId);
+    return { src: t.large, srcset: t.srcset, alt: '', badge };
+  }
+  return undefined;
+}

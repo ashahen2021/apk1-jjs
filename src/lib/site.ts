@@ -17,11 +17,19 @@ export const YOUTUBE = {
 } as const;
 
 export const PLAYLISTS = {
-  'sleep-documentaries': { label: 'Sleep Documentaries', blurb: 'Long, calm narrations of Egyptian history to fall asleep to.' },
-  'ancient-engineering': { label: 'Ancient Engineering', blurb: 'How pyramids, obelisks and colossi were actually built.' },
+  'sleep-documentaries': {
+    label: 'Sleep Documentaries',
+    blurb: 'Long, calm narrations of Egyptian history to fall asleep to.',
+    url: 'https://www.youtube.com/playlist?list=PLKkPPEKJoAwkqVO01ySssazBXKyEAnwYn',
+  },
+  'ancient-engineering': {
+    label: 'Ancient Engineering',
+    blurb: 'How pyramids, obelisks and colossi were actually built.',
+    url: 'https://www.youtube.com/playlist?list=PLKkPPEKJoAwlcFqP4QX7lTv2-3KSOa5Z4',
+  },
   'gods-and-myths': { label: 'Gods & Myths', blurb: 'The gods, the Duat and the stories Egyptians told about them.' },
   'archaeological-discoveries': { label: 'Archaeological Discoveries', blurb: 'Tombs, finds and the people who made them.' },
-} as const;
+} as const satisfies Record<string, { label: string; blurb: string; url?: string }>;
 
 export const FORMATS = {
   documentary: 'Documentary',

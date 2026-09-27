@@ -1,0 +1,18 @@
+---
+/** Consistent heading block for media sections on detail pages. */
+export interface Props { kicker: string; title: string; lede?: string; id?: string }
+const { kicker, title, lede, id = `media-${title.toLowerCase().replace(/\W+/g, '-')}` } = Astro.props;
+---
+
+<section class="media-section" aria-labelledby={id} data-reveal>
+  <span class="kicker">{kicker}</span>
+  <h2 id={id}>{title}</h2>
+  {lede && <p class="lede">{lede}</p>}
+  <slot />
+</section>
+
+<style>
+  .media-section { margin-top: clamp(3rem, 2rem + 3vw, 5rem); }
+  h2 { font-size: var(--step-2); }
+  .lede { font-size: var(--step-0); margin-bottom: 1.5rem; }
+</style>

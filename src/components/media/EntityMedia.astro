@@ -1,0 +1,44 @@
+---
+/**
+ * Renders whichever media blocks an entry has, in a fixed order:
+ * 3D model → 360° turntable → 360° panorama → then & now → gallery.
+ * Entries without media render nothing, so no page gets placeholders.
+ */
+import MediaSection from './MediaSection.astro';
+import ModelViewer from './ModelViewer.astro';
+import SpinViewer from './SpinViewer.astro';
+import Panorama from './Panorama.astro';
+import CompareSlider from './CompareSlider.astro';
+import Gallery from './Gallery.astro';
+import type { CollectionEntry } from 'astro:content';
+
+type Media = CollectionEntry<'monuments'>['data']['media'];
+export interface Props { media: Media; name: string }
+const { media, name } = Astro.props;
+---
+
+{media.model && (
+  <MediaSection kicker="Interactive" title="Explore in 3D" lede={`Turn, tilt and zoom a model of the ${name}.`}>
+    <ModelViewer {...media.model} />
+  </MediaSection>
+)}
+{media.spin && (
+  <MediaSection kicker="360° view" title="Turn it in your hands" lede="Drag across the object to see every side.">
+    <SpinViewer {...media.spin} />
+  </MediaSection>
+)}
+{media.panorama && (
+  <MediaSection kicker="360° panorama" title="Stand on the site" lede="Look around in every direction; the compass shows which way you face.">
+    <Panorama image={media.panorama} />
+  </MediaSection>
+)}
+{media.compare.length > 0 && (
+  <MediaSection kicker="Then & now" title="See the change" lede="Drag the handle to compare.">
+    {media.compare.map((c) => <CompareSlider {...c} />)}
+  </MediaSection>
+)}
+{media.gallery.length > 0 && (
+  <MediaSection kicker="Gallery" title="Illustrations">
+    <Gallery items={media.gallery} label={`${name} gallery`} />
+  </MediaSection>
+)}

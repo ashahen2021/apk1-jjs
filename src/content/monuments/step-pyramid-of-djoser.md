@@ -1,4 +1,17 @@
 ---
+media:
+  hero:
+    src: ../../assets/media/monuments/step-pyramid-of-djoser/step-pyramid.jpg
+    alt: The six-stepped pyramid of Djoser at Saqqara in morning light, surrounded by the low remains of its enclosure wall.
+    kind: reconstruction
+    credit: NeoKemetAI 3D reconstruction
+  model:
+    src: /models/step-pyramid-of-djoser.glb
+    poster: ../../assets/media/monuments/step-pyramid-of-djoser/model-poster.png
+    alt: 3D model of the Step Pyramid of Djoser, six stepped tiers on a rectangular base.
+    caption: Six tiers on a 121 × 109 m base, rising to about 62 m. Proportions follow published survey dimensions; surface detail is simplified.
+    kind: reconstruction
+    credit: NeoKemetAI 3D model
 name: Step Pyramid of Djoser
 type: pyramid
 site: Saqqara, Memphite necropolis
