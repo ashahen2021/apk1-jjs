@@ -1,0 +1,19 @@
+---
+/** A titled grid section that renders nothing when it has no items. */
+export interface Props { title: string; count: number; id?: string }
+const { title, count, id = `related-${title.toLowerCase().replace(/\W+/g, '-')}` } = Astro.props;
+---
+
+{count > 0 && (
+  <section class="related" aria-labelledby={id}>
+    <h2 id={id}>{title}</h2>
+    <div class="grid">
+      <slot />
+    </div>
+  </section>
+)}
+
+<style>
+  .related { margin-top: 3.5rem; }
+  h2 { font-size: var(--step-2); }
+</style>

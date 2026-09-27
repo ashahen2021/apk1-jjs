@@ -1,0 +1,40 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import Timeline from '@/components/Timeline.astro';
+import DynastyList from '@/components/DynastyList.astro';
+import { getDynasties, getPeriods, getPharaohs } from '@/lib/content';
+import { GLYPHS } from '@/lib/site';
+
+const [periods, dynasties, pharaohs] = await Promise.all([getPeriods(), getDynasties(), getPharaohs()]);
+---
+
+<BaseLayout
+  title="Interactive Timeline of Ancient Egypt"
+  description="An interactive, to-scale timeline of all 30 dynasties of ancient Egypt, from c. 3000 BCE to 343 BCE, with the Kingdoms, Intermediate Periods and rulers."
+>
+  <PageHero
+    kicker="c. 3000 – 343 BCE"
+    title="Timeline of the 30 Dynasties"
+    lede="Nearly three thousand years, drawn to scale. Overlapping bars are rival dynasties that ruled different parts of Egypt at the same time."
+    glyph={GLYPHS.dynasties}
+  >
+    <Breadcrumbs slot="above" items={[{ label: 'Timeline', href: '/timeline/' }]} />
+  </PageHero>
+
+  <section class="container section" aria-label="Interactive timeline">
+    <Timeline periods={periods} dynasties={dynasties} pharaohs={pharaohs} />
+  </section>
+
+  <section class="container section" aria-labelledby="eras-title">
+    <h2 id="eras-title">Era by era</h2>
+    <p class="lede">The same history as a list, grouped by the great periods Egyptologists use.</p>
+    <div class="spacer"></div>
+    <DynastyList periods={periods} dynasties={dynasties} headingLevel="h3" />
+  </section>
+</BaseLayout>
+
+<style>
+  .spacer { height: 2rem; }
+</style>

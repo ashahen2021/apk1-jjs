@@ -1,0 +1,108 @@
+---
+import { getEntries, render } from 'astro:content';
+import EntityLayout from '@/layouts/EntityLayout.astro';
+import Card from '@/components/Card.astro';
+import Related from '@/components/Related.astro';
+import VideoEmbed from '@/components/VideoEmbed.astro';
+import { getVideos } from '@/lib/content';
+import { cards } from '@/lib/cards';
+import { formatDuration } from '@/lib/format';
+import { FORMATS, GLYPHS, PLAYLISTS, YOUTUBE } from '@/lib/site';
+
+export async function getStaticPaths() {
+  return (await getVideos()).map((video) => ({ params: { slug: video.id }, props: { video } }));
+}
+
+const { video } = Astro.props;
+const v = video.data;
+const [pharaohs, monuments, tombs, artifacts, dynasties] = await Promise.all([
+  getEntries(v.pharaohs),
+  getEntries(v.monuments),
+  getEntries(v.tombs),
+  getEntries(v.artifacts),
+  getEntries(v.dynasties),
+]);
+const { Content } = await render(video);
+const playlist = PLAYLISTS[v.playlist];
+const toSeconds = (time: string) => time.split(':').reduce((total, n) => total * 60 + Number(n), 0);
+
+// Only published videos qualify for VideoObject rich results.
+const jsonLd = v.youtubeId && v.published
+  ? [{
+      '@type': 'VideoObject',
+      name: v.title,
+      description: v.description,
+      thumbnailUrl: `https://i.ytimg.com/vi/${v.youtubeId}/hqdefault.jpg`,
+      uploadDate: v.published.toISOString(),
+      duration: v.duration,
+      embedUrl: `https://www.youtube-nocookie.com/embed/${v.youtubeId}`,
+      contentUrl: `https://www.youtube.com/watch?v=${v.youtubeId}`,
+      publisher: { '@type': 'Organization', name: 'NeoKemet', url: YOUTUBE.url },
+    }]
+  : [];
+---
+
+<EntityLayout
+  title={v.title}
+  description={v.description}
+  kicker={`${FORMATS[v.format]} · ${playlist.label}`}
+  glyph={GLYPHS.videos}
+  ogType="video.other"
+  crumbs={[
+    { label: 'Videos', href: '/videos/' },
+    { label: v.title.split('|')[0].trim(), href: `/videos/${video.id}/` },
+  ]}
+  facts={[
+    { label: 'Format', value: FORMATS[v.format] },
+    { label: 'Playlist', value: playlist.label, href: `/videos/#${v.playlist}` },
+    formatDuration(v.duration) && { label: 'Length', value: formatDuration(v.duration)! },
+    v.published && { label: 'Published', value: v.published.toLocaleDateString('en-GB', { dateStyle: 'long' }) },
+    dynasties.length > 0 && { label: 'Dynasties covered', value: dynasties.map((d) => d.data.number).join(', ') },
+  ]}
+  jsonLd={jsonLd}
+>
+  <div slot="media" class="media"><VideoEmbed youtubeId={v.youtubeId} title={v.title} /></div>
+
+  <Content />
+  {v.chapters.length > 0 && (
+    <>
+      <h2>Chapters</h2>
+      <ol class="chapters">
+        {v.chapters.map((c) => (
+          <li><a href={`https://www.youtube.com/watch?v=${v.youtubeId}&t=${toSeconds(c.time)}s`}>{c.time}</a> {c.title}</li>
+        ))}
+      </ol>
+    </>
+  )}
+  <p class="disclosure">
+    Visuals in NeoKemet films are AI-assisted archaeological reconstructions, not photographs or footage. Narration is
+    written for the channel and sources are listed in each video's YouTube description.
+  </p>
+
+  <Fragment slot="aside">
+    <a class="btn" href={v.youtubeId ? `https://www.youtube.com/watch?v=${v.youtubeId}` : YOUTUBE.subscribeUrl} rel="noopener">
+      {v.youtubeId ? 'Watch on YouTube' : 'Subscribe on YouTube'}
+    </a>
+  </Fragment>
+
+  <Fragment slot="related">
+    <Related title="Pharaohs in this film" count={pharaohs.length}>
+      {pharaohs.map((p) => <Card {...cards.pharaoh(p)} />)}
+    </Related>
+    <Related title="Monuments" count={monuments.length}>
+      {monuments.map((m) => <Card {...cards.monument(m)} />)}
+    </Related>
+    <Related title="Tombs" count={tombs.length}>
+      {tombs.map((t) => <Card {...cards.tomb(t)} />)}
+    </Related>
+    <Related title="Artifacts" count={artifacts.length}>
+      {artifacts.map((a) => <Card {...cards.artifact(a)} />)}
+    </Related>
+  </Fragment>
+</EntityLayout>
+
+<style>
+  .media { max-width: 60rem; margin-bottom: 3rem; }
+  .chapters { padding-left: 1.2rem; }
+  .disclosure { margin-top: 2rem; padding: 1rem 1.2rem; border-left: 2px solid var(--faience); background: var(--bg-raised); font-size: var(--step--1); color: var(--text-muted); }
+</style>

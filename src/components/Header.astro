@@ -1,0 +1,118 @@
+---
+import { NAV, SITE } from '@/lib/site';
+
+const path = Astro.url.pathname;
+const isCurrent = (href: string) => path === href || path.startsWith(href);
+---
+
+<header class="site-header">
+  <div class="container bar">
+    <a class="brand" href="/" aria-label={`${SITE.name} home`}>
+      <span class="brand-glyph" aria-hidden="true">𓂀</span>
+      <span class="brand-name">Neo<span>Kemet</span>AI</span>
+    </a>
+
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span class="visually-hidden">Menu</span>
+      <span class="menu-icon" aria-hidden="true"></span>
+    </button>
+
+    <nav id="site-nav" class="nav" aria-label="Main">
+      <ul>
+        {NAV.map(({ href, label }) => (
+          <li>
+            <a href={href} aria-current={isCurrent(href) ? 'page' : undefined}>{label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const header = document.querySelector('.site-header');
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    header?.classList.toggle('is-open', !open);
+  });
+</script>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgb(11 10 8 / 0.82);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .bar { display: flex; align-items: center; justify-content: space-between; min-height: 4rem; gap: 1rem; }
+
+  .brand { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; color: var(--limestone); }
+  .brand-glyph { font-family: var(--font-glyph); font-size: 1.6rem; color: var(--gold); line-height: 1; }
+  .brand-name { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: 0.12em; }
+  .brand-name span { color: var(--gold); }
+
+  .nav ul { display: flex; gap: clamp(0.75rem, 0.2rem + 1.5vw, 2rem); list-style: none; margin: 0; padding: 0; }
+  .nav a {
+    position: relative;
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--text-muted);
+    padding-block: 0.4rem;
+  }
+  .nav a::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 1px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transition: transform 0.35s var(--ease);
+  }
+  .nav a:hover, .nav a[aria-current='page'] { color: var(--limestone); }
+  .nav a:hover::after, .nav a[aria-current='page']::after { transform: scaleX(1); }
+
+  .menu-toggle { display: none; }
+
+  @media (max-width: 52rem) {
+    .menu-toggle {
+      display: grid;
+      place-items: center;
+      width: 2.75rem; height: 2.75rem;
+      background: none;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      cursor: pointer;
+    }
+    .menu-icon, .menu-icon::before, .menu-icon::after {
+      display: block;
+      width: 1.2rem; height: 1px;
+      background: var(--limestone);
+      transition: transform 0.3s var(--ease);
+    }
+    .menu-icon { position: relative; }
+    .menu-icon::before, .menu-icon::after { content: ''; position: absolute; left: 0; }
+    .menu-icon::before { top: -6px; }
+    .menu-icon::after { top: 6px; }
+    .is-open .menu-icon { background: transparent; }
+    .is-open .menu-icon::before { transform: translateY(6px) rotate(45deg); }
+    .is-open .menu-icon::after { transform: translateY(-6px) rotate(-45deg); }
+
+    .nav {
+      position: absolute;
+      top: 100%; left: 0; right: 0;
+      background: var(--bg);
+      border-bottom: 1px solid var(--line);
+      display: none;
+    }
+    .is-open .nav { display: block; }
+    .nav ul { flex-direction: column; gap: 0; padding: 0.5rem var(--gutter) 1.25rem; }
+    .nav a { display: block; padding-block: 0.8rem; font-size: 1rem; }
+  }
+</style>

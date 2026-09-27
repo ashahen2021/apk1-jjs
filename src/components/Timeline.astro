@@ -1,0 +1,275 @@
+---
+/**
+ * Interactive, to-scale timeline of the 30 dynasties.
+ *
+ * Every dynasty is a real link to its page, so the timeline works without
+ * JavaScript and is crawlable. With JS, clicking a bar opens an inline panel
+ * instead, and the track can be dragged and jumped by period.
+ */
+import type { CollectionEntry } from 'astro:content';
+import { formatRange, ordinal } from '@/lib/format';
+
+export interface Props {
+  periods: CollectionEntry<'periods'>[];
+  dynasties: CollectionEntry<'dynasties'>[];
+  pharaohs: CollectionEntry<'pharaohs'>[];
+}
+const { periods, dynasties, pharaohs } = Astro.props;
+
+const FROM = -3050;
+const TO = -320;
+const PX_PER_YEAR = 1.25;
+const MIN_BAR = 30;
+const GAP = 4;
+const LANE_H = 40;
+const TOP = 88; // space for the axis and the period band
+
+const x = (year: number) => Math.round((year - FROM) * PX_PER_YEAR);
+const width = x(TO);
+
+const periodColor = new Map(periods.map((p) => [p.id, p.data.color]));
+
+// Greedy lane packing: dynasties that overlap in time (rival houses) stack.
+const laneEnds: number[] = [];
+const bars = [...dynasties]
+  .sort((a, b) => a.data.start - b.data.start || a.data.number - b.data.number)
+  .map((d) => {
+    const left = x(d.data.start);
+    const w = Math.max(x(d.data.end) - left, MIN_BAR);
+    let lane = laneEnds.findIndex((end) => end + GAP <= left);
+    if (lane === -1) lane = laneEnds.push(0) - 1;
+    laneEnds[lane] = left + w;
+    return { d, left, w, lane, color: periodColor.get(d.data.period.id) ?? 'var(--gold)' };
+  });
+const height = TOP + laneEnds.length * (LANE_H + 8) + 12;
+
+const ticks: number[] = [];
+for (let y = -3000; y <= TO; y += 250) ticks.push(y);
+
+const pharaohsOf = (id: string) => pharaohs.filter((p) => p.data.dynasty.id === id);
+---
+
+<div class="timeline" data-timeline>
+  <div class="controls" role="group" aria-label="Jump to period">
+    {periods.map((p) => (
+      <button type="button" data-jump={x(p.data.start)} style={`--c:${p.data.color}`}>{p.data.name}</button>
+    ))}
+  </div>
+
+  <div class="viewport" data-viewport tabindex="0" aria-label="Timeline of the dynasties, scroll horizontally">
+    <div class="track" style={`width:${width}px;height:${height}px`}>
+      {ticks.map((t) => (
+        <span class="tick" style={`left:${x(t)}px`}>{-t} BCE</span>
+      ))}
+
+      {periods.map((p) => (
+        <span
+          class="period"
+          style={`left:${x(p.data.start)}px;width:${x(p.data.end) - x(p.data.start)}px;--c:${p.data.color}`}
+          title={`${p.data.name}, ${formatRange(p.data.start, p.data.end)}`}
+        >
+          <span>{p.data.name}</span>
+        </span>
+      ))}
+
+      {bars.map(({ d, left, w, lane, color }) => (
+        <a
+          class="bar"
+          href={`/dynasties/${d.id}/`}
+          data-dynasty={d.id}
+          aria-controls={`panel-${d.id}`}
+          style={`left:${left}px;width:${w}px;top:${TOP + lane * (LANE_H + 8)}px;--c:${color}`}
+          title={`${d.data.name}, ${formatRange(d.data.start, d.data.end)}`}
+        >
+          <span class="bar-num">{d.data.number}</span>
+          {w > 110 && <span class="bar-name">{d.data.name.replace(/ Dynasty.*/, '')}</span>}
+        </a>
+      ))}
+    </div>
+  </div>
+  <p class="hint">Drag or scroll the timeline. Select a dynasty to see its rulers.</p>
+
+  <div class="panels" aria-live="polite">
+    {dynasties.map((d) => {
+      const kings = pharaohsOf(d.id);
+      return (
+        <article class="panel" id={`panel-${d.id}`} hidden>
+          <p class="kicker">{ordinal(d.data.number)} Dynasty · {formatRange(d.data.start, d.data.end)}</p>
+          <h3>{d.data.name}</h3>
+          <p>{d.data.summary}</p>
+          <p class="panel-meta"><strong>Capital:</strong> {d.data.capital}</p>
+          <p class="panel-meta"><strong>Rulers:</strong> {d.data.rulers.join(' · ')}</p>
+          {kings.length > 0 && (
+            <p class="panel-meta">
+              <strong>Explore:</strong>{' '}
+              {kings.map((k, i) => (
+                <>{i > 0 && ', '}<a href={`/pharaohs/${k.id}/`}>{k.data.name}</a></>
+              ))}
+            </p>
+          )}
+          <a class="btn btn--ghost" href={`/dynasties/${d.id}/`}>Open the {ordinal(d.data.number)} Dynasty</a>
+        </article>
+      );
+    })}
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-timeline]').forEach((root) => {
+    const viewport = root.querySelector<HTMLElement>('[data-viewport]')!;
+    const bars = root.querySelectorAll<HTMLAnchorElement>('.bar');
+    const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const behavior: ScrollBehavior = reduceMotion ? 'auto' : 'smooth';
+
+    // Drag to scroll with a mouse; touch devices scroll natively.
+    let dragStart: { x: number; scroll: number } | null = null;
+    let dragged = false;
+    viewport.addEventListener('pointerdown', (e) => {
+      if (e.pointerType !== 'mouse') return;
+      dragStart = { x: e.clientX, scroll: viewport.scrollLeft };
+      dragged = false;
+    });
+    window.addEventListener('pointermove', (e) => {
+      if (!dragStart) return;
+      const dx = e.clientX - dragStart.x;
+      if (Math.abs(dx) > 4) dragged = true;
+      viewport.scrollLeft = dragStart.scroll - dx;
+      viewport.classList.toggle('is-dragging', dragged);
+    });
+    window.addEventListener('pointerup', () => {
+      dragStart = null;
+      viewport.classList.remove('is-dragging');
+    });
+
+    root.querySelectorAll<HTMLButtonElement>('[data-jump]').forEach((btn) =>
+      btn.addEventListener('click', () =>
+        viewport.scrollTo({ left: Number(btn.dataset.jump) - 24, behavior }),
+      ),
+    );
+
+    const select = (id: string, scrollIntoView: boolean) => {
+      bars.forEach((b) => b.setAttribute('aria-expanded', String(b.dataset.dynasty === id)));
+      root.querySelectorAll<HTMLElement>('.panel').forEach((p) => (p.hidden = p.id !== `panel-${id}`));
+      const bar = root.querySelector<HTMLElement>(`.bar[data-dynasty="${id}"]`);
+      if (bar && scrollIntoView) {
+        viewport.scrollTo({ left: bar.offsetLeft - viewport.clientWidth / 2 + bar.offsetWidth / 2, behavior });
+      }
+    };
+
+    bars.forEach((bar) => {
+      bar.setAttribute('aria-expanded', 'false');
+      bar.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (dragged) return;
+        select(bar.dataset.dynasty!, false);
+        history.replaceState(null, '', `#dynasty-${bar.dataset.dynasty}`);
+      });
+    });
+
+    // Deep links such as /timeline/#dynasty-18 open that dynasty.
+    const initial = location.hash.match(/^#dynasty-(\d+)$/)?.[1] ?? '18';
+    select(initial, true);
+  });
+</script>
+
+<style>
+  .controls { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.25rem; }
+  .controls button {
+    font: inherit;
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+    border: 1px solid var(--c);
+    background: color-mix(in srgb, var(--c) 18%, transparent);
+    color: var(--limestone);
+    cursor: pointer;
+    transition: background 0.3s var(--ease);
+  }
+  .controls button:hover { background: color-mix(in srgb, var(--c) 45%, transparent); }
+
+  .viewport {
+    overflow-x: auto;
+    overflow-y: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background:
+      linear-gradient(180deg, rgb(20 18 14 / 0.9), rgb(11 10 8 / 0.95)),
+      repeating-linear-gradient(90deg, transparent 0 62px, rgb(216 203 168 / 0.03) 62px 63px);
+    cursor: grab;
+    scrollbar-color: var(--line-strong) transparent;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 2%, #000 98%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 2%, #000 98%, transparent);
+  }
+  .viewport.is-dragging { cursor: grabbing; user-select: none; }
+  .track { position: relative; margin-inline: 1.5rem; }
+
+  .tick {
+    position: absolute;
+    top: 0.5rem;
+    bottom: 0;
+    padding-left: 0.35rem;
+    border-left: 1px dashed var(--line);
+    font-size: 0.7rem;
+    color: var(--text-faint);
+    white-space: nowrap;
+  }
+
+  .period {
+    position: absolute;
+    top: 2.2rem;
+    height: 2.2rem;
+    display: flex;
+    align-items: center;
+    padding-inline: 0.6rem;
+    border-top: 2px solid var(--c);
+    background: linear-gradient(180deg, color-mix(in srgb, var(--c) 30%, transparent), transparent);
+    overflow: hidden;
+  }
+  .period span {
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--limestone);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .bar {
+    position: absolute;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-inline: 0.5rem;
+    border: 1px solid color-mix(in srgb, var(--c) 80%, #fff 10%);
+    border-radius: 3px;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--c) 70%, #000), color-mix(in srgb, var(--c) 40%, #000));
+    color: var(--limestone);
+    text-decoration: none;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), filter 0.25s var(--ease);
+  }
+  .bar:hover { filter: brightness(1.25); transform: translateY(-2px); color: #fff; }
+  .bar[aria-expanded='true'] { box-shadow: 0 0 0 2px var(--accent-bright), var(--glow); color: #fff; }
+  .bar-num { font-family: var(--font-display); font-weight: 700; font-size: 0.95rem; }
+  .bar-name { font-size: 0.78rem; opacity: 0.85; overflow: hidden; text-overflow: ellipsis; }
+
+  .hint { margin: 0.6rem 0 0; font-size: var(--step--1); color: var(--text-faint); }
+
+  .panels { margin-top: 1.5rem; }
+  .panel {
+    padding: clamp(1.25rem, 1rem + 1.5vw, 2rem);
+    border: 1px solid var(--line-strong);
+    border-left: 3px solid var(--gold);
+    border-radius: var(--radius);
+    background: var(--bg-panel);
+    animation: panel-in 0.5s var(--ease);
+  }
+  .panel h3 { font-size: var(--step-2); }
+  .panel-meta { color: var(--text-muted); font-size: 0.95rem; }
+  .panel-meta strong { color: var(--limestone); font-weight: 600; }
+  @keyframes panel-in { from { opacity: 0; transform: translateY(0.5rem); } }
+</style>

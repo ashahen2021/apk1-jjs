@@ -1,0 +1,63 @@
+---
+import { getEntries, render } from 'astro:content';
+import EntityLayout from '@/layouts/EntityLayout.astro';
+import Card from '@/components/Card.astro';
+import Related from '@/components/Related.astro';
+import { getMonuments, videosAbout } from '@/lib/content';
+import { cards } from '@/lib/cards';
+import { formatYear } from '@/lib/format';
+import { GLYPHS } from '@/lib/site';
+
+export async function getStaticPaths() {
+  return (await getMonuments()).map((monument) => ({ params: { slug: monument.id }, props: { monument } }));
+}
+
+const { monument } = Astro.props;
+const m = monument.data;
+const pharaohs = await getEntries(m.pharaohs);
+const videos = await videosAbout('monuments', monument.id);
+const { Content } = await render(monument);
+const mapUrl = m.coordinates && `https://www.openstreetmap.org/?mlat=${m.coordinates[0]}&mlon=${m.coordinates[1]}#map=16/${m.coordinates[0]}/${m.coordinates[1]}`;
+---
+
+<EntityLayout
+  title={m.name}
+  description={m.description}
+  kicker={`Monument · ${m.type}`}
+  lede={m.site}
+  glyph={GLYPHS.monuments}
+  crumbs={[
+    { label: 'Monuments', href: '/monuments/' },
+    { label: m.name, href: `/monuments/${monument.id}/` },
+  ]}
+  facts={[
+    { label: 'Type', value: m.type },
+    { label: 'Location', value: m.site },
+    { label: 'Built', value: formatYear(m.built) },
+    m.unesco && { label: 'UNESCO World Heritage', value: m.unesco },
+    mapUrl && { label: 'Map', value: 'View on OpenStreetMap', href: mapUrl },
+  ]}
+  jsonLd={[
+    {
+      '@type': 'LandmarksOrHistoricalBuildings',
+      name: m.name,
+      description: m.description,
+      url: new URL(`/monuments/${monument.id}/`, Astro.site).href,
+      ...(m.coordinates && {
+        geo: { '@type': 'GeoCoordinates', latitude: m.coordinates[0], longitude: m.coordinates[1] },
+      }),
+      containedInPlace: { '@type': 'Place', name: m.site },
+    },
+  ]}
+>
+  <Content />
+
+  <Fragment slot="related">
+    <Related title="Associated pharaohs" count={pharaohs.length}>
+      {pharaohs.map((p) => <Card {...cards.pharaoh(p)} />)}
+    </Related>
+    <Related title="Watch on NeoKemet" count={videos.length}>
+      {videos.map((v) => <Card {...cards.video(v)} />)}
+    </Related>
+  </Fragment>
+</EntityLayout>

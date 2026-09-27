@@ -1,0 +1,24 @@
+---
+import ListingPage from '@/components/ListingPage.astro';
+import Card from '@/components/Card.astro';
+import { getTombs } from '@/lib/content';
+import { cards } from '@/lib/cards';
+import { GLYPHS } from '@/lib/site';
+
+const tombs = await getTombs();
+---
+
+<ListingPage
+  title="Tombs"
+  metaTitle="Royal Tombs of Ancient Egypt"
+  description="Explore the royal tombs of ancient Egypt in the Valleys of the Kings and Queens, including KV62 of Tutankhamun and QV66 of Nefertari."
+  kicker="Houses of eternity"
+  lede="Royal burials of the Valley of the Kings and the Valley of the Queens, with what was found inside them."
+  glyph={GLYPHS.tombs}
+  path="/tombs/"
+  itemList={tombs.map((t) => ({ name: t.data.name, url: `/tombs/${t.id}/` }))}
+>
+  <div class="grid">
+    {tombs.map((t) => <Card {...cards.tomb(t)} headingLevel="h2" />)}
+  </div>
+</ListingPage>

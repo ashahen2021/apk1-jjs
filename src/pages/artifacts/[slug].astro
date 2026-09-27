@@ -1,0 +1,65 @@
+---
+import { getEntry, render } from 'astro:content';
+import EntityLayout from '@/layouts/EntityLayout.astro';
+import Card from '@/components/Card.astro';
+import Related from '@/components/Related.astro';
+import { getArtifacts, videosAbout } from '@/lib/content';
+import { cards } from '@/lib/cards';
+import { ordinal } from '@/lib/format';
+import { GLYPHS } from '@/lib/site';
+
+export async function getStaticPaths() {
+  return (await getArtifacts()).map((artifact) => ({ params: { slug: artifact.id }, props: { artifact } }));
+}
+
+const { artifact } = Astro.props;
+const a = artifact.data;
+const pharaoh = a.pharaoh && (await getEntry(a.pharaoh));
+const tomb = a.tomb && (await getEntry(a.tomb));
+const videos = await videosAbout('artifacts', artifact.id);
+const { Content } = await render(artifact);
+const nth = `${ordinal(Number(a.dynasty.id))} Dynasty`;
+---
+
+<EntityLayout
+  title={a.name}
+  description={a.description}
+  kicker={`Artifact · ${nth}`}
+  lede={a.museum}
+  glyph={GLYPHS.artifacts}
+  crumbs={[
+    { label: 'Artifacts', href: '/artifacts/' },
+    { label: a.name, href: `/artifacts/${artifact.id}/` },
+  ]}
+  facts={[
+    { label: 'Material', value: a.material },
+    a.dimensions && { label: 'Size', value: a.dimensions },
+    { label: 'Dynasty', value: nth, href: `/dynasties/${a.dynasty.id}/` },
+    { label: 'Found at', value: a.foundAt },
+    { label: 'Museum', value: a.museum },
+  ]}
+  jsonLd={[
+    {
+      '@type': 'VisualArtwork',
+      name: a.name,
+      description: a.description,
+      artMedium: a.material,
+      url: new URL(`/artifacts/${artifact.id}/`, Astro.site).href,
+      locationCreated: { '@type': 'Place', name: 'Ancient Egypt' },
+    },
+  ]}
+>
+  <Content />
+
+  <Fragment slot="related">
+    <Related title="Pharaoh" count={pharaoh ? 1 : 0}>
+      {pharaoh && <Card {...cards.pharaoh(pharaoh)} />}
+    </Related>
+    <Related title="Tomb" count={tomb ? 1 : 0}>
+      {tomb && <Card {...cards.tomb(tomb)} />}
+    </Related>
+    <Related title="Watch on NeoKemet" count={videos.length}>
+      {videos.map((v) => <Card {...cards.video(v)} />)}
+    </Related>
+  </Fragment>
+</EntityLayout>

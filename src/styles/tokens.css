@@ -1,0 +1,53 @@
+/*
+ * NeoKemetAI design tokens.
+ * The palette uses the fixed NeoKemet pigment colours (real Egyptian pigments)
+ * so the site and the YouTube channel share one visual identity.
+ */
+:root {
+  color-scheme: dark;
+
+  /* Pigments */
+  --limestone: #d8cba8;
+  --lapis: #1f4e8c;
+  --gold: #c8952b;
+  --faience: #2e8b84;
+  --carnelian: #a83a2c;
+  --basalt: #14120e;
+
+  /* Surfaces */
+  --bg: #0b0a08;
+  --bg-raised: #14120e;
+  --bg-panel: #1b1812;
+  --line: #3a3224;
+  --line-strong: #5a4a2e;
+
+  /* Text */
+  --text: #e9e0c9;
+  --text-muted: #a89c80;
+  --text-faint: #7a6f58;
+  --accent: var(--gold);
+  --accent-bright: #e2b453;
+  --link: #e2b453;
+
+  /* Type */
+  --font-display: 'Cinzel', 'Trajan Pro', Georgia, serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-glyph: 'Noto Sans Egyptian Hieroglyphs', serif;
+
+  --step--1: clamp(0.83rem, 0.8rem + 0.15vw, 0.9rem);
+  --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.1rem);
+  --step-1: clamp(1.2rem, 1.1rem + 0.45vw, 1.45rem);
+  --step-2: clamp(1.45rem, 1.3rem + 0.8vw, 1.95rem);
+  --step-3: clamp(1.8rem, 1.5rem + 1.4vw, 2.7rem);
+  --step-4: clamp(2.2rem, 1.7rem + 2.6vw, 4rem);
+
+  /* Space & shape */
+  --gutter: clamp(1rem, 0.6rem + 2vw, 2.5rem);
+  --max-width: 76rem;
+  --prose-width: 42rem;
+  --radius: 4px;
+  --shadow: 0 1.5rem 3rem -1.5rem rgb(0 0 0 / 0.8);
+  --glow: 0 0 2.5rem -0.5rem rgb(200 149 43 / 0.35);
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}

@@ -1,0 +1,24 @@
+---
+import ListingPage from '@/components/ListingPage.astro';
+import Card from '@/components/Card.astro';
+import { getMonuments } from '@/lib/content';
+import { cards } from '@/lib/cards';
+import { GLYPHS } from '@/lib/site';
+
+const monuments = await getMonuments();
+---
+
+<ListingPage
+  title="Monuments"
+  metaTitle="Monuments of Ancient Egypt"
+  description="Pyramids, temples and colossal monuments of ancient Egypt — from the Step Pyramid and Giza to Karnak, Abu Simbel and Medinet Habu."
+  kicker="Built for eternity"
+  lede="Pyramids, temples and sanctuaries, ordered by the date they were begun."
+  glyph={GLYPHS.monuments}
+  path="/monuments/"
+  itemList={monuments.map((m) => ({ name: m.data.name, url: `/monuments/${m.id}/` }))}
+>
+  <div class="grid">
+    {monuments.map((m) => <Card {...cards.monument(m)} headingLevel="h2" />)}
+  </div>
+</ListingPage>

@@ -1,0 +1,67 @@
+---
+import ListingPage from '@/components/ListingPage.astro';
+import Card from '@/components/Card.astro';
+import { getPeriods, getPharaohs } from '@/lib/content';
+import { cards } from '@/lib/cards';
+import { GLYPHS } from '@/lib/site';
+import { getEntry } from 'astro:content';
+
+const [pharaohs, periods] = await Promise.all([getPharaohs(), getPeriods()]);
+const periodOf = new Map(
+  await Promise.all(pharaohs.map(async (p) => [p.id, (await getEntry(p.data.dynasty))?.data.period.id] as const)),
+);
+const used = periods.filter((period) => [...periodOf.values()].includes(period.id));
+---
+
+<ListingPage
+  title="Pharaohs"
+  metaTitle="Pharaohs of Ancient Egypt"
+  description="Profiles of the pharaohs of ancient Egypt, from Djoser and Khufu to Hatshepsut, Tutankhamun, Ramesses II and the last native king."
+  kicker="The kings"
+  lede="Rulers who shaped three thousand years of history, in chronological order. Filter by era to follow the story."
+  glyph={GLYPHS.pharaohs}
+  path="/pharaohs/"
+  itemList={pharaohs.map((p) => ({ name: p.data.name, url: `/pharaohs/${p.id}/` }))}
+>
+  <div class="filters" role="group" aria-label="Filter by era" hidden data-filters>
+    <button type="button" aria-pressed="true" data-filter="all">All eras</button>
+    {used.map((p) => <button type="button" aria-pressed="false" data-filter={p.id}>{p.data.name}</button>)}
+  </div>
+
+  <div class="grid" data-grid>
+    {pharaohs.map((p) => (
+      <div data-period={periodOf.get(p.id)}><Card {...cards.pharaoh(p)} headingLevel="h2" /></div>
+    ))}
+  </div>
+</ListingPage>
+
+<script>
+  const filters = document.querySelector<HTMLElement>('[data-filters]');
+  if (filters) {
+    filters.hidden = false;
+    const items = document.querySelectorAll<HTMLElement>('[data-grid] > [data-period]');
+    filters.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('button[data-filter]');
+      if (!btn) return;
+      filters.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      items.forEach((el) => (el.hidden = btn.dataset.filter !== 'all' && el.dataset.period !== btn.dataset.filter));
+    });
+  }
+</script>
+
+<style>
+  .filters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
+  .filters button {
+    font: inherit;
+    font-size: 0.85rem;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+  .filters button[aria-pressed='true'] { background: var(--gold); border-color: var(--gold); color: var(--basalt); }
+  [data-grid] > div { display: grid; }
+  [data-grid] > div[hidden] { display: none; }
+</style>

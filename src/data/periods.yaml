@@ -1,0 +1,49 @@
+# Eras of pharaonic history. Years: negative = BCE.
+- id: early-dynastic
+  name: Early Dynastic Period
+  start: -3000
+  end: -2686
+  color: "#8a6d3b"
+  summary: Upper and Lower Egypt are unified under a single crown. Writing, royal tombs at Abydos and the capital at Memphis take shape.
+- id: old-kingdom
+  name: Old Kingdom
+  start: -2686
+  end: -2160
+  color: "#c8952b"
+  summary: The age of the pyramids. A centralised state channels the wealth of the Nile valley into monuments at Saqqara, Dahshur and Giza.
+- id: first-intermediate
+  name: First Intermediate Period
+  start: -2160
+  end: -2055
+  color: "#6b5a44"
+  summary: Royal authority fragments. Rival houses at Herakleopolis in the north and Thebes in the south compete for control of the valley.
+- id: middle-kingdom
+  name: Middle Kingdom
+  start: -2055
+  end: -1650
+  color: "#2e8b84"
+  summary: Theban kings reunify Egypt. Literature flourishes, Nubia is fortified and the Faiyum is developed.
+- id: second-intermediate
+  name: Second Intermediate Period
+  start: -1650
+  end: -1550
+  color: "#5a4a6b"
+  summary: The Hyksos rule the north from Avaris while a Theban dynasty holds the south, until Theban kings drive them out.
+- id: new-kingdom
+  name: New Kingdom
+  start: -1550
+  end: -1069
+  color: "#1f4e8c"
+  summary: Egypt's imperial age. Pharaohs campaign from Nubia to Syria and are buried in the Valley of the Kings.
+- id: third-intermediate
+  name: Third Intermediate Period
+  start: -1069
+  end: -664
+  color: "#4a6670"
+  summary: Power divides between Tanis in the Delta and the priests of Amun at Thebes. Libyan and then Kushite dynasties rule.
+- id: late-period
+  name: Late Period
+  start: -664
+  end: -332
+  color: "#a83a2c"
+  summary: A Saite revival is followed by two Persian conquests. The 30th Dynasty is the last line of native Egyptian pharaohs.

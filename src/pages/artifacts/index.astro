@@ -1,0 +1,24 @@
+---
+import ListingPage from '@/components/ListingPage.astro';
+import Card from '@/components/Card.astro';
+import { getArtifacts } from '@/lib/content';
+import { cards } from '@/lib/cards';
+import { GLYPHS } from '@/lib/site';
+
+const artifacts = await getArtifacts();
+---
+
+<ListingPage
+  title="Artifacts"
+  metaTitle="Artifacts of Ancient Egypt"
+  description="Masterpieces of ancient Egyptian art — the gold mask of Tutankhamun, the Narmer Palette, the bust of Nefertiti and more — and where to see them."
+  kicker="Treasures"
+  lede="Objects that changed how we understand Egypt, and the museums where you can see them today."
+  glyph={GLYPHS.artifacts}
+  path="/artifacts/"
+  itemList={artifacts.map((a) => ({ name: a.data.name, url: `/artifacts/${a.id}/` }))}
+>
+  <div class="grid">
+    {artifacts.map((a) => <Card {...cards.artifact(a)} headingLevel="h2" />)}
+  </div>
+</ListingPage>

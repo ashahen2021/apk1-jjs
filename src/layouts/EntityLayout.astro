@@ -1,0 +1,57 @@
+---
+/**
+ * Shared layout for every detail page (dynasty, pharaoh, monument, tomb,
+ * artifact, video): hero with breadcrumbs, article body beside a fact sheet,
+ * then related-content sections.
+ */
+import BaseLayout from './BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import Breadcrumbs, { type Crumb } from '@/components/Breadcrumbs.astro';
+import FactList, { type MaybeFact } from '@/components/FactList.astro';
+
+export interface Props {
+  title: string;
+  description: string;
+  kicker: string;
+  lede?: string;
+  glyph?: string;
+  crumbs: Crumb[];
+  facts: MaybeFact[];
+  jsonLd?: Record<string, unknown>[];
+  ogType?: 'article' | 'video.other';
+}
+const { title, description, kicker, lede, glyph, crumbs, facts, jsonLd, ogType = 'article' } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} jsonLd={jsonLd} type={ogType}>
+  <PageHero kicker={kicker} title={title} lede={lede} glyph={glyph}>
+    <Breadcrumbs slot="above" items={crumbs} />
+  </PageHero>
+
+  <div class="container section">
+    <slot name="media" />
+    <div class="layout">
+      <article class="prose">
+        <slot />
+      </article>
+      <aside aria-label="Key facts">
+        <FactList facts={facts} />
+        <slot name="aside" />
+      </aside>
+    </div>
+    <slot name="related" />
+  </div>
+</BaseLayout>
+
+<style>
+  .layout { display: grid; gap: 2.5rem; align-items: start; }
+  @media (min-width: 60rem) {
+    .layout { grid-template-columns: minmax(0, 1fr) 20rem; gap: 4rem; }
+    aside { position: sticky; top: 5.5rem; }
+  }
+  .prose :global(h2) { font-size: var(--step-2); margin-top: 2rem; }
+  .prose :global(ul) { padding-left: 1.2rem; }
+  .prose :global(li) { margin-bottom: 0.5rem; }
+  .prose :global(li::marker) { color: var(--gold); }
+  aside :global(.btn) { margin-top: 1rem; width: 100%; justify-content: center; }
+</style>

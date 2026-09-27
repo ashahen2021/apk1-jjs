@@ -1,0 +1,77 @@
+---
+import { getEntry, render } from 'astro:content';
+import EntityLayout from '@/layouts/EntityLayout.astro';
+import Card from '@/components/Card.astro';
+import Related from '@/components/Related.astro';
+import { getPharaohs, relatedToPharaoh } from '@/lib/content';
+import { cards } from '@/lib/cards';
+import { formatRange, ordinal } from '@/lib/format';
+import { GLYPHS } from '@/lib/site';
+
+export async function getStaticPaths() {
+  return (await getPharaohs()).map((pharaoh) => ({ params: { slug: pharaoh.id }, props: { pharaoh } }));
+}
+
+const { pharaoh } = Astro.props;
+const p = pharaoh.data;
+const dynasty = await getEntry(p.dynasty);
+const related = await relatedToPharaoh(pharaoh.id);
+const { Content } = await render(pharaoh);
+const reign = formatRange(p.reignStart, p.reignEnd);
+const nth = `${ordinal(Number(p.dynasty.id))} Dynasty`;
+---
+
+<EntityLayout
+  title={p.name}
+  description={p.description}
+  kicker={`Pharaoh · ${nth}`}
+  lede={p.epithet}
+  glyph={GLYPHS.pharaohs}
+  crumbs={[
+    { label: 'Pharaohs', href: '/pharaohs/' },
+    { label: p.name, href: `/pharaohs/${pharaoh.id}/` },
+  ]}
+  facts={[
+    p.throneName && { label: 'Throne name', value: p.throneName },
+    { label: 'Reign', value: reign },
+    { label: 'Dynasty', value: dynasty?.data.name ?? nth, href: `/dynasties/${p.dynasty.id}/` },
+    dynasty && { label: 'Capital', value: dynasty.data.capital },
+  ]}
+  jsonLd={[
+    {
+      '@type': 'Person',
+      name: p.name,
+      alternateName: p.throneName,
+      description: p.description,
+      jobTitle: 'Pharaoh of Egypt',
+      url: new URL(`/pharaohs/${pharaoh.id}/`, Astro.site).href,
+    },
+  ]}
+>
+  <Content />
+  {p.highlights.length > 0 && (
+    <>
+      <h2>Key achievements</h2>
+      <ul>{p.highlights.map((h) => <li>{h}</li>)}</ul>
+    </>
+  )}
+
+  <Fragment slot="aside">
+    <a class="btn btn--ghost" href={`/timeline/#dynasty-${p.dynasty.id}`}>See on the timeline</a>
+  </Fragment>
+
+  <Fragment slot="related">
+    <Related title="Monuments" count={related.monuments.length}>
+      {related.monuments.map((m) => <Card {...cards.monument(m)} />)}
+    </Related>
+    <Related title="Tombs" count={related.tombs.length}>
+      {related.tombs.map((t) => <Card {...cards.tomb(t)} />)}
+    </Related>
+    <Related title="Artifacts" count={related.artifacts.length}>
+      {related.artifacts.map((a) => <Card {...cards.artifact(a)} />)}
+    </Related>
+    <Related title="Watch on NeoKemet" count={related.videos.length}>
+      {related.videos.map((v) => <Card {...cards.video(v)} />)}
+    </Related>
+  </Fragment>
+</EntityLayout>

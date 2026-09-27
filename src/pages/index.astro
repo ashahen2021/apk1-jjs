@@ -1,0 +1,229 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import HeroScene from '@/components/HeroScene.astro';
+import Card from '@/components/Card.astro';
+import VideoEmbed from '@/components/VideoEmbed.astro';
+import { getArtifacts, getDynasties, getMonuments, getPeriods, getPharaohs, getTombs, getVideos } from '@/lib/content';
+import { cards } from '@/lib/cards';
+import { formatRange } from '@/lib/format';
+import { SITE, YOUTUBE } from '@/lib/site';
+
+const [periods, dynasties, pharaohs, monuments, tombs, artifacts, videos] = await Promise.all([
+  getPeriods(), getDynasties(), getPharaohs(), getMonuments(), getTombs(), getArtifacts(), getVideos(),
+]);
+const featuredPharaohs = pharaohs.filter((p) => p.data.featured).slice(0, 6);
+const featuredMonuments = monuments.filter((m) => m.data.featured).slice(0, 3);
+const span = periods.at(-1)!.data.end - periods[0].data.start;
+const featuredVideo = videos.find((v) => v.data.youtubeId) ?? videos[0];
+
+const stats = [
+  { value: dynasties.length, label: 'Dynasties' },
+  { value: `${(Math.floor(span / 100) * 100).toLocaleString('en-US')}+`, label: 'Years of history' },
+  { value: pharaohs.length, label: 'Pharaoh profiles' },
+  { value: monuments.length + tombs.length + artifacts.length, label: 'Sites & treasures' },
+];
+---
+
+<BaseLayout title={SITE.name} description={SITE.description}>
+  <section class="hero">
+    <HeroScene />
+    <div class="container hero-content">
+      <span class="kicker">Kemet · The Black Land</span>
+      <h1>Walk through three thousand years of Ancient Egypt</h1>
+      <p class="lede">
+        An interactive journey through all thirty dynasties — the pharaohs, the monuments they raised, the tombs they hid and
+        the treasures they left behind.
+      </p>
+      <div class="actions">
+        <a class="btn" href="/timeline/">Enter the timeline</a>
+        <a class="btn btn--ghost" href="/videos/">Watch the films</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats container" aria-label="At a glance">
+    {stats.map((s) => (
+      <div data-reveal>
+        <strong>{s.value}</strong>
+        <span>{s.label}</span>
+      </div>
+    ))}
+  </section>
+
+  <section class="section container" id="eras" aria-labelledby="eras-title">
+    <span class="kicker">The great ages</span>
+    <h2 id="eras-title">From unification to the last native king</h2>
+    <p class="lede">Egyptologists group the dynasties into Kingdoms of strong central rule and Intermediate Periods of division.</p>
+    <ol class="band" data-reveal>
+      {periods.map((p) => (
+        <li style={`--c:${p.data.color};flex-grow:${p.data.end - p.data.start}`}>
+          <a href={`/dynasties/#${p.id}`} title={`${p.data.name}, ${formatRange(p.data.start, p.data.end)}`}>
+            <span class="band-name">{p.data.name}</span>
+            <span class="band-dates">{formatRange(p.data.start, p.data.end)}</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+    <p><a class="btn btn--ghost" href="/timeline/">Explore all 30 dynasties</a></p>
+  </section>
+
+  <section class="section container" aria-labelledby="pharaohs-title">
+    <div class="head">
+      <div>
+        <span class="kicker">The kings</span>
+        <h2 id="pharaohs-title">Pharaohs who shaped Egypt</h2>
+      </div>
+      <a href="/pharaohs/">All pharaohs →</a>
+    </div>
+    <div class="grid">
+      {featuredPharaohs.map((p) => <Card {...cards.pharaoh(p)} />)}
+    </div>
+  </section>
+
+  {featuredVideo && (
+    <section class="section watch" aria-labelledby="watch-title">
+      <div class="container watch-inner">
+        <div>
+          <span class="kicker">NeoKemet on YouTube</span>
+          <h2 id="watch-title">History you can watch</h2>
+          <p class="lede">
+            Cinematic documentaries and calm, three-hour histories for sleep, built on archaeological evidence. Every film is
+            linked to the pharaohs and places it covers.
+          </p>
+          <div class="actions">
+            <a class="btn" href={YOUTUBE.subscribeUrl} rel="noopener">Subscribe to {YOUTUBE.handle}</a>
+            <a class="btn btn--ghost" href="/videos/">Browse videos</a>
+          </div>
+        </div>
+        <div>
+          <VideoEmbed youtubeId={featuredVideo.data.youtubeId} title={featuredVideo.data.title} />
+          <p class="caption"><a href={`/videos/${featuredVideo.id}/`}>{featuredVideo.data.title}</a></p>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section container" aria-labelledby="monuments-title">
+    <div class="head">
+      <div>
+        <span class="kicker">Built for eternity</span>
+        <h2 id="monuments-title">Monuments</h2>
+      </div>
+      <a href="/monuments/">All monuments →</a>
+    </div>
+    <div class="grid">
+      {featuredMonuments.map((m) => <Card {...cards.monument(m)} />)}
+    </div>
+  </section>
+
+  <section class="section container split" aria-label="Tombs and artifacts">
+    <div>
+      <div class="head">
+        <h2>Tombs</h2>
+        <a href="/tombs/">All tombs →</a>
+      </div>
+      <div class="stack">{tombs.slice(0, 2).map((t) => <Card {...cards.tomb(t)} />)}</div>
+    </div>
+    <div>
+      <div class="head">
+        <h2>Artifacts</h2>
+        <a href="/artifacts/">All artifacts →</a>
+      </div>
+      <div class="stack">{artifacts.filter((a) => a.data.pharaoh).slice(0, 2).map((a) => <Card {...cards.artifact(a)} />)}</div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: min(92vh, 56rem);
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgb(11 10 8 / 0) 50%, var(--bg) 100%), linear-gradient(90deg, rgb(11 10 8 / 0.75), transparent 70%);
+    pointer-events: none;
+  }
+  .hero-content { position: relative; z-index: 1; padding-block: 6rem 8rem; }
+  .hero h1 { font-size: clamp(2.4rem, 1.6rem + 4vw, 5rem); max-width: 16ch; text-shadow: 0 0.2em 1.5em rgb(0 0 0 / 0.6); }
+  .hero .lede { color: var(--text); max-width: 36rem; }
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-content > * { animation: rise 1.2s var(--ease) both; }
+    .hero-content > :nth-child(2) { animation-delay: 0.15s; }
+    .hero-content > :nth-child(3) { animation-delay: 0.3s; }
+    .hero-content > :nth-child(4) { animation-delay: 0.45s; }
+  }
+  @keyframes rise { from { opacity: 0; transform: translateY(1.5rem); } }
+
+  .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
+
+  .stats {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    margin-top: -3rem;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    padding: 0;
+    max-width: calc(var(--max-width) - 2 * var(--gutter));
+    width: calc(100% - 2 * var(--gutter));
+  }
+  @media (min-width: 48rem) { .stats { grid-template-columns: repeat(4, 1fr); } }
+  .stats div { display: flex; flex-direction: column; padding: 1.4rem 1.2rem; background: var(--bg-raised); text-align: center; }
+  .stats strong { font-family: var(--font-display); font-size: var(--step-3); color: var(--gold); line-height: 1.1; }
+  .stats span { font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); }
+
+  .band { display: flex; list-style: none; margin: 2.5rem 0; padding: 0; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); }
+  .band li { flex-basis: 0; min-width: 0; }
+  .band a {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 11rem;
+    padding: 0.8rem 0.6rem;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--c) 20%, transparent), color-mix(in srgb, var(--c) 65%, #000));
+    border-right: 1px solid rgb(0 0 0 / 0.4);
+    color: var(--limestone);
+    text-decoration: none;
+    transition: filter 0.3s var(--ease);
+  }
+  .band a:hover { filter: brightness(1.3); }
+  .band-name { font-family: var(--font-display); font-size: 0.78rem; line-height: 1.25; letter-spacing: 0.04em; writing-mode: vertical-rl; transform: rotate(180deg); align-self: flex-start; }
+  .band-dates { font-size: 0.68rem; color: var(--text-muted); margin-top: 0.5rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  @media (max-width: 40rem) {
+    .band { flex-direction: column; }
+    .band li { flex-grow: 0 !important; }
+    .band a { height: auto; flex-direction: row; justify-content: space-between; align-items: center; padding: 0.9rem 1rem; }
+    .band-name { writing-mode: horizontal-tb; transform: none; align-self: auto; font-size: 0.9rem; }
+    .band-dates { margin: 0; }
+  }
+
+  .head { display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem; margin-bottom: 1.75rem; }
+  .head h2 { margin: 0; }
+  .head a { font-family: var(--font-display); font-size: 0.85rem; letter-spacing: 0.1em; text-decoration: none; white-space: nowrap; }
+
+  .watch {
+    border-block: 1px solid var(--line);
+    background:
+      radial-gradient(ellipse 60% 80% at 80% 50%, rgb(31 78 140 / 0.25), transparent 70%),
+      var(--bg-raised);
+  }
+  .watch-inner { display: grid; gap: 2.5rem; align-items: center; }
+  @media (min-width: 56rem) { .watch-inner { grid-template-columns: 2fr 3fr; gap: 4rem; } }
+  .caption { margin-top: 0.75rem; font-size: var(--step--1); }
+
+  .split { display: grid; gap: 3rem; }
+  @media (min-width: 56rem) { .split { grid-template-columns: 1fr 1fr; } }
+  .split h2 { font-size: var(--step-2); }
+  .stack { display: grid; gap: 1.25rem; }
+</style>

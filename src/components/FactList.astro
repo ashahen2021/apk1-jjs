@@ -1,0 +1,30 @@
+---
+export interface Fact { label: string; value: string; href?: string }
+export type MaybeFact = Fact | false | '' | null | undefined;
+export interface Props { facts: MaybeFact[] }
+const facts = Astro.props.facts.filter(Boolean) as Fact[];
+---
+
+<dl class="facts">
+  {facts.map((f) => (
+    <div>
+      <dt>{f.label}</dt>
+      <dd>{f.href ? <a href={f.href}>{f.value}</a> : f.value}</dd>
+    </div>
+  ))}
+</dl>
+
+<style>
+  .facts {
+    display: grid;
+    gap: 0;
+    margin: 0;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--bg-raised);
+  }
+  .facts div { padding: 0.85rem 1.1rem; border-bottom: 1px solid var(--line); }
+  .facts div:last-child { border-bottom: 0; }
+  dt { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); }
+  dd { margin: 0.15rem 0 0; color: var(--limestone); }
+</style>

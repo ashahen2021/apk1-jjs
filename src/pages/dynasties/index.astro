@@ -1,0 +1,28 @@
+---
+import ListingPage from '@/components/ListingPage.astro';
+import DynastyList from '@/components/DynastyList.astro';
+import { getDynasties, getPeriods } from '@/lib/content';
+import { ordinal } from '@/lib/format';
+import { GLYPHS } from '@/lib/site';
+
+const [periods, dynasties] = await Promise.all([getPeriods(), getDynasties()]);
+---
+
+<ListingPage
+  title="The 30 Dynasties"
+  metaTitle="The 30 Dynasties of Ancient Egypt"
+  description="All thirty dynasties of ancient Egypt, from the First Dynasty around 3000 BCE to the Thirtieth in 343 BCE, with dates, capitals and rulers."
+  kicker="Manetho's king list"
+  lede="In the 3rd century BCE the priest Manetho divided Egypt's kings into thirty dynasties. Modern Egyptologists still use his framework."
+  glyph={GLYPHS.dynasties}
+  path="/dynasties/"
+  itemList={dynasties.map((d) => ({ name: `${ordinal(d.data.number)} Dynasty`, url: `/dynasties/${d.id}/` }))}
+>
+  <p><a class="btn btn--ghost" href="/timeline/">Open the interactive timeline</a></p>
+  <div class="spacer"></div>
+  <DynastyList periods={periods} dynasties={dynasties} />
+</ListingPage>
+
+<style>
+  .spacer { height: 2.5rem; }
+</style>
