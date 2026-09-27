@@ -1,0 +1,16 @@
+---
+/** Legend for the four evidence levels. */
+import Level from './Level.astro';
+import { LEVELS, type Level as L } from '@/lib/giza';
+---
+
+<ul class="level-key" aria-label="Evidence levels">
+  {(Object.keys(LEVELS) as L[]).map((l) => (
+    <li><Level level={l} /><span>{LEVELS[l].help}</span></li>
+  ))}
+</ul>
+
+<style>
+  .level-key { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.5rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
+  li { display: grid; gap: 0.3rem; justify-items: start; font-size: 0.82rem; color: var(--text-muted); padding: 0.7rem 0.8rem; border: 1px solid var(--line); border-radius: var(--radius); }
+</style>

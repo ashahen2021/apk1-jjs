@@ -1,0 +1,77 @@
+---
+/**
+ * Side elevation of the Sphinx (facing east, to the right) with its published
+ * overall dimensions, the three rock members it is carved from, and the
+ * missing nose and beard. Profile is schematic; dimensions are to scale.
+ */
+const S = 9; // px per metre
+const X = (m: number) => 90 + m * S;
+const Y = (m: number) => 250 - m * S;
+---
+
+<figure class="sphinx-dia">
+  <svg viewBox="0 0 1010 330" role="img" aria-labelledby="sd-t sd-d">
+    <title id="sd-t">The Great Sphinx in profile</title>
+    <desc id="sd-d">Side view of the Sphinx, about 73 m long and 20 m high, facing east. The body is carved from three layers of limestone: a hard lower layer, softer and more weathered middle layers forming most of the body, and better-quality stone in the head. The nose and beard are missing; the Dream Stela of Thutmose IV stands between the forepaws.</desc>
+    <defs>
+      <clipPath id="sd-body">
+        <path d={`M${X(0)},${Y(0)} L${X(0)},${Y(9)} Q${X(2)},${Y(12.5)} ${X(8)},${Y(12.5)} L${X(42)},${Y(12.8)} L${X(45)},${Y(14)} L${X(46)},${Y(19.6)} L${X(51.5)},${Y(20)} L${X(53.5)},${Y(16)} L${X(52)},${Y(12.5)} L${X(53)},${Y(10)} L${X(55)},${Y(3.6)} L${X(73)},${Y(3.6)} L${X(73)},${Y(0)} Z`} />
+      </clipPath>
+    </defs>
+    <line class="ground" x1="0" x2="1010" y1={Y(0)} y2={Y(0)} />
+    <g clip-path="url(#sd-body)">
+      <rect class="m1" x="0" y={Y(3)} width="1010" height={3 * S} />
+      <rect class="m2" x="0" y={Y(13)} width="1010" height={10 * S} />
+      {[4.6, 6.2, 7.8, 9.4, 11].map((h) => <line class="bed" x1="0" x2="1010" y1={Y(h)} y2={Y(h)} />)}
+      <rect class="m3" x="0" y={Y(22)} width="1010" height={9 * S} />
+    </g>
+    <path class="outline" d={`M${X(0)},${Y(0)} L${X(0)},${Y(9)} Q${X(2)},${Y(12.5)} ${X(8)},${Y(12.5)} L${X(42)},${Y(12.8)} L${X(45)},${Y(14)} L${X(46)},${Y(19.6)} L${X(51.5)},${Y(20)} L${X(53.5)},${Y(16)} L${X(52)},${Y(12.5)} L${X(53)},${Y(10)} L${X(55)},${Y(3.6)} L${X(73)},${Y(3.6)} L${X(73)},${Y(0)} Z`} />
+    <circle class="miss" cx={X(53.7)} cy={Y(16.5)} r="10" />
+    <path class="miss-beard" d={`M${X(52.5)},${Y(13.8)} L${X(53.6)},${Y(10.6)} L${X(52.8)},${Y(10.4)}`} />
+    <rect class="stela" x={X(57)} y={Y(3.6) - 34} width="12" height="34" />
+    <g class="leaders">
+      <line x1={X(55)} y1={Y(17)} x2={X(75.5)} y2={Y(20.2)} />
+      <line x1={X(53.8)} y1={Y(12)} x2={X(75.5)} y2={Y(12.3)} />
+      <line x1={X(63)} y1={Y(4.5)} x2={X(75.5)} y2={Y(7.3)} />
+    </g>
+    <g class="dims">
+      <line x1={X(0)} x2={X(73)} y1={Y(-2.5)} y2={Y(-2.5)} />
+      <text x={X(36.5)} y={Y(-4.6)}>about 73 m, paws to tail</text>
+      <line x1={X(-4)} x2={X(-4)} y1={Y(0)} y2={Y(20)} />
+      <text x={X(-5)} y={Y(21.5)}>about 20 m</text>
+    </g>
+    <g class="labels">
+      <text x={X(76)} y={Y(20.5)} class="l">Nose deliberately removed</text>
+      <text x={X(76)} y={Y(18.8)} class="l small">rod or chisel marks; missing before 1737</text>
+      <text x={X(76)} y={Y(12)} class="l">Beard (fragments in London and Cairo)</text>
+      <text x={X(76)} y={Y(7)} class="l">Dream Stela of Thutmose IV</text>
+      <text x={X(10)} y={Y(15.5)}>Member III: head, better stone</text>
+      <text x={X(20)} y={Y(8)}>Member II: body, soft and hard layers, most weathered</text>
+      <text x={X(18)} y={Y(1.2)}>Member I: hard base</text>
+      <text x={X(0)} y={Y(26)} class="dir l">West</text>
+      <text x={X(73)} y={Y(26)} class="dir">East →</text>
+    </g>
+  </svg>
+  <figcaption>Profile schematic; overall length and height to scale. Rock members after M. Lehner and the geological survey of K. L. Gauri. Blocks added in ancient and modern restorations around the body are not shown.</figcaption>
+</figure>
+
+<style>
+  .sphinx-dia { margin: 0; }
+  svg { width: 100%; height: auto; background: linear-gradient(#141019, #231b12); border: 1px solid var(--line-strong); border-radius: var(--radius); }
+  .ground { stroke: #7a6f58; stroke-width: 1.5; }
+  .m1 { fill: #7d6a4f; }
+  .m2 { fill: #b89a70; }
+  .m3 { fill: #d8c49a; }
+  .bed { stroke: #8f7654; stroke-width: 1.2; }
+  .outline { fill: none; stroke: #f0e4c6; stroke-width: 1.5; }
+  .miss { fill: none; stroke: #d98a7a; stroke-width: 2; stroke-dasharray: 4 3; }
+  .miss-beard { fill: none; stroke: #d98a7a; stroke-width: 2; stroke-dasharray: 3 2; }
+  .stela { fill: #9e3b2e; stroke: #e0a090; }
+  .leaders line { stroke: #a89c80; stroke-width: 0.8; }
+  .dims line { stroke: #f0b73a; stroke-width: 1.2; }
+  text { fill: #e9e0c8; font: 12px var(--font-body); text-anchor: middle; }
+  .l { text-anchor: start; }
+  .small { font-size: 10px; fill: #bfb297; }
+  .dir { fill: #bfb297; font-size: 11px; }
+  figcaption { margin-top: 0.6rem; font-size: 0.8rem; color: var(--text-muted); max-width: 80ch; }
+</style>

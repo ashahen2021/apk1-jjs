@@ -18,10 +18,10 @@ const root = path.resolve(fileURLToPath(import.meta.url), '../../..');
 const media = (...p) => path.join(root, 'src/assets/media', ...p);
 
 const JOBS = {
-  gizaToday: [media('monuments/great-pyramid-of-giza/giza-today.jpg')],
-  gizaBuilt: [media('monuments/great-pyramid-of-giza/giza-as-built.jpg')],
-  gizaCore: [media('monuments/great-pyramid-of-giza/khufu-core-masonry.jpg')],
-  gizaPanorama: [media('monuments/great-pyramid-of-giza/giza-plateau-360.jpg')],
+  gizaToday: [media('monuments/great-pyramid/giza-today.jpg')],
+  gizaBuilt: [media('monuments/great-pyramid/giza-as-built.jpg')],
+  gizaCore: [media('monuments/great-pyramid/khufu-core-masonry.jpg')],
+  gizaPanorama: [media('monuments/great-pyramid/giza-plateau-360.jpg')],
   stepPyramidView: [media('monuments/step-pyramid-of-djoser/step-pyramid.jpg')],
   stepPyramidPoster: [media('monuments/step-pyramid-of-djoser/model-poster.png')],
   stepPyramidGlb: [path.join(root, 'public/models/step-pyramid-of-djoser.glb')],
@@ -97,7 +97,7 @@ const page = await browser.newPage();
 page.on('console', (m) => m.type() === 'error' && console.error('[page]', m.text()));
 page.on('pageerror', (e) => console.error('[page]', e.message));
 await page.goto(`http://localhost:${port}/scripts/render/index.html`);
-await page.waitForFunction(() => window.jobs && window.tombJobs && window.ready);
+await page.waitForFunction(() => window.jobs && window.tombJobs && window.pyramidJobs && window.ready);
 await page.evaluate(() => window.ready);
 
 const selected = process.argv.slice(2).length ? process.argv.slice(2) : [...Object.keys(JOBS), ...Object.keys(TOMBS).map((t) => `tomb:${t}`)];
@@ -125,7 +125,33 @@ async function renderTomb(id) {
   console.log(`tomb:${id} → ${path.relative(root, dir)} (${out.length} images) + ${path.relative(root, glbPath)}`);
 }
 
+/** Great Pyramid GLB and one poster per view mode; the plateau GLB, posters and heroes. */
+async function renderGiza() {
+  const data = yaml.load(await readFile(path.join(root, 'src/data/structures/great-pyramid.yaml'), 'utf8'));
+  const gp = media('monuments/great-pyramid');
+  await mkdir(gp, { recursive: true });
+  for (const mode of await page.evaluate(() => window.pyramidJobs.modes)) {
+    await writeFile(path.join(gp, `model-${mode}.png`), decode(await page.evaluate(([d, m]) => window.pyramidJobs.poster(d, m), [data, mode])));
+  }
+  await writeFile(path.join(root, 'public/models/great-pyramid.glb'), decode(await page.evaluate((d) => window.pyramidJobs.glb(d), data)));
+  const pl = media('monuments/giza-plateau');
+  await mkdir(pl, { recursive: true });
+  for (const mode of ['built', 'today']) {
+    await writeFile(path.join(pl, `model-${mode}.png`), decode(await page.evaluate((m) => window.pyramidJobs.plateauPoster(m), mode)));
+  }
+  await writeFile(path.join(root, 'public/models/giza-plateau.glb'), decode(await page.evaluate(() => window.pyramidJobs.plateauGlb())));
+  await writeFile(path.join(pl, 'plateau.jpg'), decode(await page.evaluate(() => window.pyramidJobs.plateauHero())));
+  const sp = media('monuments/great-sphinx');
+  await mkdir(sp, { recursive: true });
+  await writeFile(path.join(sp, 'sphinx.jpg'), decode(await page.evaluate(() => window.pyramidJobs.sphinxHero())));
+  console.log('giza → great-pyramid posters + GLB, giza-plateau posters + GLB + hero, great-sphinx hero');
+}
+
 for (const name of selected) {
+  if (name === 'giza') {
+    await renderGiza();
+    continue;
+  }
   if (name.startsWith('tomb:')) {
     await renderTomb(name.slice(5));
     continue;

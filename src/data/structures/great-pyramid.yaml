@@ -1,0 +1,204 @@
+title: The Great Pyramid of Khufu
+source: The exterior and the positions of every passage and chamber follow W. M. F. Petrie's survey (1883), converted from inches to metres and measured from the centre of the base. Shafts, relieving chambers, the well shaft and the voids found by muon imaging are drawn from published descriptions and are approximate or uncertain, as marked.
+envelope:
+  base: 230.35
+  height: 146.7
+  today: 138.5
+  slope: 51°50′40″
+  measured: { length: 230.35, width: 230.35, height: 146.71, source: petrie-6, note: "Mean base 9068.8 in (230.35 m); height 5776 in (146.71 m) from the casing angle; mean orientation error of the sides −3′43″ (Petrie §§ 21–24). Height today about 138.5 m." }
+sources:
+  - id: petrie-7
+    label: "W. M. F. Petrie, The Pyramids and Temples of Gizeh (London, 1883), ch. 7, § 64: summary of interior positions"
+    url: http://www.ronaldbirdsall.com/gizeh/petrie/c7.html
+    used: Positions (distance north or south and east of the centre, level above the pavement) and sizes of the entrance, descending passage, subterranean chamber, ascending passage, Grand Gallery, Queen's Chamber, antechamber and King's Chamber.
+  - id: petrie-6
+    label: "W. M. F. Petrie, The Pyramids and Temples of Gizeh (London, 1883), ch. 6: outside of the Great Pyramid"
+    url: http://www.ronaldbirdsall.com/gizeh/petrie/c6.html
+    used: Base (230.35 m), casing angle (51°50′40″), height (146.7 m) and the orientation of the sides.
+  - id: scanpyramids-2017
+    label: "K. Morishima et al., \"Discovery of a big void in Khufu's Pyramid by observation of cosmic-ray muons\", Nature 552 (2017), 386–390"
+    url: https://doi.org/10.1038/nature24647
+    used: The Big Void above the Grand Gallery (at least 30 m long, cross-section similar to the Gallery; exact shape and inclination unknown).
+  - id: scanpyramids-2023
+    label: "S. Procureur et al., \"Precise characterization of a corridor-shaped structure in Khufu's Pyramid by observation of cosmic-ray muons\", Nature Communications 14 (2023), 1144"
+    url: https://doi.org/10.1038/s41467-023-36351-0
+    used: The North Face Corridor behind the chevron blocks above the entrance (about 9 m long, about 2 × 2 m).
+  - id: lehner
+    label: "M. Lehner, The Complete Pyramids (London, 1997); M. Lehner and Z. Hawass, Giza and the Pyramids (London, 2017)"
+    used: General description of the shafts, relieving chambers and well shaft, whose sizes are drawn approximately.
+elements:
+  - id: entrance
+    name: Original entrance and descending passage
+    kind: passage
+    path: [[7.29, 16.97, -101.85], [7.27, -30.0, -7.77]]
+    w: 1.05
+    h: 1.34
+    status: documented
+    measured: { width: 1.06, height: 1.2, source: petrie-7, note: "Entrance 16.97 m above the pavement, 7.29 m east of the centre; slope 26°31′23″; 1.06 × 1.20 m in section (41.6 × 47.3 in)." }
+    summary: The original entrance on the north face, 17 m above the base and 7.3 m east of the centre line, opens into a passage that slopes down at 26½° for about 105 m, through the masonry and deep into the bedrock.
+    label: [7.29, 16.97, -101.85]
+  - id: lower-passage
+    name: Lower horizontal passage
+    kind: passage
+    path: [[7.27, -30.0, -7.77], [7.26, -30.0, 1.02]]
+    w: 0.83
+    h: 0.91
+    status: documented
+    measured: { length: 8.79, source: petrie-7 }
+    summary: A short, low horizontal passage leads from the bottom of the descending passage into the subterranean chamber.
+  - id: subterranean
+    name: Subterranean chamber
+    kind: room
+    box: { x: [-6.37, 7.69], y: [-30.76, -26.82], z: [1.02, 9.3] }
+    status: documented
+    measured: { length: 14.06, width: 8.28, source: petrie-7, note: "Walls 250.6 in W and 302.9 in E of the axis, 40 in and 366 in S of the centre; roof 1056 in below the pavement. The floor was never finished." }
+    summary: A large chamber cut into the bedrock about 27 m below the base and never finished. Its floor is still a rough quarry surface of trenches and blocks, which shows how the rock was cut away.
+    caveat: The floor is irregular; the model shows it flat at about the lowest level.
+  - id: blind-passage
+    name: Blind passage
+    kind: passage
+    path: [[7.04, -30.81, 9.3], [7.04, -30.81, 25.7]]
+    w: 0.75
+    h: 0.75
+    status: approximate
+    measured: { length: 16.4, source: petrie-7, note: Rough driftway ending 1012 in south of the centre. }
+    summary: A rough, narrow passage runs south from the subterranean chamber and stops after about 16 m, apparently a first working cut never enlarged.
+  - id: ascending
+    name: Ascending passage
+    kind: passage
+    path: [[7.28, 4.39, -76.61], [7.29, 21.66, -41.32]]
+    w: 1.05
+    h: 1.34
+    status: documented
+    measured: { length: 39.29, source: petrie-7, note: "1546.8 in on the slope at 26°2′30″; still blocked at its lower end by three granite plugs." }
+    summary: Branching up from the descending passage, the ascending passage climbs at 26° for 39 m to the Grand Gallery. Its lower end is still sealed by three granite plug blocks.
+  - id: gallery
+    name: Grand Gallery
+    kind: passage
+    path: [[7.29, 21.66, -41.32], [7.29, 42.9, 1.57]]
+    w: 2.06
+    h: 8.6
+    status: documented
+    measured: { length: 46.68, width: 2.06, height: 8.6, source: petrie-7, note: "From 1626.8 in N of the centre at 852.6 in up, to 61.7 in S at 1689 in up; corbelled roof, about 8.6 m high." }
+    summary: A tall, narrow hall 46.7 m long with a corbelled roof of seven overlapping courses on each side, continuing the slope of the ascending passage up to the level of the King's Chamber.
+    caveat: The corbelled walls are drawn as a straight-sided prism.
+  - id: queens-passage
+    name: Horizontal passage to the Queen's Chamber
+    kind: passage
+    path: [[7.29, 21.66, -41.32], [7.29, 21.7, -8.12], [7.29, 21.19, -8.12], [7.29, 21.19, -2.59]]
+    w: 1.05
+    h: 1.17
+    status: documented
+    measured: { length: 38.73, source: petrie-7, note: A step down in the floor 8.12 m north of the centre. }
+    summary: A level passage runs south from the foot of the Grand Gallery to the Queen's Chamber, with a step down in its floor near the chamber.
+  - id: queens
+    name: Queen's Chamber
+    kind: room
+    box: { x: [2.07, 7.82], y: [21.19, 25.88], z: [-2.59, 2.64] }
+    apex: 27.4
+    status: documented
+    measured: { length: 5.75, width: 5.23, height: 6.21, source: petrie-7, note: "226.47 × 205.85 in; walls 184.47 in high, 245.1 in to the ridge. The ridge lies exactly on the east–west centre plane of the pyramid." }
+    summary: A gabled chamber with a niche in its east wall. Its ridge lies exactly on the pyramid's east–west centre line. Despite the modern name, there is no evidence that a queen was buried here.
+  - id: queens-shaft-n
+    name: Queen's Chamber north shaft
+    kind: shaft
+    start: [4.95, 22.9, -2.59]
+    dir: n
+    angle: 39
+    length: 60
+    status: approximate
+    summary: A narrow shaft, about 20 cm square, rises from the north wall. It was sealed at the chamber end and stops inside the masonry.
+    caveat: Angle and length approximate.
+  - id: queens-shaft-s
+    name: Queen's Chamber south shaft
+    kind: shaft
+    start: [4.95, 22.9, 2.64]
+    dir: s
+    angle: 39.6
+    length: 60
+    status: approximate
+    summary: The south shaft ends at a small limestone slab with two copper pins, found by Rudolf Gantenbrink's robot in 1993; the Djedi project looked behind it in 2011.
+    caveat: Angle and length approximate.
+  - id: antechamber
+    name: Antechamber
+    kind: room
+    box: { x: [6.4, 8.05], y: [42.99, 46.77], z: [2.89, 5.84] }
+    status: documented
+    measured: { length: 2.95, height: 3.78, source: petrie-7, note: "From 113.7 in to 229.8 in S of the centre; floor 1692.6 in, roof 1841.5 in above the pavement. Width drawn approximately." }
+    summary: A small granite-lined room between the Grand Gallery and the King's Chamber, with grooves for portcullis slabs that were lowered to seal the burial.
+    caveat: The east–west width is approximate.
+  - id: kings
+    name: King's Chamber
+    kind: room
+    box: { x: [-2.74, 7.75], y: [43.0, 48.83], z: [8.4, 13.64] }
+    status: documented
+    measured: { length: 10.47, width: 5.24, height: 5.83, source: petrie-7, note: "Walls 107.7 in W and 305.1 in E of the axis, 330.6 in and 537.0 in S of the centre; floor 1692.8 in, ceiling about 1922.6 in above the pavement: 20 × 10 royal cubits." }
+    summary: The burial chamber, built entirely of red Aswan granite and roofed with nine granite beams. A lidless granite coffer still stands at its west end.
+  - id: coffer
+    name: Granite coffer
+    kind: room
+    box: { x: [-2.2, -1.22], y: [43.0, 44.05], z: [9.88, 12.16] }
+    status: approximate
+    summary: The lidless red granite sarcophagus. It is slightly too wide to pass through the ascending passage, so it must have been put in place while the chamber was being built.
+    caveat: Position and size approximate.
+  - id: relieving
+    name: Relieving chambers
+    kind: room
+    box: { x: [-2.74, 7.75], y: [50.3, 62.3], z: [8.4, 13.64] }
+    apex: 65
+    status: approximate
+    summary: Five low compartments stacked above the King's Chamber, separated by granite beams and topped by a gable of limestone blocks, spread the weight of the masonry above. Workers' graffiti in them name Khufu's work gangs, including a date in the reign.
+    caveat: Drawn as a single volume; the heights of the five compartments and the gable are approximate.
+  - id: kings-shaft-n
+    name: King's Chamber north shaft
+    kind: shaft
+    start: [2.5, 44, 8.4]
+    dir: n
+    angle: 32.6
+    status: approximate
+    summary: Shafts from the north and south walls of the King's Chamber run out to the faces of the pyramid. Their purpose (ventilation, or a symbolic route for the king's spirit to the stars) is debated.
+    caveat: Drawn as straight lines; the real shafts bend around the Grand Gallery.
+  - id: kings-shaft-s
+    name: King's Chamber south shaft
+    kind: shaft
+    start: [2.5, 44, 13.64]
+    dir: s
+    angle: 45
+    status: approximate
+    summary: The south shaft of the King's Chamber, opening on the south face.
+  - id: well-shaft
+    name: Well shaft
+    kind: tunnel
+    path: [[6.3, 21.7, -40.8], [6.3, 3, -32], [6.6, -26.9, -14]]
+    w: 0.7
+    h: 0.9
+    status: approximate
+    summary: An irregular shaft from the foot of the Grand Gallery down to the descending passage, passing a natural cavity (the "grotto"). It may have been an escape route for the workers who sealed the ascending passage.
+    caveat: Course drawn approximately.
+  - id: mamun
+    name: Robbers' tunnel ("al-Ma'mun's tunnel")
+    kind: tunnel
+    path: [[2, 7, -106.2], [6.3, 5.5, -74.5]]
+    w: 1.6
+    h: 1.8
+    status: approximate
+    summary: A tunnel forced through the north face, traditionally credited to the caliph al-Ma'mun in the 9th century, joins the ascending passage just above its granite plugs. Visitors enter the pyramid through it today.
+    caveat: Course approximate.
+  - id: nfc
+    name: North Face Corridor (found 2023)
+    kind: void
+    box: { x: [6.3, 8.3], y: [20.5, 22.5], z: [-97.9, -88.9] }
+    status: approximate
+    measured: { length: 9, width: 2, height: 2, source: scanpyramids-2023, note: About 9 m long and 2 × 2 m, behind the chevron blocks above the entrance; confirmed with an endoscope in 2023. }
+    summary: A corridor-shaped space behind the great chevron blocks above the entrance, detected by muon imaging and confirmed with an endoscope in 2023. Its purpose is unknown; it may have relieved the weight over the entrance.
+    caveat: Position and size approximate.
+  - id: big-void
+    name: The "Big Void" (detected 2017)
+    kind: void
+    path: [[7.29, 36, -30], [7.29, 50, -2]]
+    w: 2.06
+    h: 8
+    status: uncertain
+    measured: { length: 30, source: scanpyramids-2017, note: At least 30 m long, with a cross-section similar to the Grand Gallery; horizontal or inclined. }
+    summary: A large empty space above the Grand Gallery, detected in 2017 by three independent muon-imaging teams. Its shape, exact position and purpose are unknown; it may be a construction gap or a second gallery-like space.
+    caveat: Drawn only to show that something is there. Its exact position, inclination and form have not been established.

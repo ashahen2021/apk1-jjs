@@ -1,0 +1,45 @@
+---
+/** Anatomy of a 4th Dynasty pyramid complex, from the river to the pyramid. */
+---
+
+<figure class="complex">
+  <svg viewBox="0 0 760 250" role="img" aria-labelledby="pc-t pc-d">
+    <title id="pc-t">Anatomy of a Giza pyramid complex</title>
+    <desc id="pc-d">From east to west: a harbour or canal at the edge of the floodplain, a valley temple, a covered causeway climbing the plateau, a mortuary temple against the pyramid's east face, the pyramid with its satellite and queens' pyramids, and boat pits.</desc>
+    <path class="plain" d="M0,190 L230,190 L760,120 L760,250 L0,250 Z" />
+    <path class="water" d="M0,196 L150,196 L150,212 L0,212 Z" />
+    <rect class="bld" x="160" y="160" width="60" height="30" />
+    <path class="causeway" d="M220,176 L520,132" />
+    <rect class="bld" x="520" y="112" width="40" height="22" />
+    <polygon class="pyr" points="560,134 650,30 740,120" />
+    <polygon class="pyr small" points="470,142 495,110 520,138" />
+    <rect class="pit" x="440" y="142" width="40" height="5" />
+    <g class="labels">
+      <text x="70" y="232">Harbour / canal</text>
+      <text x="190" y="150">Valley temple</text>
+      <text x="370" y="140">Covered causeway</text>
+      <text x="540" y="100">Mortuary temple</text>
+      <text x="660" y="22">Pyramid</text>
+      <text x="480" y="98">Queen's pyramid</text>
+      <text x="455" y="165">Boat pit</text>
+      <text x="40" y="22" class="dir">East (Nile)</text>
+      <text x="720" y="240" class="dir">West (desert)</text>
+    </g>
+  </svg>
+  <figcaption>Schematic, not to scale. Each king's complex at Giza follows this sequence: goods and people arrived by water, rituals began at the valley temple, and a causeway led up to the temple for the king's cult against the pyramid.</figcaption>
+</figure>
+
+<style>
+  .complex { margin: 0; }
+  svg { width: 100%; height: auto; background: linear-gradient(#141019, #221a12); border: 1px solid var(--line-strong); border-radius: var(--radius); }
+  .plain { fill: #6b5638; }
+  .water { fill: #3d6a8a; }
+  .bld { fill: #cdb893; stroke: #f0e4c6; }
+  .causeway { stroke: #d8c79f; stroke-width: 7; stroke-linecap: round; }
+  .pyr { fill: #e2d4b0; stroke: #fff2cc; }
+  .small { fill: #cdb893; }
+  .pit { fill: #0d0b08; }
+  .labels text { fill: #e9e0c8; font: 13px var(--font-body); text-anchor: middle; }
+  .dir { fill: #bfb297 !important; font-size: 11px !important; }
+  figcaption { margin-top: 0.6rem; font-size: 0.8rem; color: var(--text-muted); max-width: 80ch; }
+</style>

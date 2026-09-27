@@ -9,6 +9,11 @@ import { getMonuments, videosAbout } from '@/lib/content';
 import { cards } from '@/lib/cards';
 import { formatYear } from '@/lib/format';
 import { GLYPHS } from '@/lib/site';
+import GizaHubFeature from '@/components/giza/GizaHubFeature.astro';
+import GreatPyramidFeature from '@/components/giza/GreatPyramidFeature.astro';
+import SphinxFeature from '@/components/giza/SphinxFeature.astro';
+
+const FEATURES = { 'giza-plateau': GizaHubFeature, 'great-pyramid': GreatPyramidFeature, 'great-sphinx': SphinxFeature };
 
 export async function getStaticPaths() {
   return (await getMonuments()).map((monument) => ({ params: { slug: monument.id }, props: { monument } }));
@@ -21,6 +26,7 @@ const videos = await videosAbout('monuments', monument.id);
 const featuredVideo = videos.find((v) => v.data.youtubeId);
 const otherVideos = videos.filter((v) => v !== featuredVideo);
 const { Content } = await render(monument);
+const Feature = m.feature ? FEATURES[m.feature] : undefined;
 const mapUrl = m.coordinates && `https://www.openstreetmap.org/?mlat=${m.coordinates[0]}&mlon=${m.coordinates[1]}#map=16/${m.coordinates[0]}/${m.coordinates[1]}`;
 ---
 
@@ -41,6 +47,8 @@ const mapUrl = m.coordinates && `https://www.openstreetmap.org/?mlat=${m.coordin
     { label: 'Location', value: m.site },
     { label: 'Built', value: formatYear(m.built) },
     m.unesco && { label: 'UNESCO World Heritage', value: m.unesco },
+    ...m.facts,
+    m.site !== 'Giza Plateau' || monument.id === 'giza-plateau' ? undefined : { label: 'Site guide', value: 'Giza Plateau', href: '/monuments/giza-plateau/' },
     mapUrl && { label: 'Map', value: 'View on OpenStreetMap', href: mapUrl },
   ]}
   jsonLd={[
@@ -57,6 +65,10 @@ const mapUrl = m.coordinates && `https://www.openstreetmap.org/?mlat=${m.coordin
   ]}
 >
   <Content />
+
+  <Fragment slot="explore">
+    {Feature && <Feature />}
+  </Fragment>
 
   <Fragment slot="related">
     <Related title="Associated pharaohs" count={pharaohs.length}>

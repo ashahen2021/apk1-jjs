@@ -17,7 +17,7 @@ chapters:
   - { time: "24:18", title: What the ruins actually prove }
 dynasties: ["3", "4", "12", "18", "25"]
 pharaohs: [djoser, khufu, thutmose-iii, taharqa]
-monuments: [step-pyramid-of-djoser, great-pyramid-of-giza]
+monuments: [step-pyramid-of-djoser, great-pyramid]
 tombs: [kv34-thutmose-iii, kv43-thutmose-iv, kv17-seti-i, kv62-tutankhamun]
 description: Every royal pyramid was broken open and emptied. Nine hundred years of pyramid building treated as an engineering programme — and why it was shut down.
 ---

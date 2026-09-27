@@ -1,0 +1,24 @@
+---
+/** Visible, numbered reference list for a Giza page. Other components link to #ref-<id>. */
+import { REFS } from '@/lib/giza';
+export interface Props { ids: string[]; title?: string; id?: string }
+const { ids, title = 'References and source notes', id = 'references' } = Astro.props;
+const list = [...new Set(ids)].map((i) => REFS[i]).filter(Boolean);
+---
+
+<section class="refs" id={id} aria-labelledby={`${id}-title`}>
+  <h2 id={`${id}-title`}>{title}</h2>
+  <ol>
+    {list.map((r) => (
+      <li id={`ref-${r.id}`}>{r.url ? <a href={r.url} rel="noopener">{r.label}</a> : r.label}</li>
+    ))}
+  </ol>
+  <slot />
+</section>
+
+<style>
+  .refs { margin-top: clamp(2.5rem, 2rem + 2vw, 4rem); padding-top: 1.5rem; border-top: 1px solid var(--line); }
+  h2 { font-size: var(--step-2); margin: 0 0 1rem; }
+  ol { padding-left: 1.4rem; display: grid; gap: 0.55rem; max-width: 85ch; font-size: var(--step--1); color: var(--text-muted); }
+  a { overflow-wrap: anywhere; }
+</style>

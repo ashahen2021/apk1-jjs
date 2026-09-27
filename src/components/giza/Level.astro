@@ -1,0 +1,16 @@
+---
+/** Evidence-level chip used across the Giza pages. */
+import { LEVELS, type Level } from '@/lib/giza';
+export interface Props { level: Level }
+const { level } = Astro.props;
+---
+
+<span class:list={['level', `level--${level}`]} title={LEVELS[level].help}>{LEVELS[level].label}</span>
+
+<style>
+  .level { display: inline-block; font-size: 0.7rem; letter-spacing: 0.04em; padding: 0.12rem 0.55rem; border-radius: 999px; border: 1px solid currentColor; white-space: nowrap; font-weight: 600; }
+  .level--established { color: #6fc2b8; }
+  .level--plausible { color: #e0b458; }
+  .level--debated { color: #b9a0e6; border-style: dashed; }
+  .level--speculative { color: #d98a7a; border-style: dotted; }
+</style>

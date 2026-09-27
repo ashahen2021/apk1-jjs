@@ -1,0 +1,54 @@
+---
+/** Why a sledge slides more easily over damp sand (after Fall et al. 2014). */
+import Level from './Level.astro';
+---
+
+<figure class="wet">
+  <svg viewBox="0 0 640 230" role="img" aria-labelledby="ws-t ws-d">
+    <title id="ws-t">Sledge on dry and damp sand</title>
+    <desc id="ws-d">On dry sand a heap of sand builds up in front of the sledge and resists it. On damp sand, water bridges between the grains stiffen the surface, so no heap forms and the pulling force is much lower.</desc>
+    <g transform="translate(10 0)">
+      <text x="140" y="24" class="h">Dry sand</text>
+      <rect class="sand" x="0" y="150" width="290" height="60" />
+      <path class="berm" d="M200,150 Q222,122 246,150 Z" />
+      <rect class="sledge" x="70" y="140" width="130" height="10" rx="3" />
+      <rect class="block" x="90" y="80" width="90" height="60" />
+      <line class="rope" x1="200" y1="145" x2="280" y2="120" />
+      <text x="232" y="112" class="n">heap of sand pushed ahead</text>
+      <path class="arrow big" d="M250,70 L285,70" />
+      <text x="248" y="62" class="n">high pull</text>
+    </g>
+    <g transform="translate(340 0)">
+      <text x="140" y="24" class="h">Damp sand</text>
+      <rect class="sand wetted" x="0" y="150" width="290" height="60" />
+      <rect class="sledge" x="70" y="140" width="130" height="10" rx="3" />
+      <rect class="block" x="90" y="80" width="90" height="60" />
+      <line class="rope" x1="200" y1="145" x2="280" y2="120" />
+      <path class="drops" d="M214,128 l3,8 M222,124 l3,9 M230,130 l3,8" />
+      <text x="232" y="112" class="n">water poured ahead</text>
+      <path class="arrow" d="M250,70 L270,70" />
+      <text x="248" y="62" class="n">lower pull</text>
+    </g>
+  </svg>
+  <figcaption>
+    <Level level="established" />
+    In laboratory tests, the right amount of water (a few per cent) made sand stiff enough that no heap formed in front of a model sledge; on sand as varied as desert sand the pulling force fell by up to about half. Too much water made it worse again. A Middle Kingdom painting in the tomb of Djehutihotep at Deir el-Bersha shows a man pouring water in front of a sledge carrying a colossal statue.
+  </figcaption>
+</figure>
+
+<style>
+  .wet { margin: 0; }
+  svg { width: 100%; height: auto; background: radial-gradient(ellipse at 50% 30%, #231d14, #0d0b08 80%); border: 1px solid var(--line-strong); border-radius: var(--radius); }
+  .h { fill: #e9e0c8; font: 600 15px var(--font-body); text-anchor: middle; }
+  .n { fill: #bfb297; font: 11px var(--font-body); }
+  .sand { fill: #b3955f; }
+  .wetted { fill: #8d7446; }
+  .berm { fill: #c9a86c; }
+  .sledge { fill: #6b4f2e; }
+  .block { fill: #d8cba8; stroke: #f0e4c6; }
+  .rope { stroke: #e9e0c8; stroke-width: 2; }
+  .drops { stroke: #7fa7d9; stroke-width: 2; }
+  .arrow { stroke: #f0b73a; stroke-width: 4; marker-end: none; }
+  .big { stroke-width: 8; }
+  figcaption { margin-top: 0.7rem; font-size: 0.85rem; color: var(--text-muted); display: grid; gap: 0.4rem; justify-items: start; max-width: 80ch; }
+</style>

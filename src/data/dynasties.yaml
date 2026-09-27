@@ -32,7 +32,7 @@
   number: 4
   media:
     hero:
-      src: ../assets/media/monuments/great-pyramid-of-giza/giza-today.jpg
+      src: ../assets/media/monuments/great-pyramid/giza-today.jpg
       alt: The pyramids of Giza, built by the kings of the Fourth Dynasty, at golden hour.
       kind: reconstruction
       credit: NeoKemetAI 3D reconstruction

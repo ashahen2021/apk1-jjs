@@ -1,0 +1,126 @@
+---
+/**
+ * North–south section through the Great Pyramid, looking west, drawn to scale
+ * from the same structure data as the 3D model (Petrie's survey). Numbers match
+ * the list of spaces on the page.
+ */
+import { anchor, type Structure, type Element } from '@/lib/structures';
+
+export interface Props { structure: Structure; numbers: Record<string, string> }
+const { structure: s, numbers } = Astro.props;
+const half = s.envelope.base / 2, H = s.envelope.height, today = s.envelope.today;
+
+// View: z (north → south) to the right, y up. 1 unit = 1 m.
+const M = { l: 12, r: 12, t: 16, b: 46 };
+const x0 = -half - M.l, x1 = half + M.r, y0 = -45, y1 = H + M.t;
+const W = x1 - x0, Hh = y1 - y0;
+const X = (z: number) => (z - x0).toFixed(2);
+const Y = (y: number) => (y1 - y).toFixed(2);
+const pts = (a: number[][]) => a.map(([z, y]) => `${X(z)},${Y(y)}`).join(' ');
+const rT = half * (1 - today / H);
+
+function shape(e: Element): string | undefined {
+  if (e.box) {
+    const [za, zb] = e.box.z, [ya, yb] = e.box.y;
+    const p = [[za, ya], [zb, ya], [zb, yb]];
+    if (e.apex) p.push([(za + zb) / 2, e.apex]);
+    p.push([za, yb]);
+    return pts(p);
+  }
+  if (e.path && e.h) {
+    const top = e.path.map(([, y, z]) => [z, y + e.h!]);
+    const bottom = e.path.map(([, y, z]) => [z, y]);
+    return pts([...bottom, ...top.reverse()]);
+  }
+}
+function line(e: Element): string | undefined {
+  if (e.kind !== 'shaft' || !e.start) return;
+  const t = Math.tan((e.angle! * Math.PI) / 180), sgn = e.dir === 'n' ? -1 : 1;
+  const slope = H / half;
+  const d = e.length ? e.length * Math.cos((e.angle! * Math.PI) / 180) : (half - e.start[1] / slope - sgn * e.start[2]) / (1 + t / slope);
+  return pts([[e.start[2], e.start[1]], [e.start[2] + sgn * d, e.start[1] + t * d]]);
+}
+const draw = s.elements.filter((e) => e.id !== 'coffer');
+---
+
+<figure class="gp-section">
+  <svg viewBox={`0 0 ${W} ${Hh}`} role="img" aria-labelledby="gp-sec-t gp-sec-d">
+    <title id="gp-sec-t">Section through the Great Pyramid, looking west</title>
+    <desc id="gp-sec-d">A north–south section drawn to scale from Petrie's survey, showing the entrance, descending and ascending passages, subterranean chamber, Grand Gallery, Queen's and King's Chambers, relieving chambers, shafts and the voids detected by muon imaging.</desc>
+    <defs>
+      <pattern id="gp-hatch" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+        <line x1="0" y1="0" x2="0" y2="3" stroke="#7fa7d9" stroke-width="0.8" />
+      </pattern>
+    </defs>
+    <rect class="rock" x="0" y={Y(0)} width={W} height={45} />
+    <line class="ground" x1="0" x2={W} y1={Y(0)} y2={Y(0)} />
+    <polygon class="core" points={pts([[-half, 0], [-rT, today], [rT, today], [half, 0]])} />
+    <polygon class="casing" points={pts([[-half, 0], [0, H], [half, 0]])} />
+    {draw.map((e) => {
+      const d = shape(e);
+      const l = line(e);
+      return (
+        <g class:list={['el', `el--${e.status}`, `el--${e.kind}`]}>
+          {d && <polygon points={d} fill={e.status === 'uncertain' ? 'url(#gp-hatch)' : undefined} />}
+          {l && <polyline points={l} />}
+        </g>
+      );
+    })}
+    {draw.filter((e) => numbers[e.id]).map((e) => {
+      const [, y, z] = anchor(e);
+      return (
+        <g class="num" transform={`translate(${X(z)} ${Y(y)})`}>
+          <circle r="3.6" />
+          <text dy="1.35">{numbers[e.id]}</text>
+        </g>
+      );
+    })}
+    <g class="labels">
+      <text x={X(-half + 4)} y={Y(-6)}>North</text>
+      <text x={X(half - 4)} y={Y(-6)} text-anchor="end">South</text>
+      <text x={X(8)} y={Y(H + 4)}>Original summit 146.7 m</text>
+      <text x={X(rT + 4)} y={Y(today - 1)}>Today about 138.5 m</text>
+      <text x={X(-half + 4)} y={Y(-40)} class="small">Bedrock</text>
+    </g>
+    <g class="scale" transform={`translate(${X(half - 60)} ${Y(-36)})`}>
+      <line x1="0" x2="50" y1="0" y2="0" />
+      <line x1="0" x2="0" y1="-2" y2="2" />
+      <line x1="50" x2="50" y1="-2" y2="2" />
+      <text x="25" y="-3.5" text-anchor="middle" class="small">50 m</text>
+    </g>
+  </svg>
+  <figcaption>
+    <span class="key"><i class="k k--doc"></i>Surveyed (Petrie 1883)</span>
+    <span class="key"><i class="k k--app"></i>Approximate</span>
+    <span class="key"><i class="k k--unc"></i>Detected, form not established</span>
+    <span class="key"><i class="k k--cas"></i>Lost casing</span>
+    <span class="note">Drawn to scale in metres; passages lie about 7 m east of the centre line and are projected onto one plane. Numbers match the list below.</span>
+  </figcaption>
+</figure>
+
+<style>
+  .gp-section { margin: 0; }
+  svg { display: block; width: 100%; height: auto; background: radial-gradient(ellipse at 50% 30%, #231d14, #0d0b08 80%); border: 1px solid var(--line-strong); border-radius: var(--radius); }
+  .rock { fill: #1d1912; }
+  .ground { stroke: #7a6f58; stroke-width: 0.5; }
+  .core { fill: #3f3322; }
+  .casing { fill: none; stroke: #e9e0c8; stroke-width: 0.6; stroke-dasharray: 3 2; }
+  .el polygon { stroke-width: 0.3; }
+  .el--documented polygon { fill: #f0b73a; stroke: #f0b73a; }
+  .el--approximate polygon { fill: #e98a4f; stroke: #e98a4f; opacity: 0.9; }
+  .el--uncertain polygon { stroke: #7fa7d9; stroke-width: 0.5; stroke-dasharray: 1.5 1; }
+  .el polyline { fill: none; stroke: #e98a4f; stroke-width: 0.6; }
+  .num circle { fill: #0b0a08; stroke: #e9e0c8; stroke-width: 0.5; }
+  .num text { fill: #e9e0c8; font: 700 4px var(--font-body); text-anchor: middle; }
+  .labels text, .scale text { fill: #d8cba8; font: 5px var(--font-body); }
+  .small { font-size: 4px !important; fill: #a89c80 !important; }
+  .scale line { stroke: #d8cba8; stroke-width: 0.5; }
+  figcaption { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; margin-top: 0.6rem; font-size: 0.8rem; color: var(--text-muted); }
+  .key { display: inline-flex; align-items: center; gap: 0.4rem; }
+  .k { width: 0.9rem; height: 0.6rem; display: inline-block; border-radius: 2px; }
+  .k--doc { background: #f0b73a; }
+  .k--app { background: #e98a4f; }
+  .k--unc { border: 1px dashed #7fa7d9; background: repeating-linear-gradient(45deg, transparent 0 2px, #7fa7d9 2px 3px); }
+  .k--cas { border: 1px dashed #e9e0c8; }
+  .note { flex-basis: 100%; color: var(--text-faint); }
+</style>

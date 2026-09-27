@@ -244,6 +244,16 @@ The explorer ships as HTML and SVG: plan, profile and every chamber description 
 
 Controls: tabs (3D, plan, depth profile), toggles for the path, evidence colours, hotspots and labels, a Full view button and a guided tour. Keyboard: `N`/`P` next/previous space or tour stop, `F` full view, `1`–`3` views, `R` `E` `H` `L` toggles, `T` tour, `Esc` end tour. Tabs follow the ARIA tabs pattern, plan spaces, scene markers and 3D hotspots are focusable buttons, and the chamber list becomes a swipeable strip on phones.
 
+## Giza cluster: structure models, diagrams and evidence levels
+
+The Giza Plateau hub (`/monuments/giza-plateau/`), the Great Pyramid (`/monuments/great-pyramid/`, formerly `/monuments/great-pyramid-of-giza/`, which redirects) and the Great Sphinx (`/monuments/great-sphinx/`) are monument entries with `feature: giza-plateau | great-pyramid | great-sphinx`. The monument page renders the matching component from `src/components/giza/` in its explore slot.
+
+- **Structure data** — `src/data/structures/great-pyramid.yaml` (collection `structures`): every passage and chamber in metres from the centre of the base (x east, y up, z south), from Petrie's survey (§ 64), with `status` (documented / approximate / uncertain), `measured` figures and a source key. The 3D model (`scripts/render/pyramid.js`), the to-scale section (`giza/PyramidSection`), the hotspots and the list of spaces are all generated from it.
+- **Rendering** — `node scripts/render/render.mjs giza` writes `public/models/great-pyramid.glb`, `public/models/giza-plateau.glb`, one poster per view mode, the plateau hero and the Sphinx massing render. View modes are defined twice and must match: `MODES` in `scripts/render/pyramid-scenes.js` and `PYRAMID_MODES` in `src/lib/structures.ts` (material names in `MAT`).
+- **Viewer** — `media/GizaModel` switches modes by showing and hiding named materials; the same buttons switch the pre-rendered posters before 3D loads or when WebGL is missing.
+- **Evidence levels** — text content lives in `src/lib/giza.ts`: construction theories, "what the evidence shows", "what remains debated", Sphinx positions and the reference list. Every claim is tagged `established`, `plausible`, `debated` or `speculative` and cites entries in `REFS`; pages print a numbered reference list.
+- **Diagrams** — inline SVG components (plateau plan, pyramid complex, section, ramp comparison, wet sand, alignment, construction sequence, Sphinx elevation, timeline). Keep them labelled as schematic where they are, and never present an interpretation as evidence.
+
 ## SEO
 
 - Per-page title, description, canonical URL, Open Graph and Twitter cards (`components/Seo.astro`)

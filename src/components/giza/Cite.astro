@@ -1,0 +1,14 @@
+---
+/** Inline citation: short links to entries in the page's reference list. */
+import { REFS } from '@/lib/giza';
+export interface Props { ids: string[] }
+const { ids } = Astro.props;
+const short = (label: string) => label.split(/[,:]/)[0].replace(/^(W\. M\. F\. |M\. |P\. |H\. |A\. |K\. |G\. |J\.-P\. |S\. |Z\. |R\. M\. |C\. D\. |R\. )/, '');
+---
+
+<span class="cite">{ids.filter((i) => REFS[i]).map((i, n) => <>{n > 0 && '; '}<a href={`#ref-${i}`}>{short(REFS[i].label)}</a></>)}</span>
+
+<style>
+  .cite { font-size: 0.78rem; color: var(--text-faint); }
+  .cite a { color: var(--text-muted); }
+</style>

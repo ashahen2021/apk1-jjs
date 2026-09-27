@@ -198,6 +198,46 @@ const plans = defineCollection({
   }),
 });
 
+/**
+ * Built structures modelled in 3D from published surveys (the Great Pyramid).
+ * Metres from the centre of the base: x east, y up, z south.
+ */
+const point = z.tuple([z.number(), z.number(), z.number()]);
+const structures = defineCollection({
+  loader: glob({ pattern: '*.yaml', base: './src/data/structures' }),
+  schema: z.object({
+    title: z.string(),
+    source: z.string(),
+    envelope: z.object({ base: z.number(), height: z.number(), today: z.number(), slope: z.string(), measured: measured.optional() }),
+    sources: z.array(z.object({ id: z.string(), label: z.string(), url: z.url().optional(), used: z.string() })),
+    elements: z.array(
+      z.object({
+        id: z.string(),
+        name: z.string(),
+        /** passage: prism along a centre line (vertical height h); room: box; shaft: thin line to the face. */
+        kind: z.enum(['passage', 'room', 'shaft', 'void', 'tunnel']),
+        path: z.array(point).optional(),
+        w: z.number().optional(),
+        h: z.number().optional(),
+        box: z.object({ x: range, y: range, z: range }).optional(),
+        /** Ridge height of a gabled roof (rooms). */
+        apex: z.number().optional(),
+        /** Shafts: start point, direction ('n' | 's'), angle in degrees, length (m, optional: to the face). */
+        start: point.optional(),
+        dir: z.enum(['n', 's']).optional(),
+        angle: z.number().optional(),
+        length: z.number().optional(),
+        status,
+        measured: measured.optional(),
+        summary: z.string(),
+        caveat: z.string().optional(),
+        /** Label anchor for hotspots and diagrams; defaults to the element's centre. */
+        label: point.optional(),
+      }),
+    ),
+  }),
+});
+
 const periods = defineCollection({
   loader: file('src/data/periods.yaml'),
   schema: z.object({
@@ -250,7 +290,11 @@ const monuments = defineCollection({
   schema: ({ image }) => z.object({
     media: media(image),
     name: z.string(),
-    type: z.enum(['pyramid', 'temple', 'mortuary temple', 'rock-cut temple', 'sphinx', 'obelisk', 'city']),
+    type: z.enum(['pyramid', 'temple', 'mortuary temple', 'rock-cut temple', 'sphinx', 'obelisk', 'city', 'necropolis']),
+    /** Showcase pages with a dedicated feature section (3D model, diagrams, sources). */
+    feature: z.enum(['giza-plateau', 'great-pyramid', 'great-sphinx']).optional(),
+    /** Extra facts shown in the fact panel. */
+    facts: z.array(z.object({ label: z.string(), value: z.string() })).default([]),
     ...place,
     built: year,
     pharaohs: z.array(reference('pharaohs')).default([]),
@@ -319,4 +363,5 @@ const videos = defineCollection({
   }),
 });
 
-export const collections = { periods, dynasties, pharaohs, monuments, tombs, artifacts, videos, plans };
+export const collections = {
+  structures, periods, dynasties, pharaohs, monuments, tombs, artifacts, videos, plans };

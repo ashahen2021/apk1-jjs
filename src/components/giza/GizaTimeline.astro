@@ -1,0 +1,46 @@
+---
+/** The 4th Dynasty reigns in which Giza was built, on a shared time axis. */
+import { DYNASTY4 } from '@/lib/giza';
+import { formatRange, formatYear } from '@/lib/format';
+
+const start = -2620, end = -2490;
+const pct = (y: number) => ((y - start) / (end - start)) * 100;
+const ticks = [-2600, -2575, -2550, -2525, -2500];
+---
+
+<figure class="gt">
+  <ol class="rows">
+    {DYNASTY4.map((r) => (
+      <li class:list={[{ giza: ['Khufu', 'Khafre', 'Menkaure'].includes(r.name) }]}>
+        <p class="who">{r.href ? <a href={r.href}>{r.name}</a> : r.name}<span>{formatRange(r.from, r.to)}</span></p>
+        <div class="track"><span class="bar" style={`left:${pct(r.from)}%;width:${pct(r.to) - pct(r.from)}%`}></span></div>
+        <p class="note">{r.note}</p>
+      </li>
+    ))}
+  </ol>
+  <div class="axis" aria-hidden="true">
+    {ticks.map((t) => <span style={`left:${pct(t)}%`}>{formatYear(t)}</span>)}
+  </div>
+  <figcaption>The Old Kingdom, 4th Dynasty. Reign dates are approximate and differ by a few decades between chronologies; highlighted reigns built at Giza.</figcaption>
+</figure>
+
+<style>
+  .gt { margin: 0; }
+  .rows { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; }
+  li { display: grid; gap: 0.2rem 1rem; grid-template-columns: 11rem 1fr; align-items: center; }
+  .who { margin: 0; font-weight: 600; display: grid; }
+  .who span { font-weight: 400; font-size: 0.75rem; color: var(--text-faint); }
+  .track { position: relative; height: 0.8rem; background: rgb(255 255 255 / 0.04); border-radius: 999px; }
+  .bar { position: absolute; top: 0; bottom: 0; border-radius: 999px; background: #8a7353; }
+  .giza .bar { background: var(--gold); }
+  .note { grid-column: 2; margin: 0; font-size: 0.82rem; color: var(--text-muted); }
+  .axis { position: relative; height: 1.4rem; margin: 0.5rem 0 0 12rem; border-top: 1px solid var(--line); }
+  .axis span { position: absolute; top: 0.2rem; transform: translateX(-50%); font-size: 0.7rem; color: var(--text-faint); white-space: nowrap; }
+  @media (max-width: 40rem) {
+    li { grid-template-columns: 1fr; }
+    .note { grid-column: 1; }
+    .axis { margin-left: 0; }
+    .axis span:nth-child(even) { display: none; }
+  }
+  figcaption { margin-top: 0.6rem; font-size: 0.8rem; color: var(--text-faint); }
+</style>

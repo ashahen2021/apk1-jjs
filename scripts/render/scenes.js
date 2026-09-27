@@ -621,4 +621,4 @@ window.jobs = {
 };
 window.ready = document.fonts.load('64px "Noto Sans Egyptian Hieroglyphs"', '𓂀𓄤𓇳').then(() => true);
 
-export { finish, makeRenderer, arrayBufferToBase64, stone };
+export { finish, makeRenderer, arrayBufferToBase64, stone, desert, gizaScene, add };

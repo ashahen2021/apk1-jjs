@@ -1,0 +1,191 @@
+---
+/**
+ * Showcase sections for the Great Pyramid: the interactive 3D model with view
+ * modes, a to-scale section, the list of internal spaces with their evidence,
+ * key dimensions, "How was it built?", what the evidence shows, what is still
+ * debated, and visible sources.
+ */
+import { getEntry } from 'astro:content';
+import { statSync } from 'node:fs';
+import type { ImageMetadata } from 'astro';
+import MediaSection from '@/components/media/MediaSection.astro';
+import GizaModel from '@/components/media/GizaModel.astro';
+import PyramidSection from './PyramidSection.astro';
+import ConstructionSequence from './ConstructionSequence.astro';
+import RampDiagrams from './RampDiagrams.astro';
+import WetSand from './WetSand.astro';
+import Alignment from './Alignment.astro';
+import Level from './Level.astro';
+import LevelKey from './LevelKey.astro';
+import Cite from './Cite.astro';
+import References from './References.astro';
+import { EVIDENCE_LABEL, MAT, PYRAMID_MODES, pyramidOrbit, pyramidSpots } from '@/lib/structures';
+import { DEBATED, EVIDENCE_SHOWS, THEORIES } from '@/lib/giza';
+
+const structure = (await getEntry('structures', 'great-pyramid'))!.data;
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/media/monuments/great-pyramid/model-*.png', { eager: true });
+const posters = Object.fromEntries(PYRAMID_MODES.map((m) => [m.id, images[`/src/assets/media/monuments/great-pyramid/model-${m.id}.png`].default]));
+const materials = Object.fromEntries(PYRAMID_MODES.map((m) => [m.id, m.parts.map((p) => MAT[p])]));
+const orbits = Object.fromEntries(PYRAMID_MODES.map((m) => [m.id, pyramidOrbit(structure, m.camera)]));
+const spots = pyramidSpots(structure).map((s) => ({ ...s, material: MAT[s.status] }));
+const numbers = Object.fromEntries(spots.map((s) => [s.id, s.label]));
+const sizeKB = Math.round(statSync(new URL('../../../public/models/great-pyramid.glb', import.meta.url)).size / 1024);
+const srcN = new Map(structure.sources.map((s, i) => [s.id, i + 1]));
+const f = (n?: number) => (n === undefined ? '—' : String(Math.round(n * 100) / 100));
+
+const dims = [
+  { k: 'Base, each side', v: '230.35 m (mean; the four sides differ by only a few centimetres)', s: 'petrie' },
+  { k: 'Original height', v: 'about 146.7 m (280 royal cubits)', s: 'petrie' },
+  { k: 'Height today', v: 'about 138.5 m; the capstone and upper courses are lost', s: 'lehnerHawass' },
+  { k: 'Slope of the faces', v: '51°50′40″ (a rise of 14 for every 11 horizontally)', s: 'petrie' },
+  { k: 'Orientation', v: 'sides within about 3–4 arcminutes of true north', s: 'petrie' },
+  { k: 'Volume and blocks', v: 'about 2.6 million m³ including a rock outcrop in the core; often estimated at about 2.3 million blocks', s: 'lehner97' },
+  { k: 'Entrance', v: 'north face, 16.97 m above the base, 7.29 m east of the centre line', s: 'petrie' },
+  { k: 'King\'s Chamber', v: '10.47 × 5.24 m, 5.83 m high, floor 43 m above the base; red granite', s: 'petrie' },
+];
+const allRefs = [...new Set([...THEORIES.flatMap((t) => t.refs), ...EVIDENCE_SHOWS.flatMap((e) => e.refs), ...DEBATED.flatMap((e) => e.refs), 'petrie', 'lehner97', 'lehnerHawass', 'fall', 'spence', 'dash', 'morishima', 'procureur', 'unesco'])];
+---
+
+<MediaSection id="explore-3d" kicker="Interactive model" title="Explore the Great Pyramid in 3D" lede="Switch between the pyramid as built, as it stands today, a cutaway and the chambers alone, or compare the main construction proposals. Hotspots in the cutaway and chamber views are numbered as in the list below.">
+  <GizaModel
+    id="gp-model"
+    src="/models/great-pyramid.glb"
+    alt="Interactive 3D model of the Great Pyramid of Khufu."
+    modes={PYRAMID_MODES}
+    materials={materials}
+    posters={posters}
+    orbits={orbits}
+    spots={spots}
+    sizeKB={sizeKB}
+    caption="NeoKemetAI interpretive model at 1:250. Passages and chambers are placed from Petrie's survey; see the sources below. Shafts are drawn thicker than they are so they can be seen."
+  />
+</MediaSection>
+
+<MediaSection id="inside" kicker="Inside the pyramid" title="Passages and chambers" lede="A section through the pyramid, looking west, drawn to scale from the same survey data as the 3D model.">
+  <PyramidSection structure={structure} numbers={numbers} />
+  <ol class="spaces" id="gp-model-list">
+    {structure.elements.map((e) => (
+      <li id={`gp-model-${e.id}`} class:list={[`st--${e.status}`]}>
+        <p class="head">{numbers[e.id] && <span class="num">{numbers[e.id]}</span>}<strong>{e.name}</strong><span class:list={['ev', `ev--${e.status}`]}>{EVIDENCE_LABEL[e.status]}</span></p>
+        <p>{e.summary}</p>
+        {e.measured && (
+          <p class="meas">
+            {(e.measured.length || e.measured.width || e.measured.height) && <>Published: {[e.measured.length && `${f(e.measured.length)} m long`, e.measured.width && `${f(e.measured.width)} m wide`, e.measured.height && `${f(e.measured.height)} m high`].filter(Boolean).join(', ')}. </>}
+            {e.measured.note} <a href={`#gp-src-${e.measured.source}`}>[{srcN.get(e.measured.source)}]</a>
+          </p>
+        )}
+        {e.caveat && <p class="caveat"><strong>Note:</strong> {e.caveat}</p>}
+      </li>
+    ))}
+  </ol>
+
+  <section class="recon" aria-labelledby="gp-recon">
+    <h3 id="gp-recon">Sources for this reconstruction</h3>
+    <p>{structure.source}</p>
+    <ol>
+      {structure.sources.map((s) => (
+        <li id={`gp-src-${s.id}`}>
+          {s.url ? <a href={s.url} rel="noopener">{s.label}</a> : s.label}
+          <span class="used"><strong>Used for:</strong> {s.used}</span>
+        </li>
+      ))}
+    </ol>
+    <p class="small">Views marked "Interpretation" show construction proposals, not evidence. The "as built" casing and the stepped core "today" are visualisations drawn to the published outline; individual courses and blocks are not surveyed in the model.</p>
+  </section>
+</MediaSection>
+
+<MediaSection id="dimensions" kicker="Facts and figures" title="Dimensions and construction features">
+  <dl class="dims">
+    {dims.map((d) => (
+      <div><dt>{d.k}</dt><dd>{d.v} <Cite ids={[d.s]} /></dd></div>
+    ))}
+  </dl>
+  <p class="text">The core is built of local limestone laid in horizontal courses around a natural outcrop of rock. Outside it lay the casing of fine white Tura limestone, cut to the slope and polished; almost all of it was taken away in the Middle Ages as building stone, and a few casing blocks remain in place at the foot of the north face. Above the King's Chamber, five low compartments roofed with granite beams and a limestone gable relieve the weight of the masonry; builders' graffiti there name Khufu's work gangs. <Cite ids={['petrie', 'lehnerHawass']} /></p>
+</MediaSection>
+
+<MediaSection id="how-built" kicker="The big question" title="How was it built?" lede="No ancient text describes how the pyramids were raised, but quarries, papyri, the workers' town and experiments narrow the possibilities. Each proposal below is labelled by how well the evidence supports it.">
+  <LevelKey />
+  <h3 class="sub">The building sequence</h3>
+  <ConstructionSequence />
+  <h3 class="sub">Ramp proposals compared</h3>
+  <RampDiagrams />
+  <p class="text">The 3D model above can show each ramp proposal on the pyramid: choose a view under "Construction interpretations".</p>
+
+  <h3 class="sub">The main proposals and the evidence for them</h3>
+  <div class="theories">
+    {THEORIES.map((t) => (
+      <article class:list={['theory', `theory--${t.level}`]} id={`theory-${t.id}`}>
+        <header><h4>{t.title}</h4><Level level={t.level} /></header>
+        <p>{t.summary}</p>
+        <div class="cols">
+          <div><p class="lab">What supports it</p><ul>{t.evidence.map((e) => <li>{e}</li>)}</ul></div>
+          <div><p class="lab">Problems and open questions</p><ul>{t.problems.map((e) => <li>{e}</li>)}</ul></div>
+        </div>
+        <p class="src">Sources: <Cite ids={t.refs} /></p>
+      </article>
+    ))}
+  </div>
+
+  <h3 class="sub">Moving stone over sand</h3>
+  <WetSand />
+  <h3 class="sub">Aligning the pyramid</h3>
+  <Alignment />
+</MediaSection>
+
+<MediaSection id="evidence" kicker="Weighing it up" title="What the evidence shows">
+  <ul class="claims">
+    {EVIDENCE_SHOWS.map((e) => <li><Level level="established" /> <span>{e.text} <Cite ids={e.refs} /></span></li>)}
+  </ul>
+  <h2 class="h2">What remains debated</h2>
+  <ul class="claims">
+    {DEBATED.map((e) => <li><Level level="debated" /> <span>{e.text} <Cite ids={e.refs} /></span></li>)}
+  </ul>
+  <p class="text">Claims that the pyramid was built by a lost civilisation or with unknown technology are not supported by any archaeological evidence. The quarries, the workers' town and cemetery, the builders' graffiti and Merer's papyri all tie the monument to Khufu's Egypt.</p>
+</MediaSection>
+
+<References ids={allRefs} />
+
+<style>
+  .spaces { list-style: none; padding: 0; margin: 1.5rem 0 0; display: grid; gap: 0.7rem; grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); }
+  .spaces li { border: 1px solid var(--line); border-left: 3px solid #f0b73a; border-radius: var(--radius); padding: 0.8rem 0.9rem; background: rgb(255 255 255 / 0.015); }
+  .spaces li.st--approximate { border-left-color: #e98a4f; }
+  .spaces li.st--uncertain { border-left: 3px dashed #7fa7d9; }
+  .spaces p { margin: 0.3rem 0 0; font-size: 0.88rem; color: var(--text-muted); }
+  .spaces .head { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.6rem; margin: 0; color: var(--text); }
+  .num { display: grid; place-items: center; width: 1.5rem; height: 1.5rem; border-radius: 50%; background: var(--gold); color: var(--basalt); font-size: 0.72rem; font-weight: 700; }
+  .ev { font-size: 0.68rem; padding: 0.08rem 0.45rem; border-radius: 999px; border: 1px solid currentColor; }
+  .ev--documented { color: #6fc2b8; }
+  .ev--approximate { color: #e98a4f; }
+  .ev--uncertain { color: #7fa7d9; border-style: dashed; }
+  .meas { font-size: 0.8rem !important; color: var(--text-faint) !important; }
+  .caveat { font-size: 0.8rem !important; }
+  .recon { margin-top: 2rem; padding: 1.2rem 1.3rem; border: 1px solid var(--line-strong); border-radius: var(--radius); }
+  .recon h3 { margin: 0 0 0.6rem; font-size: var(--step-1); }
+  .recon p { margin: 0 0 0.6rem; color: var(--text-muted); max-width: 80ch; }
+  .recon ol { padding-left: 1.3rem; display: grid; gap: 0.6rem; margin: 0 0 0.8rem; }
+  .recon a { overflow-wrap: anywhere; }
+  .used { display: block; font-size: 0.82rem; color: var(--text-muted); margin-top: 0.15rem; }
+  .small { font-size: 0.8rem; }
+  .dims { display: grid; gap: 0.1rem; margin: 0 0 1.2rem; grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); }
+  .dims div { display: grid; grid-template-columns: 9.5rem 1fr; gap: 0.8rem; padding: 0.6rem 0; border-bottom: 1px solid var(--line); }
+  .dims dt { color: var(--text-faint); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; }
+  .dims dd { margin: 0; }
+  @media (max-width: 30rem) { .dims div { grid-template-columns: 1fr; gap: 0.2rem; } }
+  .text { max-width: 75ch; color: var(--text-muted); }
+  .sub { margin: 2.2rem 0 1rem; font-size: var(--step-1); }
+  .h2 { margin: 2.5rem 0 1rem; font-size: var(--step-2); }
+  .theories { display: grid; gap: 1rem; }
+  .theory { border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem 1.1rem; }
+  .theory--speculative { border-style: dotted; }
+  .theory--debated { border-style: dashed; }
+  .theory header { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.8rem; }
+  .theory h4 { margin: 0; font-size: var(--step-0); }
+  .theory > p { margin: 0.5rem 0; color: var(--text-muted); max-width: 80ch; }
+  .cols { display: grid; gap: 0.5rem 1.5rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+  .lab { margin: 0.3rem 0; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+  .cols ul { margin: 0; padding-left: 1.1rem; font-size: 0.88rem; color: var(--text-muted); display: grid; gap: 0.25rem; }
+  .src { margin: 0.6rem 0 0; }
+  .claims { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; max-width: 85ch; }
+  .claims li { display: grid; grid-template-columns: auto 1fr; gap: 0.8rem; align-items: start; color: var(--text-muted); }
+  @media (max-width: 40rem) { .claims li { grid-template-columns: 1fr; gap: 0.3rem; } }
+</style>

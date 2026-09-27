@@ -14,6 +14,8 @@ export default defineConfig({
   trailingSlash: 'ignore',
   integrations: [sitemap()],
   build: { format: 'directory' },
+  // The Great Pyramid page moved when the Giza cluster was added; keep the old URL working.
+  redirects: { '/monuments/great-pyramid-of-giza': '/monuments/great-pyramid/' },
   vite: {
     // <model-viewer> (with three.js) is ~1 MB but is only fetched when a visitor opens a 3D model.
     build: { chunkSizeWarningLimit: 1100 },

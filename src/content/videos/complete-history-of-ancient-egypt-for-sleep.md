@@ -21,7 +21,7 @@ chapters:
   - { time: "2:34:48", title: Closing }
 dynasties: ["1", "4", "6", "12", "15", "18", "19", "25", "26", "30"]
 pharaohs: [djoser, khufu, pepi-ii, hatshepsut, thutmose-iii, akhenaten, ramesses-ii, taharqa, nectanebo-ii]
-monuments: [step-pyramid-of-djoser, great-pyramid-of-giza, karnak-temple-complex]
+monuments: [step-pyramid-of-djoser, great-pyramid, karnak-temple-complex]
 description: Three thousand years of ancient Egyptian history, narrated slowly and quietly for sleep — told through the objects that survived.
 ---
 

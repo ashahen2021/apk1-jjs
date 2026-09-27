@@ -1,0 +1,90 @@
+---
+/**
+ * Hub sections for the Giza Plateau: layout overview, plan and complex
+ * diagrams, a schematic 3D plateau model, the 4th Dynasty timeline and links
+ * into the rest of the cluster.
+ */
+import { getEntry } from 'astro:content';
+import { statSync } from 'node:fs';
+import type { ImageMetadata } from 'astro';
+import MediaSection from '@/components/media/MediaSection.astro';
+import GizaModel from '@/components/media/GizaModel.astro';
+import Card from '@/components/Card.astro';
+import PlateauMap from './PlateauMap.astro';
+import PyramidComplex from './PyramidComplex.astro';
+import GizaTimeline from './GizaTimeline.astro';
+import Cite from './Cite.astro';
+import References from './References.astro';
+import { cards } from '@/lib/cards';
+import { videosAbout } from '@/lib/content';
+import { PLATEAU_MAT, PLATEAU_MODES, PLATEAU_PARTS, PLATEAU_SCALE, PLATEAU_SITES, plateauPos } from '@/lib/structures';
+
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/media/monuments/giza-plateau/model-*.png', { eager: true });
+const posters = Object.fromEntries(PLATEAU_MODES.map((m) => [m.id, images[`/src/assets/media/monuments/giza-plateau/model-${m.id}.png`].default]));
+const materials = Object.fromEntries(PLATEAU_MODES.map((m) => [m.id, PLATEAU_PARTS[m.id].map((p) => PLATEAU_MAT[p])]));
+const r = (1500 * PLATEAU_SCALE).toFixed(3);
+const orbits = Object.fromEntries(PLATEAU_MODES.map((m) => [m.id, { orbit: `${m.camera[0]}deg ${m.camera[1]}deg ${r}m`, target: plateauPos([-150, 20, 380]) }]));
+const spots = PLATEAU_SITES.map((s, i) => ({ id: s.id, label: String(i + 1), title: s.title, status: 'approximate' as const, position: plateauPos(s.at), href: 'href' in s ? s.href : undefined, material: PLATEAU_MAT.temples }));
+const sizeKB = Math.round(statSync(new URL('../../../public/models/giza-plateau.glb', import.meta.url)).size / 1024);
+
+const [gp, sphinx, khufu, khafre, menkaure] = await Promise.all([
+  getEntry('monuments', 'great-pyramid'), getEntry('monuments', 'great-sphinx'),
+  getEntry('pharaohs', 'khufu'), getEntry('pharaohs', 'khafre'), getEntry('pharaohs', 'menkaure'),
+]);
+const videos = (await videosAbout('monuments', 'great-pyramid')).slice(0, 3);
+const refs = ['lehnerHawass', 'lehner97', 'lehnerLabor', 'aera', 'moa', 'sheisha', 'tallet', 'unesco'];
+---
+
+<MediaSection id="overview" kicker="Site overview" title="How the plateau is laid out">
+  <div class="prose">
+    <p>The Giza plateau is a limestone ridge on the west bank of the Nile, at the edge of the desert above the floodplain. Three kings of the 4th Dynasty built here: Khufu, his son Khafre and Khafre's son Menkaure. Their pyramids stand on a rough diagonal from north-east to south-west, each smaller than the last. <Cite ids={['lehnerHawass']} /></p>
+    <p>Each pyramid was the centre of a complex. A temple for the king's cult stood against its east face; a covered causeway ran down to a valley temple at the edge of the floodplain, reached by canals and harbour basins from the Nile. Small queens' pyramids, a satellite pyramid and pits for full-size boats lay beside the king's pyramid. <Cite ids={['lehner97', 'sheisha']} /></p>
+    <p>Around Khufu's pyramid lie cemeteries of mastaba tombs: members of the royal family to the east, officials to the west. The Great Sphinx lies beside Khafre's valley temple, carved from rock in a quarry. South-east of the plateau, beyond a massive stone wall, archaeologists have excavated the town where the builders lived and the cemetery of its workers and overseers. <Cite ids={['lehnerLabor', 'aera', 'moa']} /></p>
+  </div>
+</MediaSection>
+
+<MediaSection id="plan" kicker="Map" title="Plan of the plateau" lede="Pyramids to scale; temples, causeways and cemeteries schematic. Select a pyramid or the Sphinx.">
+  <PlateauMap />
+  <h3 class="sub">Anatomy of a pyramid complex</h3>
+  <PyramidComplex />
+</MediaSection>
+
+<MediaSection id="plateau-3d" kicker="Interactive model" title="The plateau in 3D" lede="A simplified model of the plateau. Compare the pyramids as built with how they stand today; numbered markers link to their pages.">
+  <GizaModel
+    id="plateau-model"
+    src="/models/giza-plateau.glb"
+    alt="Simplified 3D model of the Giza plateau with the three pyramids, queens' pyramids, temples, causeways, the Sphinx and the mastaba cemeteries."
+    modes={PLATEAU_MODES}
+    materials={materials}
+    posters={posters}
+    orbits={orbits}
+    spots={spots}
+    sizeKB={sizeKB}
+    caption="Schematic NeoKemetAI model at 1:1000. Pyramid sizes and positions follow published dimensions and site coordinates; temples, causeways and cemeteries are simplified blocks at approximate positions."
+  />
+</MediaSection>
+
+<MediaSection id="timeline" kicker="Old Kingdom" title="Giza in the 4th Dynasty" lede="The plateau was built in about three generations, in the 26th and 25th centuries BCE.">
+  <GizaTimeline />
+</MediaSection>
+
+<MediaSection id="explore" kicker="Explore the plateau" title="Monuments, kings and films">
+  <div class="grid">
+    {gp && <Card {...cards.monument(gp)} headingLevel="h3" />}
+    {sphinx && <Card {...cards.monument(sphinx)} headingLevel="h3" />}
+    {khufu && <Card {...cards.pharaoh(khufu)} headingLevel="h3" />}
+    {khafre && <Card {...cards.pharaoh(khafre)} headingLevel="h3" />}
+    {menkaure && <Card {...cards.pharaoh(menkaure)} headingLevel="h3" />}
+    {videos.map((v) => <Card {...cards.video(v)} headingLevel="h3" />)}
+  </div>
+  <p class="more">Later royal tombs: <a href="/tombs/">the tombs of the Valley of the Kings and the Valley of the Queens</a>. The Giza mastaba cemeteries, boat pits and temples will get their own pages.</p>
+</MediaSection>
+
+<References ids={refs} />
+
+<style>
+  .prose { max-width: 75ch; color: var(--text-muted); }
+  .sub { margin: 2.2rem 0 1rem; font-size: var(--step-1); }
+  .grid { display: grid; gap: 1.2rem; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); }
+  .more { margin-top: 1.5rem; color: var(--text-muted); }
+</style>

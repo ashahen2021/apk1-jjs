@@ -1,0 +1,83 @@
+---
+/**
+ * Side-by-side schematic comparison of the main ramp proposals. Drawings are
+ * interpretive and not to scale; each carries its evidence level.
+ */
+import Level from './Level.astro';
+import type { Level as L } from '@/lib/giza';
+
+const panels: { id: string; title: string; level: L; caption: string }[] = [
+  { id: 'straight', title: 'Straight ramp', level: 'debated', caption: 'One ramp against a face. Practical low down; to reach the top at 1:10 it would be about 1.5 km long.' },
+  { id: 'zigzag', title: 'Zigzag ramp', level: 'debated', caption: 'Switchbacks up one face. Short, but faces grow narrow near the top.' },
+  { id: 'spiral', title: 'Spiral ramp', level: 'debated', caption: 'Wraps around all faces at a steady gradient, but hides the corners surveyors relied on.' },
+  { id: 'internal', title: 'Internal ramp', level: 'speculative', caption: 'Inside the faces (after Houdin). Not confirmed by any survey.' },
+];
+---
+
+<figure class="ramps">
+  <div class="grid">
+    {panels.map((p) => (
+      <div class="panel">
+        <svg viewBox="0 0 200 130" role="img" aria-label={`${p.title}: ${p.caption}`}>
+          <line class="ground" x1="0" x2="200" y1="118" y2="118" />
+          {p.id === 'straight' && (
+            <>
+              <polygon class="pyr" points="20,118 80,28 140,118" />
+              <polygon class="ramp" points="118,85 128,118 198,118" />
+              <line class="dim" x1="128" x2="198" y1="124" y2="124" />
+              <text x="163" y="129" class="t">long ramp</text>
+            </>
+          )}
+          {p.id === 'zigzag' && (
+            <>
+              <polygon class="pyr" points="40,118 100,18 160,118" />
+              <polyline class="ramp-line" points="58,112 130,104 123,92 72,86 82,72 114,66 108,56 90,52" />
+            </>
+          )}
+          {p.id === 'spiral' && (
+            <>
+              <polygon class="pyr" points="40,118 100,18 160,118" />
+              <polyline class="ramp-line" points="45,112 150,100" />
+              <polyline class="ramp-line hidden" points="150,100 65,84" />
+              <polyline class="ramp-line" points="65,84 132,70" />
+              <polyline class="ramp-line hidden" points="132,70 82,56" />
+              <polyline class="ramp-line" points="82,56 116,44" />
+            </>
+          )}
+          {p.id === 'internal' && (
+            <>
+              <polygon class="pyr ghost" points="40,118 100,18 160,118" />
+              <polygon class="lower" points="58,118 76,88 124,88 142,118" />
+              <polyline class="ramp-line inside" points="80,84 120,76 88,66 112,58 96,48" />
+              <text x="100" y="104" class="t">external ramp to about 43 m</text>
+            </>
+          )}
+        </svg>
+        <h4>{p.title}</h4>
+        <Level level={p.level} />
+        <p>{p.caption}</p>
+      </div>
+    ))}
+  </div>
+  <figcaption>Schematic comparison, not to scale. Purple marks the proposed ramp. None of these ramps survives at Giza; each is a reconstruction proposed to fit the evidence.</figcaption>
+</figure>
+
+<style>
+  .ramps { margin: 0; }
+  .grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); }
+  .panel { border: 1px solid var(--line); border-radius: var(--radius); padding: 0.8rem; background: rgb(255 255 255 / 0.015); display: grid; gap: 0.4rem; align-content: start; justify-items: start; }
+  svg { width: 100%; height: auto; }
+  h4 { margin: 0.2rem 0 0; font-size: var(--step-0); }
+  p { margin: 0; font-size: 0.85rem; color: var(--text-muted); }
+  .ground { stroke: #7a6f58; stroke-width: 1; }
+  .pyr { fill: #b89a70; stroke: #e9e0c8; stroke-width: 0.8; }
+  .ghost { fill: rgb(184 154 112 / 0.25); }
+  .lower { fill: #b89a70; }
+  .ramp { fill: #a98bd8; opacity: 0.9; }
+  .ramp-line { fill: none; stroke: #a98bd8; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+  .hidden { stroke-dasharray: 3 3; opacity: 0.6; stroke-width: 2.5; }
+  .inside { stroke-dasharray: 5 3; }
+  .dim { stroke: #a98bd8; stroke-width: 1; }
+  .t { fill: #d8cba8; font: 8px var(--font-body); text-anchor: middle; }
+  figcaption { margin-top: 0.7rem; font-size: 0.8rem; color: var(--text-faint); }
+</style>

@@ -1,0 +1,36 @@
+---
+/** The building process as a sequence of steps, each tagged with its evidence level. */
+import Level from './Level.astro';
+import type { Level as L } from '@/lib/giza';
+
+const steps: { n: number; title: string; level: L; text: string; icon: string }[] = [
+  { n: 1, title: 'Level and lay out', level: 'established', icon: 'M10,40 L50,40 M10,40 L10,10 M50,40 L50,10 M30,4 L30,46', text: 'The site was levelled around a rock outcrop left inside the core, and the base squared and aligned to north.' },
+  { n: 2, title: 'Quarry', level: 'established', icon: 'M6,44 L6,20 L22,20 L22,30 L38,30 L38,12 L54,12 L54,44 Z', text: 'Core blocks were cut from quarries on the plateau; casing from Tura; granite from Aswan.' },
+  { n: 3, title: 'Transport', level: 'established', icon: 'M6,34 L54,34 L50,40 L10,40 Z M16,20 L44,20 L44,34 L16,34 Z', text: 'By boat and canal to a harbour at the foot of the plateau, then by sledge.' },
+  { n: 4, title: 'Raise', level: 'debated', icon: 'M6,44 L54,44 L54,24 Z M14,44 L14,40', text: 'Ramps of some form, perhaps with levering for the last lifts. The exact system is debated.' },
+  { n: 5, title: 'Set and fit', level: 'plausible', icon: 'M6,44 L54,44 M10,44 L10,32 L30,32 L30,44 M30,44 L30,34 L50,34 L50,44', text: 'Blocks were set in horizontal courses with gypsum mortar; casing joints were fitted very tightly.' },
+  { n: 6, title: 'Dress the faces', level: 'plausible', icon: 'M30,6 L54,44 L6,44 Z', text: 'The casing faces were probably smoothed from the top down as the working ramps were removed.' },
+];
+---
+
+<ol class="sequence" aria-label="Building sequence">
+  {steps.map((s) => (
+    <li>
+      <svg viewBox="0 0 60 50" aria-hidden="true"><path d={s.icon} /></svg>
+      <p class="step">Step {s.n}</p>
+      <h4>{s.title}</h4>
+      <Level level={s.level} />
+      <p>{s.text}</p>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .sequence { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.8rem; grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr)); counter-reset: s; }
+  li { display: grid; gap: 0.35rem; justify-items: start; align-content: start; padding: 0.9rem; border: 1px solid var(--line); border-radius: var(--radius); background: rgb(255 255 255 / 0.015); position: relative; }
+  svg { width: 3rem; height: 2.5rem; }
+  path { fill: rgb(200 149 43 / 0.25); stroke: #f0b73a; stroke-width: 2; stroke-linejoin: round; }
+  .step { margin: 0; font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-faint); }
+  h4 { margin: 0; font-size: var(--step-0); }
+  p { margin: 0; font-size: 0.84rem; color: var(--text-muted); }
+</style>

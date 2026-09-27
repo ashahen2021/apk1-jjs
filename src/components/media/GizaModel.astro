@@ -1,0 +1,253 @@
+---
+/**
+ * 3D viewer with view modes (as built, today, cutaway, chambers, construction
+ * interpretations). Each mode has a pre-rendered poster, so the modes work as a
+ * static image switcher before (or without) WebGL; once the lazy-loaded
+ * <model-viewer> is live, the same buttons switch the model's materials.
+ */
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import type { ViewMode } from '@/lib/structures';
+
+export interface Spot { id: string; label: string; title: string; status: 'documented' | 'approximate' | 'uncertain'; position: string; href?: string }
+export interface Props {
+  id: string;
+  src: string;
+  alt: string;
+  modes: ViewMode[];
+  /** Visible material names per mode id. */
+  materials: Record<string, string[]>;
+  posters: Record<string, ImageMetadata>;
+  orbits: Record<string, { orbit: string; target: string }>;
+  spots?: Spot[];
+  sizeKB: number;
+  caption?: string;
+}
+const { id, src, alt, modes, materials, posters, orbits, spots = [], sizeKB, caption } = Astro.props;
+const groups = [...new Set(modes.map((m) => m.group))];
+const first = modes[0];
+const EVIDENCE: Record<ViewMode['evidence'], string> = {
+  documented: 'Documented structure',
+  reconstructed: 'Reconstructed visualisation',
+  interpretation: 'Interpretation (debated)',
+};
+---
+
+<div class="giza-model" data-giza-model id={id} data-src={src} data-alt={alt} data-materials={JSON.stringify(materials)} data-orbits={JSON.stringify(orbits)} data-spots={JSON.stringify(spots)} data-mode={first.id}>
+  <div class="modes" role="group" aria-label="View">
+    {groups.map((g) => (
+      <div class="mode-group">
+        <span class="mode-label">{g}</span>
+        <div class="mode-buttons">
+          {modes.filter((m) => m.group === g).map((m) => (
+            <button type="button" data-mode-btn={m.id} aria-pressed={m.id === first.id ? 'true' : 'false'} class:list={[`ev--${m.evidence}`]}>{m.label}</button>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <div class="stage" data-stage>
+    {modes.map((m) => (
+      <div class="poster" data-poster={m.id} hidden={m.id !== first.id ? true : undefined}>
+        <Picture src={posters[m.id]} alt={`${alt} View: ${m.label}.`} formats={['avif', 'webp']} widths={[640, 1000, 1600]} sizes="(min-width: 76rem) 60rem, 100vw" loading="lazy" decoding="async" />
+      </div>
+    ))}
+    <button type="button" class="load" data-load>
+      <span class="cube" aria-hidden="true"></span>
+      <span>Open the interactive 3D model</span>
+      <small>Rotate, zoom and inspect · loads the viewer (about 1 MB) and a {sizeKB} KB model</small>
+    </button>
+    <p class="status" data-status role="status" hidden>Loading 3D viewer…</p>
+    <button type="button" class="reset" data-reset hidden>Reset view</button>
+  </div>
+
+  <div class="mode-notes" aria-live="polite">
+    {modes.map((m) => (
+      <p data-note={m.id} hidden={m.id !== first.id ? true : undefined}>
+        <span class:list={['badge', `badge--${m.evidence}`]}>{EVIDENCE[m.evidence]}</span>
+        {m.note}
+      </p>
+    ))}
+  </div>
+  {caption && <p class="caption">{caption}</p>}
+  <noscript><p class="caption">The view buttons and the 3D model need JavaScript. The images above show the first view; the <a href={src}>GLB model</a> can be downloaded.</p></noscript>
+</div>
+
+<script>
+  type Mat = { name: string; getAlphaMode(): string; setAlphaMode(m: string): void; pbrMetallicRoughness: { baseColorFactor: number[]; setBaseColorFactor(c: number[]): void } };
+  type MV = HTMLElement & { model?: { materials: Mat[] }; cameraOrbit: string; cameraTarget: string; jumpCameraToGoal(): void };
+  type Spot = { id: string; label: string; title: string; status: string; position: string; href?: string };
+
+  const hasWebGL = () => {
+    try {
+      const c = document.createElement('canvas');
+      return !!(c.getContext('webgl2') || c.getContext('webgl'));
+    } catch {
+      return false;
+    }
+  };
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.querySelectorAll<HTMLElement>('[data-giza-model]').forEach((root) => {
+    const d = root.dataset;
+    const materials: Record<string, string[]> = JSON.parse(d.materials!);
+    const orbits: Record<string, { orbit: string; target: string }> = JSON.parse(d.orbits!);
+    const spots: Spot[] = JSON.parse(d.spots!);
+    const stage = root.querySelector<HTMLElement>('[data-stage]')!;
+    const load = root.querySelector<HTMLButtonElement>('[data-load]')!;
+    const status = root.querySelector<HTMLElement>('[data-status]')!;
+    const reset = root.querySelector<HTMLButtonElement>('[data-reset]')!;
+    let mv: MV | null = null;
+    const original = new Map<string, { alpha: string; color: number[] }>();
+
+    const apply = () => {
+      const mode = d.mode!;
+      if (!mv?.model) return;
+      const visible = new Set(materials[mode]);
+      for (const m of mv.model.materials) {
+        const o = original.get(m.name);
+        if (!o) continue;
+        if (visible.has(m.name)) {
+          m.setAlphaMode(o.alpha);
+          m.pbrMetallicRoughness.setBaseColorFactor(o.color);
+        } else {
+          m.setAlphaMode('BLEND');
+          m.pbrMetallicRoughness.setBaseColorFactor([o.color[0], o.color[1], o.color[2], 0]);
+        }
+      }
+      root.querySelectorAll<HTMLElement>('.hs').forEach((h) => (h.hidden = !visible.has(h.dataset.material ?? '')));
+    };
+    const frame = () => {
+      if (!mv) return;
+      const o = orbits[d.mode!];
+      mv.cameraTarget = o.target;
+      mv.cameraOrbit = o.orbit;
+    };
+
+    const setMode = (mode: string) => {
+      d.mode = mode;
+      root.querySelectorAll<HTMLButtonElement>('[data-mode-btn]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.modeBtn === mode)));
+      root.querySelectorAll<HTMLElement>('[data-poster]').forEach((p) => (p.hidden = p.dataset.poster !== mode));
+      root.querySelectorAll<HTMLElement>('[data-note]').forEach((p) => (p.hidden = p.dataset.note !== mode));
+      apply();
+      frame();
+    };
+    root.querySelectorAll<HTMLButtonElement>('[data-mode-btn]').forEach((b) => b.addEventListener('click', () => setMode(b.dataset.modeBtn!)));
+
+    const fail = (msg: string) => {
+      load.hidden = true;
+      status.hidden = false;
+      status.textContent = msg;
+      root.classList.remove('is-live');
+    };
+    if (!hasWebGL()) fail('3D needs WebGL, which this browser does not provide. The view buttons still switch between the rendered images.');
+
+    load.addEventListener('click', async () => {
+      load.hidden = true;
+      status.hidden = false;
+      try {
+        await import('@google/model-viewer');
+        mv = document.createElement('model-viewer') as MV;
+        const o = orbits[d.mode!];
+        const attrs: Record<string, string> = {
+          src: d.src!, alt: d.alt!, 'camera-controls': '', 'touch-action': 'pan-y', 'camera-orbit': o.orbit, 'camera-target': o.target,
+          'interpolation-decay': reduceMotion ? '20' : '140', 'shadow-intensity': '0.9', exposure: '0.95', 'tone-mapping': 'aces',
+          'environment-image': 'neutral', 'min-camera-orbit': 'auto 0deg 0.05m', 'max-camera-orbit': 'auto 92deg auto', 'interaction-prompt': 'none', loading: 'eager',
+        };
+        for (const [k, v] of Object.entries(attrs)) mv.setAttribute(k, v);
+        spots.forEach((s, i) => {
+          const b = document.createElement(s.href ? 'a' : 'button') as HTMLElement;
+          if (s.href) (b as HTMLAnchorElement).href = s.href;
+          else (b as HTMLButtonElement).type = 'button';
+          b.slot = `hotspot-${i}`;
+          b.className = `hs hs--${s.status}`;
+          b.dataset.position = s.position;
+          b.dataset.normal = '0 1 0';
+          b.dataset.material = (s as Spot & { material?: string }).material ?? '';
+          b.dataset.visibilityAttribute = 'visible';
+          b.textContent = s.label;
+          b.setAttribute('aria-label', `${s.label}: ${s.title}`);
+          const tip = document.createElement('span');
+          tip.className = 'hs-tip';
+          tip.textContent = s.title;
+          b.append(tip);
+          if (!s.href) b.addEventListener('click', () => document.getElementById(`${root.id}-${s.id}`)?.scrollIntoView({ block: 'nearest', behavior: reduceMotion ? 'auto' : 'smooth' }));
+          mv!.append(b);
+        });
+        mv.addEventListener('load', () => {
+          for (const m of mv!.model?.materials ?? []) original.set(m.name, { alpha: m.getAlphaMode(), color: [...m.pbrMetallicRoughness.baseColorFactor] });
+          status.hidden = true;
+          root.classList.add('is-live');
+          reset.hidden = false;
+          apply();
+        });
+        mv.addEventListener('error', () => fail('The 3D model could not be loaded. The view buttons still switch between the rendered images.'));
+        stage.append(mv);
+      } catch {
+        fail('The 3D viewer could not be loaded. The view buttons still switch between the rendered images.');
+      }
+    });
+    reset.addEventListener('click', frame);
+  });
+</script>
+
+<style>
+  .giza-model { display: grid; gap: 0.9rem; }
+  .modes { display: flex; flex-wrap: wrap; gap: 0.8rem 1.6rem; }
+  .mode-group { display: grid; gap: 0.35rem; min-width: 0; }
+  .mode-label { font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-faint); }
+  .mode-buttons { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .mode-buttons button {
+    font: inherit; font-size: 0.82rem; min-height: 2.5rem; padding: 0.35rem 0.9rem; cursor: pointer;
+    border: 1px solid var(--line-strong); border-radius: 999px; background: transparent; color: var(--text-muted);
+  }
+  .mode-buttons button.ev--interpretation { border-style: dashed; }
+  .mode-buttons button[aria-pressed='true'] { background: var(--gold); border-color: var(--gold); color: var(--basalt); }
+  .mode-buttons button:focus-visible { outline: 2px solid var(--accent-bright); outline-offset: 2px; }
+
+  .stage {
+    position: relative; aspect-ratio: 16 / 10; overflow: hidden; border-radius: var(--radius);
+    border: 1px solid var(--line-strong); background: radial-gradient(ellipse at 50% 35%, #2a2217, #0d0b08 75%);
+  }
+  @media (max-width: 40rem) { .stage { aspect-ratio: 4 / 3.6; } }
+  .poster, .poster :global(picture), .poster :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+  .poster[hidden] { display: none; }
+  .is-live .poster { opacity: 0; pointer-events: none; transition: opacity 0.5s; }
+  .stage :global(model-viewer) { position: absolute; inset: 0; width: 100%; height: 100%; --poster-color: transparent; --progress-bar-color: var(--gold); }
+  .load {
+    position: absolute; left: 50%; bottom: 1rem; transform: translateX(-50%); z-index: 2;
+    display: grid; justify-items: center; gap: 0.2rem; max-width: calc(100% - 2rem);
+    padding: 0.75rem 1.4rem; border-radius: 1rem; border: 1px solid var(--gold); background: rgb(11 10 8 / 0.82);
+    color: var(--limestone); font: inherit; font-weight: 600; cursor: pointer; text-align: center;
+  }
+  .load small { font-weight: 400; font-size: 0.72rem; color: var(--text-muted); }
+  .load:hover, .load:focus-visible { background: rgb(200 149 43 / 0.25); }
+  .cube { width: 1.1rem; height: 1.1rem; border: 2px solid var(--gold); transform: rotate(45deg); }
+  .status { position: absolute; left: 1rem; right: 1rem; bottom: 1rem; margin: 0; padding: 0.6rem 0.9rem; border-radius: 6px; background: rgb(11 10 8 / 0.85); color: var(--text-muted); font-size: 0.85rem; text-align: center; }
+  .reset { position: absolute; top: 0.75rem; right: 0.75rem; z-index: 2; font: inherit; font-size: 0.78rem; padding: 0.35rem 0.8rem; border-radius: 999px; border: 1px solid var(--line-strong); background: rgb(11 10 8 / 0.8); color: var(--text); cursor: pointer; }
+
+  .mode-notes p { margin: 0; color: var(--text-muted); font-size: var(--step--1); max-width: 75ch; }
+  .mode-notes p[hidden] { display: none; }
+  .badge { display: inline-block; margin-right: 0.5rem; font-size: 0.7rem; padding: 0.1rem 0.5rem; border-radius: 999px; border: 1px solid currentColor; white-space: nowrap; }
+  .badge--documented { color: #6fc2b8; }
+  .badge--reconstructed { color: #e0b458; }
+  .badge--interpretation { color: #b9a0e6; border-style: dashed; }
+  .caption { margin: 0; font-size: 0.8rem; color: var(--text-faint); }
+
+  .stage :global(.hs) {
+    display: grid; place-items: center; width: 1.7rem; height: 1.7rem; padding: 0; border-radius: 50%;
+    border: 2px solid var(--basalt); background: #f0b73a; color: var(--basalt); font: 700 0.72rem var(--font-body); cursor: pointer; text-decoration: none;
+    position: relative; box-shadow: 0 1px 6px rgb(0 0 0 / 0.5);
+  }
+  .stage :global(.hs--approximate) { background: #e98a4f; }
+  .stage :global(.hs--uncertain) { background: #7fa7d9; border-style: dashed; }
+  .stage :global(.hs[hidden]) { display: none; }
+  .stage :global(.hs:not([data-visible])) { opacity: 0.35; }
+  .stage :global(.hs-tip) {
+    position: absolute; left: 50%; bottom: calc(100% + 6px); transform: translateX(-50%); white-space: nowrap;
+    padding: 0.2rem 0.5rem; border-radius: 4px; background: rgb(11 10 8 / 0.9); color: var(--text); font-weight: 500; font-size: 0.72rem;
+    opacity: 0; pointer-events: none; transition: opacity 0.2s;
+  }
+  .stage :global(.hs:hover .hs-tip), .stage :global(.hs:focus-visible .hs-tip) { opacity: 1; }
+</style>
