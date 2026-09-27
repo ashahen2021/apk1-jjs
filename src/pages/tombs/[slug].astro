@@ -3,10 +3,15 @@ import { getEntry, render } from 'astro:content';
 import EntityLayout from '@/layouts/EntityLayout.astro';
 import Card from '@/components/Card.astro';
 import Related from '@/components/Related.astro';
+import MediaSection from '@/components/media/MediaSection.astro';
+import TombExplorer from '@/components/media/TombExplorer.astro';
+import EvidenceKey from '@/components/media/EvidenceKey.astro';
+import VideoFeature from '@/components/media/VideoFeature.astro';
 import { getArtifacts, getTombs, videosAbout } from '@/lib/content';
 import { cards } from '@/lib/cards';
 import { ordinal } from '@/lib/format';
 import { GLYPHS } from '@/lib/site';
+import { VALLEYS } from '@/lib/tombs';
 
 export async function getStaticPaths() {
   return (await getTombs()).map((tomb) => ({ params: { slug: tomb.id }, props: { tomb } }));
@@ -15,15 +20,21 @@ export async function getStaticPaths() {
 const { tomb } = Astro.props;
 const t = tomb.data;
 const pharaoh = t.pharaoh && (await getEntry(t.pharaoh));
+const plan = t.media.plan && (await getEntry(t.media.plan))?.data;
 const artifacts = (await getArtifacts()).filter((a) => a.data.tomb?.id === tomb.id);
 const videos = await videosAbout('tombs', tomb.id);
+const featured = t.media.video ? await getEntry(t.media.video.ref) : videos.find((v) => v.data.youtubeId);
+const otherVideos = videos.filter((v) => v.id !== featured?.id);
+const neighbours = (await getTombs()).filter((o) => o.id !== tomb.id && t.valley && o.data.valley === t.valley);
 const { Content } = await render(tomb);
+const title = t.code ? `${t.code}: ${t.name}` : t.name;
+const sarcophagus = plan?.spaces.find((s) => s.sarcophagus)?.sarcophagus;
 ---
 
 <EntityLayout
-  title={t.code ? `${t.code}: ${t.name}` : t.name}
+  title={title}
   description={t.description}
-  kicker={`Tomb · ${ordinal(Number(t.dynasty.id))} Dynasty`}
+  kicker={`Tomb · ${ordinal(Number(t.dynasty.id))} Dynasty${t.valley ? ` · ${VALLEYS[t.valley].name}` : ''}`}
   lede={t.site}
   glyph={GLYPHS.tombs}
   media={t.media}
@@ -38,6 +49,10 @@ const { Content } = await render(tomb);
     { label: 'Dynasty', value: `${ordinal(Number(t.dynasty.id))} Dynasty`, href: `/dynasties/${t.dynasty.id}/` },
     { label: 'Location', value: t.site },
     t.discovered && { label: 'Discovered', value: `${t.discovered.year} by ${t.discovered.by}` },
+    !!plan?.length && { label: 'Length', value: `c. ${Math.round(plan.length)} m` },
+    !!plan?.area && { label: 'Floor area', value: `c. ${Math.round(plan.area)} m²` },
+    plan && { label: 'Spaces', value: `${plan.spaces.length} (see the plan below)`, href: '#inside' },
+    sarcophagus && { label: 'Sarcophagus', value: sarcophagus.label },
   ]}
   jsonLd={[
     {
@@ -49,10 +64,30 @@ const { Content } = await render(tomb);
       ...(t.coordinates && {
         geo: { '@type': 'GeoCoordinates', latitude: t.coordinates[0], longitude: t.coordinates[1] },
       }),
+      ...(t.valley && { containedInPlace: { '@type': 'Place', name: VALLEYS[t.valley].name } }),
     },
   ]}
 >
   <Content />
+
+  <Fragment slot="explore">
+    {plan && (
+      <MediaSection
+        id="inside"
+        kicker="Inside the tomb"
+        title="Explore the chambers"
+        lede="Follow the tomb from its entrance to the burial chamber. Select a space in the list, the plan or the 3D model."
+      >
+        <TombExplorer plan={plan} model={t.media.model} name={title} />
+        <div class="key"><EvidenceKey compact /></div>
+      </MediaSection>
+    )}
+    {featured && (
+      <MediaSection kicker="NeoKemet on YouTube" title="Watch">
+        <VideoFeature video={featured} start={t.media.video?.start} note={t.media.video?.note} />
+      </MediaSection>
+    )}
+  </Fragment>
 
   <Fragment slot="related">
     <Related title="Pharaoh" count={pharaoh ? 1 : 0}>
@@ -61,8 +96,15 @@ const { Content } = await render(tomb);
     <Related title="Found in this tomb" count={artifacts.length}>
       {artifacts.map((a) => <Card {...cards.artifact(a)} />)}
     </Related>
-    <Related title="Watch on NeoKemet" count={videos.length}>
-      {videos.map((v) => <Card {...cards.video(v)} />)}
+    <Related title="More films" count={otherVideos.length}>
+      {otherVideos.map((v) => <Card {...cards.video(v)} />)}
+    </Related>
+    <Related title={t.valley ? `More in the ${VALLEYS[t.valley].name}` : 'More tombs'} count={neighbours.length}>
+      {neighbours.map((o) => <Card {...cards.tomb(o)} />)}
     </Related>
   </Fragment>
 </EntityLayout>
+
+<style>
+  .key { margin-top: 1.5rem; }
+</style>

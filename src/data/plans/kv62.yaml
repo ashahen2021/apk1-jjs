@@ -1,0 +1,98 @@
+title: Plan of KV62, the tomb of Tutankhamun
+source: Simplified from the Theban Mapping Project plan and Howard Carter's excavation records. Room dimensions follow published measurements; floor levels are approximate.
+note: North is at the top. The staircase and corridor descend westward from the valley floor.
+length: 30.79
+area: 109.83
+camera: { theta: 125, phi: 52 }
+spaces:
+  - id: kv62-a
+    code: A
+    name: Entrance stairway
+    kind: stairs
+    x: [-6.8, 0]
+    y: [0, 1.7]
+    floor: [0, -4]
+    descends: x-
+    height: 2.2
+    status: approximate
+    caveat: Sixteen steps cut into the valley floor; the stair length shown is approximate.
+    summary: Sixteen rock-cut steps lead down from the valley floor. They were buried under debris from later work on the tomb of Ramesses VI, which is why the tomb escaped the great robberies of antiquity.
+  - id: kv62-b
+    code: B
+    name: Descending corridor
+    kind: corridor
+    x: [-14.9, -6.8]
+    y: [0, 1.7]
+    floor: [-4, -6.6]
+    descends: x-
+    height: 2
+    status: documented
+    summary: A sloping passage about 8 m long. Carter found it packed with limestone chips laid by necropolis officials after early robbers had entered and been caught.
+  - id: kv62-i
+    code: I
+    name: Antechamber
+    kind: chamber
+    x: [-18.46, -14.9]
+    y: [-6.16, 1.7]
+    floor: [-6.8, -6.8]
+    height: 2.68
+    status: documented
+    summary: The first room, about 7.9 × 3.6 m. It held dismantled chariots, three ritual couches in animal form and chests of clothing. Two life-size guardian statues of the king flanked the sealed doorway into the burial chamber.
+  - id: kv62-ia
+    code: Ia
+    name: Annexe
+    kind: annex
+    x: [-22.81, -18.46]
+    y: [-1, 1.6]
+    floor: [-7.7, -7.7]
+    height: 2.55
+    status: documented
+    summary: A small storeroom with its floor set below the antechamber. It was found in chaos after the robberies, crammed with furniture, baskets of food, jars of wine and oils.
+  - id: kv62-j
+    code: J
+    name: Burial chamber
+    kind: chamber
+    x: [-18.46, -12.09]
+    y: [-10.18, -6.16]
+    floor: [-7.7, -7.7]
+    height: 3.63
+    decorated: [n, e, s, w]
+    status: documented
+    summary: The only decorated room, about 6.4 × 4 m. Four nested gilded shrines almost filled it; inside them lay the quartzite sarcophagus, three coffins and the king's mummy with its gold mask.
+    decoration: Painted scenes on a yellow ground, the only painted walls in the tomb.
+    sarcophagus:
+      x: -15.3
+      y: -8.17
+      w: 2.75
+      d: 1.5
+      h: 1.47
+      material: quartzite
+      state: in-situ
+      label: Quartzite sarcophagus, still in place
+    scenes:
+      - id: north
+        wall: n
+        title: The Opening of the Mouth
+        text: Tutankhamun's successor Ay, dressed as a priest, performs the Opening of the Mouth on the king's mummy. Beside it the king is welcomed by the sky goddess Nut and embraced by Osiris.
+      - id: east
+        wall: e
+        title: The funeral procession
+        text: Officials haul the king's mummy on a sledge in a shrine towards the tomb.
+      - id: south
+        wall: s
+        title: The king among the gods
+        text: The king stands with Hathor, followed by Anubis and Isis.
+      - id: west
+        wall: w
+        title: The first hour of the Amduat
+        text: Twelve baboons represent the first hour of the night in the Book of the Amduat, the journey of the sun through the underworld.
+  - id: kv62-ja
+    code: Ja
+    name: Treasury
+    kind: chamber
+    x: [-12.09, -8.29]
+    y: [-10.5, -5.75]
+    floor: [-7.7, -7.7]
+    height: 2.33
+    status: documented
+    summary: An open doorway from the burial chamber, guarded by a recumbent figure of Anubis on a gilded shrine. Behind it stood the gilded canopic shrine holding the king's embalmed organs, model boats and chests of jewellery.

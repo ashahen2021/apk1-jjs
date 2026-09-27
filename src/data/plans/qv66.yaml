@@ -1,0 +1,130 @@
+title: Plan of QV66, the tomb of Nefertari
+source: Simplified from published plans (Theban Mapping Project; Getty Conservation Institute). The arrangement of rooms is documented; dimensions and depths in this model are approximate.
+note: The tomb is built on two levels, an upper suite reached from the entrance and a burial chamber reached by a descending stairway.
+camera: { theta: 30, phi: 55 }
+spaces:
+  - id: qv66-1
+    code: "1"
+    name: Entrance stairway
+    kind: stairs
+    x: [-1.2, 1.2]
+    y: [0, 6]
+    floor: [0, -3]
+    descends: y+
+    height: 2.6
+    status: approximate
+    summary: Ernesto Schiaparelli's Italian mission opened the tomb in 1904. It had been robbed in antiquity.
+  - id: qv66-2
+    code: "2"
+    name: Antechamber
+    kind: chamber
+    x: [-2.6, 2.6]
+    y: [6, 11.2]
+    floor: [-3, -3]
+    height: 2.9
+    decorated: [n, e, s, w]
+    status: approximate
+    summary: A room with a low rock-cut bench along its walls, painted with spells from the Book of the Dead.
+    scenes:
+      - id: senet
+        wall: w
+        title: Nefertari playing senet
+        text: Illustrating Chapter 17 of the Book of the Dead, the queen sits at a board game, which symbolised her passage through the afterlife. Her ba, a human-headed bird, perches nearby. The wall shown for this scene is simplified.
+        status: approximate
+  - id: qv66-3
+    code: "3"
+    name: Vestibule
+    kind: corridor
+    x: [2.6, 4.2]
+    y: [7.4, 9.8]
+    floor: [-3, -3]
+    height: 2.6
+    decorated: [n, s]
+    status: approximate
+    summary: A short passage to the side chamber, where deities receive the queen.
+  - id: qv66-4
+    code: "4"
+    name: Side chamber
+    kind: annex
+    x: [4.2, 9]
+    y: [6.4, 10.8]
+    floor: [-3, -3]
+    height: 2.7
+    decorated: [n, e, s]
+    status: approximate
+    summary: Nefertari makes offerings to Osiris and to Atum. One wall shows the seven celestial cows and their bull from Chapter 148 of the Book of the Dead.
+    scenes:
+      - id: cows
+        wall: e
+        title: The seven cows and the bull
+        text: Chapter 148 of the Book of the Dead, which promised the dead a supply of food for eternity. The wall shown for this scene is simplified.
+        status: approximate
+  - id: qv66-5
+    code: "5"
+    name: Descending stairway
+    kind: stairs
+    x: [-1.2, 1.2]
+    y: [11.2, 20]
+    floor: [-3, -8]
+    descends: y+
+    height: 2.8
+    decorated: [e, w]
+    status: approximate
+    summary: The queen offers to Hathor, Selkis and Maat as she descends. Winged Maat guards the lower doorway.
+  - id: qv66-6
+    code: "6"
+    name: Burial chamber
+    kind: hall
+    x: [-5.2, 5.2]
+    y: [20, 30.4]
+    floor: [-8, -8]
+    height: 3.2
+    pillars: [[-2.6, 22.8], [2.6, 22.8], [-2.6, 27.6], [2.6, 27.6]]
+    decorated: [n, e, s, w]
+    decoratedPillars: true
+    status: approximate
+    summary: A four-pillared hall with the Book of Gates on its walls. The pillars show Osiris as a djed pillar and priestly deities.
+    sarcophagus:
+      x: 0
+      y: 25.2
+      w: 1.3
+      d: 2.8
+      h: 1.2
+      material: granite
+      state: lost
+      label: Granite sarcophagus, lost — only lid fragments survive (Turin)
+    scenes:
+      - id: pillars
+        wall: s
+        title: Djed pillars and priestly gods
+        text: The faces of the pillars show Osiris in the form of a djed pillar, and gods such as Horus-Iunmutef who performed rituals for the dead.
+  - id: qv66-7
+    code: "7"
+    name: Side chamber
+    kind: annex
+    x: [-9, -5.2]
+    y: [22.5, 26.5]
+    floor: [-8, -8]
+    height: 2.4
+    status: approximate
+    summary: One of three small rooms opening off the burial chamber.
+  - id: qv66-8
+    code: "8"
+    name: Side chamber
+    kind: annex
+    x: [5.2, 9]
+    y: [22.5, 26.5]
+    floor: [-8, -8]
+    height: 2.4
+    status: approximate
+    summary: A second side room.
+  - id: qv66-9
+    code: "9"
+    name: Rear chamber
+    kind: annex
+    x: [-2, 2]
+    y: [30.4, 34.2]
+    floor: [-8, -8]
+    height: 2.4
+    status: approximate
+    summary: A small room behind the burial chamber.

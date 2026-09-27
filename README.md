@@ -32,7 +32,7 @@ Or from the command line: `npx vercel` (preview) and `npx vercel --prod` (produc
 ```
 src/
   content.config.ts   Schemas for every collection (Zod) — the single source of truth
-  data/               periods.yaml, dynasties.yaml (all 30 dynasties)
+  data/               periods.yaml, dynasties.yaml (all 30 dynasties), plans/*.yaml (tomb plans)
   content/            One Markdown file per entry
     pharaohs/ monuments/ tombs/ artifacts/ videos/
   lib/
@@ -42,7 +42,8 @@ src/
     format.ts         BCE dates, ordinals, durations
   components/         Header, Footer, Seo, Breadcrumbs, Card, Timeline, DynastyList,
                       VideoEmbed, HeroScene, FactList, Related, ListingPage, PageHero
-    media/            Gallery, CompareSlider, ModelViewer, Panorama, SpinViewer, EgyptMap, …
+    media/            Gallery, CompareSlider, ModelViewer, Panorama, SpinViewer, EgyptMap,
+                      TombExplorer, TombPlan, EvidenceKey, …
   assets/media/       Source images (optimised at build)
   layouts/            BaseLayout (head/SEO/fonts), EntityLayout (all detail pages)
   pages/              Routes (see below)
@@ -106,9 +107,11 @@ Every dynasty, pharaoh, monument, tomb and artifact accepts an optional `media` 
 | `media.model` | 3D viewer via `<model-viewer>`, with AR on supported phones — loaded only on click | `media/ModelViewer` |
 | `media.panorama` | Drag-to-look 360° panorama with compass (left edge = north) | `media/Panorama` |
 | `media.spin` | 360° turntable from a folder of frames | `media/SpinViewer` |
+| `media.plan` | Chamber plan, depth profile and 3D hotspots (see Tombs below) | `media/TombExplorer` |
+| `media.video` | Featured film, optionally starting at a chapter | `media/VideoFeature` |
 | `coordinates` (monuments, tombs) | Locator map on the page | `media/EgyptMap` |
 
-Every image carries `alt` and may carry `caption`, `credit`, `license`, `sourceUrl` and `kind` (`photo`, `reconstruction`, `illustration`, `diagram`). Non-photographic kinds are labelled on the page so readers can tell evidence from interpretation.
+Every image carries `alt` and may carry `caption`, `credit`, `license`, `sourceUrl` and `kind` (`photo`, `diagram`, `reconstruction`, `model`, `illustration`). Non-photographic kinds are labelled on the page so readers can tell evidence from interpretation.
 
 ```yaml
 media:
@@ -138,6 +141,74 @@ Videos accept an optional local `thumbnail`; otherwise YouTube's thumbnail is us
 **The map.** Coastline and Nile come from [Natural Earth](https://www.naturalearthdata.com) (public domain), clipped and simplified by `npm run media:map` into `src/data/geo/egypt.json`. Ancient cities are listed in `src/data/places.ts`; monuments and tombs appear automatically from their `coordinates`.
 
 **Reconstructions.** The current showcase images, the Step Pyramid model and the pyramidion turntable are procedural three.js reconstructions built from published dimensions (`scripts/render/`). Re-render them with `CHROMIUM_PATH=/path/to/chrome npm run media:render`; replace or add to them with photographs or scans whenever licensed material is available.
+
+## Tombs: plans, 3D models and evidence labels
+
+Showcase tomb pages (currently KV62, KV17, KV43 and QV66) combine a featured image, an **explorer** with a 3D model, plan and depth profile, a chamber list with hotspots, a before/after slider where meaningful, a gallery, a featured film that can start at a chapter, and a locator map. Everything in the explorer is generated from one plan file, so the 2D plan, the depth profile, the 3D model and its hotspots can never disagree.
+
+### 1. Describe the tomb — `src/data/plans/<id>.yaml`
+
+Coordinates are metres: `x` to the right, `y` down the page, depths negative. Each space is a rectangle:
+
+```yaml
+title: Plan of KV62, the tomb of Tutankhamun
+source: Simplified from the Theban Mapping Project plan and Carter's records …   # shown under every plan and model
+length: 30.79            # optional published figures
+camera: { theta: 125, phi: 52 }   # default 3D view, shared by the poster render and the viewer
+spaces:
+  - id: kv62-j
+    code: J                       # label on the plan and 3D hotspot
+    name: Burial chamber
+    kind: chamber                 # stairs | corridor | chamber | hall | well | annex | crypt | tunnel
+    x: [-18.46, -12.09]
+    y: [-10.18, -6.16]
+    floor: [-7.7, -7.7]           # start and end depth; add `descends: x-` for slopes and stairs
+    height: 3.63
+    decorated: [n, e, s, w]       # walls with decoration (drawn as colour zones, never as fake scenes)
+    pillars: [[x, y], …]
+    pit: { x: […], y: […], depth: 7 }                      # well shafts
+    sarcophagus: { x, y, w, d, h, material: quartzite, state: in-situ, label: … }   # state: in-situ | removed | lost
+    status: documented            # documented | approximate | uncertain
+    caveat: Why it is not documented, when it isn't.
+    summary: …
+    scenes:                       # wall hotspots
+      - { id: north, wall: n, title: The Opening of the Mouth, text: … }
+```
+
+Spaces that touch share an edge and get a doorway automatically. `uncertain` spaces and sarcophagi that are `removed` or `lost` are drawn as translucent ghosts, dashed in the plan.
+
+### 2. Render the model and images
+
+Add the tomb to `TOMBS` in `scripts/render/render.mjs` (media folder, interior camera positions, optional before/after `details`), then:
+
+```sh
+CHROMIUM_PATH=/path/to/chrome node scripts/render/render.mjs tomb:kv62
+```
+
+This writes `public/models/<id>.glb` (a 1:50 cut-away, typically 30–120 KB) and `hero.jpg`, `model-poster.png` and interior views to `src/assets/media/tombs/<folder>/`.
+
+### 3. Connect it in the tomb's Markdown
+
+```yaml
+media:
+  hero: { src: ../../assets/media/tombs/kv62-tutankhamun/hero.jpg, alt: …, kind: model, credit: … }
+  plan: kv62
+  model: { src: /models/kv62.glb, poster: ../../assets/media/tombs/kv62-tutankhamun/model-poster.png, alt: …, kind: model }
+  compare: [ … ]           # optional
+  gallery: [ … ]
+  video: { ref: boring-history-every-pharaoh-dynasty, start: "1:32:20", note: … }   # start = a chapter time
+valley: kings              # kings | queens — groups the tombs page
+featured: true             # showcase tombs are listed first
+order: 1
+```
+
+### Evidence labels
+
+Every image declares a `kind` — `photo` (documented evidence), `diagram`, `reconstruction` or `model` (interpretive 3D model) — and it is printed with the image. Every tomb space declares a `status`. The key is rendered by `media/EvidenceKey` on tomb pages. When evidence is incomplete, mark the space `approximate` or `uncertain` and say why in `caveat`; do not model what has not been found.
+
+### Performance and accessibility
+
+The explorer ships as HTML and SVG: plan, profile and every chamber description are in the page, work without JavaScript and are crawlable. `<model-viewer>` and the GLB load only after "Explore the tomb in 3D" is pressed. Tabs follow the ARIA tabs pattern (arrow keys), plan spaces and 3D hotspots are keyboard-focusable buttons, and the chamber list becomes a swipeable strip on phones.
 
 ## SEO
 

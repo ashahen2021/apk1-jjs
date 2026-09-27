@@ -19,14 +19,16 @@ export interface Props {
   /** Show the title bar over the thumbnail. */
   overlay?: boolean;
   priority?: boolean;
+  /** Start playback here, in seconds (e.g. at a chapter). */
+  start?: number;
 }
-const { youtubeId, title, duration, thumbnail, overlay = true, priority = false } = Astro.props;
+const { youtubeId, title, duration, thumbnail, overlay = true, priority = false, start } = Astro.props;
 const length = formatDuration(duration);
 const thumb = youtubeId && youtubeThumb(youtubeId);
 ---
 
 {youtubeId || thumbnail ? (
-  <div class="video" data-youtube-id={youtubeId} data-title={title}>
+  <div class="video" data-youtube-id={youtubeId} data-title={title} data-start={start}>
     {thumbnail ? (
       <Picture src={thumbnail} alt="" formats={['avif', 'webp']} widths={[480, 960, 1440]} sizes="(min-width: 60rem) 60rem, 100vw" loading={priority ? 'eager' : 'lazy'} decoding="async" />
     ) : (
@@ -39,7 +41,7 @@ const thumb = youtubeId && youtubeThumb(youtubeId);
     )}
     {length && <span class="duration">{length}</span>}
     {youtubeId ? (
-      <a class="play" href={`https://www.youtube.com/watch?v=${youtubeId}`}>
+      <a class="play" href={`https://www.youtube.com/watch?v=${youtubeId}${start ? `&t=${start}s` : ''}`}>
         <span class="play-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Play video: {title}</span>
       </a>
@@ -62,7 +64,8 @@ const thumb = youtubeId && youtubeThumb(youtubeId);
     el.querySelector('.play')?.addEventListener('click', (event) => {
       event.preventDefault();
       const iframe = document.createElement('iframe');
-      iframe.src = `https://www.youtube-nocookie.com/embed/${el.dataset.youtubeId}?autoplay=1&rel=0`;
+      const start = el.dataset.start ? `&start=${el.dataset.start}` : '';
+      iframe.src = `https://www.youtube-nocookie.com/embed/${el.dataset.youtubeId}?autoplay=1&rel=0${start}`;
       iframe.title = el.dataset.title ?? 'YouTube video';
       iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
       iframe.allowFullscreen = true;

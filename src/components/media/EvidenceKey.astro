@@ -1,0 +1,47 @@
+---
+/** Explains how NeoKemetAI labels evidence and interpretation. */
+export interface Props { compact?: boolean }
+const { compact = false } = Astro.props;
+const media = [
+  ['Photo', 'Documented evidence: a photograph of the site or object.'],
+  ['Diagram', 'A plan, section or map drawn from published measurements.'],
+  ['Reconstruction', 'A visual reconstruction of how something looked, based on evidence.'],
+  ['Interpretive 3D model', 'A simplified architectural model to explore; not a survey.'],
+];
+const spaces = [
+  ['documented', 'Documented', 'Space and dimensions follow published surveys.'],
+  ['approximate', 'Approximate', 'The space is documented; its size or depth here is approximate.'],
+  ['uncertain', 'Uncertain', 'Partly explored or disputed; shown to indicate, not to measure.'],
+];
+---
+
+<details class:list={['key', { 'key--compact': compact }]} open={!compact}>
+  <summary>How to read our labels</summary>
+  <div class="cols">
+    <dl>
+      <dt class="head">Every image says what it is</dt>
+      {media.map(([t, d]) => (<div><dt>{t}</dt><dd>{d}</dd></div>))}
+    </dl>
+    <dl>
+      <dt class="head">Every space in a tomb has a status</dt>
+      {spaces.map(([k, t, d]) => (<div><dt><span class:list={['dot', `dot--${k}`]}></span>{t}</dt><dd>{d}</dd></div>))}
+    </dl>
+  </div>
+</details>
+
+<style>
+  .key { container-type: inline-size; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-raised); padding: 0.9rem 1.2rem; }
+  summary { cursor: pointer; font-family: var(--font-display); letter-spacing: 0.12em; text-transform: uppercase; font-size: 0.8rem; color: var(--accent); min-height: 1.75rem; }
+  .cols { display: grid; gap: 1rem 2.5rem; margin-top: 0.8rem; }
+  @container (min-width: 44rem) { .cols { grid-template-columns: 1fr 1fr; } }
+  dl { margin: 0; display: grid; gap: 0.45rem; }
+  .head { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-faint); }
+  dl div { display: grid; grid-template-columns: 1fr; font-size: 0.85rem; }
+  @container (min-width: 26rem) { dl div { grid-template-columns: 10rem 1fr; gap: 0.8rem; } }
+  dt { color: var(--limestone); display: flex; align-items: center; gap: 0.45rem; }
+  dd { margin: 0; color: var(--text-muted); }
+  .dot { width: 0.6rem; height: 0.6rem; border-radius: 50%; flex: none; }
+  .dot--documented { background: var(--faience); }
+  .dot--approximate { background: var(--gold); }
+  .dot--uncertain { border: 1.5px dashed #7fa7d9; }
+</style>

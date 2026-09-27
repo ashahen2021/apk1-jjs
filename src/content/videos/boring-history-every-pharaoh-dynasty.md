@@ -25,6 +25,7 @@ chapters:
   - { time: "2:23:07", title: Closing }
 dynasties: ["1", "2", "3", "4", "5", "12", "18", "19", "20", "30"]
 pharaohs: [djoser, khufu, senusret-iii, hatshepsut, akhenaten, tutankhamun, ramesses-ii, nectanebo-ii]
+tombs: [kv62-tutankhamun, kv17-seti-i, qv66-nefertari]
 description: A slow, calm walk through every dynasty of ancient Egypt — from Narmer to Nectanebo II — read one name at a time, for sleep.
 ---
 

@@ -54,6 +54,7 @@ const ld = og ? jsonLd.map((item) => ({ image: new URL(og.src, Astro.site).href,
         <slot name="aside" />
       </aside>
     </div>
+    <slot name="explore" />
     {media && <EntityMedia media={media} name={title} />}
     {mapFocus && (
       <MediaSection kicker="Location" title="On the map" lede="Tap a marker for details, or zoom out to see the whole Nile valley.">

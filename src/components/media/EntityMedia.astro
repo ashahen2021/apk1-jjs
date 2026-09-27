@@ -17,7 +17,8 @@ export interface Props { media: Media; name: string }
 const { media, name } = Astro.props;
 ---
 
-{media.model && (
+{/* With a plan, the model is shown inside the TombExplorer instead. */}
+{media.model && !media.plan && (
   <MediaSection kicker="Interactive" title="Explore in 3D" lede={`Turn, tilt and zoom a model of the ${name}.`}>
     <ModelViewer {...media.model} />
   </MediaSection>

@@ -12,6 +12,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright-core';
+import yaml from 'js-yaml';
 
 const root = path.resolve(fileURLToPath(import.meta.url), '../../..');
 const media = (...p) => path.join(root, 'src/assets/media', ...p);
@@ -26,6 +27,51 @@ const JOBS = {
   stepPyramidGlb: [path.join(root, 'public/models/step-pyramid-of-djoser.glb')],
   pyramidionView: [media('artifacts/pyramidion-of-amenemhat-iii/pyramidion.jpg')],
   pyramidionSpin: [media('spins/pyramidion-of-amenemhat-iii')],
+};
+
+/**
+ * Tomb renders, generated from src/data/plans/<plan>.yaml. Run one with
+ * `node scripts/render/render.mjs tomb:kv62`. Camera angles come from the plan's
+ * `camera` field, which the page also uses, so the poster matches the 3D view.
+ * Interior cameras are [x, eye height, y] in plan metres.
+ */
+const TOMBS = {
+  kv62: {
+    folder: 'tombs/kv62-tutankhamun',
+    view: {},
+    interiors: {
+      'burial-chamber': { from: [-17.7, -6.1, -6.5], to: [-15.2, -7.2, -9.6] },
+      antechamber: { from: [-15.3, -5.2, 1.3], to: [-17.3, -6.3, -4.5], fov: 72 },
+    },
+    // Before/after pair: the burial chamber as Carter found it, and today.
+    details: {
+      'as-found': { space: 'kv62-j', shrines: true, theta: 150 },
+      today: { space: 'kv62-j', theta: 150 },
+    },
+  },
+  kv17: {
+    folder: 'tombs/kv17-seti-i',
+    view: { heroPad: 0.5 },
+    interiors: {
+      crypt: { from: [2.3, -25.3, 102.1], to: [-5.5, -24.2, 108.6], fov: 72, lamp: [1.6, -24.6, 103] },
+      'pillared-hall': { from: [3.6, -15.4, 54.8], to: [-3.6, -16.4, 61.6], fov: 72 },
+    },
+  },
+  kv43: {
+    folder: 'tombs/kv43-thutmose-iv',
+    view: { heroPad: 0.6 },
+    interiors: {
+      'burial-chamber': { from: [-28.8, -16.4, 49.6], to: [-28.8, -18.8, 66.5], fov: 66 },
+    },
+  },
+  qv66: {
+    folder: 'tombs/qv66-nefertari',
+    view: {},
+    interiors: {
+      'burial-chamber': { from: [0, -6.4, 20.4], to: [0, -7.4, 29], fov: 72, lamp: [0.8, -6, 21] },
+      antechamber: { from: [1.8, -1.4, 10.6], to: [-2.2, -2.2, 6.6], fov: 72 },
+    },
+  },
 };
 
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.woff2': 'font/woff2' };
@@ -51,15 +97,42 @@ const page = await browser.newPage();
 page.on('console', (m) => m.type() === 'error' && console.error('[page]', m.text()));
 page.on('pageerror', (e) => console.error('[page]', e.message));
 await page.goto(`http://localhost:${port}/scripts/render/index.html`);
-await page.waitForFunction(() => window.jobs && window.ready);
+await page.waitForFunction(() => window.jobs && window.tombJobs && window.ready);
 await page.evaluate(() => window.ready);
 
-const selected = process.argv.slice(2).length ? process.argv.slice(2) : Object.keys(JOBS);
+const selected = process.argv.slice(2).length ? process.argv.slice(2) : [...Object.keys(JOBS), ...Object.keys(TOMBS).map((t) => `tomb:${t}`)];
+const decode = (s) => Buffer.from(s.replace(/^data:[^,]+,/, ''), 'base64');
+
+async function renderTomb(id) {
+  const cfg = TOMBS[id];
+  const plan = yaml.load(await readFile(path.join(root, `src/data/plans/${id}.yaml`), 'utf8'));
+  const view = { ...(plan.camera ?? { theta: 35, phi: 52 }), ...cfg.view };
+  const dir = media(cfg.folder);
+  await mkdir(dir, { recursive: true });
+  const out = [
+    ['hero.jpg', await page.evaluate(([p, v]) => window.tombJobs.hero(p, v), [plan, view])],
+    ['model-poster.png', await page.evaluate(([p, v]) => window.tombJobs.poster(p, v), [plan, view])],
+  ];
+  for (const [name, cam] of Object.entries(cfg.interiors)) {
+    out.push([`${name}.jpg`, await page.evaluate(([p, c]) => window.tombJobs.interior(p, c), [plan, cam])]);
+  }
+  for (const [name, opts] of Object.entries(cfg.details ?? {})) {
+    out.push([`${name}.jpg`, await page.evaluate(([p, o]) => window.tombJobs.detail(p, o), [plan, opts])]);
+  }
+  for (const [name, data] of out) await writeFile(path.join(dir, name), decode(data));
+  const glbPath = path.join(root, `public/models/${id}.glb`);
+  await writeFile(glbPath, decode(await page.evaluate((p) => window.tombJobs.glb(p), plan)));
+  console.log(`tomb:${id} → ${path.relative(root, dir)} (${out.length} images) + ${path.relative(root, glbPath)}`);
+}
+
 for (const name of selected) {
+  if (name.startsWith('tomb:')) {
+    await renderTomb(name.slice(5));
+    continue;
+  }
   const [target] = JOBS[name];
   const started = Date.now();
   const result = await page.evaluate((job) => window.jobs[job](), name);
-  const decode = (s) => Buffer.from(s.replace(/^data:[^,]+,/, ''), 'base64');
   if (Array.isArray(result)) {
     await mkdir(target, { recursive: true });
     await Promise.all(result.map((r, i) => writeFile(path.join(target, `frame-${String(i).padStart(2, '0')}.jpg`), decode(r))));

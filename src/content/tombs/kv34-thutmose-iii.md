@@ -7,6 +7,7 @@ dynasty: "18"
 site: Valley of the Kings, western Thebes
 coordinates: [25.7363, 32.6006]
 discovered: { year: 1898, by: Victor Loret }
+valley: kings
 description: KV34, the cliff-top tomb of Thutmose III in the Valley of the Kings, holds the earliest complete Amduat, painted like an unrolled papyrus.
 ---
 

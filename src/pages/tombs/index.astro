@@ -1,24 +1,74 @@
 ---
 import ListingPage from '@/components/ListingPage.astro';
 import Card from '@/components/Card.astro';
+import EgyptMap from '@/components/media/EgyptMap.astro';
+import EvidenceKey from '@/components/media/EvidenceKey.astro';
 import { getTombs } from '@/lib/content';
 import { cards } from '@/lib/cards';
 import { GLYPHS } from '@/lib/site';
+import { VALLEYS } from '@/lib/tombs';
 
 const tombs = await getTombs();
+// Showcase tombs (with 3D models) first, then by dynasty.
+const order = (a: (typeof tombs)[number], b: (typeof tombs)[number]) =>
+  Number(b.data.featured) - Number(a.data.featured) || a.data.order - b.data.order;
+const groups = (['kings', 'queens'] as const).map((valley) => ({
+  valley,
+  ...VALLEYS[valley],
+  tombs: tombs.filter((t) => t.data.valley === valley).sort(order),
+}));
+const other = tombs.filter((t) => !t.data.valley);
 ---
 
 <ListingPage
   title="Tombs"
-  metaTitle="Royal Tombs of Ancient Egypt"
-  description="Explore the royal tombs of ancient Egypt in the Valleys of the Kings and Queens, including KV62 of Tutankhamun and QV66 of Nefertari."
+  metaTitle="Royal Tombs of Ancient Egypt: Valley of the Kings & Queens"
+  description="Explore the royal tombs of the Valley of the Kings and the Valley of the Queens — KV62, KV17, KV43, QV66 and more — with interactive 3D models and plans."
   kicker="Houses of eternity"
-  lede="Royal burials of the Valley of the Kings and the Valley of the Queens, with what was found inside them."
+  lede="Walk through the royal tombs of western Thebes chamber by chamber. Showcase tombs have interactive 3D models, plans and depth profiles built from published surveys."
   glyph={GLYPHS.tombs}
   path="/tombs/"
   itemList={tombs.map((t) => ({ name: t.data.name, url: `/tombs/${t.id}/` }))}
 >
-  <div class="grid">
-    {tombs.map((t) => <Card {...cards.tomb(t)} headingLevel="h2" />)}
-  </div>
+  {groups.filter((g) => g.tombs.length).map((g) => (
+    <section class="valley" aria-labelledby={`valley-${g.valley}`}>
+      <div class="valley-head">
+        <h2 id={`valley-${g.valley}`}>{g.name}</h2>
+        <p class="lede">{g.blurb}</p>
+      </div>
+      <div class="grid">
+        {g.tombs.map((t) => (
+          <Card {...cards.tomb(t)} headingLevel="h3">
+            {t.data.media.model && <p class="has-3d"><span aria-hidden="true">◈</span> Interactive 3D model</p>}
+          </Card>
+        ))}
+      </div>
+    </section>
+  ))}
+
+  {other.length > 0 && (
+    <section class="valley" aria-labelledby="valley-other">
+      <h2 id="valley-other">Other royal tombs</h2>
+      <div class="grid">{other.map((t) => <Card {...cards.tomb(t)} headingLevel="h3" />)}</div>
+    </section>
+  )}
+
+  <section class="valley map-block" aria-labelledby="tomb-map">
+    <div>
+      <h2 id="tomb-map">Where the tombs are</h2>
+      <p class="lede">Both valleys lie in the desert hills of the west bank, opposite Luxor. Zoom into Thebes and tap a tomb.</p>
+      <EvidenceKey />
+    </div>
+    <EgyptMap view="thebes" compact title="Map of the Theban royal tombs" />
+  </section>
 </ListingPage>
+
+<style>
+  .valley + .valley { margin-top: clamp(3.5rem, 2.5rem + 3vw, 5.5rem); }
+  .valley-head { margin-bottom: 1.75rem; }
+  .valley h2 { font-size: var(--step-3); }
+  .lede { font-size: var(--step-0); }
+  .has-3d { margin: 0.6rem 0 0; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-bright); }
+  .map-block { display: grid; gap: 2rem; align-items: start; }
+  @media (min-width: 60rem) { .map-block { grid-template-columns: 1fr 1.2fr; gap: 3rem; } }
+</style>

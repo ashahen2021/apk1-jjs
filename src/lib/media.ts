@@ -1,6 +1,6 @@
 import type { ImageMetadata } from 'astro';
 
-export type MediaKind = 'photo' | 'reconstruction' | 'illustration' | 'diagram';
+export type MediaKind = 'photo' | 'diagram' | 'reconstruction' | 'model' | 'illustration';
 
 export interface MediaImage {
   src: ImageMetadata;
@@ -14,9 +14,10 @@ export interface MediaImage {
 
 export const KIND_LABEL: Record<MediaKind, string> = {
   photo: 'Photo',
-  reconstruction: 'Reconstruction',
-  illustration: 'Illustration',
   diagram: 'Diagram',
+  reconstruction: 'Reconstruction',
+  model: 'Interpretive 3D model',
+  illustration: 'Illustration',
 };
 
 /** "Reconstruction · NeoKemetAI · CC BY 4.0" */

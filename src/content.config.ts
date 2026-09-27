@@ -28,8 +28,12 @@ const credit = {
   credit: z.string().optional(),
   license: z.string().optional(),
   sourceUrl: z.url().optional(),
-  /** Tells readers whether they are looking at evidence or an interpretation. */
-  kind: z.enum(['photo', 'reconstruction', 'illustration', 'diagram']).default('photo'),
+  /**
+   * Tells readers whether they are looking at evidence or an interpretation:
+   * photo = documented evidence · diagram = measured/schematic drawing ·
+   * reconstruction = visual reconstruction · model = interpretive 3D model.
+   */
+  kind: z.enum(['photo', 'diagram', 'reconstruction', 'model', 'illustration']).default('photo'),
 };
 
 const media = (image: ImageFunction) => {
@@ -64,9 +68,83 @@ const media = (image: ImageFunction) => {
       panorama: picture.optional(),
       /** 360° turntable: a folder of frames in src/assets/media/spins/<folder>/. */
       spin: z.object({ folder: z.string(), alt: z.string(), caption: z.string().optional(), ...credit }).optional(),
+      /** Architectural plan (src/data/plans/<id>.yaml): drives the chamber map, depth profile and 3D hotspots. */
+      plan: reference('plans').optional(),
+      /** Featured film for this page, optionally starting at a chapter. */
+      video: z
+        .object({ ref: reference('videos'), start: z.string().regex(/^\d+(:\d{2}){1,2}$/).optional(), note: z.string().optional() })
+        .optional(),
     })
     .prefault({});
 };
+
+/**
+ * Architectural plans of tombs (and later other buildings), in metres.
+ * Plan coordinates: x to the right, y down the page; depths are negative.
+ * Every space carries an evidence status so the site never presents an
+ * approximation as a measured fact.
+ */
+const status = z.enum(['documented', 'approximate', 'uncertain']);
+const range = z.tuple([z.number(), z.number()]);
+const plans = defineCollection({
+  loader: glob({ pattern: '*.yaml', base: './src/data/plans' }),
+  schema: z.object({
+    title: z.string(),
+    /** Where the layout comes from, shown under every plan and model. */
+    source: z.string(),
+    note: z.string().optional(),
+    /** Published overall figures, when known. */
+    length: z.number().optional(),
+    area: z.number().optional(),
+    /** Default 3D camera angles (degrees), shared by the poster render and the viewer. */
+    camera: z.object({ theta: z.number(), phi: z.number() }).default({ theta: 35, phi: 52 }),
+    spaces: z.array(
+      z.object({
+        id: z.string(),
+        /** Short label on the plan and 3D hotspots, e.g. "1" or "J". */
+        code: z.string(),
+        name: z.string(),
+        kind: z.enum(['stairs', 'corridor', 'chamber', 'hall', 'well', 'annex', 'crypt', 'tunnel']),
+        x: range,
+        y: range,
+        /** Floor depth at the start and end of the space (equal when flat). */
+        floor: range,
+        /** Direction the floor descends in plan: x+, x-, y+ or y-. */
+        descends: z.enum(['x+', 'x-', 'y+', 'y-']).optional(),
+        height: z.number(),
+        pillars: z.array(z.tuple([z.number(), z.number()])).default([]),
+        pillarSize: z.number().default(1.1),
+        /** Walls carrying painted or carved decoration: n (top), e (right), s (bottom), w (left). */
+        decorated: z.array(z.enum(['n', 'e', 's', 'w'])).default([]),
+        decoratedPillars: z.boolean().default(false),
+        /** Shaft in the floor of a well chamber. */
+        pit: z.object({ x: range, y: range, depth: z.number() }).optional(),
+        sarcophagus: z
+          .object({
+            x: z.number(),
+            y: z.number(),
+            w: z.number(),
+            d: z.number(),
+            h: z.number(),
+            material: z.enum(['quartzite', 'granite', 'calcite']),
+            /** in-situ = still in the tomb; removed = now elsewhere; lost = only fragments or records survive. */
+            state: z.enum(['in-situ', 'removed', 'lost']),
+            label: z.string(),
+          })
+          .optional(),
+        summary: z.string(),
+        decoration: z.string().optional(),
+        status,
+        /** Why the status is not "documented", or other caveats. */
+        caveat: z.string().optional(),
+        /** Notable scenes, shown as hotspots on the wall they occupy. */
+        scenes: z
+          .array(z.object({ id: z.string(), wall: z.enum(['n', 'e', 's', 'w']), title: z.string(), text: z.string(), status: status.default('documented') }))
+          .default([]),
+      }),
+    ),
+  }),
+});
 
 const periods = defineCollection({
   loader: file('src/data/periods.yaml'),
@@ -141,6 +219,11 @@ const tombs = defineCollection({
     dynasty: reference('dynasties'),
     ...place,
     discovered: z.object({ year: year, by: z.string() }).optional(),
+    valley: z.enum(['kings', 'queens']).optional(),
+    /** Showcase tombs are listed first and highlighted on the tombs page. */
+    featured: z.boolean().default(false),
+    /** Position among showcase tombs (lower first). */
+    order: z.number().default(99),
     ...seo,
   }),
 });
@@ -184,4 +267,4 @@ const videos = defineCollection({
   }),
 });
 
-export const collections = { periods, dynasties, pharaohs, monuments, tombs, artifacts, videos };
+export const collections = { periods, dynasties, pharaohs, monuments, tombs, artifacts, videos, plans };

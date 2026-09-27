@@ -6,6 +6,7 @@ pharaoh: ramesses-ii
 dynasty: "19"
 site: Valley of the Kings, western Thebes
 coordinates: [25.7409, 32.6021]
+valley: kings
 description: KV7, the tomb of Ramesses II in the Valley of the Kings, is one of the largest royal tombs, badly damaged by floods and under long excavation.
 ---
 
