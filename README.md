@@ -13,13 +13,19 @@ npm run build      # type-checks content + code, then builds to dist/
 npm run preview    # serve the production build
 ```
 
-Set the production domain at build time so canonical URLs, the sitemap and Open Graph tags are correct:
+## Deploying to Vercel
 
-```sh
-SITE_URL=https://your-domain.example npm run build
-```
+The project is a static Astro site and is configured for Vercel in `vercel.json` (no adapter or server needed).
 
-`dist/` can be deployed to any static host (Netlify, Vercel, Cloudflare Pages, GitHub Pages).
+1. In Vercel, choose **Add New → Project** and import this GitHub repository.
+2. Keep the detected settings: framework **Astro**, install `npm ci`, build `npm run build`, output `dist`. Node 22 is used (`engines` in `package.json`).
+3. Deploy. Every push to the production branch redeploys, and every other branch gets its own preview URL.
+
+Canonical URLs, the sitemap and Open Graph tags use the Vercel production domain automatically (`VERCEL_PROJECT_PRODUCTION_URL`). When you attach a custom domain, add an environment variable `SITE_URL=https://your-domain` in **Project → Settings → Environment Variables** and redeploy.
+
+Or from the command line: `npx vercel` (preview) and `npx vercel --prod` (production).
+
+`dist/` is plain static output, so any static host (Netlify, Cloudflare Pages, GitHub Pages) also works; set `SITE_URL` there.
 
 ## Architecture
 
