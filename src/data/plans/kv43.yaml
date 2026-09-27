@@ -2,6 +2,12 @@ title: Plan of KV43, the tomb of Thutmose IV
 source: Simplified from Howard Carter's 1903 plan and the Theban Mapping Project. The sequence of spaces and the two turns in the axis are documented; dimensions and depths in this model are approximate.
 note: Like other tombs of the mid 18th Dynasty, the axis turns twice at right angles before the burial chamber.
 camera: { theta: 55, phi: 55 }
+route: [kv43-1, kv43-2, kv43-3, kv43-4, kv43-5, kv43-6, kv43-7, kv43-8, kv43-9, kv43-10, kv43-11]
+sources:
+  - label: "H. Carter and P. E. Newberry, The Tomb of Thoutmôsis IV (Westminster, 1904)"
+  - label: Theban Mapping Project, KV 43 (plan and measurements)
+    url: https://thebanmappingproject.com/
+  - label: "N. Reeves and R. H. Wilkinson, The Complete Valley of the Kings (London, 1996)"
 spaces:
   - id: kv43-1
     code: "1"
@@ -64,6 +70,12 @@ spaces:
     caveat: The shaft depth is approximate.
     summary: A deep shaft across the route. Unusually, the walls of this chamber are painted, showing the king before the gods on a yellow ground.
     decoration: The king before Hathor, Anubis and Osiris, on a yellow ground.
+    scenes:
+      - id: gods
+        wall: s
+        title: The king before the gods
+        text: Thutmose IV is received by Hathor, Anubis and Osiris, painted on a yellow ground.
+        status: approximate
   - id: kv43-6
     code: "6"
     name: Two-pillared hall
@@ -74,7 +86,9 @@ spaces:
     height: 3
     pillars: [[-1.8, 44.5], [1.8, 44.5]]
     status: approximate
-    summary: An undecorated pillared hall. Here the axis turns to the left for the first time.
+    summary: An undecorated pillared hall. Here the axis turns to the left for the first time, and a stairway cut into the floor leads on.
+    finds:
+      - Remains of the king's chariot body (the find spot within the tomb is not recorded here)
   - id: kv43-7
     code: "7"
     name: Stairway
@@ -109,6 +123,11 @@ spaces:
     status: approximate
     summary: The second decorated room, again showing the king before the gods. The axis turns left a second time into the burial chamber.
     scenes:
+      - id: gods
+        wall: e
+        title: The king before the gods
+        text: The painted scenes of the well chamber are repeated here, with the king before Osiris, Anubis and Hathor.
+        status: approximate
       - id: graffito
         wall: n
         title: A restoration graffito
@@ -125,6 +144,7 @@ spaces:
     pillars: [[-30.6, 52], [-27, 52], [-30.6, 55.8], [-27, 55.8], [-30.6, 59.6], [-27, 59.6]]
     status: approximate
     summary: A six-pillared hall. Unlike the well chamber and antechamber, its walls were never decorated.
+    caveat: The burial chamber has side rooms (storerooms). Their layout has not yet been digitised for this model, so they are not shown.
   - id: kv43-11
     code: "11"
     name: Crypt
@@ -144,24 +164,3 @@ spaces:
       material: quartzite
       state: in-situ
       label: Quartzite sarcophagus, still in place
-  - id: kv43-12
-    code: "12"
-    name: Side chamber
-    kind: annex
-    x: [-38, -33]
-    y: [50, 55]
-    floor: [-18, -18]
-    height: 2.4
-    status: approximate
-    caveat: The burial chamber has four side rooms; two are shown.
-    summary: One of the storerooms opening off the burial chamber. Carter found the remains of the king's chariot body among the tomb's contents.
-  - id: kv43-13
-    code: "13"
-    name: Side chamber
-    kind: annex
-    x: [-24.6, -20]
-    y: [57, 62]
-    floor: [-18, -18]
-    height: 2.4
-    status: approximate
-    summary: A second storeroom off the burial chamber.

@@ -177,6 +177,32 @@ spaces:
 
 Spaces that touch share an edge and get a doorway automatically. `uncertain` spaces and sarcophagi that are `removed` or `lost` are drawn as translucent ghosts, dashed in the plan.
 
+Plan-level fields that drive the explorer:
+
+```yaml
+route: [kv62-a, kv62-b, kv62-i, kv62-j]     # entrance → burial chamber; drawn as the gold path in 3D, plan and profile
+sources:                                     # listed under the explorer — cite every plan
+  - { label: "H. Carter and A. C. Mace, The Tomb of Tut.ankh.Amen (1923–1933)" }
+  - { label: Theban Mapping Project, url: https://thebanmappingproject.com/ }
+tour:                                        # optional; defaults to the route
+  - { space: qv66-2, scene: senet, text: … } # a stop can face a wall scene
+```
+
+Per-space fields:
+
+```yaml
+    condition: damaged            # damaged | unfinished
+    conditionWalls: [s]           # optional: mark only these walls
+    conditionNote: …
+    finds: [ … ]                  # what excavators recorded (no position implied)
+    features:                     # hotspots, only where the position is recorded
+      - { id: breach, kind: damage, title: …, text: …, at: [x, y], z: 1.4, status: documented }   # kind: feature | find | damage | opening
+```
+
+Sarcophagi and well shafts become hotspots automatically.
+
+**Integrity rules for plans.** Never add a room, pillar or feature that is not in a published plan; if a tomb has spaces you cannot place, mention them in `caveat` and leave them out of the geometry. Decoration is a flat tint on the walls that carry it — do not draw registers, friezes or scenes. Mark every space `documented`, `approximate` (shown to readers as "reconstructed geometry") or `uncertain`, and cite the plan's sources.
+
 ### 2. Render the model and images
 
 Add the tomb to `TOMBS` in `scripts/render/render.mjs` (media folder, interior camera positions, optional before/after `details`), then:
@@ -208,7 +234,9 @@ Every image declares a `kind` — `photo` (documented evidence), `diagram`, `rec
 
 ### Performance and accessibility
 
-The explorer ships as HTML and SVG: plan, profile and every chamber description are in the page, work without JavaScript and are crawlable. `<model-viewer>` and the GLB load only after "Explore the tomb in 3D" is pressed. Tabs follow the ARIA tabs pattern (arrow keys), plan spaces and 3D hotspots are keyboard-focusable buttons, and the chamber list becomes a swipeable strip on phones.
+The explorer ships as HTML and SVG: plan, profile and every chamber description are in the page, work without JavaScript and are crawlable. `<model-viewer>` and the GLB load only after "Explore the tomb in 3D" is pressed (the button states the download size); without WebGL the explorer switches to the plan. It opens on the whole tomb and flies to a space only when one is chosen; scene and feature hotspots appear for the selected space.
+
+Controls: tabs (3D, plan, depth profile), toggles for the path, evidence colours, hotspots and labels, a Full view button and a guided tour. Keyboard: `N`/`P` next/previous space or tour stop, `F` full view, `1`–`3` views, `R` `E` `H` `L` toggles, `T` tour, `Esc` end tour. Tabs follow the ARIA tabs pattern, plan spaces, scene markers and 3D hotspots are focusable buttons, and the chamber list becomes a swipeable strip on phones.
 
 ## SEO
 

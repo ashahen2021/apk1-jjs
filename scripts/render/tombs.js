@@ -14,9 +14,11 @@ const C = {
   floor: new THREE.Color(0x8b7658),
   wall: new THREE.Color(0xcdb893),
   pillar: new THREE.Color(0xbfa77f),
-  dado: new THREE.Color(0x5b2d1f),
-  painted: new THREE.Color(0xd9b04f),
-  frieze: new THREE.Color(0x2c5876),
+  // One flat tint marks decorated surfaces; no invented layout of registers or friezes.
+  painted: new THREE.Color(0xcfa451),
+  damaged: new THREE.Color(0xa0685a),
+  unfinished: new THREE.Color(0xe6ddcb),
+  route: new THREE.Color(0xf2c14e),
   pit: new THREE.Color(0x231c15),
   quartzite: new THREE.Color(0x7e4636),
   granite: new THREE.Color(0x7c3b2e),
@@ -108,14 +110,15 @@ function subtract([a, b], holes) {
  * @param opts.ceiling    add ceilings (for interior renders)
  * @param opts.shrines    add Tutankhamun's gilded shrines around the sarcophagus
  */
-export function buildTomb(plan, { cut = 0.55, ceiling = false, shrines = false, material } = {}) {
-  const solid = [];
+export function buildTomb(plan, { cut = 0.55, ceiling = false, shrines = false, route = true } = {}) {
+  // Geometry is grouped by evidence status so the viewer can recolour it.
+  const groups = { documented: [], approximate: [] };
   const ghost = [];
   // Same defaults as the content schema (raw YAML does not have them).
   const spaces = plan.spaces.map((s) => ({ decorated: [], pillars: [], pillarSize: 1.1, decoratedPillars: false, ...s }));
 
   for (const s of spaces) {
-    const out = s.status === 'uncertain' ? ghost : solid;
+    const out = s.status === 'uncertain' ? ghost : groups[s.status];
     const [x0, x1] = s.x, [y0, y1] = s.y;
     const wallH = s.height * cut;
 
@@ -152,7 +155,7 @@ export function buildTomb(plan, { cut = 0.55, ceiling = false, shrines = false, 
       out.push(box(x0, x1, s.floor[0] - 0.3, s.floor[0], y0, y1, C.floor));
     }
 
-    // Walls, split into dado / painted field / frieze where decorated.
+    // Walls: plain rock, a flat "decorated" tint, or the condition colour.
     const edges = {
       n: [[x0, y0], [x1, y0], 'x'],
       s: [[x1, y1], [x0, y1], 'x'],
@@ -166,19 +169,16 @@ export function buildTomb(plan, { cut = 0.55, ceiling = false, shrines = false, 
         const pt = (v) => (axis === 'x' ? [v, ay] : [ax, v]);
         const [pa, pb] = (axis === 'x' ? ax < bx : ay < by) ? [pt(p), pt(q)] : [pt(q), pt(p)];
         const fa = floorAt(s, pa[0], pa[1]), fb = floorAt(s, pb[0], pb[1]);
-        const bands = decorated
-          ? [[0, 0.16, C.dado], [0.16, 0.86, C.painted], [0.86, 1, C.frieze]]
-          : [[0, 1, C.wall]];
+        const marked = s.condition === 'unfinished' || (s.condition === 'damaged' && (!s.conditionWalls?.length || s.conditionWalls.includes(edge)));
+        const color = marked ? C[s.condition] : decorated ? C.painted : C.wall;
         const top = ceiling ? s.height : wallH;
-        for (const [b0, b1, color] of bands) {
-          out.push(quad([pa[0], fa + top * b0, pa[1]], [pb[0], fb + top * b0, pb[1]], [pb[0], fb + top * b1, pb[1]], [pa[0], fa + top * b1, pa[1]], color));
-        }
+        out.push(quad([pa[0], fa, pa[1]], [pb[0], fb, pb[1]], [pb[0], fb + top, pb[1]], [pa[0], fa + top, pa[1]], color));
       }
     }
 
     if (ceiling) {
       const f = (x, y) => floorAt(s, x, y) + s.height;
-      out.push(quad([x0, f(x0, y0), y0], [x1, f(x1, y0), y0], [x1, f(x1, y1), y1], [x0, f(x0, y1), y1], s.kind === 'crypt' ? new THREE.Color(0x1c2a48) : C.wall));
+      out.push(quad([x0, f(x0, y0), y0], [x1, f(x1, y0), y0], [x1, f(x1, y1), y1], [x0, f(x0, y1), y1], C.wall));
     }
 
     for (const [px, py] of s.pillars) {
@@ -190,28 +190,98 @@ export function buildTomb(plan, { cut = 0.55, ceiling = false, shrines = false, 
     const sar = s.sarcophagus;
     if (sar) {
       const f = floorAt(s, sar.x, sar.y);
-      const target = sar.state === 'in-situ' ? solid : ghost;
+      const target = sar.state === 'in-situ' ? out : ghost;
       const color = C[sar.material];
       target.push(box(sar.x - sar.w / 2, sar.x + sar.w / 2, f, f + sar.h * 0.88, sar.y - sar.d / 2, sar.y + sar.d / 2, color));
       target.push(box(sar.x - sar.w / 2 - 0.05, sar.x + sar.w / 2 + 0.05, f + sar.h * 0.88, f + sar.h, sar.y - sar.d / 2 - 0.05, sar.y + sar.d / 2 + 0.05, color.clone().multiplyScalar(1.08)));
       if (shrines) {
         // Outermost of the four gilded shrines: about 5.1 × 3.3 × 2.75 m.
         const W = 5.08, D = 3.28, H = 2.75;
-        solid.push(box(sar.x - W / 2, sar.x + W / 2, f, f + H, sar.y - D / 2, sar.y + D / 2, C.shrine));
+        out.push(box(sar.x - W / 2, sar.x + W / 2, f, f + H, sar.y - D / 2, sar.y + D / 2, C.shrine));
       }
     }
   }
 
   const group = new THREE.Group();
-  const solidMat = material ?? new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.9, metalness: 0, side: THREE.DoubleSide });
-  const mesh = new THREE.Mesh(mergeGeometries(solid), solidMat);
-  mesh.name = 'Tomb';
-  mesh.castShadow = mesh.receiveShadow = true;
-  group.add(mesh);
+  // Material names are read by the page to switch the evidence colours.
+  for (const [status, name] of [['documented', 'Documented architecture'], ['approximate', 'Reconstructed geometry']]) {
+    if (!groups[status].length) continue;
+    const mat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.9, metalness: 0, side: THREE.DoubleSide });
+    mat.name = name;
+    const mesh = new THREE.Mesh(mergeGeometries(groups[status]), mat);
+    mesh.name = name;
+    mesh.castShadow = mesh.receiveShadow = true;
+    group.add(mesh);
+  }
   if (ghost.length) {
-    const g = new THREE.Mesh(mergeGeometries(ghost.map((x) => { x.deleteAttribute('color'); return x; })), GHOST());
+    const mat = GHOST();
+    mat.name = 'Uncertain or removed';
+    const g = new THREE.Mesh(mergeGeometries(ghost.map((x) => { x.deleteAttribute('color'); return x; })), mat);
     g.name = 'Uncertain or removed';
     group.add(g);
   }
+  if (route && plan.route?.length) {
+    const mat = new THREE.MeshStandardMaterial({ color: C.route, emissive: C.route, emissiveIntensity: 0.6, transparent: true, opacity: 1, side: THREE.DoubleSide, roughness: 0.5 });
+    mat.name = 'Route';
+    const r = new THREE.Mesh(ribbon(routePoints(plan, spaces)), mat);
+    r.name = 'Route';
+    group.add(r);
+  }
   return group;
+}
+
+// ------------------------------------------------------------ route
+// Mirrors routePoints() in src/lib/plans.ts: entrance → doorways → burial chamber.
+
+function doorway(a, b) {
+  const E = 0.06;
+  if (Math.abs(a.x[1] - b.x[0]) < E || Math.abs(a.x[0] - b.x[1]) < E) {
+    const y0 = Math.max(a.y[0], b.y[0]), y1 = Math.min(a.y[1], b.y[1]);
+    if (y1 > y0) return [Math.abs(a.x[1] - b.x[0]) < E ? a.x[1] : a.x[0], (y0 + y1) / 2];
+  }
+  if (Math.abs(a.y[1] - b.y[0]) < E || Math.abs(a.y[0] - b.y[1]) < E) {
+    const x0 = Math.max(a.x[0], b.x[0]), x1 = Math.min(a.x[1], b.x[1]);
+    if (x1 > x0) return [(x0 + x1) / 2, Math.abs(a.y[1] - b.y[0]) < E ? a.y[1] : a.y[0]];
+  }
+  return undefined;
+}
+
+export function routePoints(plan, spaces) {
+  const byId = new Map(spaces.map((s) => [s.id, s]));
+  const list = plan.route.map((id) => byId.get(id)).filter(Boolean);
+  const pts = [];
+  let prev;
+  list.forEach((s, i) => {
+    const cx = (s.x[0] + s.x[1]) / 2, cy = (s.y[0] + s.y[1]) / 2;
+    if (i === 0) {
+      const start = s.descends ? { 'x+': [s.x[0], cy], 'x-': [s.x[1], cy], 'y+': [cx, s.y[0]], 'y-': [cx, s.y[1]] }[s.descends] : [cx, cy];
+      pts.push([...start, floorAt(s, ...start)]);
+      prev = start;
+    }
+    const next = list[i + 1];
+    if (!next) return pts.push([cx, cy, floorAt(s, cx, cy)]);
+    const d = doorway(s, next);
+    if (d) {
+      const exitOnSide = Math.abs(d[0] - s.x[0]) < 0.07 || Math.abs(d[0] - s.x[1]) < 0.07;
+      if (prev && s.kind !== 'stairs' && s.kind !== 'corridor') {
+        const corner = exitOnSide ? [prev[0], d[1]] : [d[0], prev[1]];
+        if (Math.hypot(corner[0] - prev[0], corner[1] - prev[1]) > 0.1) pts.push([...corner, floorAt(s, ...corner)]);
+      }
+      pts.push([d[0], d[1], Math.min(floorAt(s, ...d), floorAt(next, ...d))]);
+      prev = d;
+    }
+  });
+  return pts;
+}
+
+/** Flat ribbon 0.45 m wide, floating above the floor (and stair nosings) along the route. */
+function ribbon(pts, width = 0.45, lift = 0.42) {
+  const parts = [];
+  for (let i = 0; i < pts.length - 1; i++) {
+    const [ax, ay, af] = pts[i], [bx, by, bf] = pts[i + 1];
+    const len = Math.hypot(bx - ax, by - ay) || 1;
+    const nx = (-(by - ay) / len) * width / 2, ny = ((bx - ax) / len) * width / 2;
+    parts.push(quad([ax - nx, af + lift, ay - ny], [bx - nx, bf + lift, by - ny], [bx + nx, bf + lift, by + ny], [ax + nx, af + lift, ay + ny], C.route));
+  }
+  return mergeGeometries(parts.map((g) => { g.deleteAttribute('color'); return g; }));
 }

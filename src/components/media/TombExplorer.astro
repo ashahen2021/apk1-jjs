@@ -1,16 +1,19 @@
 ---
 /**
- * The tomb explorer: an interactive 3D cutaway (lazy-loaded <model-viewer>
- * with chamber and scene hotspots), the plan and a depth profile, all drawn
- * from the same plan data, plus a chamber list and detail panel that stay in
- * sync. Every chamber's text is in the HTML, so it is crawlable and readable
- * without JavaScript; the 3D view is an optional enhancement.
+ * The tomb explorer: an interactive 3D cut-away (lazy-loaded <model-viewer>
+ * with chamber, wall-scene and feature hotspots), the plan and a depth
+ * profile, all drawn from the same plan data. A chamber list, detail panels,
+ * view toggles and a guided tour stay in sync across the three views.
+ *
+ * Everything except the 3D view is HTML/SVG in the page, so it is crawlable
+ * and usable without JavaScript or WebGL.
  */
+import { statSync } from 'node:fs';
 import { Picture } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import TombPlan from './TombPlan.astro';
 import {
-  KIND_LABEL, STATUS_HELP, STATUS_LABEL, depthText, dimensions, hotspot, orbit, wallHotspot, type Plan,
+  CONDITION_LABEL, KIND_LABEL, STATUS_HELP, STATUS_LABEL, STATUS_LONG, depthText, dimensions, features, hotspots, overview, tour, type Plan,
 } from '@/lib/plans';
 
 export interface Props {
@@ -19,60 +22,70 @@ export interface Props {
   name: string;
 }
 const { plan, model, name } = Astro.props;
-const first = plan.spaces.find((s) => s.sarcophagus) ?? plan.spaces[0];
 
-const hotspots = plan.spaces.flatMap((s) => [
-  { type: 'space', id: s.id, label: s.code, title: s.name, position: hotspot(s), normal: '0 1 0', ...orbit(s, plan) },
-  ...s.scenes.map((sc) => ({
-    type: 'scene', id: `${s.id}--${sc.id}`, space: s.id, label: '◉', title: sc.title, ...wallHotspot(s, sc.wall), ...orbit(s, plan),
-  })),
-]);
-const overview = `${plan.camera.theta}deg ${plan.camera.phi}deg auto`;
-const scenes = plan.spaces.flatMap((s) => s.scenes.map((sc) => ({ s, sc })));
+const spots = hotspots(plan);
+const stops = tour(plan);
+const full = overview(plan);
+const hasScenes = plan.spaces.some((s) => s.scenes.length);
+const burial = plan.route.at(-1) ?? plan.spaces[0].id;
+const modelKB = model ? Math.round(statSync(new URL(`../../../public${model.src}`, import.meta.url)).size / 1024) : 0;
+const featureLabel: Record<string, string> = { sarcophagus: 'Sarcophagus', shaft: 'Shaft', find: 'Find', damage: 'Damage', opening: 'Opening', feature: 'Feature' };
 ---
 
-<div class="explorer" data-explorer data-first={first.id}>
-  <div class="tabs" role="tablist" aria-label="View">
-    {model && <button type="button" role="tab" aria-selected="true" data-tab="model">3D model</button>}
-    <button type="button" role="tab" aria-selected={model ? 'false' : 'true'} data-tab="plan">Plan</button>
-    <button type="button" role="tab" aria-selected="false" data-tab="profile">Depth profile</button>
+<div class="explorer show-route" data-explorer data-first={burial} data-tour={JSON.stringify(stops)}>
+  <div class="bar">
+    <div class="tabs" role="tablist" aria-label="View">
+      {model && <button type="button" role="tab" aria-selected="true" data-tab="model">3D model <kbd>1</kbd></button>}
+      <button type="button" role="tab" aria-selected={model ? 'false' : 'true'} data-tab="plan">Plan <kbd>2</kbd></button>
+      <button type="button" role="tab" aria-selected="false" data-tab="profile">Depth profile <kbd>3</kbd></button>
+    </div>
+    <div class="toggles" role="group" aria-label="Display options">
+      <button type="button" data-toggle="show-route" aria-pressed="true">Path <kbd>R</kbd></button>
+      <button type="button" data-toggle="evidence" aria-pressed="false">Evidence colours <kbd>E</kbd></button>
+      <button type="button" data-toggle="hide-hotspots" data-invert aria-pressed="true">Hotspots <kbd>H</kbd></button>
+      <button type="button" data-toggle="show-labels" aria-pressed="false">Labels <kbd>L</kbd></button>
+      <button type="button" class="tour-btn" data-tour-start>Guided tour <kbd>T</kbd></button>
+    </div>
   </div>
 
   <div class="stage-wrap">
     {model && (
       <div class="panel panel--model" role="tabpanel" data-panel="model" aria-label="3D model">
-        <div class="model" data-model-root data-src={model.src} data-alt={model.alt} data-orbit={overview} data-ar={String(model.ar ?? true)} data-hotspots={JSON.stringify(hotspots)}>
+        <div class="model" data-model-root data-src={model.src} data-alt={model.alt} data-orbit={full.orbit} data-target={full.target} data-ar={String(model.ar ?? true)} data-hotspots={JSON.stringify(spots)}>
           <Picture class="poster" src={model.poster} alt={model.alt} formats={['avif', 'webp']} widths={[640, 1000, 1600]} sizes="(min-width: 76rem) 50rem, 100vw" loading="lazy" decoding="async" />
           <button type="button" class="load" data-load>
             <span class="cube" aria-hidden="true"></span>
             <span>Explore the tomb in 3D</span>
-            <small>Rotate, zoom and tap the numbered hotspots</small>
+            <small>Loads the 3D viewer (about 1 MB) and a {modelKB} KB model</small>
           </button>
-          <p class="status" data-status hidden>Loading 3D viewer…</p>
+          <p class="status" data-status role="status" hidden>Loading 3D viewer…</p>
           <div class="model-tools" data-tools hidden>
-            <button type="button" data-overview>Whole tomb</button>
-            {scenes.length > 0 && <button type="button" data-scenes aria-pressed="true">Scene hotspots</button>}
+            <button type="button" data-overview title="Show the whole tomb (F)">Full view</button>
           </div>
         </div>
-        <ul class="legend" aria-label="Model colours">
-          <li><span class="sw sw--painted"></span>Decorated walls (colour zones only; scenes not reproduced)</li>
-          <li><span class="sw sw--plain"></span>Undecorated rock</li>
-          <li><span class="sw sw--ghost"></span>Removed, lost or uncertain</li>
-        </ul>
       </div>
     )}
     <div class="panel" role="tabpanel" data-panel="plan" aria-label="Plan" hidden={model ? true : undefined}>
       <TombPlan plan={plan} view="plan" />
-      <ul class="legend" aria-label="Plan key">
-        <li><span class="sw sw--line"></span>Decorated wall</li>
-        <li><span class="sw sw--sarc"></span>Sarcophagus in place</li>
-        <li><span class="sw sw--ghost"></span>Removed or lost; uncertain space</li>
-        <li><span class="sw sw--steps"></span>Stairs (arrow points down)</li>
-      </ul>
     </div>
     <div class="panel" role="tabpanel" data-panel="profile" aria-label="Depth profile" hidden>
       <TombPlan plan={plan} view="profile" />
-      <p class="legend-note">Unfolded section along the route from the entrance; side rooms are omitted. Depths are approximate.</p>
+      <p class="legend-note">Unfolded section from the entrance; side rooms are omitted. Depths follow the plan data and are approximate where marked.</p>
+    </div>
+
+    <div class="tourcard" data-tourcard hidden aria-live="polite">
+      <div class="tour-progress" aria-hidden="true"><span data-tour-bar></span></div>
+      <ol class="tour-dots" aria-label="Tour stops">
+        {stops.map((s, i) => <li><button type="button" data-tour-go={i} aria-label={`Stop ${i + 1}: ${s.title}`}></button></li>)}
+      </ol>
+      <p class="tour-count" data-tour-count></p>
+      <p class="tour-title" data-tour-title></p>
+      <p class="tour-text" data-tour-text></p>
+      <div class="tour-nav">
+        <button type="button" data-tour-step="-1" aria-label="Previous stop">← Back</button>
+        <button type="button" data-tour-step="1" aria-label="Next stop">Next →</button>
+        <button type="button" data-tour-end>End tour</button>
+      </div>
     </div>
   </div>
 
@@ -81,65 +94,141 @@ const scenes = plan.spaces.flatMap((s) => s.scenes.map((sc) => ({ s, sc })));
     <ol class="list">
       {plan.spaces.map((s) => (
         <li>
-          <button type="button" data-select={s.id} aria-pressed={s.id === first.id ? 'true' : 'false'}>
+          <button type="button" data-select={s.id} aria-pressed={s.id === burial ? 'true' : 'false'}>
             <span class="code">{s.code}</span>
-            <span class="nm">{s.name}</span>
-            <span class:list={['dot', `dot--${s.status}`]} title={STATUS_LABEL[s.status]}></span>
+            <span class="nm">{s.name}{s.id === burial && <em> · burial</em>}</span>
+            <span class:list={['dot', `dot--${s.status}`]} title={STATUS_LONG[s.status]}></span>
           </button>
         </li>
       ))}
     </ol>
+    <ul class="key" aria-label="Key">
+      <li><span class="sw sw--doc"></span>Documented architecture</li>
+      <li><span class="sw sw--rec"></span>Reconstructed geometry</li>
+      <li><span class="sw sw--unc"></span>Uncertain, removed or lost</li>
+      <li><span class="sw sw--paint"></span>Decorated surface (tint only)</li>
+      <li><span class="sw sw--dmg"></span>Damaged</li>
+      <li><span class="sw sw--unf"></span>Unfinished</li>
+      <li><span class="sw sw--route"></span>Path to the burial chamber</li>
+    </ul>
+    <details class="keys">
+      <summary>Keyboard shortcuts</summary>
+      <dl>
+        <div><dt><kbd>N</kbd> / <kbd>P</kbd></dt><dd>Next / previous space (or tour stop)</dd></div>
+        <div><dt><kbd>F</kbd></dt><dd>Full view of the tomb</dd></div>
+        <div><dt><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></dt><dd>3D, plan, depth profile</dd></div>
+        <div><dt><kbd>R</kbd> <kbd>E</kbd> <kbd>H</kbd> <kbd>L</kbd></dt><dd>Path, evidence colours, hotspots, labels</dd></div>
+        <div><dt><kbd>T</kbd> / <kbd>Esc</kbd></dt><dd>Start / end the guided tour</dd></div>
+        <div><dt>Arrow keys</dt><dd>Rotate the 3D model when it has focus</dd></div>
+      </dl>
+    </details>
   </aside>
 
   <div class="details" aria-live="polite">
-    {plan.spaces.map((s) => (
-      <article class:list={['detail', { 'is-active': s.id === first.id }]} id={`space-${s.id}`} data-detail={s.id}>
-        <header>
-          <p class="kicker">{s.code} · {KIND_LABEL[s.kind]}</p>
-          <h3>{s.name}</h3>
-          <p class:list={['badge', `badge--${s.status}`]} title={STATUS_HELP[s.status]}>{STATUS_LABEL[s.status]}</p>
-        </header>
-        <p>{s.summary}</p>
-        {s.decoration && <p class="deco"><strong>Decoration:</strong> {s.decoration}</p>}
-        {s.sarcophagus && <p class="deco"><strong>Sarcophagus:</strong> {s.sarcophagus.label}.</p>}
-        {s.scenes.length > 0 && (
-          <ul class="scenes">
-            {s.scenes.map((sc) => (
-              <li id={`scene-${s.id}--${sc.id}`}>
-                <strong>{sc.title}</strong>
-                {sc.status !== 'documented' && <span class:list={['badge', 'badge--small', `badge--${sc.status}`]}>{STATUS_LABEL[sc.status]}</span>}
-                <span>{sc.text}</span>
-              </li>
-            ))}
-          </ul>
-        )}
-        <p class="meta">{dimensions(s)} · {depthText(s)}</p>
-        {s.caveat && <p class="caveat"><strong>Note:</strong> {s.caveat}</p>}
-      </article>
-    ))}
+    {plan.spaces.map((s) => {
+      const fs = features(s);
+      return (
+        <article class:list={['detail', { 'is-active': s.id === burial }]} id={`space-${s.id}`} data-detail={s.id}>
+          <header>
+            <p class="kicker">{s.code} · {KIND_LABEL[s.kind]}</p>
+            <h3>{s.name}</h3>
+            <p class:list={['badge', `badge--${s.status}`]} title={STATUS_HELP[s.status]}>{STATUS_LONG[s.status]}</p>
+            {s.condition && <p class:list={['badge', `badge--${s.condition}`]}>{CONDITION_LABEL[s.condition]}</p>}
+          </header>
+          <p>{s.summary}</p>
+          {s.decoration && <p class="deco"><strong>Decoration:</strong> {s.decoration}</p>}
+          {s.conditionNote && <p class="cond"><strong>{CONDITION_LABEL[s.condition!]}:</strong> {s.conditionNote}</p>}
+
+          {s.scenes.length > 0 && (
+            <section class="sub">
+              <h4>Wall scenes</h4>
+              <ul class="items">
+                {s.scenes.map((sc) => (
+                  <li id={`item-${s.id}--${sc.id}`} data-item-detail={`${s.id}--${sc.id}`}>
+                    <strong><span class="ico ico--scene" aria-hidden="true">◉</span>{sc.title}</strong>
+                    {sc.status !== 'documented' && <span class:list={['badge', 'badge--small', `badge--${sc.status}`]} title="The scene is documented; its position on the model is simplified.">Position simplified</span>}
+                    <span>{sc.text}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {fs.length > 0 && (
+            <section class="sub">
+              <h4>On the model</h4>
+              <ul class="items">
+                {fs.map((f) => (
+                  <li id={`item-${s.id}--${f.id}`} data-item-detail={`${s.id}--${f.id}`}>
+                    <strong><span class:list={['ico', `ico--${f.kind}`]} aria-hidden="true" title={featureLabel[f.kind]}></span>{f.title}</strong>
+                    {f.status !== 'documented' && <span class:list={['badge', 'badge--small', `badge--${f.status}`]}>{STATUS_LABEL[f.status]}</span>}
+                    <span>{f.text}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {s.finds.length > 0 && (
+            <section class="sub">
+              <h4>Recorded finds</h4>
+              <ul class="finds">{s.finds.map((f) => <li>{f}</li>)}</ul>
+            </section>
+          )}
+
+          <p class="meta">{dimensions(s)} · {depthText(s)}</p>
+          {s.caveat && <p class="caveat"><strong>Note:</strong> {s.caveat}</p>}
+        </article>
+      );
+    })}
   </div>
 
   <footer class="source">
-    <p><strong>Source:</strong> {plan.source}</p>
+    <h4>Sources for this plan</h4>
+    <p>{plan.source}</p>
+    {plan.sources.length > 0 && (
+      <ol>
+        {plan.sources.map((src) => <li>{src.url ? <a href={src.url} rel="noopener">{src.label}</a> : src.label}</li>)}
+      </ol>
+    )}
     {plan.note && <p>{plan.note}</p>}
     {model?.caption && <p>{model.caption}</p>}
-    <p class="noscript-hint">Interpretive model of {name}. <noscript>Enable JavaScript to open the 3D view; the plan and all chamber descriptions are shown below.</noscript></p>
+    <p>Interpretive model of {name}. Surfaces are flat colours: decoration is shown as a tint, never redrawn, and nothing is modelled where no plan exists. <noscript>Enable JavaScript for the 3D view and tour; the plan, profile and all descriptions are shown here.</noscript></p>
   </footer>
 </div>
 
 <script>
-  type Hotspot = { type: 'space' | 'scene'; id: string; space?: string; label: string; title: string; position: string; normal: string; target: string; orbit: string };
+  type Spot = { type: 'space' | 'scene' | 'feature'; id: string; space: string; kind?: string; label: string; title: string; status: string; position: string; normal: string; target: string; orbit: string };
+  type Stop = { space: string; scene?: string; text: string; title: string };
+  type ModelViewer = HTMLElement & {
+    cameraTarget: string; cameraOrbit: string;
+    model?: { materials: { name: string; setEmissiveFactor(c: number[]): void; setAlphaMode(m: string): void; pbrMetallicRoughness: { setBaseColorFactor(c: number[]): void } }[] };
+  };
+
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hasWebGL = () => {
+    try {
+      const c = document.createElement('canvas');
+      return !!(c.getContext('webgl2') || c.getContext('webgl'));
+    } catch {
+      return false;
+    }
+  };
 
   document.querySelectorAll<HTMLElement>('[data-explorer]').forEach((root) => {
     const tabs = [...root.querySelectorAll<HTMLButtonElement>('[data-tab]')];
     const panels = [...root.querySelectorAll<HTMLElement>('[data-panel]')];
     const modelRoot = root.querySelector<HTMLElement>('[data-model-root]');
-    let mv: (HTMLElement & { cameraTarget?: string; cameraOrbit?: string }) | null = null;
+    const spots: Spot[] = modelRoot ? JSON.parse(modelRoot.dataset.hotspots!) : [];
+    const stops: Stop[] = JSON.parse(root.dataset.tour!);
+    const order = [...root.querySelectorAll<HTMLElement>('[data-select]')].map((b) => b.dataset.select!);
+    let mv: ModelViewer | null = null;
     let current = root.dataset.first!;
-    const hotspots: Hotspot[] = modelRoot ? JSON.parse(modelRoot.dataset.hotspots!) : [];
+    let tourAt = -1;
 
-    // ---- tabs (arrow keys move between them, per the ARIA tabs pattern)
+    // ------------------------------------------------------------ tabs
     const showTab = (name: string, focus = false) => {
+      if (!tabs.some((t) => t.dataset.tab === name)) return;
       tabs.forEach((t) => {
         const on = t.dataset.tab === name;
         t.setAttribute('aria-selected', String(on));
@@ -157,155 +246,244 @@ const scenes = plan.spaces.flatMap((s) => s.scenes.map((sc) => ({ s, sc })));
       });
     });
 
-    // ---- selection shared by list, plan, profile, 3D and details
-    const select = (id: string, { fly = true } = {}) => {
+    // ------------------------------------------------------------ toggles
+    const toggles = [...root.querySelectorAll<HTMLButtonElement>('[data-toggle]')];
+    const applyMaterials = () => {
+      if (!mv?.model) return;
+      const evidence = root.classList.contains('evidence');
+      const route = root.classList.contains('show-route');
+      for (const m of mv.model.materials) {
+        if (m.name === 'Documented architecture') m.pbrMetallicRoughness.setBaseColorFactor(evidence ? [0.45, 0.95, 0.9, 1] : [1, 1, 1, 1]);
+        if (m.name === 'Reconstructed geometry') m.pbrMetallicRoughness.setBaseColorFactor(evidence ? [1, 0.72, 0.35, 1] : [1, 1, 1, 1]);
+        if (m.name === 'Route') {
+          m.pbrMetallicRoughness.setBaseColorFactor([0.95, 0.76, 0.31, route ? 1 : 0]);
+          m.setEmissiveFactor(route ? [0.57, 0.45, 0.18] : [0, 0, 0]);
+        }
+      }
+    };
+    const setToggle = (btn: HTMLButtonElement, on: boolean) => {
+      btn.setAttribute('aria-pressed', String(on));
+      root.classList.toggle(btn.dataset.toggle!, btn.hasAttribute('data-invert') ? !on : on);
+      applyMaterials();
+    };
+    toggles.forEach((b) => b.addEventListener('click', () => setToggle(b, b.getAttribute('aria-pressed') !== 'true')));
+    const flip = (name: string) => {
+      const b = toggles.find((t) => t.dataset.toggle === name);
+      if (b) setToggle(b, b.getAttribute('aria-pressed') !== 'true');
+    };
+
+    // ------------------------------------------------------------ selection
+    const fly = (spot?: Spot) => {
+      if (!mv || !spot) return;
+      mv.cameraTarget = spot.target;
+      mv.cameraOrbit = spot.orbit;
+    };
+    const overview = () => {
+      if (!mv) return;
+      mv.cameraTarget = modelRoot!.dataset.target!;
+      mv.cameraOrbit = modelRoot!.dataset.orbit!;
+    };
+    const markItem = (item?: string) => {
+      root.querySelectorAll('[data-item]').forEach((m) => m.classList.toggle('is-active', (m as HTMLElement).dataset.item === item));
+      root.querySelectorAll('.hs--scene, .hs--feature').forEach((h) => h.classList.toggle('is-active', (h as HTMLElement).dataset.id === item));
+      root.querySelectorAll('[data-item-detail]').forEach((d) => d.classList.toggle('is-active', (d as HTMLElement).dataset.itemDetail === item));
+    };
+    const select = (id: string, { camera = true, item }: { camera?: boolean; item?: string } = {}) => {
       current = id;
       root.querySelectorAll<HTMLElement>('[data-select]').forEach((b) => {
         const on = b.dataset.select === id;
         b.setAttribute('aria-pressed', String(on));
-        // Keep the chosen chamber visible in the list without scrolling the page.
         const li = b.parentElement!, list = li.parentElement!;
         if (on) list.scrollTo({ left: li.offsetLeft - list.offsetLeft - 8, top: li.offsetTop - list.offsetTop - 8 });
       });
-      root.querySelectorAll('[data-space]').forEach((g) => g.classList.toggle('is-active', (g as HTMLElement).dataset.space === id));
+      root.querySelectorAll('.space[data-space]').forEach((g) => g.classList.toggle('is-active', (g as HTMLElement).dataset.space === id));
       root.querySelectorAll<HTMLElement>('[data-detail]').forEach((d) => d.classList.toggle('is-active', d.dataset.detail === id));
       root.querySelectorAll<HTMLElement>('.hs--space').forEach((h) => h.classList.toggle('is-active', h.dataset.id === id));
-      if (fly && mv) {
-        const spot = hotspots.find((h) => h.type === 'space' && h.id === id);
-        if (spot) {
-          mv.cameraTarget = spot.target;
-          mv.cameraOrbit = spot.orbit;
-        }
-      }
+      // Scene and feature hotspots appear for the selected space only, to keep the view readable.
+      root.querySelectorAll<HTMLElement>('.hs--scene, .hs--feature').forEach((h) => h.classList.toggle('in-focus', h.dataset.space === id));
+      markItem(item);
+      if (camera) fly(spots.find((h) => h.id === (item?.includes('--') && item.split('--')[0] === id && spots.find((x) => x.id === item)?.type === 'scene' ? item : id)));
     };
-    root.querySelectorAll<HTMLElement>('[data-select]').forEach((b) => b.addEventListener('click', () => select(b.dataset.select!)));
+    root.querySelectorAll<HTMLElement>('[data-select]').forEach((b) => b.addEventListener('click', () => { endTour(); select(b.dataset.select!); }));
     root.querySelectorAll<SVGElement>('[data-space]').forEach((g) => {
-      g.addEventListener('click', () => select(g.dataset.space!));
+      const act = () => { endTour(); select(g.dataset.space!, { item: g.dataset.item }); };
+      g.addEventListener('click', (e) => { e.stopPropagation(); act(); });
       g.addEventListener('keydown', (e) => {
-        if ((e as KeyboardEvent).key === 'Enter' || (e as KeyboardEvent).key === ' ') {
-          e.preventDefault();
-          select(g.dataset.space!);
-        }
+        const k = (e as KeyboardEvent).key;
+        if (k === 'Enter' || k === ' ') { e.preventDefault(); e.stopPropagation(); act(); }
       });
     });
-    select(current, { fly: false });
+    select(current, { camera: false });
 
-    // ---- 3D model, loaded on request
+    // ------------------------------------------------------------ guided tour
+    const card = root.querySelector<HTMLElement>('[data-tourcard]')!;
+    const goTour = (i: number) => {
+      tourAt = (i + stops.length) % stops.length;
+      const s = stops[tourAt];
+      card.hidden = false;
+      root.classList.add('touring');
+      card.querySelector('[data-tour-count]')!.textContent = `Stop ${tourAt + 1} of ${stops.length}`;
+      card.querySelector('[data-tour-title]')!.textContent = s.title;
+      card.querySelector('[data-tour-text]')!.textContent = s.text;
+      card.querySelector<HTMLElement>('[data-tour-bar]')!.style.width = `${((tourAt + 1) / stops.length) * 100}%`;
+      card.querySelectorAll('[data-tour-go]').forEach((d, j) => d.setAttribute('aria-current', j === tourAt ? 'step' : 'false'));
+      select(s.space, { item: s.scene ? `${s.space}--${s.scene}` : undefined });
+    };
+    function endTour() {
+      if (tourAt < 0) return;
+      tourAt = -1;
+      // Keep keyboard focus inside the explorer when the card disappears.
+      const hadFocus = card.contains(document.activeElement);
+      card.hidden = true;
+      root.classList.remove('touring');
+      if (hadFocus) root.querySelector<HTMLButtonElement>('[data-tour-start]')!.focus();
+    }
+    root.querySelector('[data-tour-start]')!.addEventListener('click', () => (tourAt >= 0 ? endTour() : goTour(0)));
+    card.querySelectorAll<HTMLButtonElement>('[data-tour-step]').forEach((b) => b.addEventListener('click', () => goTour(tourAt + Number(b.dataset.tourStep))));
+    card.querySelector('[data-tour-end]')!.addEventListener('click', () => { endTour(); overview(); });
+    card.querySelectorAll<HTMLButtonElement>('[data-tour-go]').forEach((d) => d.addEventListener('click', () => goTour(Number(d.dataset.tourGo))));
+
+    // ------------------------------------------------------------ keyboard
+    root.addEventListener('keydown', (e) => {
+      const t = e.target as HTMLElement;
+      if (e.altKey || e.ctrlKey || e.metaKey || t.closest('input, textarea, select')) return;
+      const step = (d: number) => (tourAt >= 0 ? goTour(tourAt + d) : select(order[(order.indexOf(current) + d + order.length) % order.length]));
+      const map: Record<string, () => void> = {
+        n: () => step(1), p: () => step(-1), f: () => { endTour(); overview(); },
+        1: () => showTab('model'), 2: () => showTab('plan'), 3: () => showTab('profile'),
+        r: () => flip('show-route'), e: () => flip('evidence'), h: () => flip('hide-hotspots'), l: () => flip('show-labels'),
+        t: () => (tourAt >= 0 ? endTour() : goTour(0)), Escape: () => { endTour(); overview(); },
+      };
+      const fn = map[e.key.length === 1 ? e.key.toLowerCase() : e.key];
+      if (fn) { e.preventDefault(); fn(); }
+    });
+
+    // ------------------------------------------------------------ 3D, loaded on request
     const load = modelRoot?.querySelector<HTMLButtonElement>('[data-load]');
-    load?.addEventListener('click', async () => {
-      const status = modelRoot!.querySelector<HTMLElement>('[data-status]')!;
+    const status = modelRoot?.querySelector<HTMLElement>('[data-status]');
+    const fallback = (msg: string) => {
+      if (!status || !load) return;
       load.hidden = true;
       status.hidden = false;
+      status.textContent = msg;
+      showTab('plan');
+    };
+    if (modelRoot && !hasWebGL()) {
+      fallback('3D needs WebGL, which this browser does not provide. The plan and depth profile show the same tomb.');
+    }
+    load?.addEventListener('click', async () => {
+      load.hidden = true;
+      status!.hidden = false;
       try {
         await import('@google/model-viewer');
         const d = modelRoot!.dataset;
-        mv = document.createElement('model-viewer');
+        mv = document.createElement('model-viewer') as ModelViewer;
         const attrs: Record<string, string> = {
-          src: d.src!, alt: d.alt!, 'camera-controls': '', 'touch-action': 'pan-y', 'camera-orbit': d.orbit!,
-          'interpolation-decay': '140', 'shadow-intensity': '0.8', exposure: '0.9', 'tone-mapping': 'aces',
+          src: d.src!, alt: d.alt!, 'camera-controls': '', 'touch-action': 'pan-y', 'camera-orbit': d.orbit!, 'camera-target': d.target!,
+          'interpolation-decay': reduceMotion ? '20' : '160', 'shadow-intensity': '0.8', exposure: '0.9', 'tone-mapping': 'aces',
           'environment-image': 'neutral', 'min-camera-orbit': 'auto 0deg 0.02m', 'max-camera-orbit': 'auto 88deg auto',
           'interaction-prompt': 'none', loading: 'eager',
         };
         if (d.ar === 'true') Object.assign(attrs, { ar: '', 'ar-modes': 'webxr scene-viewer quick-look' });
         for (const [k, v] of Object.entries(attrs)) mv.setAttribute(k, v);
 
-        hotspots.forEach((h, i) => {
+        spots.forEach((h, i) => {
           const b = document.createElement('button');
           b.type = 'button';
           b.slot = `hotspot-${i}`;
-          b.className = `hs hs--${h.type}`;
-          b.dataset.id = h.type === 'space' ? h.id : h.space!;
+          b.className = `hs hs--${h.type}${h.kind ? ` hs--${h.kind}` : ''}${h.status === 'uncertain' ? ' hs--uncertain' : ''}`;
+          b.dataset.id = h.id;
+          b.dataset.space = h.space;
           b.dataset.position = h.position;
           b.dataset.normal = h.normal;
           b.dataset.visibilityAttribute = 'visible';
           b.textContent = h.label;
-          b.setAttribute('aria-label', h.type === 'space' ? `${h.label}: ${h.title}` : `Scene: ${h.title}`);
+          b.setAttribute('aria-label', h.type === 'space' ? `${h.label}: ${h.title}` : `${h.type === 'scene' ? 'Scene' : 'Feature'}: ${h.title}`);
           const tip = document.createElement('span');
           tip.className = 'hs-tip';
           tip.textContent = h.title;
           b.append(tip);
           b.addEventListener('click', () => {
-            select(h.type === 'space' ? h.id : h.space!);
-            if (h.type === 'scene') document.getElementById(`scene-${h.id}`)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            endTour();
+            select(h.space, { item: h.type === 'space' ? undefined : h.id });
+            if (h.type !== 'space') document.getElementById(`item-${h.id}`)?.scrollIntoView({ block: 'nearest', behavior: reduceMotion ? 'auto' : 'smooth' });
           });
           mv!.append(b);
         });
 
         mv.addEventListener('load', () => {
-          status.hidden = true;
+          status!.hidden = true;
           modelRoot!.classList.add('is-live');
           modelRoot!.querySelector<HTMLElement>('[data-tools]')!.hidden = false;
-          select(current, { fly: false }); // start on the whole tomb
+          for (const m of mv!.model?.materials ?? []) if (m.name === 'Route') m.setAlphaMode('BLEND');
+          applyMaterials();
+          // Open on the whole tomb; the selection only moves the camera when asked.
+          select(current, { camera: false });
         });
-        mv.addEventListener('error', () => (status.textContent = 'The 3D model could not be loaded. The plan and depth profile tabs show the same layout.'));
+        mv.addEventListener('error', () => fallback('The 3D model could not be loaded. The plan and depth profile show the same tomb.'));
         modelRoot!.append(mv);
       } catch {
-        status.textContent = 'The 3D viewer could not be loaded. The plan and depth profile tabs show the same layout.';
+        fallback('The 3D viewer could not be loaded. The plan and depth profile show the same tomb.');
       }
     });
-
-    modelRoot?.querySelector('[data-overview]')?.addEventListener('click', () => {
-      if (!mv) return;
-      mv.cameraTarget = 'auto auto auto';
-      mv.cameraOrbit = modelRoot.dataset.orbit!;
-    });
-    const scenesBtn = modelRoot?.querySelector<HTMLButtonElement>('[data-scenes]');
-    scenesBtn?.addEventListener('click', () => {
-      const on = scenesBtn.getAttribute('aria-pressed') !== 'true';
-      scenesBtn.setAttribute('aria-pressed', String(on));
-      modelRoot!.classList.toggle('hide-scenes', !on);
-    });
+    modelRoot?.querySelector('[data-overview]')?.addEventListener('click', () => { endTour(); overview(); });
   });
 </script>
 
 <style>
   .explorer {
     display: grid;
-    gap: 1.25rem 2rem;
+    gap: 1rem 2rem;
     grid-template-columns: 1fr;
-    grid-template-areas: 'tabs' 'stage' 'side' 'details' 'source';
+    grid-template-areas: 'bar' 'stage' 'side' 'details' 'source';
   }
   @media (min-width: 64rem) {
     .explorer {
       grid-template-columns: minmax(0, 1fr) 19rem;
-      grid-template-areas: 'tabs tabs' 'stage side' 'details side' 'source source';
+      grid-template-areas: 'bar bar' 'stage side' 'details side' 'source source';
     }
   }
-  .tabs { grid-area: tabs; display: flex; gap: 0.4rem; flex-wrap: wrap; }
-  .tabs button {
-    font: inherit; font-size: 0.85rem; min-height: 2.5rem; padding: 0.4rem 1rem;
+  .bar { grid-area: bar; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.6rem 1.5rem; }
+  .tabs, .toggles { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .bar button {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    font: inherit; font-size: 0.82rem; min-height: 2.5rem; padding: 0.35rem 0.9rem;
     border: 1px solid var(--line-strong); border-radius: 999px; background: transparent; color: var(--text-muted); cursor: pointer;
   }
-  .tabs button[aria-selected='true'] { background: var(--gold); border-color: var(--gold); color: var(--basalt); }
-  /* Without JS, show every panel stacked; tabs are only an enhancement. */
-  :global(html:not(.js)) .tabs { display: none; }
+  .bar button[aria-selected='true'] { background: var(--gold); border-color: var(--gold); color: var(--basalt); }
+  .toggles button[aria-pressed='true'] { border-color: var(--gold); color: var(--accent-bright); background: rgb(200 149 43 / 0.1); }
+  .tour-btn { border-color: var(--gold) !important; color: var(--limestone) !important; }
+  :global(.touring) .tour-btn { background: var(--gold) !important; color: var(--basalt) !important; }
+  kbd { font: 600 0.65rem var(--font-body); padding: 0.05rem 0.3rem; border: 1px solid currentColor; border-radius: 3px; opacity: 0.6; }
+  @media (max-width: 40rem) { .bar kbd { display: none; } }
+  /* Without JS, show every panel stacked; tabs and toggles are enhancements. */
+  :global(html:not(.js)) .bar { display: none; }
   :global(html:not(.js)) .panel[hidden] { display: block !important; margin-top: 1.5rem; }
-  .stage-wrap { grid-area: stage; min-width: 0; }
+
+  .stage-wrap { grid-area: stage; min-width: 0; position: relative; }
   .panel { border: 1px solid var(--line-strong); border-radius: var(--radius); background: radial-gradient(ellipse at 50% 30%, #231d14, #0d0b08 75%); padding: 0.75rem; }
 
   .model { position: relative; aspect-ratio: 16 / 10; overflow: hidden; border-radius: var(--radius); }
   @media (max-width: 40rem) {
     .model { aspect-ratio: 4 / 3.4; }
     .load { padding: 0.6rem 1rem; font-size: 0.75rem; }
-    .load small { display: none; }
+    .load small { font-size: 0.66rem; }
   }
   .model :global(.poster), .model :global(.poster img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
   .model.is-live :global(.poster) { opacity: 0; transition: opacity 0.6s var(--ease); pointer-events: none; }
   .model :global(model-viewer) { position: absolute; inset: 0; width: 100%; height: 100%; --poster-color: transparent; --progress-bar-color: var(--gold); }
   .load {
     position: absolute; left: 50%; bottom: 1rem; transform: translateX(-50%);
-    display: grid; justify-items: center; gap: 0.15rem; padding: 0.8rem 1.3rem;
+    display: grid; justify-items: center; gap: 0.15rem; padding: 0.8rem 1.3rem; max-width: calc(100% - 2rem);
     border: 1px solid var(--gold); border-radius: var(--radius); background: rgb(11 10 8 / 0.85); backdrop-filter: blur(6px);
     color: var(--limestone); font-family: var(--font-display); letter-spacing: 0.12em; text-transform: uppercase; font-size: 0.82rem; cursor: pointer;
-    white-space: nowrap;
   }
   .load:hover { box-shadow: var(--glow); }
   .load small { font-family: var(--font-body); text-transform: none; letter-spacing: 0.02em; color: var(--text-muted); font-size: 0.72rem; }
   .cube { width: 1.3rem; height: 1.3rem; border: 1.5px solid var(--gold); transform: rotate(45deg) skew(8deg, 8deg); margin-bottom: 0.3rem; }
-  .status { position: absolute; left: 50%; bottom: 1.2rem; transform: translateX(-50%); margin: 0; padding: 0.4rem 0.9rem; border-radius: 999px; background: rgb(11 10 8 / 0.85); color: var(--text-muted); font-size: 0.85rem; max-width: 90%; text-align: center; }
+  .status { position: absolute; left: 50%; bottom: 1.2rem; transform: translateX(-50%); margin: 0; padding: 0.5rem 1rem; border-radius: var(--radius); background: rgb(11 10 8 / 0.9); color: var(--text-muted); font-size: 0.85rem; width: max-content; max-width: 90%; text-align: center; }
   .model-tools { position: absolute; top: 0.6rem; right: 0.6rem; z-index: 2; display: flex; gap: 0.4rem; }
-  .model-tools button { font: inherit; font-size: 0.75rem; min-height: 2.25rem; padding: 0.3rem 0.8rem; border: 1px solid var(--line-strong); border-radius: 999px; background: rgb(11 10 8 / 0.8); color: var(--text); cursor: pointer; }
-  .model-tools button[aria-pressed='true'] { border-color: var(--gold); color: var(--accent-bright); }
+  .model-tools button { font: inherit; font-size: 0.78rem; min-height: 2.5rem; padding: 0.3rem 0.9rem; border: 1px solid var(--gold); border-radius: 999px; background: rgb(11 10 8 / 0.85); color: var(--limestone); cursor: pointer; }
 
   /* Hotspots are created by script inside <model-viewer>, so they need :global. */
   .model :global(.hs) {
@@ -317,9 +495,12 @@ const scenes = plan.spaces.flatMap((s) => s.scenes.map((sc) => ({ s, sc })));
     font: 600 0.72rem var(--font-display); cursor: pointer;
     transition: transform 0.2s var(--ease), background 0.2s;
   }
-  .model :global(.hs--scene) { width: 1.5rem; height: 1.5rem; border-color: var(--gold); color: var(--gold); font-size: 0.7rem; }
+  .model :global(.hs--scene) { width: 1.55rem; height: 1.55rem; border-color: var(--gold); color: var(--gold); font-size: 0.72rem; }
+  .model :global(.hs--feature) { width: 1.55rem; height: 1.55rem; border-radius: 4px; border-color: #e9e0c9; color: #e9e0c9; font-size: 0.72rem; }
+  .model :global(.hs--damage) { border-color: #c0604f; color: #f0a494; }
+  .model :global(.hs--uncertain) { border-style: dashed; border-color: #7fa7d9; color: #a9c4e8; }
   .model :global(.hs:not([data-visible])) { opacity: 0.35; }
-  .model :global(.hs:hover), .model :global(.hs:focus-visible), .model :global(.hs.is-active) { transform: scale(1.18); background: var(--gold); border-color: var(--gold); color: var(--basalt); outline: none; }
+  .model :global(.hs:hover), .model :global(.hs:focus-visible), .model :global(.hs.is-active) { transform: scale(1.18); background: var(--gold); border-color: var(--gold); color: var(--basalt); outline: none; z-index: 2; }
   .model :global(.hs-tip) {
     position: absolute; left: 50%; bottom: calc(100% + 0.4rem); transform: translateX(-50%);
     padding: 0.2rem 0.55rem; border-radius: 3px; white-space: nowrap;
@@ -327,23 +508,37 @@ const scenes = plan.spaces.flatMap((s) => s.scenes.map((sc) => ({ s, sc })));
     opacity: 0; pointer-events: none; transition: opacity 0.2s;
   }
   .model :global(.hs:hover .hs-tip), .model :global(.hs:focus-visible .hs-tip), .model :global(.hs.is-active .hs-tip) { opacity: 1; }
-  .model.hide-scenes :global(.hs--scene) { display: none; }
+  :global(.show-labels) .model :global(.hs--space .hs-tip) { opacity: 1; }
+  .model :global(.hs--scene:not(.in-focus)), .model :global(.hs--feature:not(.in-focus)) { display: none; }
+  :global(.hide-hotspots) .model :global(.hs--scene), :global(.hide-hotspots) .model :global(.hs--feature) { display: none; }
 
-  .legend { display: flex; flex-wrap: wrap; gap: 0.3rem 1.2rem; list-style: none; margin: 0.7rem 0 0; padding: 0; font-size: 0.75rem; color: var(--text-muted); }
-  .legend li { display: inline-flex; align-items: center; gap: 0.4rem; }
-  .sw { display: inline-block; width: 0.9rem; height: 0.6rem; border-radius: 2px; }
-  .sw--painted { background: linear-gradient(#2c5876 0 20%, #d9b04f 20% 80%, #5b2d1f 80%); }
-  .sw--plain { background: #cdb893; }
-  .sw--ghost { background: rgb(127 167 217 / 0.35); border: 1px dashed #7fa7d9; }
-  .sw--line { height: 3px; background: var(--gold); }
-  .sw--sarc { background: #9a5a44; border: 1px solid var(--limestone); }
-  .sw--steps { background: repeating-linear-gradient(90deg, #2f271b 0 3px, rgb(216 203 168 / 0.5) 3px 4px); }
+  .tourcard {
+    margin-top: 0.75rem; padding: 1rem 1.2rem;
+    border: 1px solid var(--gold); border-left-width: 4px; border-radius: var(--radius);
+    background: linear-gradient(90deg, rgb(200 149 43 / 0.14), var(--bg-panel) 60%);
+    box-shadow: var(--glow);
+  }
+  .tourcard p { margin: 0; }
+  .tour-progress { height: 3px; margin: -0.2rem 0 0.7rem; background: rgb(255 255 255 / 0.08); border-radius: 2px; overflow: hidden; }
+  .tour-progress span { display: block; height: 100%; width: 0; background: var(--gold); transition: width 0.5s var(--ease); }
+  .tour-dots { display: flex; flex-wrap: wrap; gap: 0.35rem; list-style: none; margin: 0 0 0.6rem; padding: 0; }
+  .tour-dots button { width: 1.6rem; height: 1.6rem; padding: 0; border-radius: 50%; border: 1px solid var(--line-strong); background: transparent; cursor: pointer; position: relative; }
+  .tour-dots button::after { content: ''; position: absolute; inset: 0.45rem; border-radius: 50%; background: var(--line-strong); }
+  .tour-dots button[aria-current='step'] { border-color: var(--gold); }
+  .tour-dots button[aria-current='step']::after { background: var(--gold); }
+  .tour-count { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); }
+  .tour-title { font-family: var(--font-display); font-size: var(--step-1); color: var(--limestone); margin: 0.2rem 0 0.4rem !important; }
+  .tour-text { color: var(--text); }
+  .tour-nav { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.8rem; }
+  .tour-nav button { font: inherit; font-size: 0.85rem; min-height: 2.5rem; padding: 0.35rem 1rem; border: 1px solid var(--line-strong); border-radius: 999px; background: rgb(11 10 8 / 0.6); color: var(--text); cursor: pointer; }
+  .tour-nav button[data-tour-step='1'] { background: var(--gold); border-color: var(--gold); color: var(--basalt); }
+
   .legend-note { margin: 0.6rem 0 0; font-size: 0.75rem; color: var(--text-faint); }
 
   .side { grid-area: side; min-width: 0; }
   .side-title { margin: 0 0 0.5rem; font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); }
   .list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.3rem; }
-  @media (min-width: 64rem) { .list { max-height: 34rem; overflow-y: auto; padding-right: 0.3rem; scrollbar-color: var(--line-strong) transparent; } }
+  @media (min-width: 64rem) { .list { max-height: 26rem; overflow-y: auto; padding-right: 0.3rem; scrollbar-color: var(--line-strong) transparent; } }
   @media (max-width: 63.99rem) {
     .list { grid-auto-flow: column; grid-auto-columns: minmax(11rem, 1fr); overflow-x: auto; padding-bottom: 0.5rem; scroll-snap-type: x proximity; }
     .list li { scroll-snap-align: start; }
@@ -355,6 +550,7 @@ const scenes = plan.spaces.flatMap((s) => s.scenes.map((sc) => ({ s, sc })));
   }
   .list button:hover { border-color: var(--line-strong); }
   .list button[aria-pressed='true'] { border-color: var(--gold); background: rgb(200 149 43 / 0.12); }
+  .list em { font-style: normal; color: var(--accent); font-size: 0.75rem; }
   .list .code { display: grid; place-items: center; width: 1.8rem; height: 1.8rem; border-radius: 50%; border: 1px solid var(--line-strong); font: 600 0.72rem var(--font-display); color: var(--limestone); }
   .list button[aria-pressed='true'] .code { background: var(--gold); border-color: var(--gold); color: var(--basalt); }
   .dot { width: 0.55rem; height: 0.55rem; border-radius: 50%; }
@@ -362,27 +558,58 @@ const scenes = plan.spaces.flatMap((s) => s.scenes.map((sc) => ({ s, sc })));
   .dot--approximate { background: var(--gold); }
   .dot--uncertain { background: transparent; border: 1.5px dashed #7fa7d9; }
 
+  .key { list-style: none; margin: 1rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); gap: 0.3rem 1rem; font-size: 0.75rem; color: var(--text-muted); }
+  .key li { display: flex; align-items: center; gap: 0.45rem; }
+  .sw { flex: none; display: inline-block; width: 0.95rem; height: 0.65rem; border-radius: 2px; }
+  .sw--doc { background: rgb(46 139 132 / 0.8); }
+  .sw--rec { background: rgb(200 149 43 / 0.6); }
+  .sw--unc { background: rgb(127 167 217 / 0.35); border: 1px dashed #7fa7d9; }
+  .sw--paint { background: #cfa451; }
+  .sw--dmg { background: repeating-linear-gradient(-45deg, #c0604f 0 2px, transparent 2px 4px); border: 1px solid #c0604f; }
+  .sw--unf { background: #e6ddcb; border: 1px dashed #8a7d63; }
+  .sw--route { height: 3px; background: #f2c14e; }
+  .keys { margin-top: 0.9rem; font-size: 0.8rem; color: var(--text-muted); }
+  .keys summary { cursor: pointer; color: var(--accent); min-height: 1.75rem; }
+  .keys dl { margin: 0.5rem 0 0; display: grid; gap: 0.35rem; }
+  .keys div { display: grid; grid-template-columns: 6.5rem 1fr; gap: 0.5rem; }
+  .keys dd { margin: 0; }
+  .keys kbd { opacity: 0.9; }
+
   .details { grid-area: details; min-width: 0; }
   :global(.js) .detail:not(.is-active) { display: none; }
   .detail { padding: 1.25rem 1.4rem; border: 1px solid var(--line); border-left: 3px solid var(--gold); border-radius: var(--radius); background: var(--bg-panel); }
   :global(html:not(.js)) .detail + .detail { margin-top: 1rem; }
-  .detail header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.8rem; margin-bottom: 0.6rem; }
+  .detail header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.3rem 0.6rem; margin-bottom: 0.6rem; }
   .detail .kicker { margin: 0; width: 100%; }
-  .detail h3 { margin: 0; font-size: var(--step-1); }
+  .detail h3 { margin: 0 0.3rem 0 0; font-size: var(--step-1); }
   .detail p { color: var(--text-muted); }
-  .deco strong, .caveat strong { color: var(--limestone); }
+  .deco strong, .caveat strong, .cond strong { color: var(--limestone); }
+  .cond { padding: 0.5rem 0.7rem; border-left: 2px solid #c0604f; background: rgb(192 96 79 / 0.07); font-size: var(--step--1); }
+  .sub { margin: 1rem 0; }
+  .sub h4 { margin: 0 0 0.5rem; font-family: var(--font-body); font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); }
+  .items { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; }
+  .items li { display: grid; gap: 0.15rem; padding: 0.4rem 0 0.4rem 0.9rem; border-left: 1px solid var(--line-strong); font-size: 0.92rem; color: var(--text-muted); transition: background 0.3s, border-color 0.3s; }
+  .items li.is-active { border-left: 3px solid var(--gold); background: rgb(200 149 43 / 0.08); }
+  .items strong { color: var(--limestone); font-weight: 600; display: flex; align-items: center; gap: 0.4rem; }
+  .ico { display: inline-grid; place-items: center; width: 1rem; height: 1rem; font-size: 0.7rem; color: var(--gold); }
+  .ico--find, .ico--feature, .ico--opening, .ico--sarcophagus { width: 0.6rem; height: 0.6rem; background: #e9e0c9; transform: rotate(45deg); }
+  .ico--damage { width: 0.6rem; height: 0.6rem; background: #c0604f; transform: rotate(45deg); }
+  .ico--shaft { width: 0.7rem; height: 0.7rem; background: #0d0b09; border: 1px solid #6b5a3c; }
+  .finds { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.25rem; font-size: 0.92rem; color: var(--text-muted); }
+  .finds li::marker { color: var(--gold); }
   .meta { font-size: var(--step--1); color: var(--text-faint) !important; margin: 0; }
   .caveat { margin: 0.6rem 0 0; font-size: var(--step--1); padding: 0.5rem 0.7rem; border-left: 2px solid #7fa7d9; background: rgb(127 167 217 / 0.06); }
-  .scenes { list-style: none; margin: 0 0 1rem; padding: 0; display: grid; gap: 0.7rem; }
-  .scenes li { display: grid; gap: 0.15rem; padding-left: 0.9rem; border-left: 1px solid var(--line-strong); font-size: 0.92rem; color: var(--text-muted); }
-  .scenes strong { color: var(--limestone); font-weight: 600; }
-  .badge { margin: 0; padding: 0.1rem 0.55rem; border-radius: 999px; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; border: 1px solid; }
-  .badge--small { justify-self: start; font-size: 0.62rem; }
+  .badge { margin: 0; padding: 0.1rem 0.55rem; border-radius: 999px; font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; border: 1px solid; }
+  .badge--small { justify-self: start; font-size: 0.6rem; }
   .badge--documented { color: #7fd1c8; border-color: var(--faience); }
   .badge--approximate { color: var(--accent-bright); border-color: var(--gold); }
   .badge--uncertain { color: #a9c4e8; border-color: #7fa7d9; border-style: dashed; }
+  .badge--damaged { color: #f0a494; border-color: #c0604f; }
+  .badge--unfinished { color: #e6ddcb; border-color: #8a7d63; border-style: dashed; }
 
-  .source { grid-area: source; font-size: var(--step--1); color: var(--text-faint); }
-  .source p { margin: 0 0 0.3rem; }
-  .source strong { color: var(--text-muted); }
+  .source { grid-area: source; font-size: var(--step--1); color: var(--text-faint); border-top: 1px solid var(--line); padding-top: 1rem; }
+  .source h4 { margin: 0 0 0.4rem; font-family: var(--font-body); font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); }
+  .source p { margin: 0 0 0.4rem; }
+  .source ol { margin: 0 0 0.6rem; padding-left: 1.2rem; color: var(--text-muted); }
+  .source li { margin-bottom: 0.2rem; }
 </style>

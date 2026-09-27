@@ -98,6 +98,12 @@ const plans = defineCollection({
     area: z.number().optional(),
     /** Default 3D camera angles (degrees), shared by the poster render and the viewer. */
     camera: z.object({ theta: z.number(), phi: z.number() }).default({ theta: 35, phi: 52 }),
+    /** Space ids from the entrance to the burial chamber, highlighted as the main path. */
+    route: z.array(z.string()).default([]),
+    /** Publications and surveys the plan is based on. */
+    sources: z.array(z.object({ label: z.string(), url: z.url().optional() })).default([]),
+    /** Optional guided tour; defaults to the route. Each stop can point at a wall scene. */
+    tour: z.array(z.object({ space: z.string(), scene: z.string().optional(), text: z.string() })).default([]),
     spaces: z.array(
       z.object({
         id: z.string(),
@@ -137,6 +143,28 @@ const plans = defineCollection({
         status,
         /** Why the status is not "documented", or other caveats. */
         caveat: z.string().optional(),
+        /** Present condition, when it matters for reading the model. */
+        condition: z.enum(['damaged', 'unfinished']).optional(),
+        conditionNote: z.string().optional(),
+        /** For partial damage: only these walls are marked (otherwise the whole space). */
+        conditionWalls: z.array(z.enum(['n', 'e', 's', 'w'])).default([]),
+        /** What excavators recorded in this space (no positions implied). */
+        finds: z.array(z.string()).default([]),
+        /** Point features shown as hotspots: objects, breaches, openings. Only where the position is recorded. */
+        features: z
+          .array(
+            z.object({
+              id: z.string(),
+              kind: z.enum(['feature', 'find', 'damage', 'opening']),
+              title: z.string(),
+              text: z.string(),
+              at: z.tuple([z.number(), z.number()]),
+              /** Height above the floor, metres. */
+              z: z.number().default(1),
+              status: status.default('documented'),
+            }),
+          )
+          .default([]),
         /** Notable scenes, shown as hotspots on the wall they occupy. */
         scenes: z
           .array(z.object({ id: z.string(), wall: z.enum(['n', 'e', 's', 'w']), title: z.string(), text: z.string(), status: status.default('documented') }))

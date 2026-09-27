@@ -4,6 +4,13 @@ note: North is at the top. The staircase and corridor descend westward from the 
 length: 30.79
 area: 109.83
 camera: { theta: 125, phi: 52 }
+route: [kv62-a, kv62-b, kv62-i, kv62-j]
+sources:
+  - label: Theban Mapping Project, KV 62 (plan and measurements)
+    url: https://thebanmappingproject.com/
+  - label: "H. Carter and A. C. Mace, The Tomb of Tut.ankh.Amen, 3 vols (London, 1923–1933)"
+  - label: "Griffith Institute, University of Oxford: Howard Carter's excavation archive"
+  - label: "N. Reeves, The Complete Tutankhamun (London, 1990)"
 spaces:
   - id: kv62-a
     code: A
@@ -37,7 +44,19 @@ spaces:
     floor: [-6.8, -6.8]
     height: 2.68
     status: documented
-    summary: The first room, about 7.9 × 3.6 m. It held dismantled chariots, three ritual couches in animal form and chests of clothing. Two life-size guardian statues of the king flanked the sealed doorway into the burial chamber.
+    summary: The first room, about 7.9 × 3.6 m, and the tomb's main storeroom for the king's belongings. Two life-size guardian statues of the king flanked the sealed doorway into the burial chamber.
+    finds:
+      - Dismantled chariots
+      - Three ritual couches in the form of a lion, a cow and a composite hippopotamus-lioness
+      - The painted chest and chests of clothing and linen
+      - Two life-size guardian statues of the king in black resin and gilding
+    features:
+      - id: guardians
+        kind: feature
+        title: Sealed doorway and guardian statues
+        text: Two life-size figures of the king stood on either side of the plastered, sealed doorway into the burial chamber. Carter opened the doorway in February 1923.
+        at: [-16.68, -5.9]
+        z: 1.2
   - id: kv62-ia
     code: Ia
     name: Annexe
@@ -48,6 +67,10 @@ spaces:
     height: 2.55
     status: documented
     summary: A small storeroom with its floor set below the antechamber. It was found in chaos after the robberies, crammed with furniture, baskets of food, jars of wine and oils.
+    finds:
+      - Beds, chairs and stools
+      - Baskets of food and jars of wine and oils
+      - Games boxes, including senet boards
   - id: kv62-j
     code: J
     name: Burial chamber
@@ -58,7 +81,13 @@ spaces:
     height: 3.63
     decorated: [n, e, s, w]
     status: documented
-    summary: The only decorated room, about 6.4 × 4 m. Four nested gilded shrines almost filled it; inside them lay the quartzite sarcophagus, three coffins and the king's mummy with its gold mask.
+    summary: The only decorated room, about 6.4 × 4 m, and the heart of the burial. Four nested gilded shrines almost filled it; inside them lay the quartzite sarcophagus, three coffins and the king's mummy with its gold mask.
+    finds:
+      - Four nested gilded wooden shrines
+      - Quartzite sarcophagus with a granite lid
+      - Three nested coffins, the innermost of solid gold
+      - The king's mummy and gold funerary mask
+      - Eleven magical oars
     decoration: Painted scenes on a yellow ground, the only painted walls in the tomb.
     sarcophagus:
       x: -15.3
@@ -95,4 +124,17 @@ spaces:
     floor: [-7.7, -7.7]
     height: 2.33
     status: documented
-    summary: An open doorway from the burial chamber, guarded by a recumbent figure of Anubis on a gilded shrine. Behind it stood the gilded canopic shrine holding the king's embalmed organs, model boats and chests of jewellery.
+    summary: An open doorway from the burial chamber, guarded by a recumbent figure of Anubis on a gilded shrine. The room held the equipment for the king's afterlife, above all the canopic shrine with his embalmed organs.
+    finds:
+      - Anubis shrine at the doorway
+      - Gilded canopic shrine and calcite canopic chest
+      - Model boats
+      - Chests of jewellery and shabti figures
+      - Two small coffins with the mummified remains of stillborn daughters
+    features:
+      - id: anubis
+        kind: find
+        title: The Anubis shrine
+        text: A recumbent jackal figure of Anubis on a gilded shrine faced out of the treasury doorway towards the burial chamber, as if guarding it.
+        at: [-11.5, -8.1]
+        z: 0.8

@@ -3,6 +3,13 @@ source: Simplified from published plans (Theban Mapping Project; Hornung, The To
 note: The tomb runs deep into the hillside. Beyond the burial chamber a tunnel continues for about 174 m; only its start is shown.
 length: 137.19
 camera: { theta: 100, phi: 58 }
+route: [kv17-1, kv17-2, kv17-3, kv17-4, kv17-5, kv17-6, kv17-8, kv17-9, kv17-10, kv17-11, kv17-12]
+sources:
+  - label: Theban Mapping Project, KV 17 (plan and measurements)
+    url: https://thebanmappingproject.com/
+  - label: "E. Hornung, The Tomb of Pharaoh Seti I / Das Grab Sethos' I. (Zurich and Munich, 1991)"
+  - label: "G. B. Belzoni, Narrative of the Operations and Recent Discoveries … in Egypt and Nubia (London, 1820)"
+  - label: "N. Reeves and R. H. Wilkinson, The Complete Valley of the Kings (London, 1996)"
 spaces:
   - id: kv17-1
     code: "1"
@@ -28,6 +35,12 @@ spaces:
     status: approximate
     summary: The decoration begins at once. The first corridor carries the Litany of Re, a hymn naming the sun god's 75 forms.
     decoration: Litany of Re; vultures with outspread wings on the ceiling.
+    scenes:
+      - id: litany
+        wall: e
+        title: The Litany of Re
+        text: The hymn invoking the sun god under his 75 names, which opens the decoration of the tomb.
+        status: approximate
   - id: kv17-3
     code: "3"
     name: Second stairway
@@ -68,6 +81,16 @@ spaces:
     status: approximate
     caveat: The depth of the shaft is approximate.
     summary: A deep shaft cuts across the route, perhaps to catch floodwater or to deter robbers, and may also have had a ritual meaning. Belzoni found the wall beyond it plastered and painted, and broke through it.
+    condition: damaged
+    conditionWalls: [s]
+    conditionNote: The far wall was broken through by Belzoni in 1817 to reach the rooms beyond; the breach is still visible.
+    features:
+      - id: breach
+        kind: damage
+        title: Belzoni's breach
+        text: The painted wall beyond the shaft originally sealed the tomb's lower part. Belzoni's men broke through it in 1817.
+        at: [0, 53.9]
+        z: 1.4
   - id: kv17-6
     code: "6"
     name: Four-pillared hall
@@ -81,6 +104,17 @@ spaces:
     decoratedPillars: true
     status: approximate
     summary: The first pillared hall, decorated with the Book of Gates. At its far end the king is led before Osiris.
+    scenes:
+      - id: gates
+        wall: w
+        title: The Book of Gates
+        text: The sun god's night journey through the twelve hours of the underworld, each hour guarded by a gate and its serpent.
+        status: approximate
+      - id: osiris
+        wall: s
+        title: The king before Osiris
+        text: Horus leads Seti I into the presence of Osiris, enthroned as ruler of the dead.
+        status: approximate
   - id: kv17-7
     code: "7"
     name: Side hall (the "Drawing Room")
@@ -89,11 +123,18 @@ spaces:
     y: [55, 61.5]
     floor: [-17, -17]
     height: 3
-    pillars: [[7.9, 58.25]]
+    pillars: [[7.9, 56.9], [7.9, 59.6]]
     decorated: [n, e, s]
     status: approximate
-    caveat: Two pillars in the tomb; simplified here to one.
+    condition: unfinished
+    conditionNote: The decoration was never carved; only the draughtsmen's outlines exist.
     summary: A side hall left unfinished. Its walls still show the artists' outline drawings in red and black, a rare look at how the decoration was laid out before carving.
+    scenes:
+      - id: drawings
+        wall: e
+        title: Unfinished outline drawings
+        text: Figures of the king and gods sketched in red and corrected in black, left before the sculptors could carve them.
+        status: approximate
   - id: kv17-8
     code: "8"
     name: Descending stairway
@@ -107,6 +148,12 @@ spaces:
     status: approximate
     caveat: The stair opens from the floor of the pillared hall; its exact position is simplified.
     summary: The axis steps sideways here and the tomb plunges on. This stretch carries the Opening of the Mouth ritual.
+    scenes:
+      - id: opening
+        wall: e
+        title: The Opening of the Mouth
+        text: Priests restore the senses of the king's statue so that it can breathe, eat and speak in the afterlife.
+        status: approximate
   - id: kv17-9
     code: "9"
     name: Lower corridor
@@ -130,6 +177,12 @@ spaces:
     decorated: [n, e, s, w]
     status: approximate
     summary: The king is shown before the gods of the underworld, including Osiris, Anubis and Hathor.
+    scenes:
+      - id: gods
+        wall: s
+        title: The king before the gods
+        text: Seti I stands before the gods who will receive him in the underworld.
+        status: approximate
   - id: kv17-11
     code: "11"
     name: Burial chamber, pillared hall
@@ -143,7 +196,7 @@ spaces:
     decoratedPillars: true
     status: approximate
     caveat: The number of pillars is simplified in this model.
-    summary: The upper, pillared part of the burial chamber, decorated with the Book of Gates and the Amduat.
+    summary: The upper, pillared part of the burial chamber, decorated with the Book of Gates and the Amduat. Several side rooms open off the burial chamber; only the room of the Heavenly Cow is modelled here.
   - id: kv17-12
     code: "12"
     name: Burial chamber, vaulted crypt
@@ -164,6 +217,13 @@ spaces:
       material: calcite
       state: removed
       label: Calcite sarcophagus, now in Sir John Soane's Museum, London
+    features:
+      - id: tunnel-mouth
+        kind: opening
+        title: Mouth of the tunnel
+        text: A narrow tunnel opens from the floor of the crypt and descends into the rock.
+        at: [-2.8, 109.6]
+        z: 0.4
     scenes:
       - id: ceiling
         wall: s
@@ -180,6 +240,13 @@ spaces:
     decorated: [n, s, w]
     status: approximate
     summary: A side room inscribed with the Book of the Heavenly Cow, the myth of the sky goddess lifting the sun god away from rebellious humanity.
+    caveat: The position of this room relative to the crypt is simplified.
+    scenes:
+      - id: cow
+        wall: w
+        title: The Book of the Heavenly Cow
+        text: The sky goddess in the form of a cow, supported by the god Shu, carries the sun god away from humankind.
+        status: approximate
   - id: kv17-14
     code: "14"
     name: Tunnel (continues)
@@ -190,5 +257,7 @@ spaces:
     descends: y+
     height: 2
     status: uncertain
-    caveat: Excavated 2007–2010 to about 174 m and never finished. Only the first 16 m are shown; its purpose is unknown.
+    condition: unfinished
+    conditionNote: Cut but never finished; the end was reached without finding a chamber.
+    caveat: Excavated 2007–2010 to about 174 m. Only the first 16 m are shown, and its course is not modelled from a survey; its purpose is unknown.
     summary: A narrow tunnel opens from the crypt and descends deep into the rock. It was left unfinished, and no chamber has been found at its end.

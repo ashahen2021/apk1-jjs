@@ -5,14 +5,8 @@
 import * as THREE from 'three';
 import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
 import { buildTomb, MODEL_SCALE } from './tombs.js';
-import { finish, makeRenderer, arrayBufferToBase64, stone } from './scenes.js';
+import { finish, makeRenderer, arrayBufferToBase64 } from './scenes.js';
 
-/** Carved-rock look for renders (the GLB keeps plain vertex colours). */
-const rock = () => {
-  const m = stone({ color: 0xffffff, vertexColors: true, block: [0.45, 0.35, 0.45], variation: 0.035, grain: 0.09, joints: 0 });
-  m.side = THREE.DoubleSide;
-  return m;
-};
 
 function frame(group, camera, { theta = 35, phi = 52, pad = 1.08, box: given } = {}) {
   const box = given ?? new THREE.Box3().setFromObject(group);
@@ -63,7 +57,7 @@ function hero(plan, { w = 2400, h = 1350, theta = 35, phi = 58, heroPad = 0.72 }
   renderer.toneMappingExposure = 1.05;
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x0b0a08);
-  const tomb = buildTomb(plan, { material: rock() });
+  const tomb = buildTomb(plan);
   scene.add(tomb);
   const camera = new THREE.PerspectiveCamera(28, w / h, 0.1, 5000);
   const { box } = frame(tomb, camera, { theta, phi, pad: heroPad });
@@ -92,7 +86,7 @@ function interior(plan, { w = 1800, h = 1100, from, to, fov = 68, shrines = fals
   renderer.toneMappingExposure = 1.0;
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x050403);
-  scene.add(buildTomb(plan, { ceiling: true, shrines, material: rock() }));
+  scene.add(buildTomb(plan, { ceiling: true, shrines, route: false }));
   scene.add(new THREE.AmbientLight(0x3a2e22, 0.9));
   const torch = new THREE.PointLight(0xffb866, 38, 30, 1.6);
   torch.position.set(...(lamp ?? [from[0] + 0.6, from[1] + 0.3, from[2]]));
@@ -125,7 +119,7 @@ function detail(plan, { space, theta = 35, phi = 48, shrines = false, w = 1800, 
   renderer.toneMappingExposure = 1.0;
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x0b0a08);
-  const tomb = buildTomb(plan, { shrines, cut: 0.62, material: rock() });
+  const tomb = buildTomb(plan, { shrines, cut: 0.62, route: false });
   scene.add(tomb);
   const s = plan.spaces.find((x) => x.id === space);
   const focus = new THREE.Box3(new THREE.Vector3(s.x[0], s.floor[0], s.y[0]), new THREE.Vector3(s.x[1], s.floor[0] + s.height * 0.62, s.y[1]));

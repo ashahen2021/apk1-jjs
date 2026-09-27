@@ -1,19 +1,21 @@
 ---
 /**
  * Plan and depth profile of a tomb, drawn as inline SVG from plan data.
- * Each space is focusable and announces its name; TombExplorer wires the
- * selection. Works as a static, crawlable diagram without JavaScript.
+ * Spaces, wall scenes and features are focusable buttons; TombExplorer wires
+ * selection and the view toggles (path, evidence colours, hotspots, labels)
+ * through classes on its root. Works as a static, crawlable diagram without JS.
  */
-import { bounds, center, type Plan, type Space } from '@/lib/plans';
+import { bounds, center, routePoints, type Plan, type Space } from '@/lib/plans';
 
 export interface Props { plan: Plan; view: 'plan' | 'profile' }
 const { plan, view } = Astro.props;
 const b = bounds(plan);
 const uid = plan.title.toLowerCase().replace(/\W+/g, '-');
+const onRoute = new Set(plan.route);
 
 // ---------------------------------------------------------------- plan view
 const rotate = b.y1 - b.y0 > (b.x1 - b.x0) * 1.4; // long tombs run left → right
-const M = 3;
+const M = 4;
 const P = (x: number, y: number): [number, number] => (rotate ? [y - b.y0 + M, b.x1 - x + M] : [x - b.x0 + M, y - b.y0 + M]);
 const W = (rotate ? b.y1 - b.y0 : b.x1 - b.x0) + 2 * M;
 const H = (rotate ? b.x1 - b.x0 : b.y1 - b.y0) + 2 * M;
@@ -23,10 +25,20 @@ const rect = (x0: number, x1: number, y0: number, y1: number) => {
   const [a, c] = [P(x0, y0), P(x1, y1)];
   return { x: Math.min(a[0], c[0]), y: Math.min(a[1], c[1]), width: Math.abs(c[0] - a[0]), height: Math.abs(c[1] - a[1]) };
 };
-const wallLine = (s: Space, wall: string) => {
+const wallEnds = (s: Space, wall: string) => {
   const [x0, x1] = s.x, [y0, y1] = s.y;
-  const [p, q] = { n: [P(x0, y0), P(x1, y0)], s: [P(x0, y1), P(x1, y1)], w: [P(x0, y0), P(x0, y1)], e: [P(x1, y0), P(x1, y1)] }[wall]!;
+  return { n: [P(x0, y0), P(x1, y0)], s: [P(x0, y1), P(x1, y1)], w: [P(x0, y0), P(x0, y1)], e: [P(x1, y0), P(x1, y1)] }[wall]!;
+};
+const wallLine = (s: Space, wall: string) => {
+  const [p, q] = wallEnds(s, wall);
   return { x1: p[0], y1: p[1], x2: q[0], y2: q[1] };
+};
+/** Point just inside a wall's midpoint, for scene markers. */
+const wallMark = (s: Space, wall: string): [number, number] => {
+  const [cx, cy] = center(s);
+  const inset = Math.min(1.2, (s.x[1] - s.x[0]) / 4, (s.y[1] - s.y[0]) / 4);
+  const at = { n: [cx, s.y[0] + inset], s: [cx, s.y[1] - inset], w: [s.x[0] + inset, cy], e: [s.x[1] - inset, cy] }[wall] as [number, number];
+  return P(...at);
 };
 const hatch = (s: Space) => {
   if (s.kind !== 'stairs' || !s.descends) return [];
@@ -39,20 +51,14 @@ const hatch = (s: Space) => {
     return { x1: p[0], y1: p[1], x2: q[0], y2: q[1] };
   });
 };
-const arrow = (s: Space) => {
-  if (!s.descends) return undefined;
-  const [cx, cy] = center(s);
-  const d = { 'x+': [1, 0], 'x-': [-1, 0], 'y+': [0, 1], 'y-': [0, -1] }[s.descends]!;
-  const len = Math.min(3, (s.descends[0] === 'x' ? s.x[1] - s.x[0] : s.y[1] - s.y[0]) * 0.3);
-  const [p, q] = [P(cx - d[0] * len, cy - d[1] * len), P(cx + d[0] * len, cy + d[1] * len)];
-  return { x1: p[0], y1: p[1], x2: q[0], y2: q[1] };
-};
+const route = routePoints(plan).map(([x, y]) => P(x, y));
+const routeD = route.map(([x, y], i) => `${i ? 'L' : 'M'}${x.toFixed(2)},${y.toFixed(2)}`).join('');
 const scaleLen = W > 90 ? 20 : W > 45 ? 10 : 5;
 
 // ---------------------------------------------------------------- profile view
-const route = plan.spaces.filter((s) => s.kind !== 'annex');
+const seq = plan.spaces.filter((s) => s.kind !== 'annex');
 let run = 0;
-const segs = route.map((s) => {
+const segs = seq.map((s) => {
   const len = s.descends ? (s.descends[0] === 'x' ? s.x[1] - s.x[0] : s.y[1] - s.y[0]) : Math.max(s.x[1] - s.x[0], s.y[1] - s.y[0]);
   const seg = { s, x0: run, x1: run + len };
   run += len;
@@ -65,27 +71,41 @@ const PM = 4;
 const PW = total + 2 * PM;
 const PH = (deepest + 6) * exaggerate + 2 * PM;
 const pu = PW / 820;
-const PY = (depth: number) => PM + (4 - depth) * exaggerate; // depth is negative below ground
-const ticks = Array.from({ length: Math.floor(deepest / (deepest > 40 ? 10 : 5)) + 1 }, (_, i) => -i * (deepest > 40 ? 10 : 5));
+const PY = (depth: number) => PM + (4 - depth) * exaggerate;
+const step = deepest > 40 ? 10 : 5;
+const ticks = Array.from({ length: Math.floor(deepest / step) + 1 }, (_, i) => -i * step);
+const profileRoute = segs.filter(({ s }) => onRoute.has(s.id)).map(({ s, x0, x1 }) => `${x0 + PM},${PY(s.floor[0]) - 0.6 * exaggerate} ${x1 + PM},${PY(s.floor[1]) - 0.6 * exaggerate}`).join(' ');
 ---
 
 {view === 'plan' ? (
-  <svg class="plan" viewBox={`0 0 ${W} ${H}`} style={`--u:${u}`} role="group" aria-label={`${plan.title}. Select a space for details.`}>
+  <svg class="plan" viewBox={`0 0 ${W} ${H}`} style={`--u:${u}`} role="group" aria-label={`${plan.title}. Select a space, scene or feature for details.`}>
     <defs>
       <pattern id={`dash-${uid}`} width={6 * u} height={6 * u} patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
         <line x1="0" y1="0" x2="0" y2={6 * u} stroke="#7fa7d9" stroke-width={1.2 * u} />
       </pattern>
+      <pattern id={`damage-${uid}`} width={5 * u} height={5 * u} patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+        <line x1="0" y1="0" x2="0" y2={5 * u} stroke="#c0604f" stroke-width={1.4 * u} />
+      </pattern>
+      <marker id={`arrow-${uid}`} viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="#e9e0c9" />
+      </marker>
+      <marker id={`route-${uid}`} viewBox="0 0 10 10" refX="6" refY="5" markerWidth="4" markerHeight="4" orient="auto">
+        <path d="M0,0 L10,5 L0,10 z" fill="#f2c14e" />
+      </marker>
     </defs>
+
     {plan.spaces.map((s) => {
       const r = rect(s.x[0], s.x[1], s.y[0], s.y[1]);
       const [cx, cy] = P(...center(s));
-      const a = arrow(s);
+      const markAll = s.condition === 'unfinished' || (s.condition === 'damaged' && !s.conditionWalls.length);
       return (
-        <g class:list={['space', `space--${s.kind}`, `status--${s.status}`]} data-space={s.id} tabindex="0" role="button" aria-label={`${s.code}: ${s.name}`}>
+        <g class:list={['space', `space--${s.kind}`, `status--${s.status}`, s.condition && `condition--${s.condition}`, { 'on-route': onRoute.has(s.id) }]} data-space={s.id} tabindex="0" role="button" aria-label={`${s.code}: ${s.name}`}>
           <rect class="floor" {...r} fill={s.status === 'uncertain' ? `url(#dash-${uid})` : undefined} />
+          {markAll && <rect class:list={['cond', `cond--${s.condition}`]} {...r} fill={s.condition === 'damaged' ? `url(#damage-${uid})` : 'none'} />}
           {hatch(s).map((l) => <line class="step" {...l} />)}
           {s.pit && <rect class="pit" {...rect(s.pit.x[0], s.pit.x[1], s.pit.y[0], s.pit.y[1])} />}
           {s.decorated.map((w) => <line class="painted" {...wallLine(s, w)} />)}
+          {s.condition === 'damaged' && s.conditionWalls.map((w) => <line class="damaged-wall" {...wallLine(s, w)} />)}
           {s.pillars.map(([px, py]) => {
             const h = s.pillarSize / 2;
             return <rect class:list={['pillar', { 'pillar--painted': s.decoratedPillars }]} {...rect(px - h, px + h, py - h, py + h)} />;
@@ -96,17 +116,43 @@ const ticks = Array.from({ length: Math.floor(deepest / (deepest > 40 ? 10 : 5))
               {...rect(s.sarcophagus.x - s.sarcophagus.w / 2, s.sarcophagus.x + s.sarcophagus.w / 2, s.sarcophagus.y - s.sarcophagus.d / 2, s.sarcophagus.y + s.sarcophagus.d / 2)}
             />
           )}
-          {a && <line class="descent" {...a} marker-end={`url(#arrow-${uid})`} />}
           <circle class="code-bg" cx={cx} cy={cy} r={13 * u} />
           <text class="code" x={cx} y={cy} dy={4.5 * u} font-size={12.5 * u}>{s.code}</text>
+          <text class="name-label" x={cx} y={cy + 25 * u} font-size={10.5 * u}>{s.name}</text>
         </g>
       );
     })}
-    <defs>
-      <marker id={`arrow-${uid}`} viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-        <path d="M0,0 L10,5 L0,10 z" fill="#e9e0c9" />
-      </marker>
-    </defs>
+
+    <path class="route" d={routeD} marker-mid={`url(#route-${uid})`} marker-end={`url(#route-${uid})`} />
+    {route.length > 1 && (
+      <g class="route-ends">
+        <circle cx={route[0][0]} cy={route[0][1]} r={5 * u} />
+        <text x={route[0][0]} y={route[0][1] - 9 * u} font-size={10 * u}>Entrance</text>
+      </g>
+    )}
+
+    <g class="marks">
+      {plan.spaces.flatMap((s) => [
+        ...s.scenes.map((sc) => {
+          const [x, y] = wallMark(s, sc.wall);
+          return (
+            <g class="mark mark--scene" data-space={s.id} data-item={`${s.id}--${sc.id}`} tabindex="0" role="button" aria-label={`Scene: ${sc.title}`} transform={`translate(${x} ${y})`}>
+              <circle r={7 * u} />
+              <circle class="dot" r={2.4 * u} />
+            </g>
+          );
+        }),
+        ...s.features.map((f) => {
+          const [x, y] = P(f.at[0], f.at[1]);
+          return (
+            <g class:list={['mark', `mark--${f.kind}`]} data-space={s.id} data-item={`${s.id}--${f.id}`} tabindex="0" role="button" aria-label={`${f.title}`} transform={`translate(${x} ${y})`}>
+              <rect x={-5.5 * u} y={-5.5 * u} width={11 * u} height={11 * u} transform="rotate(45)" />
+            </g>
+          );
+        }),
+      ])}
+    </g>
+
     <g class="scale" transform={`translate(${M} ${H - M / 2})`}>
       <line x1="0" x2={scaleLen} y1="0" y2="0" />
       <line x1="0" x2="0" y1={-3 * u} y2={3 * u} />
@@ -129,25 +175,34 @@ const ticks = Array.from({ length: Math.floor(deepest / (deepest > 40 ? 10 : 5))
       const pts = [[x0, f0], [x1, f1], [x1, f1 + s.height], [x0, f0 + s.height]].map(([x, f]) => `${x + PM},${PY(f)}`).join(' ');
       const mid = (x0 + x1) / 2 + PM;
       return (
-        <g class:list={['space', `status--${s.status}`]} data-space={s.id} tabindex="0" role="button" aria-label={`${s.code}: ${s.name}`}>
+        <g class:list={['space', `status--${s.status}`, s.condition && `condition--${s.condition}`, { 'on-route': onRoute.has(s.id) }]} data-space={s.id} tabindex="0" role="button" aria-label={`${s.code}: ${s.name}`}>
           <polygon class="volume" points={pts} />
-          {s.pit && (
-            <rect class="pit" x={x0 + PM + (x1 - x0) * 0.25} y={PY(f0)} width={(x1 - x0) * 0.5} height={s.pit.depth * exaggerate} />
-          )}
+          {s.condition && <polygon class:list={['cond', `cond--${s.condition}`]} points={pts} fill={s.condition === 'damaged' ? `url(#pdamage-${uid})` : 'none'} />}
+          {s.pit && <rect class="pit" x={x0 + PM + (x1 - x0) * 0.25} y={PY(f0)} width={(x1 - x0) * 0.5} height={s.pit.depth * exaggerate} />}
           {(x1 - x0) / pu > 16 && <text class="code" x={mid} y={PY(Math.max(f0, f1) + s.height) - 6 * pu} font-size={10 * pu}>{s.code}</text>}
         </g>
       );
     })}
+    <defs>
+      <pattern id={`pdamage-${uid}`} width={4 * pu} height={4 * pu} patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+        <line x1="0" y1="0" x2="0" y2={4 * pu} stroke="#c0604f" stroke-width={1.2 * pu} />
+      </pattern>
+    </defs>
+    <polyline class="route" points={profileRoute} />
+    {exaggerate > 1 && <text class="axis" x={PM} y={PH - 2 * pu} font-size={10 * pu}>Vertical scale × {exaggerate}</text>}
   </svg>
 )}
 
 <style>
   svg { display: block; width: 100%; height: auto; max-height: 70vh; }
-  .space { cursor: pointer; outline: none; }
-  .floor { fill: #3a3020; stroke: #a89c80; stroke-width: calc(1px * var(--u)); }
+  .space, .mark { cursor: pointer; outline: none; }
+  .floor { fill: #3a3020; stroke: #a89c80; stroke-width: calc(1px * var(--u)); transition: fill 0.25s; }
   .space--stairs .floor, .space--corridor .floor { fill: #2f271b; }
   .space--hall .floor, .space--crypt .floor { fill: #463722; }
   .status--uncertain .floor { stroke: #7fa7d9; stroke-dasharray: calc(4px * var(--u)); }
+  .cond--unfinished { stroke: #e6ddcb; stroke-width: calc(1.5px * var(--u)); stroke-dasharray: calc(2px * var(--u)) calc(3px * var(--u)); pointer-events: none; }
+  .cond--damaged { pointer-events: none; opacity: 0.8; }
+  .damaged-wall { stroke: #c0604f; stroke-width: calc(4px * var(--u)); stroke-dasharray: calc(3px * var(--u)) calc(2px * var(--u)); }
   .step { stroke: rgb(216 203 168 / 0.35); stroke-width: calc(0.8px * var(--u)); }
   .pit { fill: #0d0b09; stroke: #6b5a3c; stroke-width: calc(1px * var(--u)); }
   .painted { stroke: var(--gold); stroke-width: calc(3.5px * var(--u)); stroke-linecap: square; }
@@ -156,23 +211,48 @@ const ticks = Array.from({ length: Math.floor(deepest / (deepest > 40 ? 10 : 5))
   .sarcophagus { stroke-width: calc(1.2px * var(--u)); }
   .sarcophagus--in-situ { fill: #9a5a44; stroke: #e9e0c9; }
   .sarcophagus--removed, .sarcophagus--lost { fill: rgb(127 167 217 / 0.2); stroke: #7fa7d9; stroke-dasharray: calc(3px * var(--u)); }
-  .descent { stroke: #e9e0c9; stroke-width: calc(1.2px * var(--u)); opacity: 0.6; }
   .code-bg { fill: rgb(11 10 8 / 0.85); stroke: var(--line-strong); stroke-width: calc(1px * var(--u)); }
   .code { fill: var(--limestone); text-anchor: middle; font-family: var(--font-display); font-weight: 600; pointer-events: none; }
+  .name-label { display: none; fill: var(--text); text-anchor: middle; paint-order: stroke; stroke: rgb(11 10 8 / 0.9); stroke-width: calc(3px * var(--u)); pointer-events: none; }
+  :global(.show-labels) .name-label { display: inline; }
   .space:hover .floor, .space:focus-visible .floor { fill: #5a4528; }
   .space.is-active .floor, .space.is-active .volume { fill: rgb(200 149 43 / 0.45); stroke: var(--accent-bright); }
   .space.is-active .code-bg { fill: var(--gold); stroke: var(--gold); }
   .space.is-active .code { fill: var(--basalt); }
   .space:focus-visible .code-bg { stroke: var(--accent-bright); stroke-width: calc(2.5px * var(--u)); }
+
+  /* Evidence colours: documented architecture / reconstructed geometry / uncertain. */
+  :global(.evidence) .status--documented .floor, :global(.evidence) .profile .status--documented .volume { fill: rgb(46 139 132 / 0.55); }
+  :global(.evidence) .status--approximate .floor, :global(.evidence) .profile .status--approximate .volume { fill: rgb(200 149 43 / 0.35); }
+  :global(.evidence) .status--uncertain .floor { fill-opacity: 1; }
+
+  /* Main path from the entrance to the burial chamber. */
+  .route { fill: none; stroke: #f2c14e; stroke-width: calc(3px * var(--u)); stroke-linejoin: round; stroke-linecap: round; pointer-events: none; opacity: 0; transition: opacity 0.3s; }
+  .route-ends { opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+  .route-ends circle { fill: #f2c14e; }
+  .route-ends text { fill: #f2c14e; text-anchor: middle; font-weight: 600; }
+  :global(.show-route) .route, :global(.show-route) .route-ends { opacity: 1; }
+  :global(.show-route) .on-route .floor { stroke: rgb(242 193 78 / 0.7); }
+
+  .mark circle, .mark rect { stroke-width: calc(1.5px * var(--u)); }
+  .mark--scene circle { fill: rgb(11 10 8 / 0.85); stroke: var(--gold); }
+  .mark--scene .dot { fill: var(--gold); stroke: none; }
+  .mark--find rect, .mark--feature rect, .mark--opening rect { fill: #e9e0c9; stroke: var(--basalt); }
+  .mark--damage rect { fill: #c0604f; stroke: var(--basalt); }
+  .mark:hover circle, .mark:focus-visible circle, .mark.is-active circle { fill: var(--gold); }
+  .mark:hover rect, .mark:focus-visible rect, .mark.is-active rect { stroke: var(--accent-bright); stroke-width: calc(3px * var(--u)); }
+  :global(.hide-hotspots) .marks { display: none; }
+
   .scale line { stroke: var(--limestone); stroke-width: calc(1.5px * var(--u)); }
   .scale text { fill: var(--text-muted); }
 
-  .profile line, .profile polygon, .profile rect { vector-effect: non-scaling-stroke; }
+  .profile line, .profile polygon, .profile rect, .profile polyline { vector-effect: non-scaling-stroke; }
   .profile .ground { stroke: var(--gold); stroke-width: 1.5px; stroke-dasharray: 6 4; }
   .profile .tick line { stroke: rgb(216 203 168 / 0.1); stroke-width: 1px; }
   .profile .tick text, .profile .axis { fill: var(--text-faint); }
   .volume { fill: #3a3020; stroke: #a89c80; stroke-width: 1px; }
   .profile .status--uncertain .volume { fill: rgb(127 167 217 / 0.15); stroke: #7fa7d9; stroke-dasharray: 4 3; }
+  .profile .route { stroke-width: 2.5px; stroke-dasharray: 6 3; }
   .profile .code { font-weight: 600; }
   .profile .space:hover .volume, .profile .space:focus-visible .volume { fill: #5a4528; }
 </style>

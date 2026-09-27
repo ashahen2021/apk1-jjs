@@ -2,6 +2,40 @@ title: Plan of QV66, the tomb of Nefertari
 source: Simplified from published plans (Theban Mapping Project; Getty Conservation Institute). The arrangement of rooms is documented; dimensions and depths in this model are approximate.
 note: The tomb is built on two levels, an upper suite reached from the entrance and a burial chamber reached by a descending stairway.
 camera: { theta: 30, phi: 55 }
+route: [qv66-1, qv66-2, qv66-5, qv66-6]
+sources:
+  - label: "J. K. McDonald, House of Eternity: The Tomb of Nefertari (Los Angeles: Getty, 1996)"
+  - label: "M. A. Corzo and M. Afshar (eds), Art and Eternity: The Nefertari Wall Paintings Conservation Project 1986–1992 (Getty, 1993)"
+  - label: Theban Mapping Project, QV 66 (plan)
+    url: https://thebanmappingproject.com/
+  - label: "E. Schiaparelli, Relazione sui lavori della Missione Archeologica Italiana in Egitto, vol. 1 (Turin, 1924)"
+tour:
+  - space: qv66-1
+    text: The tomb is entered by a steep stairway cut into the hillside. Everything beyond it was painted on fine plaster over carved relief.
+  - space: qv66-2
+    scene: senet
+    text: In the antechamber Nefertari plays senet, an image of her passage through the afterlife taken from Chapter 17 of the Book of the Dead.
+  - space: qv66-2
+    scene: thoth
+    text: On another wall she stands before Thoth, god of writing, with a scribe's palette and water jar, the spell of Chapter 94.
+  - space: qv66-4
+    scene: offering
+    text: Through the vestibule, the side chamber shows the queen offering to Osiris and to Atum.
+  - space: qv66-4
+    scene: cows
+    text: The seven celestial cows and their bull promise her food for eternity (Chapter 148).
+  - space: qv66-5
+    scene: goddesses
+    text: Descending the stairway, the queen offers to Hathor, Selkis and Maat.
+  - space: qv66-5
+    scene: maat
+    text: At the foot of the stairs Maat, goddess of truth and order, spreads her wings over the doorway to the burial chamber.
+  - space: qv66-6
+    scene: pillars
+    text: The burial chamber. Its pillars show Osiris as a djed pillar and priestly gods who served the dead queen.
+  - space: qv66-6
+    scene: gates
+    text: The walls carry the gates of the underworld and their guardians, which the queen had to pass by knowing their names.
 spaces:
   - id: qv66-1
     code: "1"
@@ -25,11 +59,18 @@ spaces:
     decorated: [n, e, s, w]
     status: approximate
     summary: A room with a low rock-cut bench along its walls, painted with spells from the Book of the Dead.
+    finds:
+      - The tomb had been robbed in antiquity; Schiaparelli's team recovered fragments of the burial equipment, including shabti figures and a pair of sandals.
     scenes:
       - id: senet
         wall: w
         title: Nefertari playing senet
         text: Illustrating Chapter 17 of the Book of the Dead, the queen sits at a board game, which symbolised her passage through the afterlife. Her ba, a human-headed bird, perches nearby. The wall shown for this scene is simplified.
+        status: approximate
+      - id: thoth
+        wall: n
+        title: Nefertari before Thoth
+        text: The queen stands before Thoth, god of writing, with a scribe's palette and water jar (Chapter 94 of the Book of the Dead). The wall shown is simplified.
         status: approximate
   - id: qv66-3
     code: "3"
@@ -54,6 +95,11 @@ spaces:
     status: approximate
     summary: Nefertari makes offerings to Osiris and to Atum. One wall shows the seven celestial cows and their bull from Chapter 148 of the Book of the Dead.
     scenes:
+      - id: offering
+        wall: s
+        title: Offerings to Osiris and Atum
+        text: Nefertari presents offerings before Osiris, ruler of the dead, and Atum, the creator god. The wall shown is simplified.
+        status: approximate
       - id: cows
         wall: e
         title: The seven cows and the bull
@@ -71,6 +117,17 @@ spaces:
     decorated: [e, w]
     status: approximate
     summary: The queen offers to Hathor, Selkis and Maat as she descends. Winged Maat guards the lower doorway.
+    scenes:
+      - id: goddesses
+        wall: w
+        title: Offerings to Hathor, Selkis and Maat
+        text: Nefertari presents jars and offerings to the goddesses who will protect her.
+        status: approximate
+      - id: maat
+        wall: e
+        title: Winged Maat
+        text: Maat, kneeling with outspread wings, guards the doorway at the foot of the stairs. Here the hotspot sits on the side wall near the lower end.
+        status: approximate
   - id: qv66-6
     code: "6"
     name: Burial chamber
@@ -93,11 +150,19 @@ spaces:
       material: granite
       state: lost
       label: Granite sarcophagus, lost — only lid fragments survive (Turin)
+    finds:
+      - Fragments of the red granite sarcophagus lid (now in the Museo Egizio, Turin)
+      - Fragments of a mummy, including a pair of knees, studied in 2016 and considered probably Nefertari's
     scenes:
       - id: pillars
         wall: s
         title: Djed pillars and priestly gods
         text: The faces of the pillars show Osiris in the form of a djed pillar, and gods such as Horus-Iunmutef who performed rituals for the dead.
+      - id: gates
+        wall: w
+        title: The gates of the underworld
+        text: Scenes from the Book of the Dead show the gates of the underworld and their guardians. The wall shown is simplified.
+        status: approximate
   - id: qv66-7
     code: "7"
     name: Side chamber
