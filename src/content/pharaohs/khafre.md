@@ -13,10 +13,12 @@ reignEnd: -2532
 highlights:
   - Built the second pyramid at Giza, which still keeps part of its casing near the top.
   - The Great Sphinx is usually attributed to his reign.
-  - His valley temple, of granite and calcite, is among the best-preserved Old Kingdom temples.
+  - His valley temple, sheathed in granite with a calcite (Egyptian alabaster) floor, still stands beside the Sphinx.
 description: Khafre, 4th Dynasty pharaoh and son of Khufu, built the second pyramid at Giza and is usually credited with the Great Sphinx.
 ---
 
-A son of **[Khufu](/pharaohs/khufu/)**, Khafre built the second pyramid on the [Giza Plateau](/monuments/giza-plateau/). Set on higher ground, it looks taller than his father's, though it is slightly smaller; a cap of its original fine limestone casing survives near the summit.
+A son of **[Khufu](/pharaohs/khufu/)**, Khafre built the second pyramid on the [Giza Plateau](/monuments/giza-plateau/). It is slightly smaller than his father's; part of its original limestone casing survives near the summit.
 
-His complex is the best-preserved at Giza: a mortuary temple against the pyramid, a causeway, and a valley temple built of red granite blocks with floors of white calcite, where fine seated statues of the king were found. Beside it, the **[Great Sphinx](/monuments/great-sphinx/)** was carved from the rock of a quarry, most probably as part of Khafre's building programme.
+His complex has a mortuary temple against the pyramid, a causeway, and a valley temple sheathed in granite with a calcite floor, where Auguste Mariette found statues of the king in 1858. Beside it lies the **[Great Sphinx](/monuments/great-sphinx/)**, carved from the bedrock and usually attributed to Khafre, though other attributions have been proposed.
+
+*Source note: Wikipedia, "Pyramid of Khafre" and "Great Sphinx of Giza" (reference works consulted); reign dates from "Fourth Dynasty of Egypt" and approximate.*

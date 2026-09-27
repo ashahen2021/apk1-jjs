@@ -44,21 +44,21 @@ export interface ViewMode {
 /** Mirrors MODES and CAMERA in scripts/render/pyramid-scenes.js (posters are rendered per mode). */
 export const PYRAMID_MODES: ViewMode[] = [
   { id: 'exterior', label: 'As built', group: 'Monument', parts: ['casing'], camera: [35, 70], spots: false, evidence: 'reconstructed',
-    note: 'The finished pyramid in smooth white Tura limestone, to Petrie\'s measured base (230.35 m) and slope (51°50′40″). Almost all the casing was later removed.' },
+    note: 'The finished pyramid in smooth white Tura limestone, to Petrie\'s measured base (230.35 m) and slope (51°50′40″). Most of the casing was later removed.' },
   { id: 'today', label: 'Today', group: 'Monument', parts: ['today'], camera: [35, 70], spots: false, evidence: 'reconstructed',
-    note: 'The stepped core that stands today, about 138.5 m high, after the casing and the top courses were lost. Course heights are simplified.' },
+    note: 'The stepped core that stands today, about 138.5 m high, after most of the casing was removed. Course heights and the flat summit are simplified.' },
   { id: 'cutaway', label: 'Cutaway', group: 'Monument', parts: ['section', 'rock', 'outline', 'documented', 'approximate', 'uncertain'], camera: [80, 72], spots: true, evidence: 'documented',
     note: 'Seen from the east with the pyramid cut away along a north–south plane. Passages and chambers are placed from Petrie\'s survey.' },
   { id: 'chambers', label: 'Chambers', group: 'Monument', parts: ['outline', 'documented', 'approximate', 'uncertain'], camera: [80, 70], spots: true, evidence: 'documented',
     note: 'Only the internal spaces, inside a transparent outline of the pyramid. Gold: surveyed. Orange: approximate. Blue: detected but not established.' },
   { id: 'ramp-straight', label: 'Straight ramp', group: 'Construction interpretations', parts: ['today', 'rampStraight'], camera: [30, 68], spots: false, evidence: 'interpretation',
-    note: 'Interpretation: one long ramp against a face. At a workable 1:10 gradient it would need to be about 480 m long just to reach a third of the height.' },
+    note: 'Interpretation: one long ramp against a face. At a workable 1:10 gradient it would need to be about 490 m long just to reach a third of the height (arithmetic, not a finding).' },
   { id: 'ramp-zigzag', label: 'Zigzag ramp', group: 'Construction interpretations', parts: ['today', 'rampZigzag'], camera: [60, 68], spots: false, evidence: 'interpretation',
     note: 'Interpretation: a switchback ramp climbing one face. Its gradient and turns are illustrative.' },
   { id: 'ramp-spiral', label: 'Spiral ramp', group: 'Construction interpretations', parts: ['today', 'rampSpiral'], camera: [35, 62], spots: false, evidence: 'interpretation',
-    note: 'Interpretation: a ramp wrapping around the faces. It would hide the corners that builders needed to check the alignment.' },
+    note: 'Interpretation: a ramp wrapping around the faces. Critics note it would hide the corners and edges needed to keep the pyramid true.' },
   { id: 'ramp-internal', label: 'Internal ramp', group: 'Construction interpretations', parts: ['outline', 'rampInternal', 'documented'], camera: [60, 66], spots: false, evidence: 'interpretation',
-    note: 'Interpretation after J.-P. Houdin (2007): an internal ramp just inside the faces above about 43 m. No such ramp has been confirmed.' },
+    note: 'Interpretation after J.-P. Houdin (2006): an external ramp for roughly the lowest 30 per cent of the height, then a ramp just inside the faces. Unproven; the ramp here is drawn schematically by us.' },
 ];
 
 const m = (n: number, s: number) => (n * s).toFixed(3);
@@ -115,7 +115,7 @@ export const PLATEAU_MAT = {
 } as const;
 
 export const PLATEAU_MODES: ViewMode[] = [
-  { id: 'built', label: 'As built', group: 'Monument', parts: [], camera: [150, 58], spots: true, evidence: 'reconstructed', note: 'The three main pyramids and the queens\' pyramids with their casing. Temples, causeways and cemeteries are schematic blocks.' },
+  { id: 'built', label: 'As built', group: 'Monument', parts: [], camera: [150, 58], spots: true, evidence: 'reconstructed', note: 'The three main pyramids and the queens\' pyramids with their casing. Pyramid bases to published sizes; positions indicative. Temples, causeways and cemeteries are schematic blocks placed by us.' },
   { id: 'today', label: 'Today', group: 'Monument', parts: [], camera: [150, 58], spots: true, evidence: 'reconstructed', note: 'The pyramids without most of their casing. Khafre\'s pyramid keeps a cap of casing near the top; Menkaure\'s keeps some of its granite lower courses.' },
 ];
 export const PLATEAU_PARTS: Record<string, (keyof typeof PLATEAU_MAT)[]> = {

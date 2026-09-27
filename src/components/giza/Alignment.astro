@@ -1,6 +1,7 @@
 ---
 /** How precisely the Great Pyramid faces north, and two proposed methods. */
 import Level from './Level.astro';
+import Cite from './Cite.astro';
 ---
 
 <figure class="align">
@@ -34,8 +35,8 @@ import Level from './Level.astro';
     </svg>
   </div>
   <figcaption>
-    <Level level="established" /> <span>Petrie measured the sides as turned on average only about 3′43″ (under a tenth of a degree) from true north.</span>
-    <Level level="debated" /> <span>How it was done is debated: Kate Spence proposed timing two circumpolar stars crossing a plumb line (2000); Glen Dash showed that marking the tips of a gnomon's shadow on the equinox gives similar accuracy (2017).</span>
+    <Level level="established" /> <span>Petrie measured the sides as turned on average only about 3′43″ (under a tenth of a degree) from true north. <Cite ids={['petrie']} /></span>
+    <Level level="debated" /> <span>How it was done is debated. Kate Spence proposed using the simultaneous transit of two stars across a plumb line, which would also explain the small errors (2000). Glen Dash proposed marking the tips of a gnomon's shadow around the equinox (2017). <Cite ids={['spence', 'dash']} /> The diagrams are schematic; the stars are not drawn in their real positions.</span>
   </figcaption>
 </figure>
 

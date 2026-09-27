@@ -3,10 +3,10 @@
 import { REFS } from '@/lib/giza';
 export interface Props { ids: string[] }
 const { ids } = Astro.props;
-const short = (label: string) => label.split(/[,:]/)[0].replace(/^(W\. M\. F\. |M\. |P\. |H\. |A\. |K\. |G\. |J\.-P\. |S\. |Z\. |R\. M\. |C\. D\. |R\. )/, '');
+const short = (label: string) => label.startsWith('Wikipedia') ? `Wikipedia, ${label.match(/"([^"]+)"/)?.[1] ?? ''}` : label.split(/[,:]/)[0].replace(/^(W\. M\. F\. |M\. |P\. |H\. |A\. |K\. |G\. |J\.-P\. |S\. |Z\. |R\. M\. |C\. D\. |R\. )/, '');
 ---
 
-<span class="cite">{ids.filter((i) => REFS[i]).map((i, n) => <>{n > 0 && '; '}<a href={`#ref-${i}`}>{short(REFS[i].label)}</a></>)}</span>
+<span class="cite">{ids.filter((i) => REFS[i]).map((i, n) => <>{n > 0 && '; '}<a href={`#ref-${i}`} title={REFS[i].access === 'standard' ? 'Standard reference, not consulted when this page was checked' : undefined}>{short(REFS[i].label)}{REFS[i].access === 'standard' && '*'}</a></>)}</span>
 
 <style>
   .cite { font-size: 0.78rem; color: var(--text-faint); }

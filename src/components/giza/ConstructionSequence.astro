@@ -1,15 +1,16 @@
 ---
 /** The building process as a sequence of steps, each tagged with its evidence level. */
 import Level from './Level.astro';
+import Cite from './Cite.astro';
 import type { Level as L } from '@/lib/giza';
 
-const steps: { n: number; title: string; level: L; text: string; icon: string }[] = [
-  { n: 1, title: 'Level and lay out', level: 'established', icon: 'M10,40 L50,40 M10,40 L10,10 M50,40 L50,10 M30,4 L30,46', text: 'The site was levelled around a rock outcrop left inside the core, and the base squared and aligned to north.' },
-  { n: 2, title: 'Quarry', level: 'established', icon: 'M6,44 L6,20 L22,20 L22,30 L38,30 L38,12 L54,12 L54,44 Z', text: 'Core blocks were cut from quarries on the plateau; casing from Tura; granite from Aswan.' },
-  { n: 3, title: 'Transport', level: 'established', icon: 'M6,34 L54,34 L50,40 L10,40 Z M16,20 L44,20 L44,34 L16,34 Z', text: 'By boat and canal to a harbour at the foot of the plateau, then by sledge.' },
-  { n: 4, title: 'Raise', level: 'debated', icon: 'M6,44 L54,44 L54,24 Z M14,44 L14,40', text: 'Ramps of some form, perhaps with levering for the last lifts. The exact system is debated.' },
-  { n: 5, title: 'Set and fit', level: 'plausible', icon: 'M6,44 L54,44 M10,44 L10,32 L30,32 L30,44 M30,44 L30,34 L50,34 L50,44', text: 'Blocks were set in horizontal courses with gypsum mortar; casing joints were fitted very tightly.' },
-  { n: 6, title: 'Dress the faces', level: 'plausible', icon: 'M30,6 L54,44 L6,44 Z', text: 'The casing faces were probably smoothed from the top down as the working ramps were removed.' },
+const steps: { n: number; title: string; level: L; text: string; icon: string; refs: string[] }[] = [
+  { n: 1, title: 'Level and lay out', level: 'established', icon: 'M10,40 L50,40 M10,40 L10,10 M50,40 L50,10 M30,4 L30,46', text: 'The base was laid out around a hillock of rock left inside the core, squared and aligned to north.', refs: ['wpGP', 'petrie'] },
+  { n: 2, title: 'Quarry', level: 'established', icon: 'M6,44 L6,20 L22,20 L22,30 L38,30 L38,12 L54,12 L54,44 Z', text: 'Core blocks were local Giza limestone; casing limestone came from Tura and granite from Aswan.', refs: ['wpGP'] },
+  { n: 3, title: 'Transport', level: 'established', icon: 'M6,34 L54,34 L50,40 L10,40 Z M16,20 L44,20 L44,34 L16,34 Z', text: 'Tura limestone and Aswan granite came by boat, through Nile waterways to the foot of the plateau; on land, probably by sledge.', refs: ['wpGP', 'sheisha', 'wpMerer', 'fall'] },
+  { n: 4, title: 'Raise', level: 'debated', icon: 'M6,44 L54,44 L54,24 Z M14,44 L14,40', text: 'Ramps of some form, perhaps with levering for the last lifts. The exact system is debated.', refs: ['wpConstruction'] },
+  { n: 5, title: 'Set and fit', level: 'plausible', icon: 'M6,44 L54,44 M10,44 L10,32 L30,32 L30,44 M30,44 L30,34 L50,34 L50,44', text: 'Blocks were set in horizontal courses, bound with mortar.', refs: ['wpGP', 'petrie'] },
+  { n: 6, title: 'Dress the faces', level: 'debated', icon: 'M30,6 L54,44 L6,44 Z', text: 'One proposal is that the casing faces were smoothed from the top down as the working ramps were removed. This is an assumption, not attested.', refs: [] },
 ];
 ---
 
@@ -20,7 +21,7 @@ const steps: { n: number; title: string; level: L; text: string; icon: string }[
       <p class="step">Step {s.n}</p>
       <h4>{s.title}</h4>
       <Level level={s.level} />
-      <p>{s.text}</p>
+      <p>{s.text} {s.refs.length > 0 && <Cite ids={s.refs} />}</p>
     </li>
   ))}
 </ol>

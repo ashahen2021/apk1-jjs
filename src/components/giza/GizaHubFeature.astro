@@ -32,14 +32,14 @@ const [gp, sphinx, khufu, khafre, menkaure] = await Promise.all([
   getEntry('pharaohs', 'khufu'), getEntry('pharaohs', 'khafre'), getEntry('pharaohs', 'menkaure'),
 ]);
 const videos = (await videosAbout('monuments', 'great-pyramid')).slice(0, 3);
-const refs = ['lehnerHawass', 'lehner97', 'lehnerLabor', 'aera', 'moa', 'sheisha', 'tallet', 'unesco'];
+const refs = ['wpGiza', 'wp4', 'wpKhafre', 'wpMenkaure', 'wpSphinx', 'aera', 'moa', 'lehnerLabor', 'sheisha', 'wpMerer', 'lehnerHawass', 'lehner97', 'tallet', 'unesco'];
 ---
 
 <MediaSection id="overview" kicker="Site overview" title="How the plateau is laid out">
   <div class="prose">
-    <p>The Giza plateau is a limestone ridge on the west bank of the Nile, at the edge of the desert above the floodplain. Three kings of the 4th Dynasty built here: Khufu, his son Khafre and Khafre's son Menkaure. Their pyramids stand on a rough diagonal from north-east to south-west, each smaller than the last. <Cite ids={['lehnerHawass']} /></p>
-    <p>Each pyramid was the centre of a complex. A temple for the king's cult stood against its east face; a covered causeway ran down to a valley temple at the edge of the floodplain, reached by canals and harbour basins from the Nile. Small queens' pyramids, a satellite pyramid and pits for full-size boats lay beside the king's pyramid. <Cite ids={['lehner97', 'sheisha']} /></p>
-    <p>Around Khufu's pyramid lie cemeteries of mastaba tombs: members of the royal family to the east, officials to the west. The Great Sphinx lies beside Khafre's valley temple, carved from rock in a quarry. South-east of the plateau, beyond a massive stone wall, archaeologists have excavated the town where the builders lived and the cemetery of its workers and overseers. <Cite ids={['lehnerLabor', 'aera', 'moa']} /></p>
+    <p>The Giza plateau is a limestone ridge on the west bank of the Nile, at the edge of the desert above the floodplain. Three kings of the 4th Dynasty built here: Khufu, his son Khafre and Khafre's son Menkaure. Their pyramids stand on a rough diagonal from north-east to south-west, each smaller than the last. <Cite ids={['wpGiza', 'wp4']} /></p>
+    <p>Each pyramid was the centre of a complex. A mortuary temple for the king's cult stood against its east face, and a causeway ran down to a valley temple near the floodplain; Nile waterways reached the foot of the plateau. Smaller queens' pyramids and boat pits lay beside the king's pyramid. <Cite ids={['wpGiza', 'sheisha']} /></p>
+    <p>Around Khufu's pyramid lie cemeteries of mastaba tombs: members of the royal family to the east, officials to the west. The Great Sphinx lies beside Khafre's valley temple, carved from the bedrock. <Cite ids={['wpGiza', 'wpSphinx']} /> South-east of the plateau, beyond a massive stone wall, archaeologists have excavated the town where the builders lived and the cemetery of its workers and overseers. <Cite ids={['lehnerLabor', 'aera', 'moa']} /></p>
   </div>
 </MediaSection>
 
@@ -60,7 +60,7 @@ const refs = ['lehnerHawass', 'lehner97', 'lehnerLabor', 'aera', 'moa', 'sheisha
     orbits={orbits}
     spots={spots}
     sizeKB={sizeKB}
-    caption="Schematic NeoKemetAI model at 1:1000. Pyramid sizes and positions follow published dimensions and site coordinates; temples, causeways and cemeteries are simplified blocks at approximate positions."
+    caption="Schematic NeoKemetAI model at 1:1000. The three main pyramids follow published base sizes; their positions and everything else (queens' pyramids, temples, causeways, cemeteries, the Sphinx) are indicative placements by us, not surveyed."
   />
 </MediaSection>
 
@@ -80,10 +80,19 @@ const refs = ['lehnerHawass', 'lehner97', 'lehnerLabor', 'aera', 'moa', 'sheisha
   <p class="more">Later royal tombs: <a href="/tombs/">the tombs of the Valley of the Kings and the Valley of the Queens</a>. The Giza mastaba cemeteries, boat pits and temples will get their own pages.</p>
 </MediaSection>
 
-<References ids={refs} />
+<References ids={refs}>
+  <h3 class="assume">Reconstruction assumptions</h3>
+  <ul class="assume-list">
+    <li>The plan and the 3D plateau model draw the three main pyramids at their published base sizes. Their relative positions, and the positions and shapes of the temples, causeways, boat pits, cemeteries, quarries, the Sphinx and the workers' town, are indicative placements by us, not traced from a survey plan.</li>
+    <li>The "as built" view shows every pyramid fully cased; the "today" view simplifies the stepped cores and the surviving casing.</li>
+    <li>The pyramid-complex diagram is generic and does not reproduce any one complex.</li>
+  </ul>
+</References>
 
 <style>
   .prose { max-width: 75ch; color: var(--text-muted); }
+  .assume { font-size: var(--step-0); margin: 1.4rem 0 0.4rem; }
+  .assume-list { padding-left: 1.2rem; display: grid; gap: 0.4rem; max-width: 85ch; font-size: var(--step--1); color: var(--text-muted); }
   .sub { margin: 2.2rem 0 1rem; font-size: var(--step-1); }
   .grid { display: grid; gap: 1.2rem; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); }
   .more { margin-top: 1.5rem; color: var(--text-muted); }

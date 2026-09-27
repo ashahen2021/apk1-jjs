@@ -1,24 +1,46 @@
 ---
-/** Visible, numbered reference list for a Giza page. Other components link to #ref-<id>. */
-import { REFS } from '@/lib/giza';
+/**
+ * Visible reference list for a Giza page, grouped by how each source was used
+ * when the page was checked: read directly, consulted as a reference work, or
+ * cited as a standard reference without being read. Other components link to
+ * #ref-<id>. The optional `assumptions` slot lists reconstruction assumptions.
+ */
+import { REFS, ACCESS, type Access } from '@/lib/giza';
 export interface Props { ids: string[]; title?: string; id?: string }
 const { ids, title = 'References and source notes', id = 'references' } = Astro.props;
 const list = [...new Set(ids)].map((i) => REFS[i]).filter(Boolean);
+const groups = (Object.keys(ACCESS) as Access[])
+  .map((a) => ({ a, ...ACCESS[a], items: list.filter((r) => r.access === a) }))
+  .filter((g) => g.items.length);
 ---
 
 <section class="refs" id={id} aria-labelledby={`${id}-title`}>
   <h2 id={`${id}-title`}>{title}</h2>
-  <ol>
-    {list.map((r) => (
-      <li id={`ref-${r.id}`}>{r.url ? <a href={r.url} rel="noopener">{r.label}</a> : r.label}</li>
-    ))}
-  </ol>
+  {groups.map((g) => (
+    <div class:list={['group', `group--${g.a}`]}>
+      <h3>{g.title}</h3>
+      <p class="help">{g.help}</p>
+      <ul>
+        {g.items.map((r) => (
+          <li id={`ref-${r.id}`}>
+            {r.url ? <a href={r.url} rel="noopener">{r.label}</a> : r.label}
+            {r.note && <span class="note">Used for: {r.note}</span>}
+          </li>
+        ))}
+      </ul>
+    </div>
+  ))}
   <slot />
 </section>
 
 <style>
   .refs { margin-top: clamp(2.5rem, 2rem + 2vw, 4rem); padding-top: 1.5rem; border-top: 1px solid var(--line); }
   h2 { font-size: var(--step-2); margin: 0 0 1rem; }
-  ol { padding-left: 1.4rem; display: grid; gap: 0.55rem; max-width: 85ch; font-size: var(--step--1); color: var(--text-muted); }
+  .group { margin-bottom: 1.4rem; max-width: 85ch; }
+  h3 { font-size: var(--step-0); margin: 0 0 0.25rem; }
+  .help { margin: 0 0 0.6rem; font-size: 0.8rem; color: var(--text-faint); }
+  ul { padding-left: 1.2rem; display: grid; gap: 0.55rem; margin: 0; font-size: var(--step--1); color: var(--text-muted); }
+  .group--standard ul { list-style: circle; }
+  .note { display: block; font-size: 0.78rem; color: var(--text-faint); }
   a { overflow-wrap: anywhere; }
 </style>

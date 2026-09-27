@@ -10,7 +10,7 @@ const panels: { id: string; title: string; level: L; caption: string }[] = [
   { id: 'straight', title: 'Straight ramp', level: 'debated', caption: 'One ramp against a face. Practical low down; to reach the top at 1:10 it would be about 1.5 km long.' },
   { id: 'zigzag', title: 'Zigzag ramp', level: 'debated', caption: 'Switchbacks up one face. Short, but faces grow narrow near the top.' },
   { id: 'spiral', title: 'Spiral ramp', level: 'debated', caption: 'Wraps around all faces at a steady gradient, but hides the corners surveyors relied on.' },
-  { id: 'internal', title: 'Internal ramp', level: 'speculative', caption: 'Inside the faces (after Houdin). Not confirmed by any survey.' },
+  { id: 'internal', title: 'Internal ramp', level: 'speculative', caption: 'Outside for about the lowest 30%, then just inside the faces (after Houdin, 2006). Unproven.' },
 ];
 ---
 
@@ -49,7 +49,7 @@ const panels: { id: string; title: string; level: L; caption: string }[] = [
               <polygon class="pyr ghost" points="40,118 100,18 160,118" />
               <polygon class="lower" points="58,118 76,88 124,88 142,118" />
               <polyline class="ramp-line inside" points="80,84 120,76 88,66 112,58 96,48" />
-              <text x="100" y="104" class="t">external ramp to about 43 m</text>
+              <text x="100" y="104" class="t">external ramp, lowest ~30%</text>
             </>
           )}
         </svg>
@@ -59,7 +59,7 @@ const panels: { id: string; title: string; level: L; caption: string }[] = [
       </div>
     ))}
   </div>
-  <figcaption>Schematic comparison, not to scale. Purple marks the proposed ramp. None of these ramps survives at Giza; each is a reconstruction proposed to fit the evidence.</figcaption>
+  <figcaption><strong>Reconstruction note:</strong> schematic comparison drawn by us, not to scale; gradients and turns are illustrative. Purple marks the proposed ramp. No ramp of any of these forms has been found at the Great Pyramid; each is a proposal (see the sources for each under "The main proposals" below).</figcaption>
 </figure>
 
 <style>

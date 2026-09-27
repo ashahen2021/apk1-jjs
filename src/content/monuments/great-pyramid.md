@@ -7,9 +7,9 @@ media:
     credit: NeoKemetAI 3D reconstruction
   compare:
     - before:
-        label: c. 2560 BCE
+        label: As built
         src: ../../assets/media/monuments/great-pyramid/giza-as-built.jpg
-        alt: The Giza pyramids as built, with smooth white limestone casing and Menkaure's red granite lower courses.
+        alt: Reconstruction of the Giza pyramids as built, with white limestone casing and Menkaure's granite lower courses.
         kind: reconstruction
         credit: NeoKemetAI 3D reconstruction
       after:
@@ -18,7 +18,7 @@ media:
         alt: The Giza pyramids today, their stepped cores exposed after the casing was stripped away.
         kind: reconstruction
         credit: NeoKemetAI 3D reconstruction
-      caption: Most of the fine Tura limestone casing was quarried away in the Middle Ages, much of it for building in Cairo. Only Khafre's pyramid still keeps a cap of casing near its summit.
+      caption: "Reconstructions, not photographs. Most of the Tura limestone casing was later removed. Khafre's pyramid still keeps casing near its summit, and Menkaure's part of its granite casing."
   panorama:
     src: ../../assets/media/monuments/great-pyramid/giza-plateau-360.jpg
     alt: 360-degree view from the plateau west of the Great Pyramid, with Khufu's pyramid to the east and Khafre's to the south, against the late afternoon sun.
@@ -33,7 +33,7 @@ media:
       credit: NeoKemetAI interpretive 3D model
     - src: ../../assets/media/monuments/great-pyramid/giza-as-built.jpg
       alt: The Giza pyramids as they looked when finished, cased in polished white limestone.
-      caption: As built, the pyramids were sheathed in polished white limestone.
+      caption: Reconstruction of the pyramids as built, cased in white Tura limestone; surface finish and colour are our assumptions.
       kind: reconstruction
       credit: NeoKemetAI 3D reconstruction
     - src: ../../assets/media/monuments/great-pyramid/khufu-core-masonry.jpg
@@ -46,7 +46,7 @@ type: pyramid
 feature: great-pyramid
 site: Giza Plateau
 coordinates: [29.9792, 31.1342]
-built: -2560
+built: -2570
 pharaohs: [khufu]
 unesco: Memphis and its Necropolis – the Pyramid Fields from Giza to Dahshur (1979)
 featured: true
@@ -55,11 +55,13 @@ facts:
   - { label: Height, value: "146.7 m as built; about 138.5 m today" }
   - { label: Slope, value: "51°50′40″" }
   - { label: Part of, value: Giza Plateau }
-description: "The Great Pyramid of Khufu, c. 2560 BCE: explore it in 3D, its chambers and passages, and the evidence and debates about how it was built."
+description: "The Great Pyramid of Khufu (reigned c. 2589–2566 BCE): explore it in 3D, its chambers and passages, and the evidence and debates about how it was built."
 ---
 
-For nearly 3,800 years the Great Pyramid was the tallest building on Earth. It was built for **Khufu**, second king of the 4th Dynasty, around 2560 BCE, and is the largest of the three pyramids on the [Giza Plateau](/monuments/giza-plateau/).
+For more than 3,700 years the Great Pyramid was the tallest human-made structure in the world. It was built for **Khufu**, second king of the 4th Dynasty, during his reign (c. 2589–2566 BCE; dates vary between chronologies), and is the largest of the three pyramids on the [Giza Plateau](/monuments/giza-plateau/).
 
-Its base is almost a perfect square of 230.35 m a side, and its sides face the cardinal directions to within a few minutes of arc. Inside, a descending passage leads to an unfinished chamber cut deep in the bedrock, while an ascending passage and the tall **Grand Gallery** climb to the **King's Chamber**, built of red Aswan granite and roofed with granite beams. Above it, five low relieving chambers carry the weight of the masonry; the builders' graffiti inside them name Khufu's work gangs.
+Its base is almost a perfect square of 230.35 m a side, and its sides face the cardinal directions to within a few minutes of arc. Inside, a descending passage leads to an unfinished chamber cut deep in the bedrock, while an ascending passage and the tall **Grand Gallery** climb to the **King's Chamber**, built of Aswan granite and roofed with nine granite beams. Above it are five low compartments, also roofed with granite, in which painted marks include Khufu's name in a cartouche.
 
 The pyramid was built by an organised Egyptian workforce, housed and fed in a town excavated at the foot of the plateau, with stone brought by boat from Tura and Aswan. Exactly how the blocks were raised is still debated. The sections below set out the evidence and the main proposals, each labelled by how well it is supported.
+
+*Source note: measurements follow W. M. F. Petrie's survey (1883), read directly; height today, volume, the 3,700-year figure and the materials follow the Wikipedia article "Great Pyramid of Giza"; the workers' town follows AERA. Full references, grouped by how each was used, are at the end of the page.*

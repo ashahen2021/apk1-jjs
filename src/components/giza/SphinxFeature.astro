@@ -16,56 +16,57 @@ import { SPHINX_POSITIONS } from '@/lib/giza';
 const facts = [
   { k: 'Length', v: 'about 73 m from the paws to the tail' },
   { k: 'Height', v: 'about 20 m from the base to the top of the head' },
-  { k: 'Width', v: 'about 19 m at the haunches' },
-  { k: 'Material', v: 'the living rock of the plateau (Eocene limestone of the Mokattam Formation), with later masonry repairs' },
-  { k: 'Faces', v: 'east, towards the sunrise' },
-  { k: 'Usual date', v: 'c. 2500 BCE, reign of Khafre (4th Dynasty)' },
+  { k: 'Width', v: 'about 19 m at the rear haunches' },
+  { k: 'Material', v: 'the bedrock limestone of the plateau (the Mokattam Formation), in three members, with masonry added in later repairs' },
+  { k: 'Faces', v: 'east' },
+  { k: 'Usual attribution', v: 'Khafre (4th Dynasty, reigned c. 2558–2532 BCE); other attributions are set out below' },
 ];
 const restorations = [
-  { when: 'c. 1400 BCE', what: 'Thutmose IV clears the sand from the front of the Sphinx and sets up the Dream Stela between its paws. Limestone blocks are added to protect the weathered body, probably in the New Kingdom and again later.' },
-  { when: 'Roman period', what: 'Further repairs to the paws and body with small limestone blocks.' },
-  { when: '1378 CE', what: 'According to al-Maqrizi, the Sufi Muhammad Sa\'im al-Dahr damages the face in an act of iconoclasm.' },
-  { when: '1817', what: 'Giovanni Battista Caviglia digs in front of the chest and finds fragments of the beard.' },
-  { when: '1925–1936', what: 'Émile Baraize clears the Sphinx and its enclosure and repairs the body, including cement work on the head.' },
-  { when: '1936–1938', what: 'Selim Hassan excavates the Sphinx and its surroundings.' },
-  { when: '1979–1983', what: 'The ARCE Sphinx Project (Mark Lehner) makes the first detailed survey of the Sphinx.' },
-  { when: '1988–1998', what: 'After a fragment of the right shoulder falls in 1988, the Egyptian antiquities service restores the body, replacing unsuitable modern repairs.' },
+  { when: 'c. 1400 BCE', what: 'Thutmose IV clears the sand, builds mudbrick walls around the enclosure, restores the body and sets up the Dream Stela between the paws. The earliest phase of limestone casing on the body probably dates to his reign.', refs: ['hawassConservation', 'arce', 'wpSphinx'] },
+  { when: '26th Dynasty', what: 'Saite repairs to the tail and the nemes headdress.', refs: ['hawassConservation'] },
+  { when: 'Roman period', what: 'Protective stones added to the paws and the sides of the body.', refs: ['hawassConservation'] },
+  { when: '1378 CE', what: 'Al-Maqrizi attributes damage to the face to the Sufi Muhammad Sa\'im al-Dahr.', refs: ['wpSphinx', 'maqrizi'] },
+  { when: '1817', what: 'Giovanni Battista Caviglia excavates in front of the chest and finds fragments of the beard.', refs: ['wpSphinx'] },
+  { when: '1925–1936', what: 'Émile Baraize clears the Sphinx and repairs it, including cement work on the head.', refs: ['hawassConservation'] },
+  { when: '1937', what: 'Selim Hassan excavates the Sphinx and its surroundings.', refs: ['arce'] },
+  { when: '1955–1987', what: 'The Egyptian Antiquities Organization repairs the body in 1955, 1977, 1979 and 1982–87. Part of a hind paw collapses in October 1981.', refs: ['hawassConservation'] },
+  { when: '1979–1983', what: 'The ARCE Sphinx Project, directed by Mark Lehner, maps the Sphinx in detail.', refs: ['arce'] },
+  { when: '1988–1998', what: 'After a block falls from the southern shoulder in February 1988, a new project (January 1989 – December 1998) removes the cement of earlier repairs and lays new limestone.', refs: ['hawassConservation'] },
 ];
-const refs = ['lehnerSphinx', 'lehnerHawass', 'hawassSphinx', 'stadelmann', 'schoch', 'reader', 'maqrizi', 'unesco'];
+const refs = ['wpSphinx', 'wpErosion', 'wpKhafre', 'aeraGeology', 'arce', 'hawassConservation', 'lehnerSphinx', 'lehnerHawass', 'stadelmann', 'schoch', 'reader', 'maqrizi', 'unesco'];
 ---
 
-<MediaSection id="form" kicker="The monument" title="Form and dimensions" lede="A lion's body with a king's head, carved from the rock of the plateau and facing the sunrise.">
+<MediaSection id="form" kicker="The monument" title="Form and dimensions" lede="A lion's body with a king's head, carved from the rock of the plateau and facing east.">
   <SphinxDiagram />
   <dl class="facts">
     {facts.map((f) => <div><dt>{f.k}</dt><dd>{f.v}</dd></div>)}
   </dl>
-  <p class="text">The head wears the royal <em>nemes</em> headdress, and a uraeus cobra once rose from the forehead. Traces of red paint survive on the face; the monument was probably painted. <Cite ids={['lehnerHawass']} /></p>
+  <p class="text">Dimensions and attribution: <Cite ids={['wpSphinx']} />; material: <Cite ids={['aeraGeology']} />. The head wears the royal <em>nemes</em> headdress. Traces of red pigment survive on the face, with traces of yellow and blue elsewhere, so the monument was probably once painted. <Cite ids={['wpSphinx']} /></p>
 </MediaSection>
 
-<MediaSection id="carving" kicker="Carving and context" title="Cut from the quarry, beside Khafre's temple">
-  <p class="text">The Sphinx was not built but carved. Workers cut a U-shaped ditch around a knoll of rock left in a quarry, shaping the head from the harder top layer and the body from the softer layers below. Blocks from the ditch were used to build the Sphinx Temple directly in front of it, which lies next to Khafre's valley temple at the foot of his causeway. The enclosure and the temple were never finished. <Cite ids={['lehnerSphinx', 'lehnerHawass']} /></p>
+<MediaSection id="carving" kicker="Carving and context" title="Cut from the bedrock, beside Khafre's temple">
+  <p class="text">The Sphinx was not built but carved from the bedrock of the plateau. The Sphinx Temple in front of it was built from stone cut from around the Sphinx, and it lies beside Khafre's valley temple at the foot of his causeway. <Cite ids={['wpSphinx', 'wpKhafre']} /></p>
   <ul class="claims">
-    <li><Level level="established" /> <span>The body is carved in three rock members: a hard base (Member I), soft and hard alternating layers forming the body (Member II), which have weathered most, and better stone in the head (Member III). <Cite ids={['lehnerSphinx']} /></span></li>
-    <li><Level level="established" /> <span>The Sphinx Temple was built of blocks from the Sphinx ditch, and the south side of the enclosure respects the line of Khafre's causeway, which already existed. <Cite ids={['lehnerSphinx', 'lehnerHawass']} /></span></li>
-    <li><Level level="plausible" /> <span>The Sphinx was part of Khafre's building programme. <Cite ids={['lehnerHawass']} /></span></li>
+    <li><Level level="established" /> <span>The Sphinx is carved in three rock members: Member I at the base, the hard rock of an ancient reef; Member II, seven layers alternating softer and harder, which forms most of the body and has weathered most; and Member III, softer at the neck and harder at the head, which explains the good preservation of the face. <Cite ids={['aeraGeology']} /></span></li>
+    <li><Level level="plausible" /> <span>The angle of the enclosure's south wall suggests that Khafre's causeway already existed when the Sphinx was cut; the Sphinx Temple resembles Khafre's mortuary temple. These are the main arguments for Khafre. <Cite ids={['wpSphinx', 'wpErosion']} /></span></li>
+    <li><Level level="plausible" /> <span>The Sphinx was part of Khafre's building programme. This is the view of most archaeologists, but no inscription of the 4th Dynasty names its maker. <Cite ids={['wpSphinx']} /></span></li>
   </ul>
   <div class="map"><PlateauMap /></div>
 </MediaSection>
 
 <MediaSection id="face" kicker="Damage and repair" title="The missing nose and beard">
   <ul class="claims">
-    <li><Level level="established" /> <span>The nose was removed deliberately: marks of rods or chisels hammered in at the bridge and below the nostril survive. It was already missing in drawings made by Frederic Norden in 1737. <Cite ids={['lehnerHawass']} /></span></li>
-    <li><Level level="plausible" /> <span>The 15th-century historian al-Maqrizi attributes the damage to Muhammad Sa'im al-Dahr in 1378. <Cite ids={['maqrizi']} /></span></li>
-    <li><Level level="speculative" /> <span>The popular story that Napoleon's soldiers shot off the nose in 1798 is false: the nose was gone decades before the French expedition.</span></li>
-    <li><Level level="debated" /> <span>Fragments of a braided divine beard found between the paws are in the British Museum and the Egyptian Museum in Cairo. Whether the beard belonged to the original carving or was added in the New Kingdom is debated. <Cite ids={['hawassSphinx', 'lehnerHawass']} /></span></li>
+    <li><Level level="established" /> <span>The nose was removed deliberately: marks of rods or chisels driven in at the bridge and below the nostril survive. It is already missing in Frederic Norden's drawings of 1737 (published 1755). <Cite ids={['wpSphinx']} /></span></li>
+    <li><Level level="plausible" /> <span>The 15th-century historian al-Maqrizi attributes damage to the face to Muhammad Sa'im al-Dahr in 1378. <Cite ids={['wpSphinx', 'maqrizi']} /></span></li>
+    <li><Level level="speculative" /> <span>The popular story that Napoleon's soldiers shot off the nose in 1798 is contradicted by Norden's drawings, made decades before the French expedition. <Cite ids={['wpSphinx']} /></span></li>
+    <li><Level level="established" /> <span>Fragments of a stone beard were found in front of the Sphinx by Caviglia in 1817; some are in the British Museum. The reference work reports that the beard was most likely original, broke, and was reassembled at a later time, most likely during Thutmose IV's restoration; Stadelmann used its style in his argument for Khufu. <Cite ids={['wpSphinx']} /></span></li>
   </ul>
 </MediaSection>
 
 <MediaSection id="restoration" kicker="Three and a half thousand years of care" title="Restoration history">
   <ol class="timeline">
-    {restorations.map((r) => <li><span class="when">{r.when}</span><span>{r.what}</span></li>)}
+    {restorations.map((r) => <li><span class="when">{r.when}</span><span>{r.what} <Cite ids={r.refs} /></span></li>)}
   </ol>
-  <p class="text">Sources: <Cite ids={['hawassSphinx', 'lehnerHawass', 'lehnerSphinx']} /></p>
 </MediaSection>
 
 <MediaSection id="date" kicker="Scholarly positions" title="Who carved it, and when?" lede="Most specialists date the Sphinx to Khafre's reign. Other views are set out here with the strength of the evidence for each.">
@@ -79,11 +80,19 @@ const refs = ['lehnerSphinx', 'lehnerHawass', 'hawassSphinx', 'stadelmann', 'sch
       </article>
     ))}
   </div>
-  <h3 class="sub">The weathering debate</h3>
-  <p class="text">The walls of the Sphinx enclosure are deeply eroded into rounded profiles. Robert Schoch argued that only long periods of heavy rainfall could do this, which would place the carving thousands of years before Khafre. Critics point out that the eroded layers are the softest in the rock; that salt crystallising from moisture in the limestone (haloclasty), wind and occasional rain act fast on such stone; that the enclosure was buried and exposed repeatedly; and that other 4th Dynasty quarry faces nearby show similar weathering. The geomorphologist Colin Reader accepted a role for rainfall run-off but argued for a date only a few centuries earlier than Khafre, still in the Early Dynastic period. No excavation has found remains of an earlier culture at Giza able to carve the Sphinx. <Cite ids={['schoch', 'reader', 'lehnerHawass']} /></p>
+  <h3 class="sub">The weathering debate <Level level="speculative" /></h3>
+  <p class="text">The walls of the Sphinx enclosure are deeply eroded into rounded profiles. The geologist Robert Schoch argued that only long periods of heavy rainfall could do this, which would place the carving thousands of years before Khafre. Critics attribute the erosion to salt crystallisation (haloclasty) in the soft layers of Member II, and to run-off and flooding, and point to evidence that heavy rain continued into the Old Kingdom. <Cite ids={['wpErosion', 'schoch']} /></p>
+  <p class="text">One argument for an older Sphinx compares it with the Old Kingdom tomb of Debehen, said to be cut in the same layers yet less weathered. AERA replies that the tomb lies about 418 m west-south-west of the Sphinx and some 27 m higher, in a different series of layers, so the difference reflects the rock and its setting, not age. The geologist Colin Reader accepted a role for rainfall run-off but argued only for a somewhat earlier date, in the late Predynastic or Early Dynastic period. No archaeological evidence of an earlier builder has been found. <Cite ids={['aeraGeology', 'wpErosion', 'wpSphinx', 'reader']} /></p>
 </MediaSection>
 
-<References ids={refs} />
+<References ids={refs}>
+  <h3 class="assume">Reconstruction assumptions</h3>
+  <ul class="assume-list">
+    <li>The rendered view of the Sphinx on this page is a schematic massing model built by us to the published length and height. The shapes of the head, paws and body are simplified, and no surface detail is modelled.</li>
+    <li>The profile diagram is schematic; only its overall length and height are to scale. The heights of the rock members are indicative.</li>
+    <li>On the plateau plan, the Sphinx, its enclosure and the nearby temples are indicative placements, not traced from a survey.</li>
+  </ul>
+</References>
 
 <style>
   .facts { display: grid; margin: 1.2rem 0; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
@@ -91,6 +100,8 @@ const refs = ['lehnerSphinx', 'lehnerHawass', 'hawassSphinx', 'stadelmann', 'sch
   .facts dt { color: var(--text-faint); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; }
   .facts dd { margin: 0; }
   .text { max-width: 75ch; color: var(--text-muted); }
+  .assume { font-size: var(--step-0); margin: 1.4rem 0 0.4rem; }
+  .assume-list { padding-left: 1.2rem; display: grid; gap: 0.4rem; max-width: 85ch; font-size: var(--step--1); color: var(--text-muted); }
   .claims { list-style: none; padding: 0; margin: 1rem 0; display: grid; gap: 0.7rem; max-width: 85ch; }
   .claims li { display: grid; grid-template-columns: auto 1fr; gap: 0.8rem; align-items: start; color: var(--text-muted); }
   @media (max-width: 40rem) { .claims li { grid-template-columns: 1fr; gap: 0.3rem; } }

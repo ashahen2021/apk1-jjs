@@ -8,7 +8,7 @@ media:
   gallery:
     - src: ../../assets/media/monuments/great-pyramid/giza-as-built.jpg
       alt: The Giza pyramids as they looked when finished, cased in polished white limestone.
-      caption: As built, around 2500 BCE.
+      caption: "Reconstruction of the pyramids as built, around 2500 BCE: fully cased, with schematic temples and causeways."
       kind: reconstruction
       credit: NeoKemetAI 3D reconstruction
     - src: ../../assets/media/monuments/giza-plateau/model-today.png
@@ -34,3 +34,5 @@ description: "The Giza Plateau, royal necropolis of the 4th Dynasty: map, 3D mod
 On a limestone ridge above the Nile floodplain, three kings of the 4th Dynasty built the most famous monuments of ancient Egypt. In about three generations, **[Khufu](/pharaohs/khufu/)**, **[Khafre](/pharaohs/khafre/)** and **[Menkaure](/pharaohs/menkaure/)** raised their pyramid complexes here, surrounded by the tombs of their families and officials, with the **[Great Sphinx](/monuments/great-sphinx/)** carved from the rock beside Khafre's temple.
 
 This page is the guide to the plateau: how it is laid out, when it was built, and where to go next. Start with the **[Great Pyramid](/monuments/great-pyramid/)**, the largest of the three, to explore it in 3D and to see the evidence for how it was built.
+
+*Source note: dates follow the Wikipedia article "Fourth Dynasty of Egypt" and differ by a few decades between chronologies. The layout follows the Wikipedia article "Giza pyramid complex" and AERA's publications on the workers' town. References are at the end of the page.*

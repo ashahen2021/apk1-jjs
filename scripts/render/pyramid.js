@@ -212,7 +212,7 @@ function rampSpiral(half, H) {
   return faceRibbon(pts, half, H, { width: 9, offset: 0.5, thick: 2 });
 }
 
-/** Internal ramp (after J.-P. Houdin): a spiral about 12 m inside the faces, from about 43 m up. */
+/** Internal ramp (after J.-P. Houdin, 2006; schematic): a spiral about 12 m inside the faces, above roughly the lowest 30% of the height. */
 function rampInternal(half, H) {
   const parts = [];
   const inset = 12, w = 2.6, h = 3.4;

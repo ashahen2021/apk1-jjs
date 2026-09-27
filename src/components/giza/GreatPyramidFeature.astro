@@ -33,17 +33,17 @@ const sizeKB = Math.round(statSync(new URL('../../../public/models/great-pyramid
 const srcN = new Map(structure.sources.map((s, i) => [s.id, i + 1]));
 const f = (n?: number) => (n === undefined ? '—' : String(Math.round(n * 100) / 100));
 
-const dims = [
+const dims: { k: string; v: string; s: string | string[] }[] = [
   { k: 'Base, each side', v: '230.35 m (mean; the four sides differ by only a few centimetres)', s: 'petrie' },
-  { k: 'Original height', v: 'about 146.7 m (280 royal cubits)', s: 'petrie' },
-  { k: 'Height today', v: 'about 138.5 m; the capstone and upper courses are lost', s: 'lehnerHawass' },
+  { k: 'Original height', v: 'about 146.7 m (280 royal cubits)', s: ['petrie', 'wpGP'] },
+  { k: 'Height today', v: 'about 138.5 m, after most of the casing was removed', s: 'wpGP' },
   { k: 'Slope of the faces', v: '51°50′40″ (a rise of 14 for every 11 horizontally)', s: 'petrie' },
   { k: 'Orientation', v: 'sides within about 3–4 arcminutes of true north', s: 'petrie' },
-  { k: 'Volume and blocks', v: 'about 2.6 million m³ including a rock outcrop in the core; often estimated at about 2.3 million blocks', s: 'lehner97' },
+  { k: 'Volume and blocks', v: 'about 2.6 million m³, including an internal hillock of rock; an estimated 2.3 million blocks', s: 'wpGP' },
   { k: 'Entrance', v: 'north face, 16.97 m above the base, 7.29 m east of the centre line', s: 'petrie' },
-  { k: 'King\'s Chamber', v: '10.47 × 5.24 m, 5.83 m high, floor 43 m above the base; red granite', s: 'petrie' },
+  { k: 'King\'s Chamber', v: '10.47 × 5.24 m, 5.83 m high, floor 43 m above the base; Aswan granite', s: ['petrie', 'wpGP'] },
 ];
-const allRefs = [...new Set([...THEORIES.flatMap((t) => t.refs), ...EVIDENCE_SHOWS.flatMap((e) => e.refs), ...DEBATED.flatMap((e) => e.refs), 'petrie', 'lehner97', 'lehnerHawass', 'fall', 'spence', 'dash', 'morishima', 'procureur', 'unesco'])];
+const allRefs = [...new Set([...THEORIES.flatMap((t) => t.refs), ...EVIDENCE_SHOWS.flatMap((e) => e.refs), ...DEBATED.flatMap((e) => e.refs), 'petrie', 'wpGP', 'fall', 'spence', 'dash', 'morishima', 'procureur', 'lehner97', 'lehnerHawass', 'unesco'])];
 ---
 
 <MediaSection id="explore-3d" kicker="Interactive model" title="Explore the Great Pyramid in 3D" lede="Switch between the pyramid as built, as it stands today, a cutaway and the chambers alone, or compare the main construction proposals. Hotspots in the cutaway and chamber views are numbered as in the list below.">
@@ -90,17 +90,24 @@ const allRefs = [...new Set([...THEORIES.flatMap((t) => t.refs), ...EVIDENCE_SHO
         </li>
       ))}
     </ol>
-    <p class="small">Views marked "Interpretation" show construction proposals, not evidence. The "as built" casing and the stepped core "today" are visualisations drawn to the published outline; individual courses and blocks are not surveyed in the model.</p>
+    <h3>Reconstruction assumptions</h3>
+    <ul class="small">
+      <li>Positions and sizes marked "Surveyed" come from Petrie; everything else was placed by us and is approximate or uncertain, as labelled.</li>
+      <li>Shaft angles and lengths, the relieving chambers (drawn as one volume), the well shaft, the robbers' tunnel and the widths of some passages are our approximations from written descriptions, not survey data.</li>
+      <li>The Big Void is drawn only to show that something is there; its form, position and inclination are unknown. The North Face Corridor is drawn as a 9 × 2 × 2 m box.</li>
+      <li>The "as built" casing and the stepped core "today" are drawn to the published outline; individual courses and blocks are not modelled. The summit today is shown flat at 138.5 m.</li>
+      <li>Views marked "Interpretation" show construction proposals, drawn schematically by us; none is evidence of how the pyramid was built.</li>
+    </ul>
   </section>
 </MediaSection>
 
 <MediaSection id="dimensions" kicker="Facts and figures" title="Dimensions and construction features">
   <dl class="dims">
     {dims.map((d) => (
-      <div><dt>{d.k}</dt><dd>{d.v} <Cite ids={[d.s]} /></dd></div>
+      <div><dt>{d.k}</dt><dd>{d.v} <Cite ids={[d.s].flat()} /></dd></div>
     ))}
   </dl>
-  <p class="text">The core is built of local limestone laid in horizontal courses around a natural outcrop of rock. Outside it lay the casing of fine white Tura limestone, cut to the slope and polished; almost all of it was taken away in the Middle Ages as building stone, and a few casing blocks remain in place at the foot of the north face. Above the King's Chamber, five low compartments roofed with granite beams and a limestone gable relieve the weight of the masonry; builders' graffiti there name Khufu's work gangs. <Cite ids={['petrie', 'lehnerHawass']} /></p>
+  <p class="text">The pyramid is built mainly of local Giza limestone, around an internal hillock of rock. The outer casing was white limestone brought by boat from Tura, and granite blocks of up to about 80 tonnes came from Aswan for the King's Chamber. Most of the casing was later removed; a limited number of casing stones remain in place at the base. <Cite ids={['wpGP', 'wpGiza']} /> The King's Chamber is roofed with nine granite beams. Above it are five low compartments roofed with granite beams, four of them found by Howard Vyse in 1837; painted marks in them include Khufu's name in a cartouche. <Cite ids={['petrie', 'wpGP']} /></p>
 </MediaSection>
 
 <MediaSection id="how-built" kicker="The big question" title="How was it built?" lede="No ancient text describes how the pyramids were raised, but quarries, papyri, the workers' town and experiments narrow the possibilities. Each proposal below is labelled by how well the evidence supports it.">
@@ -140,7 +147,7 @@ const allRefs = [...new Set([...THEORIES.flatMap((t) => t.refs), ...EVIDENCE_SHO
   <ul class="claims">
     {DEBATED.map((e) => <li><Level level="debated" /> <span>{e.text} <Cite ids={e.refs} /></span></li>)}
   </ul>
-  <p class="text">Claims that the pyramid was built by a lost civilisation or with unknown technology are not supported by any archaeological evidence. The quarries, the workers' town and cemetery, the builders' graffiti and Merer's papyri all tie the monument to Khufu's Egypt.</p>
+  <p class="text">Claims that the pyramid was built by a lost civilisation or with unknown technology are not supported by any archaeological evidence. The workers' town and cemetery, Khufu's name painted in the relieving chambers and Merer's papyri all tie the monument to Khufu's Egypt. <Cite ids={['aera', 'moa', 'petrie', 'wpMerer']} /></p>
 </MediaSection>
 
 <References ids={allRefs} />
@@ -166,6 +173,8 @@ const allRefs = [...new Set([...THEORIES.flatMap((t) => t.refs), ...EVIDENCE_SHO
   .recon a { overflow-wrap: anywhere; }
   .used { display: block; font-size: 0.82rem; color: var(--text-muted); margin-top: 0.15rem; }
   .small { font-size: 0.8rem; }
+  .recon ul.small { padding-left: 1.2rem; margin: 0; display: grid; gap: 0.35rem; color: var(--text-muted); max-width: 85ch; }
+  .recon h3 + ul { margin-top: 0; }
   .dims { display: grid; gap: 0.1rem; margin: 0 0 1.2rem; grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); }
   .dims div { display: grid; grid-template-columns: 9.5rem 1fr; gap: 0.8rem; padding: 0.6rem 0; border-bottom: 1px solid var(--line); }
   .dims dt { color: var(--text-faint); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; }
