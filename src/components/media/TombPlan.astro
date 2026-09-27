@@ -56,12 +56,17 @@ const routeD = route.map(([x, y], i) => `${i ? 'L' : 'M'}${x.toFixed(2)},${y.toF
 const scaleLen = W > 90 ? 20 : W > 45 ? 10 : 5;
 
 // ---------------------------------------------------------------- profile view
-const seq = plan.spaces.filter((s) => s.kind !== 'annex');
+// Spaces off the main line (side rooms, and rooms reached only through them) are left out.
+const seq = plan.spaces.filter((s) => s.kind !== 'annex' && !(s.kind === 'gate' && !onRoute.has(s.id) && plan.route.length));
 let run = 0;
+const placed = new Map<string, { x0: number; x1: number }>();
 const segs = seq.map((s) => {
   const len = s.descends ? (s.descends[0] === 'x' ? s.x[1] - s.x[0] : s.y[1] - s.y[0]) : Math.max(s.x[1] - s.x[0], s.y[1] - s.y[0]);
-  const seg = { s, x0: run, x1: run + len };
-  run += len;
+  // A descent cut into a room's floor sits at the far end of that room.
+  const host = s.within ? placed.get(s.within) : undefined;
+  const seg = host ? { s, x0: host.x1 - len, x1: host.x1 } : { s, x0: run, x1: run + len };
+  if (!host) run += len;
+  placed.set(s.id, seg);
   return seg;
 });
 const total = run;
@@ -99,6 +104,12 @@ const profileRoute = segs.filter(({ s }) => onRoute.has(s.id)).map(({ s, x0, x1 
       const [cx, cy] = P(...center(s));
       const markAll = s.condition === 'unfinished' || (s.condition === 'damaged' && !s.conditionWalls.length);
       return (
+        s.kind === 'gate' ? (
+          <g class:list={['space', 'space--gate', `status--${s.status}`, { 'on-route': onRoute.has(s.id) }]} aria-hidden="true">
+            <rect class="floor" {...r} fill={s.status === 'uncertain' ? `url(#dash-${uid})` : undefined} />
+            {s.condition === 'damaged' && <rect class="cond cond--damaged" {...r} fill={`url(#damage-${uid})`} />}
+          </g>
+        ) :
         <g class:list={['space', `space--${s.kind}`, `status--${s.status}`, s.condition && `condition--${s.condition}`, { 'on-route': onRoute.has(s.id) }]} data-space={s.id} tabindex="0" role="button" aria-label={`${s.code}: ${s.name}`}>
           <rect class="floor" {...r} fill={s.status === 'uncertain' ? `url(#dash-${uid})` : undefined} />
           {markAll && <rect class:list={['cond', `cond--${s.condition}`]} {...r} fill={s.condition === 'damaged' ? `url(#damage-${uid})` : 'none'} />}
@@ -175,11 +186,11 @@ const profileRoute = segs.filter(({ s }) => onRoute.has(s.id)).map(({ s, x0, x1 
       const pts = [[x0, f0], [x1, f1], [x1, f1 + s.height], [x0, f0 + s.height]].map(([x, f]) => `${x + PM},${PY(f)}`).join(' ');
       const mid = (x0 + x1) / 2 + PM;
       return (
-        <g class:list={['space', `status--${s.status}`, s.condition && `condition--${s.condition}`, { 'on-route': onRoute.has(s.id) }]} data-space={s.id} tabindex="0" role="button" aria-label={`${s.code}: ${s.name}`}>
+        <g class:list={['space', `status--${s.status}`, `level--${s.level}`, s.kind === 'gate' && 'space--gate', s.condition && `condition--${s.condition}`, { 'on-route': onRoute.has(s.id) }]} data-space={s.kind === 'gate' ? undefined : s.id} tabindex={s.kind === 'gate' ? undefined : '0'} role={s.kind === 'gate' ? undefined : 'button'} aria-hidden={s.kind === 'gate' ? 'true' : undefined} aria-label={s.kind === 'gate' ? undefined : `${s.code}: ${s.name}`}>
           <polygon class="volume" points={pts} />
           {s.condition && <polygon class:list={['cond', `cond--${s.condition}`]} points={pts} fill={s.condition === 'damaged' ? `url(#pdamage-${uid})` : 'none'} />}
           {s.pit && <rect class="pit" x={x0 + PM + (x1 - x0) * 0.25} y={PY(f0)} width={(x1 - x0) * 0.5} height={s.pit.depth * exaggerate} />}
-          {(x1 - x0) / pu > 16 && <text class="code" x={mid} y={PY(Math.max(f0, f1) + s.height) - 6 * pu} font-size={10 * pu}>{s.code}</text>}
+          {s.kind !== 'gate' && (x1 - x0) / pu > 16 && <text class="code" x={mid} y={PY(Math.max(f0, f1) + s.height) - 6 * pu} font-size={10 * pu}>{s.code}</text>}
         </g>
       );
     })}
@@ -199,6 +210,8 @@ const profileRoute = segs.filter(({ s }) => onRoute.has(s.id)).map(({ s, x0, x1 
   .floor { fill: #3a3020; stroke: #a89c80; stroke-width: calc(1px * var(--u)); transition: fill 0.25s; }
   .space--stairs .floor, .space--corridor .floor { fill: #2f271b; }
   .space--hall .floor, .space--crypt .floor { fill: #463722; }
+  .space--gate { cursor: default; pointer-events: none; }
+  .space--gate .floor { fill: #2f271b; }
   .status--uncertain .floor { stroke: #7fa7d9; stroke-dasharray: calc(4px * var(--u)); }
   .cond--unfinished { stroke: #e6ddcb; stroke-width: calc(1.5px * var(--u)); stroke-dasharray: calc(2px * var(--u)) calc(3px * var(--u)); pointer-events: none; }
   .cond--damaged { pointer-events: none; opacity: 0.8; }
@@ -251,6 +264,8 @@ const profileRoute = segs.filter(({ s }) => onRoute.has(s.id)).map(({ s, x0, x1 
   .profile .tick line { stroke: rgb(216 203 168 / 0.1); stroke-width: 1px; }
   .profile .tick text, .profile .axis { fill: var(--text-faint); }
   .volume { fill: #3a3020; stroke: #a89c80; stroke-width: 1px; }
+  /* Floor levels from published figures keep a solid outline; reconstructed ones are dashed. */
+  .profile .level--approximate .volume { stroke-dasharray: 5 3; }
   .profile .status--uncertain .volume { fill: rgb(127 167 217 / 0.15); stroke: #7fa7d9; stroke-dasharray: 4 3; }
   .profile .route { stroke-width: 2.5px; stroke-dasharray: 6 3; }
   .profile .code { font-weight: 600; }

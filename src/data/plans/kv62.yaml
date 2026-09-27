@@ -1,50 +1,85 @@
 title: Plan of KV62, the tomb of Tutankhamun
-source: Simplified from the Theban Mapping Project plan and Howard Carter's excavation records. Room dimensions follow published measurements; floor levels are approximate.
+source: Every chamber and gate is sized to the Theban Mapping Project survey of KV 62 (length, width, height, orientation). The survey gives measurements, not coordinates, so the position of each doorway along its wall is reconstructed from the published descriptions. Only relative floor levels are published; the absolute depths are reconstructed.
 note: North is at the top. The staircase and corridor descend westward from the valley floor.
-length: 30.79
 area: 109.83
+totalsNote: Floor area is the sum of the eleven chamber and gate areas published by the Theban Mapping Project (9.32 + 1.54 + 12.67 + 1.39 + 28.02 + 0.7 + 11.14 + 0.19 + 26.22 + 0.58 + 18.06 m²). No verified overall length was found, so none is given.
+levels: The Theban Mapping Project gives relative levels only. The floor of the Annexe (Ia) is 0.9 m below the Antechamber (I); the Burial chamber (J) is almost 1 m below it; the Treasury (Ja) is a step down from J. The depth of the Antechamber below the valley floor and the slope of the stairway and corridor are reconstructed.
 camera: { theta: 125, phi: 52 }
-route: [kv62-a, kv62-b, kv62-i, kv62-j]
+route: [kv62-a, kv62-gb, kv62-b, kv62-gi, kv62-i, kv62-j]
 sources:
-  - label: Theban Mapping Project, KV 62 (plan and measurements)
-    url: https://thebanmappingproject.com/
-  - label: "H. Carter and A. C. Mace, The Tomb of Tut.ankh.Amen, 3 vols (London, 1923–1933)"
-  - label: "Griffith Institute, University of Oxford: Howard Carter's excavation archive"
-  - label: "N. Reeves, The Complete Tutankhamun (London, 1990)"
+  - id: tmp
+    label: Theban Mapping Project, "KV 62 (Tutankhamen)", American Research Center in Egypt
+    url: https://thebanmappingproject.com/tombs/kv-62-tutankhamen
+    used: Chamber sequence; length, width, height, area and orientation of every chamber and gate; relative floor levels of Ia, J and Ja; the abandoned gate cutting and the recess in chamber I; sarcophagus dimensions (2.75 × 1.33 × 1.49 m); decoration by wall.
+  - id: gi-207
+    label: Griffith Institute, Tutankhamun — Anatomy of an Excavation, Carter card 207-01 (first, outermost shrine)
+    url: http://www.griffith.ox.ac.uk/gri/carter/207-c207-01.html
+    used: "Outermost shrine in the 'as found' reconstruction: base 502 × 334 cm, 270.5 cm to the top of the cornice."
+  - id: carter
+    label: "H. Carter and A. C. Mace, The Tomb of Tut.ankh.Amen, 3 vols (London, 1923–1933)"
+    used: Descriptions of the finds in each room. Not used for any dimension.
 spaces:
   - id: kv62-a
     code: A
     name: Entrance stairway
     kind: stairs
-    x: [-6.8, 0]
-    y: [0, 1.7]
+    x: [-5.61, 0]
+    y: [0, 1.66]
     floor: [0, -4]
     descends: x-
     height: 2.2
-    status: approximate
-    caveat: Sixteen steps cut into the valley floor; the stair length shown is approximate.
-    summary: Sixteen rock-cut steps lead down from the valley floor. They were buried under debris from later work on the tomb of Ramesses VI, which is why the tomb escaped the great robberies of antiquity.
+    measured: { length: 5.61, width: 1.66, area: 9.32, source: tmp, note: "Entryway A; orientation 271.68°. Sixteen steps; no height published." }
+    status: documented
+    caveat: Length and width follow the survey. The height and the drop of the sixteen steps are not published and are reconstructed.
+    summary: Sixteen rock-cut steps lead down from the valley floor. The western end is roofed by the rock of the valley floor, and the last six steps were cut back in antiquity so that large pieces of funerary furniture could pass.
+  - id: kv62-gb
+    code: gB
+    name: Gate B
+    kind: gate
+    x: [-6.6, -5.61]
+    y: [0.045, 1.615]
+    floor: [-4, -4.2]
+    descends: x-
+    height: 2.18
+    measured: { length: 0.99, width: 1.57, height: 2.18, area: 1.54, source: tmp }
+    status: documented
+    summary: The lintel and jambs were cut away in antiquity for the passage of large objects; the lintel was later replaced with a limewashed beam.
   - id: kv62-b
     code: B
     name: Descending corridor
     kind: corridor
-    x: [-14.9, -6.8]
-    y: [0, 1.7]
-    floor: [-4, -6.6]
+    x: [-14.27, -6.6]
+    y: [0, 1.66]
+    floor: [-4.2, -6.6]
     descends: x-
-    height: 2
+    height: 1.98
+    measured: { length: 7.67, width: 1.66, height: 1.98, area: 12.67, source: tmp, note: Corridor B }
     status: documented
-    summary: A sloping passage about 8 m long. Carter found it packed with limestone chips laid by necropolis officials after early robbers had entered and been caught.
+    summary: A sloping passage 7.67 m long. Carter found it packed with limestone chips laid by necropolis officials after early robbers had entered and been caught.
+  - id: kv62-gi
+    code: gI
+    name: Gate I
+    kind: gate
+    x: [-15.18, -14.27]
+    y: [0.065, 1.595]
+    floor: [-6.6, -6.8]
+    descends: x-
+    height: 1.97
+    measured: { length: 0.91, width: 1.53, height: 1.97, area: 1.39, source: tmp }
+    status: documented
+    summary: The sealed doorway into the Antechamber.
   - id: kv62-i
     code: I
     name: Antechamber
     kind: chamber
-    x: [-18.46, -14.9]
-    y: [-6.16, 1.7]
+    x: [-18.73, -15.18]
+    y: [-6.2, 1.66]
     floor: [-6.8, -6.8]
-    height: 2.68
+    height: 2.75
+    measured: { length: 3.55, width: 7.86, height: 2.75, area: 28.02, source: tmp, note: "Chamber I; survey length is measured along the entry axis (east–west)." }
     status: documented
-    summary: The first room, about 7.9 × 3.6 m, and the tomb's main storeroom for the king's belongings. Two life-size guardian statues of the king flanked the sealed doorway into the burial chamber.
+    caveat: The corridor is shown entering at the south end of the east wall, as described; its exact position along the wall is reconstructed.
+    summary: The first room, 7.86 × 3.55 m, and the tomb's main storeroom for the king's belongings; it held over six hundred objects. Two life-size guardian statues of the king flanked the sealed opening into the burial chamber.
     finds:
       - Dismantled chariots
       - Three ritual couches in the form of a lion, a cow and a composite hippopotamus-lioness
@@ -53,20 +88,47 @@ spaces:
     features:
       - id: guardians
         kind: feature
-        title: Sealed doorway and guardian statues
-        text: Two life-size figures of the king stood on either side of the plastered, sealed doorway into the burial chamber. Carter opened the doorway in February 1923.
-        at: [-16.68, -5.9]
+        title: Sealed partition and guardian statues
+        text: A rubble partition wall, plastered and sealed, closed the wide opening into the burial chamber. Two life-size figures of the king stood on either side. Carter opened it in February 1923. The survey could not measure this gate because the partition was dismantled.
+        at: [-16.96, -5.9]
         z: 1.2
+      - id: abandoned-gate
+        kind: feature
+        title: Abandoned gate cutting
+        text: The start of a gate, 0.66 m wide and 0.28 m deep, at the north end of the west wall, never completed. Chisel marks on the ceiling of the burial chamber show that this room once extended about 2 m further north.
+        at: [-18.45, -5.6]
+        z: 0.6
+      - id: recess
+        kind: feature
+        title: Small recess
+        text: A small recess near the floor at the centre of the west wall.
+        at: [-18.45, -2.3]
+        z: 0.2
+  - id: kv62-gia
+    code: gIa
+    name: Gate Ia
+    kind: gate
+    x: [-19.43, -18.73]
+    y: [0.4, 1.4]
+    floor: [-6.8, -6.8]
+    height: 1.44
+    measured: { length: 0.7, width: 1.0, height: 1.44, area: 0.7, source: tmp }
+    status: documented
+    caveat: Described as near the south end of the west wall; its exact position is reconstructed.
+    summary: A low doorway into the Annexe.
   - id: kv62-ia
     code: Ia
     name: Annexe
     kind: annex
-    x: [-22.81, -18.46]
-    y: [-1, 1.6]
+    x: [-22.03, -19.43]
+    y: [-2.64, 1.66]
     floor: [-7.7, -7.7]
-    height: 2.55
+    height: 2.63
+    measured: { length: 2.6, width: 4.3, height: 2.63, area: 11.14, source: tmp, note: "Side chamber Ia; floor 0.9 m lower than chamber I." }
+    level: documented
     status: documented
-    summary: A small storeroom with its floor set below the antechamber. It was found in chaos after the robberies, crammed with furniture, baskets of food, jars of wine and oils.
+    caveat: Its position north or south of the doorway is reconstructed.
+    summary: A small storeroom with its floor 0.9 m below the Antechamber. It was found in chaos after the robberies, crammed with furniture, baskets of food, jars of wine and oils.
     finds:
       - Beds, chairs and stools
       - Baskets of food and jars of wine and oils
@@ -75,66 +137,93 @@ spaces:
     code: J
     name: Burial chamber
     kind: chamber
-    x: [-18.46, -12.09]
-    y: [-10.18, -6.16]
-    floor: [-7.7, -7.7]
-    height: 3.63
+    x: [-18.73, -12.33]
+    y: [-10.34, -6.2]
+    floor: [-7.75, -7.75]
+    height: 3.68
     decorated: [n, e, s, w]
+    measured: { length: 4.14, width: 6.4, height: 3.68, area: 26.22, source: tmp, note: "Burial chamber J; on an east–west axis; floor almost 1 m lower than chamber I." }
+    level: documented
     status: documented
-    summary: The only decorated room, about 6.4 × 4 m, and the heart of the burial. Four nested gilded shrines almost filled it; inside them lay the quartzite sarcophagus, three coffins and the king's mummy with its gold mask.
+    caveat: Its east–west position relative to the Antechamber is reconstructed.
+    summary: The only decorated room, 6.4 × 4.14 m, and the heart of the burial. Four nested gilded shrines almost filled it; inside them lay the quartzite sarcophagus, three coffins and the king's mummy with its gold mask. Magical brick niches were cut into all four walls.
     finds:
       - Four nested gilded wooden shrines
       - Quartzite sarcophagus with a granite lid
       - Three nested coffins, the innermost of solid gold
       - The king's mummy and gold funerary mask
       - Eleven magical oars
-    decoration: Painted scenes on a yellow ground, the only painted walls in the tomb.
+    decoration: Painted scenes on a golden-yellow ground, the only painted walls in the tomb.
     sarcophagus:
-      x: -15.3
-      y: -8.17
+      x: -15.53
+      y: -8.27
       w: 2.75
-      d: 1.5
-      h: 1.47
+      d: 1.33
+      h: 1.49
       material: quartzite
       state: in-situ
-      label: Quartzite sarcophagus, still in place
+      label: "Quartzite sarcophagus, still in place: 2.75 × 1.33 × 1.49 m, facing east, on calcite blocks. Its red granite lid was painted yellow."
+      measured: { length: 2.75, width: 1.33, height: 1.49, source: tmp }
+    features:
+      - id: niches
+        kind: feature
+        title: Magical brick niches
+        text: A niche was cut into each of the four walls for a magical brick, then covered with limestone flakes, plastered and painted over.
+        at: [-12.6, -8.27]
+        z: 1.5
     scenes:
       - id: north
         wall: n
         title: The Opening of the Mouth
-        text: Tutankhamun's successor Ay, dressed as a priest, performs the Opening of the Mouth on the king's mummy. Beside it the king is welcomed by the sky goddess Nut and embraced by Osiris.
+        text: Tutankhamun's successor Ay, dressed as a priest, performs the Opening of the Mouth on the king's mummy. Beside it the king is welcomed by the sky goddess Nut and embraced by Osiris, with his ka behind him.
       - id: east
         wall: e
         title: The funeral procession
-        text: Officials haul the king's mummy on a sledge in a shrine towards the tomb.
+        text: Officials haul the king's mummy on a sledge in a shrine towards the tomb, the vignette of Book of the Dead spell 1.
       - id: south
         wall: s
         title: The king among the gods
-        text: The king stands with Hathor, followed by Anubis and Isis.
+        text: The king stands with Hathor, Anubis and Isis. Much of this wall was lost when the partition was dismantled.
       - id: west
         wall: w
         title: The first hour of the Amduat
-        text: Twelve baboons represent the first hour of the night in the Book of the Amduat, the journey of the sun through the underworld.
+        text: Twelve baboons represent the first hour of the night in the Amduat, the journey of the sun through the underworld.
+  - id: kv62-gja
+    code: gJa
+    name: Gate Ja
+    kind: gate
+    x: [-12.33, -11.81]
+    y: [-8.835, -7.705]
+    floor: [-7.75, -7.75]
+    height: 1.67
+    measured: { length: 0.52, width: 1.13, height: 1.67, area: 0.58, source: tmp, note: Never blocked; a step down into Ja. }
+    status: documented
+    caveat: Its position along the east wall is reconstructed.
+    summary: The doorway to the Treasury was never blocked.
   - id: kv62-ja
     code: Ja
     name: Treasury
     kind: chamber
-    x: [-12.09, -8.29]
-    y: [-10.5, -5.75]
-    floor: [-7.7, -7.7]
-    height: 2.33
+    x: [-11.81, -7.98]
+    y: [-10.645, -5.895]
+    floor: [-8, -8]
+    height: 2.35
+    measured: { length: 3.83, width: 4.75, height: 2.35, area: 18.06, source: tmp, note: "Side chamber Ja; oriented north–south." }
     status: documented
+    caveat: The step down from the burial chamber is not measured; the floor level shown is reconstructed.
     summary: An open doorway from the burial chamber, guarded by a recumbent figure of Anubis on a gilded shrine. The room held the equipment for the king's afterlife, above all the canopic shrine with his embalmed organs.
     finds:
       - Anubis shrine at the doorway
       - Gilded canopic shrine and calcite canopic chest
-      - Model boats
+      - Model boats and a model granary
       - Chests of jewellery and shabti figures
-      - Two small coffins with the mummified remains of stillborn daughters
+      - A chariot
+      - Two small coffins containing two fetuses
     features:
       - id: anubis
         kind: find
         title: The Anubis shrine
         text: A recumbent jackal figure of Anubis on a gilded shrine faced out of the treasury doorway towards the burial chamber, as if guarding it.
-        at: [-11.5, -8.1]
+        at: [-11.2, -8.27]
         z: 0.8
+        status: approximate

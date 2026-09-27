@@ -83,8 +83,9 @@ function gaps(s, edge, spaces) {
     if (edge === 'w' && Math.abs(o.x[1] - x0) < EPS) { touch = true; [a, b] = [Math.max(y0, o.y[0]), Math.min(y1, o.y[1])]; }
     if (edge === 'e' && Math.abs(o.x[0] - x1) < EPS) { touch = true; [a, b] = [Math.max(y0, o.y[0]), Math.min(y1, o.y[1])]; }
     if (!touch || b - a < 0.3) continue;
-    // Narrow passages open fully; rooms get a doorway of at most 1.4 m.
-    const width = b - a <= 2.8 ? b - a : 1.4;
+    // Parts of one room are open to each other; narrow passages open fully;
+    // other rooms get a doorway of at most 1.4 m.
+    const width = (s.room && s.room === o.room) || b - a <= 2.8 ? b - a : 1.4;
     const mid = (a + b) / 2;
     out.push([mid - width / 2, mid + width / 2]);
   }
@@ -117,10 +118,15 @@ export function buildTomb(plan, { cut = 0.55, ceiling = false, shrines = false, 
   // Same defaults as the content schema (raw YAML does not have them).
   const spaces = plan.spaces.map((s) => ({ decorated: [], pillars: [], pillarSize: 1.1, decoratedPillars: false, ...s }));
 
+  const byId = new Map(spaces.map((s) => [s.id, s]));
   for (const s of spaces) {
     const out = s.status === 'uncertain' ? ghost : groups[s.status];
     const [x0, x1] = s.x, [y0, y1] = s.y;
     const wallH = s.height * cut;
+    // A space cut into this one's floor (e.g. a descent in a hall) leaves a hole.
+    const hole = spaces.find((o) => o.within === s.id);
+    // A space cut into another's floor has walls only up to that floor.
+    const parent = s.within ? byId.get(s.within) : undefined;
 
     // Floor: steps, a slope, or a flat slab (with a hole for a shaft).
     if (s.kind === 'stairs' && s.descends) {
@@ -151,6 +157,12 @@ export function buildTomb(plan, { cut = 0.55, ceiling = false, shrines = false, 
         quad([px1, b, py0], [px1, b, py1], [px1, f, py1], [px1, f, py0], C.pit),
         box(px0, px1, b - 0.2, b, py0, py1, C.pit),
       );
+    } else if (hole) {
+      const f = s.floor[0];
+      const [hx0, hx1] = hole.x, [hy0, hy1] = hole.y;
+      for (const [a0, a1, b0, b1] of [[x0, x1, y0, hy0], [x0, x1, hy1, y1], [x0, hx0, hy0, hy1], [hx1, x1, hy0, hy1]]) {
+        if (a1 - a0 > 0.01 && b1 - b0 > 0.01) out.push(box(a0, a1, f - 0.3, f, b0, b1, C.floor));
+      }
     } else {
       out.push(box(x0, x1, s.floor[0] - 0.3, s.floor[0], y0, y1, C.floor));
     }
@@ -171,12 +183,32 @@ export function buildTomb(plan, { cut = 0.55, ceiling = false, shrines = false, 
         const fa = floorAt(s, pa[0], pa[1]), fb = floorAt(s, pb[0], pb[1]);
         const marked = s.condition === 'unfinished' || (s.condition === 'damaged' && (!s.conditionWalls?.length || s.conditionWalls.includes(edge)));
         const color = marked ? C[s.condition] : decorated ? C.painted : C.wall;
+        if (parent) {
+          // Sides of the cutting: from the stair up to the floor of the room above.
+          const pf = parent.floor[0];
+          if (pf - fa > 0.02 || pf - fb > 0.02) out.push(quad([pa[0], fa, pa[1]], [pb[0], fb, pb[1]], [pb[0], Math.max(fb, pf), pb[1]], [pa[0], Math.max(fa, pf), pa[1]], color));
+          continue;
+        }
         const top = ceiling ? s.height : wallH;
         out.push(quad([pa[0], fa, pa[1]], [pb[0], fb, pb[1]], [pb[0], fb + top, pb[1]], [pa[0], fa + top, pa[1]], color));
       }
     }
 
-    if (ceiling) {
+    // Step face where this part of a room drops to a lower part of the same room.
+    if (s.room) {
+      for (const o of spaces) {
+        if (o === s || o.room !== s.room || o.floor[0] >= s.floor[0] - 0.02) continue;
+        const [lo, hi] = [o.floor[0], s.floor[0]];
+        const ox0 = Math.max(x0, o.x[0]), ox1 = Math.min(x1, o.x[1]);
+        const oy0 = Math.max(y0, o.y[0]), oy1 = Math.min(y1, o.y[1]);
+        if (Math.abs(o.y[0] - y1) < EPS && ox1 > ox0) out.push(box(ox0, ox1, lo, hi, y1 - 0.05, y1 + 0.05, C.floor));
+        if (Math.abs(o.y[1] - y0) < EPS && ox1 > ox0) out.push(box(ox0, ox1, lo, hi, y0 - 0.05, y0 + 0.05, C.floor));
+        if (Math.abs(o.x[0] - x1) < EPS && oy1 > oy0) out.push(box(x1 - 0.05, x1 + 0.05, lo, hi, oy0, oy1, C.floor));
+        if (Math.abs(o.x[1] - x0) < EPS && oy1 > oy0) out.push(box(x0 - 0.05, x0 + 0.05, lo, hi, oy0, oy1, C.floor));
+      }
+    }
+
+    if (ceiling && !parent) {
       const f = (x, y) => floorAt(s, x, y) + s.height;
       out.push(quad([x0, f(x0, y0), y0], [x1, f(x1, y0), y0], [x1, f(x1, y1), y1], [x0, f(x0, y1), y1], C.wall));
     }
@@ -195,8 +227,9 @@ export function buildTomb(plan, { cut = 0.55, ceiling = false, shrines = false, 
       target.push(box(sar.x - sar.w / 2, sar.x + sar.w / 2, f, f + sar.h * 0.88, sar.y - sar.d / 2, sar.y + sar.d / 2, color));
       target.push(box(sar.x - sar.w / 2 - 0.05, sar.x + sar.w / 2 + 0.05, f + sar.h * 0.88, f + sar.h, sar.y - sar.d / 2 - 0.05, sar.y + sar.d / 2 + 0.05, color.clone().multiplyScalar(1.08)));
       if (shrines) {
-        // Outermost of the four gilded shrines: about 5.1 × 3.3 × 2.75 m.
-        const W = 5.08, D = 3.28, H = 2.75;
+        // Outermost shrine (Carter no. 207): base 502 × 334 cm, 270.5 cm to the top of the
+        // cornice (Griffith Institute, Carter card 207-01). Its batter and roof are not modelled.
+        const W = 5.02, D = 3.34, H = 2.705;
         out.push(box(sar.x - W / 2, sar.x + W / 2, f, f + H, sar.y - D / 2, sar.y + D / 2, C.shrine));
       }
     }
@@ -246,6 +279,14 @@ function doorway(a, b) {
   return undefined;
 }
 
+const PASSAGE = new Set(['stairs', 'corridor', 'gate', 'tunnel']);
+
+/** Where a route enters a space: the edge its floor descends from, or its centre. */
+function entry(s) {
+  const cx = (s.x[0] + s.x[1]) / 2, cy = (s.y[0] + s.y[1]) / 2;
+  return s.descends ? { 'x+': [s.x[0], cy], 'x-': [s.x[1], cy], 'y+': [cx, s.y[0]], 'y-': [cx, s.y[1]] }[s.descends] : [cx, cy];
+}
+
 export function routePoints(plan, spaces) {
   const byId = new Map(spaces.map((s) => [s.id, s]));
   const list = plan.route.map((id) => byId.get(id)).filter(Boolean);
@@ -260,10 +301,10 @@ export function routePoints(plan, spaces) {
     }
     const next = list[i + 1];
     if (!next) return pts.push([cx, cy, floorAt(s, cx, cy)]);
-    const d = doorway(s, next);
+    const d = doorway(s, next) ?? (next.within === s.id ? entry(next) : undefined);
     if (d) {
       const exitOnSide = Math.abs(d[0] - s.x[0]) < 0.07 || Math.abs(d[0] - s.x[1]) < 0.07;
-      if (prev && s.kind !== 'stairs' && s.kind !== 'corridor') {
+      if (prev && !PASSAGE.has(s.kind)) {
         const corner = exitOnSide ? [prev[0], d[1]] : [d[0], prev[1]];
         if (Math.hypot(corner[0] - prev[0], corner[1] - prev[1]) > 0.1) pts.push([...corner, floorAt(s, ...corner)]);
       }

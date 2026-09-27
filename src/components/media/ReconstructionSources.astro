@@ -1,0 +1,113 @@
+---
+/**
+ * "Sources for this reconstruction": which publication each part of a tomb
+ * model comes from, and every published measurement set against the model,
+ * so readers can check what is measured and what is reconstructed.
+ */
+import { KIND_LABEL, LEVEL_LABEL, STATUS_LONG, measureRows, type Plan } from '@/lib/plans';
+
+export interface Props { plan: Plan }
+const { plan } = Astro.props;
+const rows = measureRows(plan);
+const byId = new Map(plan.sources.map((s, i) => [s.id, { ...s, n: i + 1 }]));
+const f = (n?: number) => (n === undefined ? '—' : (Math.round(n * 100) / 100).toString());
+const near = (a: number, b?: number) => b === undefined || Math.abs(a - b) <= 0.03;
+const sarcophagi = plan.spaces.filter((s) => s.sarcophagus);
+---
+
+<section class="recon" id="reconstruction-sources" aria-labelledby="recon-title">
+  <h2 id="recon-title">Sources for this reconstruction</h2>
+  <p class="lede">{plan.source}</p>
+
+  <ol class="sources">
+    {plan.sources.map((s) => (
+      <li id={`src-${s.id}`}>
+        <p class="label">{s.url ? <a href={s.url} rel="noopener">{s.label}</a> : s.label}</p>
+        <p class="used"><strong>Used for:</strong> {s.used}</p>
+      </li>
+    ))}
+  </ol>
+
+  <div class="notes">
+    {plan.levels && <p><strong>Floor levels.</strong> {plan.levels}</p>}
+    {plan.totalsNote && <p><strong>Totals.</strong> {plan.totalsNote}</p>}
+    <p><strong>How to read the model.</strong> A space marked <em>documented</em> has the size given in the survey. Where it sits along a wall and how deep its floor lies are reconstructed unless stated. Gates (doorway passages) are modelled at their surveyed thickness and width, which sets the width of each doorway in the model.</p>
+  </div>
+
+  <details class="table" open>
+    <summary>Published measurements and the model ({rows.filter((r) => r.measured).length} spaces)</summary>
+    <div class="scroll" tabindex="0" role="region" aria-label="Measurement table (scrolls sideways on small screens)">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Space</th>
+            <th scope="col">Published<br />length × width × height (m)</th>
+            <th scope="col">Model (m)</th>
+            <th scope="col">Source</th>
+            <th scope="col">Evidence</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map(({ space: s, model, measured: ms }) => {
+            const src = ms && byId.get(ms.source);
+            const ok = ms && near(model.length, ms.length) && near(model.width, ms.width) && near(model.height, ms.height);
+            return (
+              <tr class:list={[`status--${s.status}`, { gate: s.kind === 'gate' }]}>
+                <th scope="row"><span class="code">{s.code}</span> {s.room ? s.name.replace(/,.*$/, '') : s.name}<span class="kind">{KIND_LABEL[s.kind]}</span></th>
+                <td>{ms ? <>{f(ms.length)} × {f(ms.width)} × {f(ms.height)}{ms.area && <span class="sub">{f(ms.area)} m²</span>}{ms.note && <span class="sub">{ms.note}</span>}</> : <span class="none">No published measurement</span>}</td>
+                <td>{f(model.length)} × {f(model.width)} × {f(model.height)}{ms && <span class:list={['sub', ok ? 'ok' : 'diff']}>{ok ? (ms.height === undefined ? 'Matches (height not published)' : 'Matches') : 'Differs: see note'}</span>}</td>
+                <td>{src ? <a href={`#src-${src.id}`}>[{src.n}]</a> : '—'}</td>
+                <td><span class:list={['badge', `badge--${s.status}`]}>{STATUS_LONG[s.status]}</span><span class="sub">{LEVEL_LABEL[s.level]}</span></td>
+              </tr>
+            );
+          })}
+          {sarcophagi.map((s) => {
+            const sar = s.sarcophagus!;
+            const ms = sar.measured;
+            const src = ms && byId.get(ms.source);
+            return (
+              <tr>
+                <th scope="row">Sarcophagus<span class="kind">{s.name}</span></th>
+                <td>{ms ? <>{f(ms.length)} × {f(ms.width)} × {f(ms.height)}</> : <span class="none">Not measured in the sources used; model size approximate</span>}</td>
+                <td>{f(Math.max(sar.w, sar.d))} × {f(Math.min(sar.w, sar.d))} × {f(sar.h)}</td>
+                <td>{src ? <a href={`#src-${src.id}`}>[{src.n}]</a> : '—'}</td>
+                <td><span class:list={['badge', ms ? 'badge--documented' : 'badge--approximate']}>{ms ? 'Documented' : 'Approximate'}</span></td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  </details>
+</section>
+
+<style>
+  .recon { margin-top: clamp(2.5rem, 2rem + 2vw, 4rem); padding-top: 1.5rem; border-top: 1px solid var(--line); }
+  .recon h2 { font-size: var(--step-2); margin: 0 0 0.75rem; }
+  .lede { color: var(--text-muted); max-width: 70ch; }
+  .sources { padding-left: 1.4rem; margin: 1.25rem 0; display: grid; gap: 0.9rem; max-width: 80ch; }
+  .sources p { margin: 0; }
+  .label { color: var(--text); }
+  .label a { overflow-wrap: anywhere; }
+  .used { font-size: var(--step--1); color: var(--text-muted); margin-top: 0.2rem !important; }
+  .notes { display: grid; gap: 0.6rem; max-width: 80ch; font-size: var(--step--1); color: var(--text-muted); }
+  .notes p { margin: 0; }
+  .table { margin-top: 1.5rem; }
+  .table summary { cursor: pointer; font-weight: 600; color: var(--accent-bright); padding: 0.4rem 0; }
+  .scroll { overflow-x: auto; margin-top: 0.75rem; border: 1px solid var(--line); border-radius: 6px; }
+  .scroll:focus-visible { outline: 2px solid var(--accent-bright); }
+  table { border-collapse: collapse; width: 100%; min-width: 44rem; font-size: 0.85rem; }
+  th, td { text-align: left; vertical-align: top; padding: 0.55rem 0.7rem; border-bottom: 1px solid var(--line); }
+  thead th { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); font-weight: 600; background: rgb(255 255 255 / 0.02); }
+  tbody th { font-weight: 600; color: var(--text); }
+  tr.gate th, tr.gate td { color: var(--text-muted); font-size: 0.8rem; }
+  .code { display: inline-block; min-width: 2.2em; font-family: var(--font-display); color: var(--accent-bright); }
+  .kind, .sub { display: block; font-size: 0.75rem; font-weight: 400; color: var(--text-faint); margin-top: 0.15rem; }
+  .none { color: var(--text-faint); font-style: italic; }
+  .ok { color: #6fc2b8; }
+  .diff { color: #e0a458; }
+  .badge { display: inline-block; font-size: 0.72rem; padding: 0.1rem 0.45rem; border-radius: 999px; border: 1px solid currentColor; white-space: nowrap; }
+  .badge--documented { color: #6fc2b8; }
+  .badge--approximate { color: #e0b458; }
+  .badge--uncertain { color: #7fa7d9; }
+</style>

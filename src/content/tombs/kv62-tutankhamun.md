@@ -10,7 +10,7 @@ media:
     src: /models/kv62.glb
     poster: ../../assets/media/tombs/kv62-tutankhamun/model-poster.png
     alt: Interactive cut-away model of KV62 with its six spaces and the sarcophagus in the burial chamber.
-    caption: Built from the published plan. Walls are cut away at about half height so every room can be seen.
+    caption: Every chamber and gate is sized to the Theban Mapping Project survey; doorway positions and floor depths are reconstructed. Walls are cut away at about half height so every room can be seen.
     kind: model
     credit: NeoKemetAI interpretive 3D model
   compare:
@@ -26,7 +26,7 @@ media:
         alt: Model of the burial chamber today, with the quartzite sarcophagus alone in the painted room.
         kind: model
         credit: NeoKemetAI interpretive 3D model
-      caption: Carter's team found four nested gilded shrines filling the burial chamber (only the outermost is shown). The shrines were dismantled and taken to Cairo; the quartzite sarcophagus is still in the tomb.
+      caption: Carter's team found four nested gilded shrines filling the burial chamber (only the outermost is shown, sized from Carter's record card for it, no. 207). The shrines were dismantled and taken to Cairo; the quartzite sarcophagus is still in the tomb.
   gallery:
     - src: ../../assets/media/tombs/kv62-tutankhamun/burial-chamber.jpg
       alt: View inside the model of the burial chamber, with the sarcophagus in front of the painted north wall.

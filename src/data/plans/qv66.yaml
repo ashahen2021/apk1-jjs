@@ -1,195 +1,305 @@
 title: Plan of QV66, the tomb of Nefertari
-source: Simplified from published plans (Theban Mapping Project; Getty Conservation Institute). The arrangement of rooms is documented; dimensions and depths in this model are approximate.
-note: The tomb is built on two levels, an upper suite reached from the entrance and a burial chamber reached by a descending stairway.
-camera: { theta: 30, phi: 55 }
-route: [qv66-1, qv66-2, qv66-5, qv66-6]
+source: The arrangement of rooms follows the Theban Mapping Project description of QV 66 (letters A–D, Ba, Da–Dc). The Theban Mapping Project page gives no measurements for this tomb, so the sizes and the levels follow the approximate figures published by the Getty Conservation Institute (Maekawa 1993), which are rounded to the decimetre. The position of doorways along walls, the widths of the stairways and the length of each floor level in the burial chamber are reconstructed.
+note: In the plan drawing north is to the left and the entrance on the right. The entrance stairway descends northward into the antechamber; the lower stairway leaves from the east end of its north wall, so the burial chamber lies on an axis parallel to, but east of, the entrance.
+levels: "Getty Conservation Institute: a drop of 3.3 m between the floors of the antechamber and the burial chamber, over a stairway about 7 m long; the burial chamber has three floor levels, 2.7 m, 3.4 m and 2.7 m below the ceiling (so the central part is about 0.7 m lower). Steps up into the side chambers (two for Da and Dc, one for Db) are from the Theban Mapping Project description. The depth of the antechamber below ground is reconstructed."
+camera: { theta: 210, phi: 55 }
+route: [qv66-a, qv66-b, qv66-c, qv66-d, qv66-d2]
 sources:
-  - label: "J. K. McDonald, House of Eternity: The Tomb of Nefertari (Los Angeles: Getty, 1996)"
-  - label: "M. A. Corzo and M. Afshar (eds), Art and Eternity: The Nefertari Wall Paintings Conservation Project 1986–1992 (Getty, 1993)"
-  - label: Theban Mapping Project, QV 66 (plan)
-    url: https://thebanmappingproject.com/
-  - label: "E. Schiaparelli, Relazione sui lavori della Missione Archeologica Italiana in Egitto, vol. 1 (Turin, 1924)"
+  - id: tmp
+    label: Theban Mapping Project, "QV 66 (Queen Nefertari-Merymut)", American Research Center in Egypt
+    url: https://thebanmappingproject.com/tombs/qv-66-queen-nefertari-merymut
+    used: Sequence and arrangement of rooms; the benches, double recess and canopic niche; the eastward shift of the stairwell; the three-part, split-level burial chamber with four pillars and steps; the position of each side chamber; decoration by wall.
+  - id: gci
+    label: "S. Maekawa, \"Environmental Monitoring at the Tomb of Nefertari\", in M. A. Corzo and M. Afshar (eds), Art and Eternity: The Nefertari Wall Paintings Conservation Project 1986–1992 (Getty Conservation Institute, 1993), section \"Orientation and Geometry of the Tomb\", fig. 1 and table 1"
+    url: http://d2aohiyo3d3idm.cloudfront.net/publications/virtuallibrary/0892361301.pdf
+    used: "Approximate dimensions: entrance stairway about 4.5 m; upper chamber about 5.2 m square and 3.1 m high; recess 1.2 × 4 m and side chamber 3.1 × 5.2 m, joined by passages 3.1 × 0.8 m and 1.1 × 0.8 m; lower stairway about 7 m with a 3.3 m drop; burial chamber 10.5 × 8.4 m with floors 2.7, 3.4 and 2.7 m below the ceiling; side chambers 4.0 × 2.3 × 1.5, 2.4 × 2.3 × 1.9 and 2.3 × 2.2 × 1.8 m; total volume about 475 m³."
+  - id: schiaparelli
+    label: "E. Schiaparelli, Relazione sui lavori della Missione Archeologica Italiana in Egitto, vol. 1 (Turin, 1924)"
+    used: Discovery and finds. Not used for any dimension.
 tour:
-  - space: qv66-1
-    text: The tomb is entered by a steep stairway cut into the hillside. Everything beyond it was painted on fine plaster over carved relief.
-  - space: qv66-2
+  - space: qv66-a
+    text: The tomb is entered by a steep stairway cut into the hillside. Everything beyond it was painted on fine plaster.
+  - space: qv66-b
     scene: senet
     text: In the antechamber Nefertari plays senet, an image of her passage through the afterlife taken from Chapter 17 of the Book of the Dead.
-  - space: qv66-2
-    scene: thoth
-    text: On another wall she stands before Thoth, god of writing, with a scribe's palette and water jar, the spell of Chapter 94.
-  - space: qv66-4
+  - space: qv66-b
+    scene: gods
+    text: On the right wall the enthroned Hathor and Re-Horakhty receive the queen, their titles written in finely detailed hieroglyphs.
+  - space: qv66-ba
     scene: offering
-    text: Through the vestibule, the side chamber shows the queen offering to Osiris and to Atum.
-  - space: qv66-4
+    text: Through the recess, the side chamber shows the queen offering to Osiris and to Atum.
+  - space: qv66-ba
     scene: cows
-    text: The seven celestial cows and their bull promise her food for eternity (Chapter 148).
-  - space: qv66-5
+    text: The seven celestial cows and their bull, with four steering oars, promise her food for eternity (Chapter 148).
+  - space: qv66-c
     scene: goddesses
-    text: Descending the stairway, the queen offers to Hathor, Selkis and Maat.
-  - space: qv66-5
+    text: Descending the stairway, the queen offers to Isis, Nephthys and Maat.
+  - space: qv66-c
     scene: maat
     text: At the foot of the stairs Maat, goddess of truth and order, spreads her wings over the doorway to the burial chamber.
-  - space: qv66-6
+  - space: qv66-d2
     scene: pillars
-    text: The burial chamber. Its pillars show Osiris as a djed pillar and priestly gods who served the dead queen.
-  - space: qv66-6
+    text: The burial chamber. Four pillars surround the sunken centre where the sarcophagus stood; they show Osiris, djed pillars, priests and the queen before goddesses.
+  - space: qv66-d
     scene: gates
-    text: The walls carry the gates of the underworld and their guardians, which the queen had to pass by knowing their names.
+    text: The walls carry the gates of the underworld and their guardians from the Book of the Dead, which the queen had to pass by knowing their names.
 spaces:
-  - id: qv66-1
-    code: "1"
+  - id: qv66-a
+    code: A
     name: Entrance stairway
     kind: stairs
-    x: [-1.2, 1.2]
-    y: [0, 6]
-    floor: [0, -3]
-    descends: y+
+    x: [-1, 1]
+    y: [0, 4.5]
+    floor: [0, -2.5]
+    descends: y-
     height: 2.6
+    measured: { length: 4.5, source: gci, note: "\"A step staircase, A, approximately 4.5 m long\"." }
     status: approximate
-    summary: Ernesto Schiaparelli's Italian mission opened the tomb in 1904. It had been robbed in antiquity.
-  - id: qv66-2
-    code: "2"
+    caveat: The length is approximate (Getty); the width, height and drop are reconstructed.
+    summary: A steep ramp with rock-cut steps, now overlaid with modern wooden steps and covered by a brick barrel vault built during Schiaparelli's excavations. Ernesto Schiaparelli's Italian mission discovered the tomb in 1904; it had been robbed in antiquity.
+    condition: damaged
+    conditionNote: In antiquity floods filled the ramp and the antechamber with debris almost to the ceiling.
+  - id: qv66-b
+    code: B
     name: Antechamber
     kind: chamber
     x: [-2.6, 2.6]
-    y: [6, 11.2]
-    floor: [-3, -3]
-    height: 2.9
+    y: [-5.2, 0]
+    floor: [-2.5, -2.5]
+    height: 3.1
     decorated: [n, e, s, w]
+    measured: { length: 5.2, width: 5.2, height: 3.1, source: gci, note: "Upper chamber (C in the Getty plan): \"approximately 5.2 m square with a 3.1 m high ceiling\"." }
     status: approximate
-    summary: A room with a low rock-cut bench along its walls, painted with spells from the Book of the Dead.
+    caveat: Size approximate (Getty). The rock-cut benches along the west and north walls are not modelled.
+    summary: A large room on the axis of the entrance, with rock-cut benches along the west wall and along the north wall as far as the stairway. A double recess on the east side leads to side chamber Ba.
     finds:
       - The tomb had been robbed in antiquity; Schiaparelli's team recovered fragments of the burial equipment, including shabti figures and a pair of sandals.
     scenes:
       - id: senet
         wall: w
         title: Nefertari playing senet
-        text: Illustrating Chapter 17 of the Book of the Dead, the queen sits at a board game, which symbolised her passage through the afterlife. Her ba, a human-headed bird, perches nearby. The wall shown for this scene is simplified.
+        text: Illustrating Chapter 17 of the Book of the Dead, the queen sits at a board game, which symbolised her passage through the afterlife. The wall shown for this scene is simplified.
         status: approximate
-      - id: thoth
-        wall: n
-        title: Nefertari before Thoth
-        text: The queen stands before Thoth, god of writing, with a scribe's palette and water jar (Chapter 94 of the Book of the Dead). The wall shown is simplified.
+      - id: gods
+        wall: e
+        title: Hathor and Re-Horakhty
+        text: The seated figures of Hathor and Re-Horakhty, their titles written in elaborately detailed hieroglyphs. The wall shown is simplified.
         status: approximate
-  - id: qv66-3
-    code: "3"
-    name: Vestibule
-    kind: corridor
-    x: [2.6, 4.2]
-    y: [7.4, 9.8]
-    floor: [-3, -3]
+  - id: qv66-p1
+    code: gR
+    name: Opening to the recess
+    kind: gate
+    x: [2.6, 3.4]
+    y: [-4.15, -1.05]
+    floor: [-2.5, -2.5]
     height: 2.6
-    decorated: [n, s]
+    measured: { length: 0.8, width: 3.1, source: gci, note: First of two passages linking the chamber to rooms D and E of the Getty plan. }
     status: approximate
-    summary: A short passage to the side chamber, where deities receive the queen.
-  - id: qv66-4
-    code: "4"
+    summary: The wide opening into the double recess.
+  - id: qv66-r
+    code: R
+    name: Recess
+    kind: annex
+    x: [3.4, 4.6]
+    y: [-4.6, -0.6]
+    floor: [-2.5, -2.5]
+    height: 2.6
+    decorated: [n, e, s]
+    measured: { length: 1.2, width: 4.0, source: gci, note: Room D of the Getty plan. }
+    status: approximate
+    caveat: Size approximate (Getty); height reconstructed.
+    summary: The inner part of the double recess on the east side of the antechamber. Isis leads Nefertari to Khepri, and Horus son of Isis leads her on, beside Osiris as an anthropomorphised djed pillar.
+    scenes:
+      - id: isis
+        wall: n
+        title: Isis leads Nefertari
+        text: Isis, wearing a sun disc and horns, leads the queen to the scarab-headed god Khepri.
+        status: approximate
+  - id: qv66-p2
+    code: gBa
+    name: Gate Ba
+    kind: gate
+    x: [4.6, 5.4]
+    y: [-3.15, -2.05]
+    floor: [-2.5, -2.5]
+    height: 2.2
+    measured: { length: 0.8, width: 1.1, source: gci }
+    status: approximate
+    summary: A narrow gateway into the side chamber, with Nekhbet as a vulture on the lintel.
+  - id: qv66-ba
+    code: Ba
     name: Side chamber
     kind: annex
-    x: [4.2, 9]
-    y: [6.4, 10.8]
-    floor: [-3, -3]
+    x: [5.4, 8.5]
+    y: [-5.2, 0]
+    floor: [-2.5, -2.5]
     height: 2.7
-    decorated: [n, e, s]
+    decorated: [n, e, s, w]
+    measured: { length: 3.1, width: 5.2, source: gci, note: Room E of the Getty plan. }
     status: approximate
-    summary: Nefertari makes offerings to Osiris and to Atum. One wall shows the seven celestial cows and their bull from Chapter 148 of the Book of the Dead.
+    caveat: Size approximate (Getty); height reconstructed.
+    summary: A side chamber set across the axis, with texts from Chapters 94 and 148 of the Book of the Dead. Nefertari makes offerings to Osiris and to Atum; another wall shows the seven celestial cows and their bull.
     scenes:
       - id: offering
-        wall: s
-        title: Offerings to Osiris and Atum
-        text: Nefertari presents offerings before Osiris, ruler of the dead, and Atum, the creator god. The wall shown is simplified.
-        status: approximate
-      - id: cows
         wall: e
+        title: Offerings to Osiris and Atum
+        text: On the east wall Nefertari, holding the sekhem sceptre, stands before piled offerings for Osiris, with the four sons of Horus, and for Atum.
+      - id: cows
+        wall: s
         title: The seven cows and the bull
-        text: Chapter 148 of the Book of the Dead, which promised the dead a supply of food for eternity. The wall shown for this scene is simplified.
-        status: approximate
-  - id: qv66-5
-    code: "5"
+        text: Chapter 148 of the Book of the Dead, which promised the dead a supply of food for eternity. Seven cows and a bull in two registers, with four steering oars for the cardinal directions below.
+      - id: ptah
+        wall: w
+        title: Nefertari before Ptah
+        text: The queen offers linen to Ptah, green-skinned, standing in a kiosk.
+  - id: qv66-c
+    code: C
     name: Descending stairway
     kind: stairs
-    x: [-1.2, 1.2]
-    y: [11.2, 20]
-    floor: [-3, -8]
-    descends: y+
+    x: [0.6, 2.4]
+    y: [-12.2, -5.2]
+    floor: [-2.5, -5.8]
+    descends: y-
     height: 2.8
     decorated: [e, w]
+    measured: { length: 7, source: gci, note: "\"a staircase (I) approximately 7 m long\" with a 3.3 m drop between the floors of the two chambers." }
+    level: documented
     status: approximate
-    summary: The queen offers to Hathor, Selkis and Maat as she descends. Winged Maat guards the lower doorway.
+    caveat: The length and the 3.3 m drop are from the Getty report (approximate). The width, and the eastward angle of the stairway (shown here as a straight stair offset to the east), are reconstructed.
+    summary: The stairway leaves from the east end of the antechamber's north wall and angles eastward, so the burial chamber lies on a parallel axis further east. Recesses divide the walls into upper and lower parts; the sloping ceiling gives the scenes a triangular shape.
     scenes:
       - id: goddesses
         wall: w
-        title: Offerings to Hathor, Selkis and Maat
-        text: Nefertari presents jars and offerings to the goddesses who will protect her.
-        status: approximate
+        title: Offerings to Isis, Nephthys and Maat
+        text: On the upper west wall Nefertari offers jars to the enthroned Isis and Nephthys, with Maat behind them. Below, a winged cobra, Anubis as a jackal and Isis kneeling on the sign for gold address the queen.
       - id: maat
         wall: e
         title: Winged Maat
-        text: Maat, kneeling with outspread wings, guards the doorway at the foot of the stairs. Here the hotspot sits on the side wall near the lower end.
+        text: Maat, kneeling with outspread wings, is on the lintel of the doorway at the foot of the stairs. Here the hotspot sits on the side wall near the lower end.
         status: approximate
-  - id: qv66-6
-    code: "6"
-    name: Burial chamber
+  - id: qv66-d
+    room: qv66-d
+    code: D
+    name: Burial chamber, south level
     kind: hall
-    x: [-5.2, 5.2]
-    y: [20, 30.4]
-    floor: [-8, -8]
-    height: 3.2
-    pillars: [[-2.6, 22.8], [2.6, 22.8], [-2.6, 27.6], [2.6, 27.6]]
+    x: [-2.7, 5.7]
+    y: [-15.7, -12.2]
+    floor: [-5.8, -5.8]
+    height: 2.7
+    pillars: [[-0.6, -15.2], [3.6, -15.2]]
+    pillarSize: 1
     decorated: [n, e, s, w]
     decoratedPillars: true
+    measured: { length: 10.5, width: 8.4, height: 2.7, source: gci, note: "Burial chamber (K in the Getty plan) as a whole: 10.5 × 8.4 m; floors 2.7, 3.4 and 2.7 m below the ceiling." }
+    level: documented
     status: approximate
-    summary: A four-pillared hall with the Book of Gates on its walls. The pillars show Osiris as a djed pillar and priestly deities.
+    caveat: The overall size and the three floor levels follow the Getty report. The length of each level, the pillar positions and sizes are reconstructed. Benches along the walls are not modelled.
+    summary: The raised south part of the burial chamber. Four pillars, one on each side of the steps, surround the sunken centre. The walls carry Book of the Dead Chapter 144 (west half) and 146 (east half), the gates of the underworld and their guardians.
+    scenes:
+      - id: gates
+        wall: w
+        title: The gates of the underworld
+        text: Nefertari passes a series of gates, each guarded by one or three deities (Book of the Dead 144 and 146). One guardian is an unusual naked girl holding two knives across her chest. The wall shown is simplified.
+        status: approximate
+  - id: qv66-d2
+    room: qv66-d
+    code: D↓
+    name: Burial chamber, sunken centre
+    kind: crypt
+    x: [-2.7, 5.7]
+    y: [-19.2, -15.7]
+    floor: [-6.5, -6.5]
+    height: 3.4
+    decorated: [e, w]
+    measured: { length: 10.5, width: 8.4, height: 3.4, source: gci, note: The central floor is 3.4 m below the ceiling. }
+    level: documented
+    status: approximate
+    caveat: The 0.7 m drop follows the Getty floor-to-ceiling figures; the length of this level is reconstructed.
+    summary: The sunken centre, reached by three steps from the south and north, where the sarcophagus had been placed. A niche in the bench of the west wall may have held the canopic chest.
     sarcophagus:
-      x: 0
-      y: 25.2
+      x: 1.5
+      y: -17.45
       w: 1.3
       d: 2.8
       h: 1.2
       material: granite
       state: lost
-      label: Granite sarcophagus, lost — only lid fragments survive (Turin)
+      label: Granite sarcophagus, lost; only lid fragments survive (Turin). Its size in the model is approximate
     finds:
       - Fragments of the red granite sarcophagus lid (now in the Museo Egizio, Turin)
       - Fragments of a mummy, including a pair of knees, studied in 2016 and considered probably Nefertari's
+    features:
+      - id: canopic
+        kind: feature
+        title: Canopic niche
+        text: A niche cut into the bench at the middle of the west wall, perhaps for the canopic chest, decorated with the sons of Horus, Anubis and Nut.
+        at: [-2.4, -17.45]
+        z: 0.4
+        status: approximate
     scenes:
       - id: pillars
         wall: s
-        title: Djed pillars and priestly gods
-        text: The faces of the pillars show Osiris in the form of a djed pillar, and gods such as Horus-Iunmutef who performed rituals for the dead.
-      - id: gates
-        wall: w
-        title: The gates of the underworld
-        text: Scenes from the Book of the Dead show the gates of the underworld and their guardians. The wall shown is simplified.
-        status: approximate
-  - id: qv66-7
-    code: "7"
+        title: The pillars
+        text: Each pillar shows a priest, Osiris in a shrine, a djed pillar and the queen before Hathor, Isis or Anubis.
+  - id: qv66-d3
+    room: qv66-d
+    code: Dn
+    name: Burial chamber, north level
+    kind: hall
+    x: [-2.7, 5.7]
+    y: [-22.7, -19.2]
+    floor: [-5.8, -5.8]
+    height: 2.7
+    pillars: [[-0.6, -19.7], [3.6, -19.7]]
+    pillarSize: 1
+    decorated: [n, e, w]
+    decoratedPillars: true
+    measured: { length: 10.5, width: 8.4, height: 2.7, source: gci }
+    level: documented
+    status: approximate
+    caveat: See the south level.
+    summary: The raised north part of the burial chamber. Osiris is greeted on the rear wall; a doorway leads to the rear chamber Db.
+  - id: qv66-da
+    code: Da
     name: Side chamber
     kind: annex
-    x: [-9, -5.2]
-    y: [22.5, 26.5]
-    floor: [-8, -8]
-    height: 2.4
+    x: [-6.7, -2.7]
+    y: [-14.9, -12.6]
+    floor: [-5.4, -5.4]
+    height: 1.5
+    decorated: [n, s, w]
+    measured: { length: 4.0, width: 2.3, height: 1.5, source: gci, note: "Chamber M of the Getty plan, on the west wall: \"4.0 x 2.3 x 1.5 m\" (third figure presumably the height)." }
     status: approximate
-    summary: One of three small rooms opening off the burial chamber.
-  - id: qv66-8
-    code: "8"
+    caveat: The Theban Mapping Project describes this room as small and square, set at the south end of the west wall; the Getty figures give 4.0 × 2.3 m. The dimensions are approximate and the discrepancy is unresolved.
+    summary: A small room at the south end of the west wall, reached up two steps, with the mummiform queen and the sons of Horus. Much of its decoration is damaged.
+    condition: damaged
+    conditionNote: The decoration is largely damaged, especially on the south and west walls.
+  - id: qv66-dc
+    code: Dc
     name: Side chamber
     kind: annex
-    x: [5.2, 9]
-    y: [22.5, 26.5]
-    floor: [-8, -8]
-    height: 2.4
+    x: [5.7, 8]
+    y: [-15, -12.8]
+    floor: [-5.4, -5.4]
+    height: 1.8
+    decorated: [n, e]
+    measured: { length: 2.3, width: 2.2, height: 1.8, source: gci, note: "Chamber O of the Getty plan, on the east wall: \"2.3 x 2.2 x 1.8 m\"." }
     status: approximate
-    summary: A second side room.
-  - id: qv66-9
-    code: "9"
+    caveat: Dimensions approximate (Getty); position at the south end of the east wall from the Theban Mapping Project.
+    summary: A square room at the south end of the east wall, reached up two steps. Hathor as a cow and a partly damaged winged Maat survive.
+    condition: damaged
+    conditionNote: Mostly damaged; few decorations survive.
+  - id: qv66-db
+    code: Db
     name: Rear chamber
     kind: annex
-    x: [-2, 2]
-    y: [30.4, 34.2]
-    floor: [-8, -8]
-    height: 2.4
+    x: [0.35, 2.65]
+    y: [-25.1, -22.7]
+    floor: [-5.6, -5.6]
+    height: 1.9
+    measured: { length: 2.4, width: 2.3, height: 1.9, source: gci, note: "Chamber Q of the Getty plan, on the north wall: \"2.4 x 2.3 x 1.9 m\"." }
     status: approximate
-    summary: A small room behind the burial chamber.
+    caveat: Dimensions approximate (Getty); its position along the north wall is reconstructed.
+    summary: A small room behind the burial chamber, reached up one step. Its decoration is almost entirely lost; Isis, Serqet and Anubis survive on the returns and east wall.
+    condition: damaged
+    conditionNote: Decoration almost entirely damaged.

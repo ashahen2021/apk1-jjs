@@ -28,9 +28,16 @@ export const STATUS_LONG: Record<Space['status'], string> = {
 };
 
 export const STATUS_HELP: Record<Space['status'], string> = {
-  documented: 'The space and its dimensions follow published surveys.',
-  approximate: 'The space is documented, but its size, position or depth here is reconstructed from published plans.',
-  uncertain: 'Partly explored, unsurveyed or disputed; shown to indicate, not to measure.',
+  documented: 'The size of the space follows a published survey (see the sources). Its exact placement and floor depth may still be reconstructed; both are stated in the notes.',
+  approximate: 'The space is documented, but its size or position here is only partly measured, approximate or reconstructed from published descriptions.',
+  uncertain: 'Unexcavated, partly explored, unsurveyed or disputed; shown to indicate, not to measure.',
+};
+
+/** Floor depth evidence, separate from the footprint. */
+export const LEVEL_LABEL: Record<Space['status'], string> = {
+  documented: 'Floor level from published figures',
+  approximate: 'Floor level reconstructed',
+  uncertain: 'Floor level unknown',
 };
 
 export const CONDITION_LABEL = { damaged: 'Damaged', unfinished: 'Unfinished' } as const;
@@ -44,7 +51,11 @@ export const KIND_LABEL: Record<Space['kind'], string> = {
   annex: 'Side room',
   crypt: 'Crypt',
   tunnel: 'Tunnel',
+  gate: 'Gate',
 };
+
+/** Spaces a visitor would name: everything but the gate passages between them. */
+export const isRoom = (s: Space) => s.kind !== 'gate';
 
 export function floorAt(s: Space, x: number, y: number): number {
   const [f0, f1] = s.floor;
@@ -66,19 +77,53 @@ export const size = (s: Space) => ({ w: s.x[1] - s.x[0], d: s.y[1] - s.y[0] });
 const fmt = (n: number) => (Math.round(n * 10) / 10).toString();
 const m = (n: number) => (n * MODEL_SCALE).toFixed(3);
 
-/** "about 7.9 × 3.6 m, 2.7 m high" — "about" unless documented. */
+const fm = (n: number) => `${(Math.round(n * 100) / 100).toString()} m`;
+
+/**
+ * Size as published when there is a measurement ("7.86 × 3.55 m, 2.75 m high,
+ * published"), otherwise the model size prefixed with "about".
+ */
 export function dimensions(s: Space): string {
+  const ms = s.measured;
   const { w, d } = size(s);
   const [long, short] = w > d ? [w, d] : [d, w];
-  const c = s.status === 'documented' ? '' : 'about ';
-  return `${c}${fmt(long)} × ${fmt(short)} m, ${fmt(s.height)} m high`;
+  const exact = s.status === 'documented' && ms;
+  if (ms?.length && ms.width && exact) {
+    const h = ms.height ? `, ${fm(ms.height)} high` : `, height not published (shown ${fmt(s.height)} m)`;
+    return `${fm(ms.length)} long × ${fm(ms.width)} wide${h} (published)`;
+  }
+  return `About ${fmt(long)} × ${fmt(short)} m, ${fmt(s.height)} m high (model)`;
 }
 
 export function depthText(s: Space): string {
   const [a, b] = s.floor.map((f) => Math.round(-f));
-  const lead = s.status === 'documented' ? 'about' : 'roughly';
-  if (a === b) return a === 0 ? 'At ground level' : `Floor ${lead} ${a} m below the entrance`;
-  return `Descends from ${a} to ${b} m below the entrance (${lead})`;
+  const where = a === b ? (a === 0 ? 'At ground level' : `Floor about ${a} m below the entrance`) : `Descends from about ${a} to ${b} m below the entrance`;
+  return `${where} · ${LEVEL_LABEL[s.level]}`;
+}
+
+/** One row of the measurement audit: published figures against the model. */
+export interface MeasureRow { space: Space; model: { length: number; width: number; height: number }; measured?: NonNullable<Space['measured']> }
+
+/** Length is taken along the direction of travel (the descent, or the longer side for rooms entered end-on). */
+export function measureRows(plan: Plan): MeasureRow[] {
+  const seen = new Set<string>();
+  return plan.spaces.flatMap((s) => {
+    // Parts of one room share one published measurement; list it once.
+    const key = s.room ?? s.id;
+    if (seen.has(key)) return [];
+    seen.add(key);
+    const parts = s.room ? plan.spaces.filter((o) => o.room === s.room) : [s];
+    const x0 = Math.min(...parts.map((p) => p.x[0])), x1 = Math.max(...parts.map((p) => p.x[1]));
+    const y0 = Math.min(...parts.map((p) => p.y[0])), y1 = Math.max(...parts.map((p) => p.y[1]));
+    const w = x1 - x0, d = y1 - y0;
+    const alongX = s.descends ? s.descends[0] === 'x' : undefined;
+    const ms = s.measured;
+    // Match the survey's axis: pick the model side closest to the published length.
+    let length = alongX === undefined ? Math.max(w, d) : alongX ? w : d;
+    let width = length === w ? d : w;
+    if (ms?.length && ms.width && Math.abs(width - ms.length) + Math.abs(length - ms.width) < Math.abs(length - ms.length) + Math.abs(width - ms.width)) [length, width] = [width, length];
+    return [{ space: s, model: { length, width, height: Math.max(...parts.map((p) => p.height)) }, measured: ms }];
+  });
 }
 
 const pos = (x: number, y: number, z: number) => `${m(x)}m ${m(y)}m ${m(z)}m`;
@@ -149,17 +194,21 @@ export function features(s: Space): Feature[] {
   if (s.sarcophagus) {
     const where = { 'in-situ': 'in place', removed: 'original position', lost: 'original position' }[s.sarcophagus.state];
     const material = s.sarcophagus.material[0].toUpperCase() + s.sarcophagus.material.slice(1);
-    out.push({ id: 'sarcophagus', kind: 'sarcophagus', title: `${material} sarcophagus (${where})`, text: `${s.sarcophagus.label}.`, at: [s.sarcophagus.x, s.sarcophagus.y], z: s.sarcophagus.h + 0.3, status: s.status });
+    out.push({ id: 'sarcophagus', kind: 'sarcophagus', title: `${material} sarcophagus (${where})`, text: s.sarcophagus.label.replace(/\.?$/, '.'), at: [s.sarcophagus.x, s.sarcophagus.y], z: s.sarcophagus.h + 0.3, status: s.status });
   }
   if (s.pit) {
     const [px, py] = [(s.pit.x[0] + s.pit.x[1]) / 2, (s.pit.y[0] + s.pit.y[1]) / 2];
-    out.push({ id: 'shaft', kind: 'shaft', title: 'Well shaft', text: `A vertical shaft about ${Math.round(s.pit.depth)} m deep${s.status === 'documented' ? '' : ' (depth approximate)'}.`, at: [px, py], z: 0.2, status: s.status });
+    out.push({
+      id: 'shaft', kind: 'shaft', title: s.pit.title ?? 'Well shaft',
+      text: s.pit.text ?? `A vertical shaft; its size and depth (about ${Math.round(s.pit.depth)} m in the model) are not published and are illustrative.`,
+      at: [px, py], z: 0.2, status: 'approximate',
+    });
   }
   return out;
 }
 
 export function hotspots(plan: Plan): Hotspot[] {
-  return plan.spaces.flatMap((s) => {
+  return plan.spaces.filter(isRoom).flatMap((s) => {
     const view = orbit(s, plan);
     return [
       { type: 'space' as const, id: s.id, space: s.id, label: s.code, title: s.name, status: s.status, position: hotspot(s), normal: '0 1 0', ...view },
@@ -195,6 +244,15 @@ function doorway(a: Space, b: Space): [number, number] | undefined {
   return undefined;
 }
 
+const PASSAGE = new Set<Space['kind']>(['stairs', 'corridor', 'gate', 'tunnel']);
+
+/** Where a route enters a space: the edge its floor descends from, or its centre. */
+function entry(s: Space): [number, number] {
+  const [cx, cy] = center(s);
+  if (!s.descends) return [cx, cy];
+  return ({ 'x+': [s.x[0], cy], 'x-': [s.x[1], cy], 'y+': [cx, s.y[0]], 'y-': [cx, s.y[1]] } as const)[s.descends] as [number, number];
+}
+
 /** Route as plan points (x, y, floor depth): entrance → doorways → burial chamber. */
 export function routePoints(plan: Plan): [number, number, number][] {
   const byId = new Map(plan.spaces.map((s) => [s.id, s]));
@@ -217,11 +275,12 @@ export function routePoints(plan: Plan): [number, number, number][] {
       pts.push([cx, cy, floorAt(s, cx, cy)]);
       return;
     }
-    const d = doorway(s, next);
+    // A descent cut into a room's floor is entered at its upper end.
+    const d = doorway(s, next) ?? (next.within === s.id ? entry(next) : undefined);
     if (d) {
       // Turn at right angles inside rooms: from the entry doorway to the exit doorway.
       const exitOnSide = Math.abs(d[0] - s.x[0]) < 0.07 || Math.abs(d[0] - s.x[1]) < 0.07;
-      if (prev && s.kind !== 'stairs' && s.kind !== 'corridor') {
+      if (prev && !PASSAGE.has(s.kind)) {
         const corner: [number, number] = exitOnSide ? [prev[0], d[1]] : [d[0], prev[1]];
         if (Math.hypot(corner[0] - prev[0], corner[1] - prev[1]) > 0.1) pts.push([...corner, floorAt(s, ...corner)]);
       }
@@ -244,7 +303,7 @@ export function tour(plan: Plan): TourStop[] {
       return { ...t, title: sc ? `${s.name}: ${sc.title}` : s.name };
     });
   }
-  return plan.route.map((id) => byId.get(id)!).map((s) => ({ space: s.id, text: s.summary, title: s.name }));
+  return plan.route.map((id) => byId.get(id)!).filter(isRoom).map((s) => ({ space: s.id, text: s.summary, title: s.name }));
 }
 
 /** Camera facing a wall from inside the room (for scene stops). */

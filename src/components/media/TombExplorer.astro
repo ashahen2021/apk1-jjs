@@ -13,7 +13,7 @@ import { Picture } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import TombPlan from './TombPlan.astro';
 import {
-  CONDITION_LABEL, KIND_LABEL, STATUS_HELP, STATUS_LABEL, STATUS_LONG, depthText, dimensions, features, hotspots, overview, tour, type Plan,
+  CONDITION_LABEL, KIND_LABEL, STATUS_HELP, STATUS_LABEL, STATUS_LONG, depthText, dimensions, features, hotspots, isRoom, overview, tour, type Plan,
 } from '@/lib/plans';
 
 export interface Props {
@@ -23,6 +23,7 @@ export interface Props {
 }
 const { plan, model, name } = Astro.props;
 
+const rooms = plan.spaces.filter(isRoom);
 const spots = hotspots(plan);
 const stops = tour(plan);
 const full = overview(plan);
@@ -70,7 +71,7 @@ const featureLabel: Record<string, string> = { sarcophagus: 'Sarcophagus', shaft
     </div>
     <div class="panel" role="tabpanel" data-panel="profile" aria-label="Depth profile" hidden>
       <TombPlan plan={plan} view="profile" />
-      <p class="legend-note">Unfolded section from the entrance; side rooms are omitted. Depths follow the plan data and are approximate where marked.</p>
+      <p class="legend-note">Unfolded section from the entrance; side rooms are omitted. Solid outlines: floor levels from published figures. Dashed outlines: reconstructed levels.{plan.levels && <> {plan.levels}</>}</p>
     </div>
 
     <div class="tourcard" data-tourcard hidden aria-live="polite">
@@ -92,7 +93,7 @@ const featureLabel: Record<string, string> = { sarcophagus: 'Sarcophagus', shaft
   <aside class="side">
     <p class="side-title">Spaces, from the entrance</p>
     <ol class="list">
-      {plan.spaces.map((s) => (
+      {rooms.map((s) => (
         <li>
           <button type="button" data-select={s.id} aria-pressed={s.id === burial ? 'true' : 'false'}>
             <span class="code">{s.code}</span>
@@ -125,7 +126,7 @@ const featureLabel: Record<string, string> = { sarcophagus: 'Sarcophagus', shaft
   </aside>
 
   <div class="details" aria-live="polite">
-    {plan.spaces.map((s) => {
+    {rooms.map((s) => {
       const fs = features(s);
       return (
         <article class:list={['detail', { 'is-active': s.id === burial }]} id={`space-${s.id}`} data-detail={s.id}>
@@ -184,14 +185,7 @@ const featureLabel: Record<string, string> = { sarcophagus: 'Sarcophagus', shaft
   </div>
 
   <footer class="source">
-    <h4>Sources for this plan</h4>
-    <p>{plan.source}</p>
-    {plan.sources.length > 0 && (
-      <ol>
-        {plan.sources.map((src) => <li>{src.url ? <a href={src.url} rel="noopener">{src.label}</a> : src.label}</li>)}
-      </ol>
-    )}
-    {plan.note && <p>{plan.note}</p>}
+    <p>{plan.source} <a href="#reconstruction-sources">Sources and measurements for this reconstruction</a>.</p>
     {model?.caption && <p>{model.caption}</p>}
     <p>Interpretive model of {name}. Surfaces are flat colours: decoration is shown as a tint, never redrawn, and nothing is modelled where no plan exists. <noscript>Enable JavaScript for the 3D view and tour; the plan, profile and all descriptions are shown here.</noscript></p>
   </footer>

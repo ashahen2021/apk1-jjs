@@ -10,18 +10,18 @@ media:
     src: /models/kv17.glb
     poster: ../../assets/media/tombs/kv17-seti-i/model-poster.png
     alt: Interactive cut-away model of KV17, the longest tomb in the Valley of the Kings, with its corridors, well, pillared halls and burial chamber.
-    caption: The sequence of spaces follows published plans. Lengths and depths are approximate, and the tunnel beyond the burial chamber is shortened.
+    caption: Every space down to the burial chamber is sized to the Theban Mapping Project survey. Sideways offsets and all depths are reconstructed, and the tunnel beyond the burial chamber is shortened.
     kind: model
     credit: NeoKemetAI interpretive 3D model
   gallery:
     - src: ../../assets/media/tombs/kv17-seti-i/crypt.jpg
-      alt: View inside the model of the vaulted crypt, with its dark blue ceiling and a translucent outline where the sarcophagus stood.
-      caption: The vaulted crypt of the burial chamber. The outline marks the calcite sarcophagus, now in London.
+      alt: View inside the model of the sunken rear of the burial chamber, with a translucent outline where the sarcophagus lay.
+      caption: The sunken, vaulted rear of the burial chamber. The outline marks the calcite sarcophagus, found across the mouth of the tunnel and now in London.
       kind: model
       credit: NeoKemetAI interpretive 3D model
     - src: ../../assets/media/tombs/kv17-seti-i/pillared-hall.jpg
-      alt: View inside the model of the first four-pillared hall.
-      caption: The first pillared hall. Colours mark decorated zones; the scenes are not reproduced.
+      alt: View inside the model of the four-pillared chamber F.
+      caption: The four-pillared chamber F, with the descent cut into its floor. Colours mark decorated zones; the scenes are not reproduced.
       kind: model
       credit: NeoKemetAI interpretive 3D model
   video:
@@ -41,8 +41,8 @@ order: 2
 description: KV17, the tomb of Seti I, is the longest and most completely decorated tomb in the Valley of the Kings. Explore its chambers in an interactive 3D model.
 ---
 
-Seti I, father of Ramesses II, commissioned the most ambitious tomb in the valley. It runs about 137 m into the hillside, and almost every wall, pillar and ceiling is carved and painted in raised relief of exceptional quality.
+Seti I, father of Ramesses II, commissioned the most ambitious tomb in the valley. The Theban Mapping Project describes it as the longest and deepest tomb in the valley, and almost every wall, pillar and ceiling is carved and painted in raised relief of exceptional quality.
 
 The Italian explorer **Giovanni Battista Belzoni** found it in October 1817. The king's mummy was already gone: it had been moved in antiquity and was found in 1881 in the royal cache at Deir el-Bahari. Belzoni removed the magnificent translucent calcite sarcophagus, which was bought by the architect Sir John Soane in 1824 and is still in his house-museum in London.
 
-Beyond the burial chamber a narrow tunnel descends into the rock. Excavations between 2007 and 2010 cleared it for about 174 m without reaching an end; why it was cut remains unknown.
+Beyond the burial chamber a narrow tunnel descends into the rock. An Egyptian mission re-excavated it between 2007 and 2010, clearing about 174 m to the point where the cutting stops; why it was cut remains unknown.

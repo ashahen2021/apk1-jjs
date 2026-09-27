@@ -6,6 +6,8 @@ import Related from '@/components/Related.astro';
 import MediaSection from '@/components/media/MediaSection.astro';
 import TombExplorer from '@/components/media/TombExplorer.astro';
 import EvidenceKey from '@/components/media/EvidenceKey.astro';
+import ReconstructionSources from '@/components/media/ReconstructionSources.astro';
+import { isRoom } from '@/lib/plans';
 import VideoFeature from '@/components/media/VideoFeature.astro';
 import { getArtifacts, getTombs, videosAbout } from '@/lib/content';
 import { cards } from '@/lib/cards';
@@ -51,7 +53,7 @@ const sarcophagus = plan?.spaces.find((s) => s.sarcophagus)?.sarcophagus;
     t.discovered && { label: 'Discovered', value: `${t.discovered.year} by ${t.discovered.by}` },
     !!plan?.length && { label: 'Length', value: `c. ${Math.round(plan.length)} m` },
     !!plan?.area && { label: 'Floor area', value: `c. ${Math.round(plan.area)} m²` },
-    plan && { label: 'Spaces', value: `${plan.spaces.length} (see the plan below)`, href: '#inside' },
+    plan && { label: 'Spaces', value: `${plan.spaces.filter(isRoom).length} (see the plan below)`, href: '#inside' },
     sarcophagus && { label: 'Sarcophagus', value: sarcophagus.label },
   ]}
   jsonLd={[
@@ -80,6 +82,7 @@ const sarcophagus = plan?.spaces.find((s) => s.sarcophagus)?.sarcophagus;
       >
         <TombExplorer plan={plan} model={t.media.model} name={title} />
         <div class="key"><EvidenceKey compact /></div>
+        <ReconstructionSources plan={plan} />
       </MediaSection>
     )}
     {featured && (

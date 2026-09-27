@@ -86,6 +86,17 @@ const media = (image: ImageFunction) => {
  */
 const status = z.enum(['documented', 'approximate', 'uncertain']);
 const range = z.tuple([z.number(), z.number()]);
+/** A figure as printed in a published survey, with the key of the source it comes from. */
+const measured = z.object({
+  length: z.number().optional(),
+  width: z.number().optional(),
+  height: z.number().optional(),
+  area: z.number().optional(),
+  /** Key of an entry in the plan's sources. */
+  source: z.string(),
+  /** Where in the source, or how the published figure was read. */
+  note: z.string().optional(),
+});
 const plans = defineCollection({
   loader: glob({ pattern: '*.yaml', base: './src/data/plans' }),
   schema: z.object({
@@ -93,15 +104,18 @@ const plans = defineCollection({
     /** Where the layout comes from, shown under every plan and model. */
     source: z.string(),
     note: z.string().optional(),
-    /** Published overall figures, when known. */
+    /** Published overall figures, only when verified; totalsNote says how. */
     length: z.number().optional(),
     area: z.number().optional(),
+    totalsNote: z.string().optional(),
+    /** How floor depths were established (most are reconstructed). */
+    levels: z.string().optional(),
     /** Default 3D camera angles (degrees), shared by the poster render and the viewer. */
     camera: z.object({ theta: z.number(), phi: z.number() }).default({ theta: 35, phi: 52 }),
     /** Space ids from the entrance to the burial chamber, highlighted as the main path. */
     route: z.array(z.string()).default([]),
     /** Publications and surveys the plan is based on. */
-    sources: z.array(z.object({ label: z.string(), url: z.url().optional() })).default([]),
+    sources: z.array(z.object({ id: z.string(), label: z.string(), url: z.url().optional(), used: z.string() })).default([]),
     /** Optional guided tour; defaults to the route. Each stop can point at a wall scene. */
     tour: z.array(z.object({ space: z.string(), scene: z.string().optional(), text: z.string() })).default([]),
     spaces: z.array(
@@ -110,7 +124,12 @@ const plans = defineCollection({
         /** Short label on the plan and 3D hotspots, e.g. "1" or "J". */
         code: z.string(),
         name: z.string(),
-        kind: z.enum(['stairs', 'corridor', 'chamber', 'hall', 'well', 'annex', 'crypt', 'tunnel']),
+        /** gate = a doorway passage measured separately in the survey (thickness of the wall between two spaces). */
+        kind: z.enum(['stairs', 'corridor', 'chamber', 'hall', 'well', 'annex', 'crypt', 'tunnel', 'gate']),
+        /** Cut into the floor of another space (e.g. a descent inside a hall). */
+        within: z.string().optional(),
+        /** Parts of one room modelled as separate spaces (e.g. split floor levels) share this key; no wall is drawn between them. */
+        room: z.string().optional(),
         x: range,
         y: range,
         /** Floor depth at the start and end of the space (equal when flat). */
@@ -118,13 +137,17 @@ const plans = defineCollection({
         /** Direction the floor descends in plan: x+, x-, y+ or y-. */
         descends: z.enum(['x+', 'x-', 'y+', 'y-']).optional(),
         height: z.number(),
+        /** Published measurements of this space; model dimensions are compared against them. */
+        measured: measured.optional(),
+        /** Evidence status of the floor depth (independent of the plan footprint). */
+        level: status.default('approximate'),
         pillars: z.array(z.tuple([z.number(), z.number()])).default([]),
         pillarSize: z.number().default(1.1),
         /** Walls carrying painted or carved decoration: n (top), e (right), s (bottom), w (left). */
         decorated: z.array(z.enum(['n', 'e', 's', 'w'])).default([]),
         decoratedPillars: z.boolean().default(false),
         /** Shaft in the floor of a well chamber. */
-        pit: z.object({ x: range, y: range, depth: z.number() }).optional(),
+        pit: z.object({ x: range, y: range, depth: z.number(), title: z.string().optional(), text: z.string().optional() }).optional(),
         sarcophagus: z
           .object({
             x: z.number(),
@@ -136,6 +159,7 @@ const plans = defineCollection({
             /** in-situ = still in the tomb; removed = now elsewhere; lost = only fragments or records survive. */
             state: z.enum(['in-situ', 'removed', 'lost']),
             label: z.string(),
+            measured: measured.optional(),
           })
           .optional(),
         summary: z.string(),

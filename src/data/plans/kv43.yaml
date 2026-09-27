@@ -1,166 +1,424 @@
 title: Plan of KV43, the tomb of Thutmose IV
-source: Simplified from Howard Carter's 1903 plan and the Theban Mapping Project. The sequence of spaces and the two turns in the axis are documented; dimensions and depths in this model are approximate.
-note: Like other tombs of the mid 18th Dynasty, the axis turns twice at right angles before the burial chamber.
-camera: { theta: 55, phi: 55 }
-route: [kv43-1, kv43-2, kv43-3, kv43-4, kv43-5, kv43-6, kv43-7, kv43-8, kv43-9, kv43-10, kv43-11]
+source: Every chamber, gate and side chamber is sized to the Theban Mapping Project survey of KV 43, using its letters (A–J, Ja–Jd). The sequence and the two left turns of the axis (east at the pillared chamber F, north at chamber I) follow the survey. The survey gives measurements, not coordinates, so the position of each doorway along its wall, the split between the two levels of the burial chamber and all floor depths are reconstructed.
+note: North is at the top. The first corridors run south into the hillside; the axis turns left (east) at the pillared chamber and left again (north) into the burial chamber, which lies parallel to the entrance corridors.
+levels: No depths are published on the Theban Mapping Project page. All floor levels, the depth of the well shaft and the drop to the lower level of the burial chamber are reconstructed.
+camera: { theta: 150, phi: 55 }
+route: [kv43-a, kv43-b, kv43-gc, kv43-c, kv43-gd, kv43-d, kv43-ge, kv43-e, kv43-gf, kv43-f, kv43-fd, kv43-gg, kv43-g, kv43-gh, kv43-h, kv43-gi, kv43-i, kv43-gj, kv43-j, kv43-j2]
 sources:
-  - label: "H. Carter and P. E. Newberry, The Tomb of Thoutmôsis IV (Westminster, 1904)"
-  - label: Theban Mapping Project, KV 43 (plan and measurements)
-    url: https://thebanmappingproject.com/
-  - label: "N. Reeves and R. H. Wilkinson, The Complete Valley of the Kings (London, 1996)"
+  - id: tmp
+    label: Theban Mapping Project, "KV 43 (Thutmes IV)", American Research Center in Egypt
+    url: https://thebanmappingproject.com/tombs/kv-43-thutmes-iv
+    used: Chamber sequence and axis turns; length, width, height, area and orientation of every chamber, gate and side chamber; pillar counts and widths; sarcophagus dimensions (3.0 × 1.69 × 1.99 m); decoration by wall; the Horemheb graffiti.
+  - id: carter-newberry
+    label: "H. Carter and P. E. Newberry, The Tomb of Thoutmôsis IV (Westminster, 1904)"
+    used: Discovery history and finds. Not used for any dimension in this pass.
 spaces:
-  - id: kv43-1
-    code: "1"
+  - id: kv43-a
+    code: A
     name: Entrance stairway
     kind: stairs
-    x: [-1.2, 1.2]
-    y: [0, 8]
+    x: [-1.12, 1.12]
+    y: [0, 8.27]
     floor: [0, -3]
     descends: y+
-    height: 2.8
-    status: approximate
-    summary: Carter found the entrance in January 1903, working for the American patron Theodore Davis.
-  - id: kv43-2
-    code: "2"
+    height: 2.6
+    measured: { length: 8.27, width: 2.24, area: 18.56, source: tmp, note: "Entryway A; orientation 196.92°; roughly cut and unfinished. No height published." }
+    status: documented
+    condition: unfinished
+    conditionNote: The rock-cut stairway is roughly cut and unfinished.
+    caveat: Length and width follow the survey; the height and drop are reconstructed.
+    summary: Carter found the entrance in January 1903, working for the American patron Theodore Davis. There is no lintel or jambs between the stairway and corridor B.
+  - id: kv43-b
+    code: B
     name: First corridor
     kind: corridor
-    x: [-1.2, 1.2]
-    y: [8, 19]
-    floor: [-3, -6]
+    x: [-0.99, 0.99]
+    y: [8.27, 19.31]
+    floor: [-3, -6.5]
     descends: y+
-    height: 2.6
-    status: approximate
-    summary: An undecorated sloping corridor.
-  - id: kv43-3
-    code: "3"
-    name: Second stairway
+    height: 1.94
+    measured: { length: 11.04, width: 1.98, height: 1.94, area: 21.88, source: tmp }
+    status: documented
+    summary: A long, narrow, undecorated corridor, not preceded by a gate.
+  - id: kv43-gc
+    code: gC
+    name: Gate C
+    kind: gate
+    x: [-0.905, 0.905]
+    y: [19.31, 20.31]
+    floor: [-6.5, -7]
+    descends: y+
+    height: 2.71
+    measured: { length: 1.0, width: 1.81, height: 2.71, area: 1.86, source: tmp }
+    status: documented
+    summary: The stairway of stairwell C starts in this gate.
+  - id: kv43-c
+    code: C
+    name: Stairwell
     kind: stairs
-    x: [-1.2, 1.2]
-    y: [19, 27]
-    floor: [-6, -10]
+    x: [-0.99, 0.99]
+    y: [20.31, 24.5]
+    floor: [-7, -10.5]
     descends: y+
-    height: 2.6
-    status: approximate
-    summary: A second stairway takes the tomb deeper into the hillside.
-  - id: kv43-4
-    code: "4"
+    height: 5.33
+    measured: { length: 4.19, width: 1.98, height: 5.33, area: 8.28, source: tmp }
+    status: documented
+    condition: damaged
+    conditionNote: The original steps are badly damaged.
+    summary: A steep stairwell with narrow recesses cut into the tops of the walls on either side.
+  - id: kv43-gd
+    code: gD
+    name: Gate D
+    kind: gate
+    x: [-0.8, 0.8]
+    y: [24.5, 25.64]
+    floor: [-10.5, -10.8]
+    descends: y+
+    height: 2.23
+    measured: { length: 1.14, width: 1.6, height: 2.23, area: 1.84, source: tmp }
+    status: documented
+    summary: Both jambs were cut back.
+  - id: kv43-d
+    code: D
     name: Second corridor
     kind: corridor
-    x: [-1.2, 1.2]
-    y: [27, 36]
-    floor: [-10, -12]
+    x: [-0.985, 0.985]
+    y: [25.64, 33.83]
+    floor: [-10.8, -13.5]
     descends: y+
-    height: 2.6
-    status: approximate
-    summary: The corridor leads to the well chamber.
-  - id: kv43-5
-    code: "5"
+    height: 2.24
+    measured: { length: 8.19, width: 1.97, height: 2.24, area: 16, source: tmp }
+    status: documented
+    summary: A long, narrow corridor with a sloping floor and ceiling.
+  - id: kv43-ge
+    code: gE
+    name: Gate E
+    kind: gate
+    x: [-0.8, 0.8]
+    y: [33.83, 34.91]
+    floor: [-13.5, -13.5]
+    height: 2.09
+    measured: { length: 1.08, width: 1.6, height: 2.09, area: 1.72, source: tmp }
+    status: documented
+    summary: Sealed with plaster in antiquity; Carter found the blocking broken through.
+  - id: kv43-e
+    code: E
     name: Well chamber
     kind: well
-    x: [-2.1, 2.1]
-    y: [36, 40.5]
-    floor: [-12, -12]
-    height: 3.2
-    decorated: [n, e, s, w]
+    x: [-2.08, 2.08]
+    y: [34.91, 39.08]
+    floor: [-13.5, -13.5]
+    height: 2.33
+    decorated: [e, s, w]
     pit:
       x: [-1.5, 1.5]
-      y: [36.5, 40]
+      y: [35.6, 38.4]
       depth: 7
-    status: approximate
-    caveat: The shaft depth is approximate.
-    summary: A deep shaft across the route. Unusually, the walls of this chamber are painted, showing the king before the gods on a yellow ground.
-    decoration: The king before Hathor, Anubis and Osiris, on a yellow ground.
-    scenes:
-      - id: gods
-        wall: s
-        title: The king before the gods
-        text: Thutmose IV is received by Hathor, Anubis and Osiris, painted on a yellow ground.
-        status: approximate
-  - id: kv43-6
-    code: "6"
-    name: Two-pillared hall
-    kind: hall
-    x: [-4.2, 4.2]
-    y: [40.5, 48.5]
-    floor: [-12, -12]
-    height: 3
-    pillars: [[-1.8, 44.5], [1.8, 44.5]]
-    status: approximate
-    summary: An undecorated pillared hall. Here the axis turns to the left for the first time, and a stairway cut into the floor leads on.
-    finds:
-      - Remains of the king's chariot body (the find spot within the tomb is not recorded here)
-  - id: kv43-7
-    code: "7"
-    name: Stairway
-    kind: stairs
-    x: [-14.2, -4.2]
-    y: [45, 47.4]
-    floor: [-12, -16]
-    descends: x-
-    height: 2.6
-    status: approximate
-    summary: A stairway descends from the pillared hall, running at right angles to the entrance corridors.
-  - id: kv43-8
-    code: "8"
-    name: Corridor
-    kind: corridor
-    x: [-24, -14.2]
-    y: [45, 47.4]
-    floor: [-16, -18]
-    descends: x-
-    height: 2.6
-    status: approximate
-    summary: The last corridor before the antechamber.
-  - id: kv43-9
-    code: "9"
-    name: Antechamber
-    kind: chamber
-    x: [-28.6, -24]
-    y: [43.6, 48.8]
-    floor: [-18, -18]
-    height: 3
-    decorated: [n, e, s, w]
-    status: approximate
-    summary: The second decorated room, again showing the king before the gods. The axis turns left a second time into the burial chamber.
+    measured: { length: 4.17, width: 4.16, height: 2.33, area: 17.24, source: tmp, note: Well chamber E; partly excavated. }
+    status: documented
+    caveat: The room follows the survey. The shaft is not measured on the survey page and has not been fully cleared; its size and 7 m depth are illustrative only.
+    summary: A shaft cut through the floor crosses the route. Unusually for this tomb the walls are painted, apparently in haste, with the king before the gods. Both doorways had been sealed in antiquity.
+    decoration: Six scenes of the king receiving life from Osiris (two forms), Anubis and Hathor (three forms) on the east wall; kheker frieze; stars on the ceiling. The scenes on the south wall continued onto the blocking of the next gate and were lost when robbers broke through it.
     scenes:
       - id: gods
         wall: e
         title: The king before the gods
-        text: The painted scenes of the well chamber are repeated here, with the king before Osiris, Anubis and Hathor.
-        status: approximate
-      - id: graffito
-        wall: n
-        title: A restoration graffito
-        text: A hieratic inscription records that in year 8 of Horemheb the official Maya restored the burial after robbers had broken in. Its exact position is simplified here.
-        status: approximate
-  - id: kv43-10
-    code: "10"
-    name: Burial chamber
+        text: Thutmose IV receives life from two forms of Osiris, from Anubis and from three forms of Hathor.
+  - id: kv43-gea
+    code: gEa
+    name: Gate Ea (at the foot of the shaft)
+    kind: gate
+    x: [-0.45, 0.45]
+    y: [39.15, 39.91]
+    floor: [-20.5, -20.5]
+    height: 1.25
+    measured: { length: 0.76, width: 0.9, height: 1.25, area: 0.68, source: tmp }
+    status: uncertain
+    caveat: Unexcavated; its position at the foot of the shaft is reconstructed.
+    summary: The doorway from the bottom of the shaft into side chamber Ea.
+  - id: kv43-ea
+    code: Ea
+    name: Chamber at the foot of the shaft
+    kind: annex
+    x: [-2.08, 2.08]
+    y: [39.91, 43.11]
+    floor: [-20.5, -20.5]
+    height: 2.25
+    measured: { length: 3.2, width: 4.16, height: 2.25, area: 13.31, source: tmp, note: Side chamber Ea; unexcavated. }
+    status: uncertain
+    caveat: Noted by Carter but now inaccessible, because debris fills the bottom of the well. It lies partly beneath the pillared chamber F; its depth and exact position are unknown.
+    summary: A chamber opening south from the bottom of the well shaft.
+  - id: kv43-gf
+    code: gF
+    name: Gate F
+    kind: gate
+    x: [-0.985, 0.985]
+    y: [39.08, 40.1]
+    floor: [-13.3, -13.3]
+    height: 2.01
+    measured: { length: 1.02, width: 1.97, height: 2.01, area: 1.83, source: tmp, note: A step up in the gate. }
+    status: documented
+    summary: Sealed in antiquity and found broken through. There is a step up in the gate.
+  - id: kv43-f
+    code: F
+    name: Pillared chamber
     kind: hall
-    x: [-33, -24.6]
-    y: [48.8, 63]
-    floor: [-18, -18]
+    x: [-5.13, 5.13]
+    y: [40.1, 46.25]
+    floor: [-13.3, -13.3]
+    height: 2.53
+    pillars: [[-1.9, 43.2], [1.9, 43.2]]
+    pillarSize: 0.97
+    measured: { length: 6.15, width: 10.26, height: 2.53, area: 63.11, source: tmp, note: Two pillars, average width 0.97 m. }
+    status: documented
+    caveat: The survey gives the room's size and two pillars; the pillar positions and the room's east–west position relative to the entrance axis are reconstructed.
+    summary: An undecorated two-pillared chamber. Here the axis turns ninety degrees to the left (east). Red mason's lines on the ceiling mark the axes.
+    finds:
+      - Remains of the king's chariot body (the find spot within the tomb is not recorded here)
+  - id: kv43-fd
+    code: Fd
+    name: Stepped descent
+    kind: stairs
+    x: [5.13, 9.5]
+    y: [40.1, 42.09]
+    floor: [-13.3, -16.5]
+    descends: x+
+    height: 3.81
+    measured: { length: 4.37, width: 1.99, height: 3.81, area: 8.69, source: tmp, note: "In the north end of the east wall of F; 90.56° left of F." }
+    status: documented
+    condition: damaged
+    conditionNote: The original steps are badly damaged.
+    summary: A stairway leading east from the north end of the pillared chamber's east wall.
+  - id: kv43-gg
+    code: gG
+    name: Gate G
+    kind: gate
+    x: [9.5, 10.5]
+    y: [40.3, 41.89]
+    floor: [-16.5, -16.7]
+    descends: x+
+    height: 2.24
+    measured: { length: 1.0, width: 1.59, height: 2.24, area: 1.58, source: tmp }
+    status: documented
+    summary: The jambs were cut back.
+  - id: kv43-g
+    code: G
+    name: Third corridor
+    kind: corridor
+    x: [10.5, 18.71]
+    y: [40.11, 42.08]
+    floor: [-16.7, -19]
+    descends: x+
+    height: 2.23
+    measured: { length: 8.21, width: 1.97, height: 2.23, area: 16.15, source: tmp }
+    status: documented
+    summary: A long, narrow corridor sloping down towards stairwell H.
+  - id: kv43-gh
+    code: gH
+    name: Gate H
+    kind: gate
+    x: [18.71, 19.73]
+    y: [40.325, 41.865]
+    floor: [-19, -19.4]
+    descends: x+
+    height: 2.42
+    measured: { length: 1.02, width: 1.54, height: 2.42, area: 1.56, source: tmp }
+    status: documented
+    summary: The stairs of stairwell H start inside this gate.
+  - id: kv43-h
+    code: H
+    name: Stairwell
+    kind: stairs
+    x: [19.73, 22.87]
+    y: [40.145, 42.045]
+    floor: [-19.4, -21.5]
+    descends: x+
+    height: 3.95
+    measured: { length: 3.14, width: 1.9, height: 3.95, area: 5.96, source: tmp }
+    status: documented
+    condition: damaged
+    conditionNote: The stairway is badly damaged.
+    summary: A stairwell with narrow recesses cut into the walls on either side.
+  - id: kv43-gi
+    code: gI
+    name: Gate I
+    kind: gate
+    x: [22.87, 23.9]
+    y: [40.36, 41.83]
+    floor: [-21.5, -21.5]
+    height: 2.41
+    measured: { length: 1.03, width: 1.47, height: 2.41, area: 1.5, source: tmp }
+    status: documented
+    summary: The jambs were cut back.
+  - id: kv43-i
+    code: I
+    name: Antechamber
+    kind: chamber
+    x: [23.9, 29.09]
+    y: [39.285, 42.905]
+    floor: [-21.5, -21.5]
+    height: 2.23
+    decorated: [n, e]
+    measured: { length: 5.19, width: 3.62, height: 2.23, area: 18.73, source: tmp, note: Chamber I; the last chamber on the west–east axis. }
+    status: documented
+    caveat: Its north–south position relative to the corridor is reconstructed.
+    summary: The second decorated room, again painted in haste with the king before the gods. Two hieratic graffiti record an inspection of the burial in the reign of Horemheb. The axis turns left (north) a second time into the burial chamber.
+    decoration: Osiris, Anubis and forms of Hathor presenting life to the king on the north and east walls, over a visible artists' grid; kheker frieze; stars on the ceiling.
+    scenes:
+      - id: gods
+        wall: e
+        title: The king before the gods
+        text: Osiris, Anubis and three forms of Hathor present life to Thutmose IV. The artists' grid shows through the background paint.
+      - id: graffito
+        wall: s
+        title: A restoration graffito
+        text: Two hieratic texts on the south wall record that in year 8 of Horemheb the chief treasurer Maya, assisted by Djehutymes, steward of Thebes, restored the burial after robbers had broken in.
+  - id: kv43-gj
+    code: gJ
+    name: Gate J
+    kind: gate
+    x: [25.735, 27.255]
+    y: [36.865, 39.285]
+    floor: [-21.5, -21.8]
+    descends: y-
+    height: 2.1
+    measured: { length: 2.42, width: 1.52, height: 2.1, area: 4.15, source: tmp, note: "89.65° left of I; a ramp runs through the gate." }
+    status: documented
+    caveat: Its position along the north wall of I is reconstructed.
+    summary: Once closed by a single-leaf wooden door, then blocked and plastered. A ramp is cut through the gate, and from here the tomb runs south–north.
+  - id: kv43-j
+    room: kv43-j
+    code: J
+    name: Burial chamber, pillared level
+    kind: hall
+    x: [22.315, 30.675]
+    y: [27.9, 36.865]
+    floor: [-21.8, -21.8]
     height: 3.2
-    pillars: [[-30.6, 52], [-27, 52], [-30.6, 55.8], [-27, 55.8], [-30.6, 59.6], [-27, 59.6]]
+    pillars: [[24.8, 34.4], [28.19, 34.4], [24.8, 31.9], [28.19, 31.9], [24.8, 29.4], [28.19, 29.4]]
+    pillarSize: 1.05
+    measured: { length: 14.42, width: 8.36, height: 4.45, area: 120.18, source: tmp, note: "Burial chamber J as a whole (both levels); six pillars, average width 1.05 m." }
     status: approximate
-    summary: A six-pillared hall. Unlike the well chamber and antechamber, its walls were never decorated.
-    caveat: The burial chamber has side rooms (storerooms). Their layout has not yet been digitised for this model, so they are not shown.
-  - id: kv43-11
-    code: "11"
-    name: Crypt
+    caveat: The overall size of the burial chamber follows the survey (14.42 × 8.36 m, up to 4.45 m high). How it divides between the upper pillared level and the sunken rear level, the pillar positions and the ceiling height of this level are reconstructed.
+    summary: A six-pillared hall on an upper level. A stepped descent between the last pair of pillars leads down to the sarcophagus. Its walls were never decorated; red mason's lines and conical lumps of plaster survive on them.
+  - id: kv43-j2
+    room: kv43-j
+    code: J↓
+    name: Burial chamber, sunken level
     kind: crypt
-    x: [-33, -24.6]
-    y: [63, 69]
-    floor: [-19.5, -19.5]
-    height: 3.6
+    x: [22.315, 30.675]
+    y: [22.445, 27.9]
+    floor: [-23.3, -23.3]
+    height: 4.45
+    measured: { length: 14.42, width: 8.36, height: 4.45, area: 120.18, source: tmp, note: Burial chamber J as a whole (both levels). }
     status: approximate
-    summary: A sunken area at the end of the hall, where the sarcophagus still stands.
+    caveat: The lower level is described but not separately measured; its length and the drop from the pillared level are reconstructed.
+    summary: The sunken rear of the burial chamber, where the sarcophagus still stands in a pit on plinth blocks.
     sarcophagus:
-      x: -28.8
-      y: 66
-      w: 1.6
-      d: 3
-      h: 1.4
+      x: 26.495
+      y: 25.2
+      w: 3
+      d: 1.69
+      h: 1.99
       material: quartzite
       state: in-situ
-      label: Quartzite sarcophagus, still in place
+      label: "Cartouche-shaped quartzite sarcophagus, still in place: 3.0 × 1.69 × 1.99 m, painted red with yellow figures and texts"
+      measured: { length: 3.0, width: 1.69, height: 1.99, source: tmp }
+  - id: kv43-gja
+    code: gJa
+    name: Gate Ja
+    kind: gate
+    x: [21.685, 22.315]
+    y: [33.515, 34.485]
+    floor: [-21.8, -21.8]
+    height: 1.32
+    measured: { length: 0.63, width: 0.97, height: 1.32, area: 0.6, source: tmp }
+    status: documented
+    caveat: Its position along the west wall is reconstructed.
+    summary: Slots for a lintel beam; closed by a single-leaf wooden door.
+  - id: kv43-ja
+    code: Ja
+    name: Side chamber
+    kind: annex
+    x: [18.575, 21.685]
+    y: [31.42, 36.58]
+    floor: [-21.8, -21.8]
+    height: 1.93
+    measured: { length: 3.11, width: 5.16, height: 1.93, area: 15.98, source: tmp, note: West of J. }
+    status: documented
+    caveat: Size follows the survey; its position along the west wall and floor level are reconstructed.
+    summary: An undecorated storeroom west of the burial chamber.
+  - id: kv43-gjb
+    code: gJb
+    name: Gate Jb
+    kind: gate
+    x: [21.685, 22.315]
+    y: [25.52, 26.48]
+    floor: [-23.3, -23.3]
+    height: 1.27
+    measured: { length: 0.63, width: 0.96, height: 1.27, area: 0.61, source: tmp }
+    status: documented
+    caveat: Its position along the west wall is reconstructed.
+    summary: A modern half-wall now protects the meat offerings inside.
+  - id: kv43-jb
+    code: Jb
+    name: Side chamber
+    kind: annex
+    x: [18.565, 21.685]
+    y: [23.42, 28.58]
+    floor: [-23.3, -23.3]
+    height: 1.91
+    measured: { length: 3.12, width: 5.16, height: 1.91, area: 15.99, source: tmp, note: West of J. }
+    status: documented
+    caveat: Size follows the survey; its position along the west wall and floor level are reconstructed.
+    summary: An undecorated storeroom west of the burial chamber. Remains of meat offerings are still strewn on its floor.
+    finds:
+      - Remains of meat offerings
+  - id: kv43-gjc
+    code: gJc
+    name: Gate Jc
+    kind: gate
+    x: [30.675, 31.295]
+    y: [32.515, 33.485]
+    floor: [-21.8, -21.8]
+    height: 1.33
+    measured: { length: 0.62, width: 0.97, height: 1.33, area: 0.6, source: tmp }
+    status: documented
+    caveat: Its position along the east wall is reconstructed.
+    summary: Slots for a lintel beam; closed by a single-leaf wooden door.
+  - id: kv43-jc
+    code: Jc
+    name: Side chamber
+    kind: annex
+    x: [31.295, 34.125]
+    y: [30.925, 35.075]
+    floor: [-21.8, -21.8]
+    height: 1.93
+    measured: { length: 2.83, width: 4.15, height: 1.93, area: 11.7, source: tmp, note: East of J. }
+    status: documented
+    caveat: Size follows the survey; its position along the east wall and floor level are reconstructed.
+    summary: An undecorated storeroom east of the burial chamber.
+  - id: kv43-gjd
+    code: gJd
+    name: Gate Jd
+    kind: gate
+    x: [30.675, 31.285]
+    y: [25.515, 26.485]
+    floor: [-23.3, -23.3]
+    height: 1.35
+    measured: { length: 0.61, width: 0.97, height: 1.35, source: tmp }
+    status: documented
+    caveat: Its position along the east wall is reconstructed.
+    summary: Slots for a lintel beam; closed by a single-leaf wooden door.
+  - id: kv43-jd
+    code: Jd
+    name: Side chamber
+    kind: annex
+    x: [31.285, 34.455]
+    y: [23.415, 28.585]
+    floor: [-23.3, -23.3]
+    height: 2
+    measured: { length: 3.17, width: 5.17, height: 2, area: 16.41, source: tmp, note: East of J. }
+    status: documented
+    caveat: Size follows the survey; its position along the east wall and floor level are reconstructed.
+    summary: An undecorated storeroom east of the burial chamber.

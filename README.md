@@ -152,38 +152,44 @@ Coordinates are metres: `x` to the right, `y` down the page, depths negative. Ea
 
 ```yaml
 title: Plan of KV62, the tomb of Tutankhamun
-source: Simplified from the Theban Mapping Project plan and Carter's records …   # shown under every plan and model
-length: 30.79            # optional published figures
+source: Every chamber and gate is sized to the Theban Mapping Project survey …   # shown under every plan and model
+area: 109.83             # optional overall figures — only when verified, with totalsNote saying how
+totalsNote: Sum of the chamber and gate areas published by the Theban Mapping Project …
+levels: The survey gives relative levels only …    # how floor depths were established
 camera: { theta: 125, phi: 52 }   # default 3D view, shared by the poster render and the viewer
 spaces:
   - id: kv62-j
     code: J                       # label on the plan and 3D hotspot
     name: Burial chamber
-    kind: chamber                 # stairs | corridor | chamber | hall | well | annex | crypt | tunnel
-    x: [-18.46, -12.09]
-    y: [-10.18, -6.16]
-    floor: [-7.7, -7.7]           # start and end depth; add `descends: x-` for slopes and stairs
-    height: 3.63
+    kind: chamber                 # stairs | corridor | chamber | hall | well | annex | crypt | tunnel | gate
+    x: [-18.73, -12.33]
+    y: [-10.34, -6.2]
+    floor: [-7.75, -7.75]         # start and end depth; add `descends: x-` for slopes and stairs
+    height: 3.68
+    measured: { length: 4.14, width: 6.4, height: 3.68, area: 26.22, source: tmp, note: … }   # the published figures; `source` is a key in `sources`
+    level: documented             # evidence for the floor depth: documented | approximate (default) | uncertain
     decorated: [n, e, s, w]       # walls with decoration (drawn as colour zones, never as fake scenes)
     pillars: [[x, y], …]
     pit: { x: […], y: […], depth: 7 }                      # well shafts
     sarcophagus: { x, y, w, d, h, material: quartzite, state: in-situ, label: … }   # state: in-situ | removed | lost
-    status: documented            # documented | approximate | uncertain
-    caveat: Why it is not documented, when it isn't.
+    status: documented            # documented (size as published) | approximate | uncertain
+    caveat: What is reconstructed (placement, depth, …).
     summary: …
     scenes:                       # wall hotspots
       - { id: north, wall: n, title: The Opening of the Mouth, text: … }
 ```
 
-Spaces that touch share an edge and get a doorway automatically. `uncertain` spaces and sarcophagi that are `removed` or `lost` are drawn as translucent ghosts, dashed in the plan.
+Spaces that touch share an edge and get a doorway automatically. Model the survey's **gates** as `kind: gate` spaces at their published thickness and width: they set the doorway widths and axial lengths, and are drawn but not listed, labelled or given hotspots. A descent cut into a room's floor takes `within: <room id>` (the room's floor gets a hole). Parts of one room at different floor levels share `room: <key>` so no wall is drawn between them. A well shaft or pit can take its own `title` and `text`. `uncertain` spaces and sarcophagi that are `removed` or `lost` are drawn as translucent ghosts, dashed in the plan.
 
 Plan-level fields that drive the explorer:
 
 ```yaml
 route: [kv62-a, kv62-b, kv62-i, kv62-j]     # entrance → burial chamber; drawn as the gold path in 3D, plan and profile
-sources:                                     # listed under the explorer — cite every plan
-  - { label: "H. Carter and A. C. Mace, The Tomb of Tut.ankh.Amen (1923–1933)" }
-  - { label: Theban Mapping Project, url: https://thebanmappingproject.com/ }
+sources:                                     # "Sources for this reconstruction" on the tomb page
+  - id: tmp                                  # referenced by `measured.source`
+    label: Theban Mapping Project, "KV 62 (Tutankhamen)"
+    url: https://thebanmappingproject.com/tombs/kv-62-tutankhamen
+    used: What exactly this source was used for (dimensions, sequence, levels …).
 tour:                                        # optional; defaults to the route
   - { space: qv66-2, scene: senet, text: … } # a stop can face a wall scene
 ```
@@ -201,7 +207,7 @@ Per-space fields:
 
 Sarcophagi and well shafts become hotspots automatically.
 
-**Integrity rules for plans.** Never add a room, pillar or feature that is not in a published plan; if a tomb has spaces you cannot place, mention them in `caveat` and leave them out of the geometry. Decoration is a flat tint on the walls that carry it — do not draw registers, friezes or scenes. Mark every space `documented`, `approximate` (shown to readers as "reconstructed geometry") or `uncertain`, and cite the plan's sources.
+**Integrity rules for plans.** Size spaces from a published survey and record it in `measured`; never from memory. The page prints a table of every published measurement against the model, flagging differences. Never add a room, pillar or feature that is not in a published plan; if a tomb has spaces you cannot place, mention them in `caveat` and leave them out of the geometry. Decoration is a flat tint on the walls that carry it — do not draw registers, friezes or scenes. Mark every space `documented`, `approximate` (shown to readers as "reconstructed geometry") or `uncertain`, and cite the plan's sources.
 
 ### 2. Render the model and images
 

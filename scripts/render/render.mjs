@@ -40,8 +40,8 @@ const TOMBS = {
     folder: 'tombs/kv62-tutankhamun',
     view: {},
     interiors: {
-      'burial-chamber': { from: [-17.7, -6.1, -6.5], to: [-15.2, -7.2, -9.6] },
-      antechamber: { from: [-15.3, -5.2, 1.3], to: [-17.3, -6.3, -4.5], fov: 72 },
+      'burial-chamber': { from: [-17.9, -6.2, -6.6], to: [-15.3, -7.3, -9.8] },
+      antechamber: { from: [-15.5, -5.3, 1.3], to: [-17.6, -6.4, -4.6], fov: 72 },
     },
     // Before/after pair: the burial chamber as Carter found it, and today.
     details: {
@@ -53,23 +53,23 @@ const TOMBS = {
     folder: 'tombs/kv17-seti-i',
     view: { heroPad: 0.5 },
     interiors: {
-      crypt: { from: [2.3, -25.3, 102.1], to: [-5.5, -24.2, 108.6], fov: 72, lamp: [1.6, -24.6, 103] },
-      'pillared-hall': { from: [3.6, -15.4, 54.8], to: [-3.6, -16.4, 61.6], fov: 72 },
+      crypt: { from: [6.3, -26.2, 92.8], to: [-0.4, -27, 98], fov: 72, lamp: [5.6, -25.8, 93.4] },
+      'pillared-hall': { from: [3.5, -15.9, 52.6], to: [-3.2, -16.9, 59.8], fov: 72 },
     },
   },
   kv43: {
     folder: 'tombs/kv43-thutmose-iv',
     view: { heroPad: 0.6 },
     interiors: {
-      'burial-chamber': { from: [-28.8, -16.4, 49.6], to: [-28.8, -18.8, 66.5], fov: 66 },
+      'burial-chamber': { from: [26.5, -19.9, 36.4], to: [26.5, -22.6, 23.4], fov: 66 },
     },
   },
   qv66: {
     folder: 'tombs/qv66-nefertari',
     view: {},
     interiors: {
-      'burial-chamber': { from: [0, -6.4, 20.4], to: [0, -7.4, 29], fov: 72, lamp: [0.8, -6, 21] },
-      antechamber: { from: [1.8, -1.4, 10.6], to: [-2.2, -2.2, 6.6], fov: 72 },
+      'burial-chamber': { from: [1.5, -4.3, -12.6], to: [1.5, -5.6, -21.5], fov: 72, lamp: [2.3, -4, -13] },
+      antechamber: { from: [1.8, -0.9, -0.4], to: [-2.2, -1.7, -4.6], fov: 72 },
     },
   },
 };

@@ -10,7 +10,7 @@ media:
     src: /models/qv66.glb
     poster: ../../assets/media/tombs/qv66-nefertari/model-poster.png
     alt: Interactive cut-away model of QV66 on its two levels, with the lost sarcophagus shown as a translucent outline.
-    caption: The arrangement of rooms follows published plans; sizes and depths are approximate.
+    caption: The arrangement of rooms follows the Theban Mapping Project; sizes and levels follow the approximate figures of the Getty Conservation Institute. Doorway positions are reconstructed.
     kind: model
     credit: NeoKemetAI interpretive 3D model
   gallery:

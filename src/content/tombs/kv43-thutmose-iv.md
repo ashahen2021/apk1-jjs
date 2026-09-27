@@ -9,13 +9,13 @@ media:
   model:
     src: /models/kv43.glb
     poster: ../../assets/media/tombs/kv43-thutmose-iv/model-poster.png
-    alt: Interactive cut-away model of KV43 with its two right-angled turns, decorated well chamber and antechamber, and the sarcophagus in the crypt.
-    caption: The sequence of spaces and the two turns follow Carter's plan and later surveys. Sizes and depths are approximate.
+    alt: Interactive cut-away model of KV43 with its two right-angled turns, decorated well chamber and antechamber, the burial chamber with four side chambers, and the sarcophagus on the lower level.
+    caption: Every chamber, gate and side chamber is sized to the Theban Mapping Project survey; the axis turns left (east) and left again (north). Doorway positions and all depths are reconstructed.
     kind: model
     credit: NeoKemetAI interpretive 3D model
   gallery:
     - src: ../../assets/media/tombs/kv43-thutmose-iv/burial-chamber.jpg
-      alt: View inside the model along the six-pillared burial chamber towards the quartzite sarcophagus in its crypt.
+      alt: View inside the model along the six-pillared burial chamber towards the quartzite sarcophagus on its sunken level.
       caption: The burial chamber, never decorated, with the quartzite sarcophagus still in place at its far end.
       kind: model
       credit: NeoKemetAI interpretive 3D model

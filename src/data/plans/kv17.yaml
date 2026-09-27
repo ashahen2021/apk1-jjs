@@ -1,263 +1,547 @@
 title: Plan of KV17, the tomb of Seti I
-source: Simplified from published plans (Theban Mapping Project; Hornung, The Tomb of Pharaoh Seti I). The sequence of spaces is documented; lengths, widths and depths in this model are approximate.
-note: The tomb runs deep into the hillside. Beyond the burial chamber a tunnel continues for about 174 m; only its start is shown.
-length: 137.19
+source: Every corridor, gate, chamber and side chamber down to the burial chamber is sized to the Theban Mapping Project survey of KV 17, using its letters (A–K). The survey gives measurements, not coordinates, so the lateral offsets (where the axis shifts left at the descent in F), the position of doorways along walls, the split between the two levels of the burial chamber and all floor depths are reconstructed. The tunnel K is shown only for its first metres.
+note: The axis descends south-west into the hillside. It shifts left (south-east) at the descent cut into the pillared chamber F, and continues in a straight line to the burial chamber J and the tunnel K.
+levels: No floor depths are published on the Theban Mapping Project page, so all levels are reconstructed. The only published slopes are for stairwell C (steps at a steep 30°) and the tunnel K (its ancient ramp slopes at about 34° to 36°). KV 17 is described by the survey as the longest and deepest tomb in the Valley of the Kings.
 camera: { theta: 100, phi: 58 }
-route: [kv17-1, kv17-2, kv17-3, kv17-4, kv17-5, kv17-6, kv17-8, kv17-9, kv17-10, kv17-11, kv17-12]
+route: [kv17-a, kv17-gb, kv17-b, kv17-gc, kv17-c, kv17-gd, kv17-d, kv17-ge, kv17-e, kv17-gf, kv17-f, kv17-fd, kv17-gg, kv17-g, kv17-gh, kv17-h, kv17-gi, kv17-i, kv17-gj, kv17-j, kv17-j2]
 sources:
-  - label: Theban Mapping Project, KV 17 (plan and measurements)
-    url: https://thebanmappingproject.com/
-  - label: "E. Hornung, The Tomb of Pharaoh Seti I / Das Grab Sethos' I. (Zurich and Munich, 1991)"
-  - label: "G. B. Belzoni, Narrative of the Operations and Recent Discoveries … in Egypt and Nubia (London, 1820)"
-  - label: "N. Reeves and R. H. Wilkinson, The Complete Valley of the Kings (London, 1996)"
+  - id: tmp
+    label: Theban Mapping Project, "KV 17 (Sety I)", American Research Center in Egypt
+    url: https://thebanmappingproject.com/tombs/kv-17-sety-i
+    used: Chamber sequence (seven corridors, ten chambers, side chambers Fa and Ja–Je, passage K); length, width, height, area and orientation of every space and gate; pillar counts and widths; the 30° stairwell; positions of side chambers by wall; decoration by wall; the sarcophagus find-spot.
+  - id: hamed
+    label: "A. Hamed, \"Re-excavation of Seti First Tomb, KV17, Luxor, Egypt\", International Journal of Conservation Science (2013; accepted September 2013)"
+    url: https://ijcs.ro/public/IJCS-13-41-Hamed.pdf
+    used: "Tunnel K: re-excavated 2007–2010 over a length of 174 m; roughly 2 × 2 m cross-section; ancient ramp sloping 34° to 36° (after K. R. Weeks)."
+  - id: belzoni
+    label: "G. B. Belzoni, Narrative of the Operations and Recent Discoveries … in Egypt and Nubia (London, 1820)"
+    used: The discovery in 1817 and the breach beyond the well. Not used for any dimension.
 spaces:
-  - id: kv17-1
-    code: "1"
+  - id: kv17-a
+    code: A
     name: Entrance stairway
     kind: stairs
-    x: [-1.3, 1.3]
-    y: [0, 8]
-    floor: [0, -3.5]
+    x: [-1.355, 1.355]
+    y: [0, 15.81]
+    floor: [0, -5]
     descends: y+
     height: 3
-    status: approximate
-    summary: Belzoni's workmen uncovered the entrance in October 1817, and the tomb is still sometimes called "Belzoni's tomb".
-  - id: kv17-2
-    code: "2"
+    measured: { length: 15.81, width: 2.71, area: 44.49, source: tmp, note: "Entryway A; orientation 218.68°; twenty-six ancient steps. No height published." }
+    status: documented
+    caveat: Length and width follow the survey; the height and the drop of the steps are reconstructed.
+    summary: Belzoni's workmen uncovered the entrance in October 1817, and the tomb is still sometimes called "Belzoni's tomb". Twenty-six ancient steps lead down to corridor B.
+  - id: kv17-gb
+    code: gB
+    name: Gate B
+    kind: gate
+    x: [-1.035, 1.035]
+    y: [15.81, 16.81]
+    floor: [-5, -5.3]
+    descends: y+
+    height: 2.48
+    measured: { length: 1.0, width: 2.07, height: 2.48, area: 2.06, source: tmp }
+    status: documented
+    summary: A column of text gives the king's names and epithets.
+  - id: kv17-b
+    code: B
     name: First corridor
     kind: corridor
-    x: [-1.3, 1.3]
-    y: [8, 24]
-    floor: [-3.5, -9]
+    x: [-1.31, 1.31]
+    y: [16.81, 27.42]
+    floor: [-5.3, -9]
     descends: y+
-    height: 3.2
+    height: 2.58
     decorated: [e, w]
-    status: approximate
-    summary: The decoration begins at once. The first corridor carries the Litany of Re, a hymn naming the sun god's 75 forms.
-    decoration: Litany of Re; vultures with outspread wings on the ceiling.
+    measured: { length: 10.61, width: 2.62, height: 2.58, area: 27.79, source: tmp }
+    status: documented
+    summary: The decoration begins at once, in painted raised relief. The king stands before Ra-Horakhty, followed by the opening of the Litany of Re, a hymn naming the sun god's forms.
+    decoration: Seti I before Ra-Horakhty and the Litany of Re; flying vultures on the ceiling.
     scenes:
       - id: litany
         wall: e
         title: The Litany of Re
-        text: The hymn invoking the sun god under his 75 names, which opens the decoration of the tomb.
-        status: approximate
-  - id: kv17-3
-    code: "3"
-    name: Second stairway
+        text: Seti I before Ra-Horakhty under a winged cobra, followed by the opening scene of the Litany of Re, the hymn invoking the sun god under his many names.
+  - id: kv17-gc
+    code: gC
+    name: Gate C
+    kind: gate
+    x: [-1.05, 1.05]
+    y: [27.42, 28.5]
+    floor: [-9, -9.4]
+    descends: y+
+    height: 2.38
+    measured: { length: 1.08, width: 2.1, height: 2.38, area: 2.26, source: tmp }
+    status: documented
+    summary: A winged sun disc on the lintel; the Litany of Re continues on the reveals and thicknesses.
+  - id: kv17-c
+    code: C
+    name: Stairwell
     kind: stairs
     x: [-1.3, 1.3]
-    y: [24, 36]
-    floor: [-9, -14]
+    y: [28.5, 36.22]
+    floor: [-9.4, -13.86]
     descends: y+
-    height: 3.2
+    height: 3.81
     decorated: [e, w]
-    status: approximate
-    summary: A steep stairway, decorated with further hours of the Amduat.
-  - id: kv17-4
-    code: "4"
+    measured: { length: 7.72, width: 2.6, height: 3.81, area: 19.97, source: tmp, note: Steps descend at a steep 30° angle; height irregular. }
+    level: documented
+    status: documented
+    caveat: The 4.46 m drop follows from the published length and 30° slope; the level it starts from is reconstructed.
+    summary: Steps descend at a steep thirty degrees, with trapezoidal recesses at the tops of the walls. The Litany of Re continues, then the third hour of the Amduat, left partly in outline.
+    decoration: Litany of Re; Book of the Dead spell 151; the third hour of the Amduat, partly unfinished.
+  - id: kv17-gd
+    code: gD
+    name: Gate D
+    kind: gate
+    x: [-1.035, 1.035]
+    y: [36.22, 37.18]
+    floor: [-13.86, -14.2]
+    descends: y+
+    height: 2.4
+    measured: { length: 0.96, width: 2.07, height: 2.4, area: 1.98, source: tmp }
+    status: documented
+    summary: Two kneeling winged goddesses flank the king's cartouches on the lintel.
+  - id: kv17-d
+    code: D
     name: Third corridor
     kind: corridor
-    x: [-1.3, 1.3]
-    y: [36, 49]
-    floor: [-14, -17]
+    x: [-1.305, 1.305]
+    y: [37.18, 46.27]
+    floor: [-14.2, -17.5]
     descends: y+
-    height: 3.2
+    height: 2.78
     decorated: [e, w]
-    status: approximate
-    summary: Continues the Amduat, the guide to the sun's twelve-hour journey through the night.
-  - id: kv17-5
-    code: "5"
+    measured: { length: 9.09, width: 2.61, height: 2.78, area: 23.65, source: tmp }
+    status: documented
+    summary: The fourth and fifth hours of the Amduat, the guide to the sun's journey through the night, cover the two walls.
+  - id: kv17-ge
+    code: gE
+    name: Gate E
+    kind: gate
+    x: [-1.04, 1.04]
+    y: [46.27, 47.37]
+    floor: [-17.5, -17.5]
+    height: 2.39
+    measured: { length: 1.1, width: 2.08, height: 2.39, area: 2.28, source: tmp }
+    status: documented
+    summary: A winged sun disc on the outer lintel and the king's names on the reveals.
+  - id: kv17-e
+    code: E
     name: Well chamber
     kind: well
-    x: [-2.3, 2.3]
-    y: [49, 54]
-    floor: [-17, -17]
-    height: 3.6
+    x: [-2.085, 2.085]
+    y: [47.37, 51.02]
+    floor: [-17.5, -17.5]
+    height: 2.46
     decorated: [n, e, s, w]
     pit:
       x: [-1.6, 1.6]
-      y: [49.6, 53.4]
+      y: [47.8, 50.6]
       depth: 8
-    status: approximate
-    caveat: The depth of the shaft is approximate.
-    summary: A deep shaft cuts across the route, perhaps to catch floodwater or to deter robbers, and may also have had a ritual meaning. Belzoni found the wall beyond it plastered and painted, and broke through it.
+    measured: { length: 3.65, width: 4.17, height: 2.46, area: 15.17, source: tmp }
+    status: documented
+    caveat: The room follows the survey. The shaft has not been fully cleared and is not measured on the survey page; its size and 8 m depth are illustrative only.
+    summary: A shaft cuts through the floor of this room. It is not known whether the widening at its bottom was intentional. Belzoni found the wall beyond the shaft plastered and painted, and broke through it.
+    decoration: Anubis, the king led by Horus to Isis and to Hathor, the king before Osiris and the Western Goddess; yellow stars on a blue ceiling.
     condition: damaged
     conditionWalls: [s]
-    conditionNote: The far wall was broken through by Belzoni in 1817 to reach the rooms beyond; the breach is still visible.
+    conditionNote: The far wall was broken through by Belzoni in 1817 to reach the rooms beyond.
     features:
       - id: breach
         kind: damage
         title: Belzoni's breach
-        text: The painted wall beyond the shaft originally sealed the tomb's lower part. Belzoni's men broke through it in 1817.
-        at: [0, 53.9]
+        text: The painted wall beyond the shaft originally closed off the lower part of the tomb. Belzoni's men broke through it in 1817.
+        at: [0, 50.8]
         z: 1.4
-  - id: kv17-6
-    code: "6"
-    name: Four-pillared hall
+        status: approximate
+  - id: kv17-gf
+    code: gF
+    name: Gate F
+    kind: gate
+    x: [-1.05, 1.05]
+    y: [51.02, 52.06]
+    floor: [-17.5, -17.5]
+    height: 2.25
+    measured: { length: 1.04, width: 2.1, height: 2.25, area: 2.2, source: tmp }
+    status: documented
+    summary: The passage beyond the shaft.
+  - id: kv17-f
+    code: F
+    name: Four-pillared chamber
     kind: hall
-    x: [-4.3, 4.3]
-    y: [54, 62.5]
-    floor: [-17, -17]
-    height: 3.3
-    pillars: [[-2, 56.3], [2, 56.3], [-2, 60.2], [2, 60.2]]
+    x: [-3.975, 3.975]
+    y: [52.06, 60.49]
+    floor: [-17.5, -17.5]
+    height: 3.16
+    pillars: [[-1.9, 54.6], [1.9, 54.6], [-1.9, 57.4], [1.9, 57.4]]
+    pillarSize: 0.99
     decorated: [n, e, s, w]
     decoratedPillars: true
-    status: approximate
-    summary: The first pillared hall, decorated with the Book of Gates. At its far end the king is led before Osiris.
+    measured: { length: 8.43, width: 7.95, height: 3.16, area: 66.75, source: tmp, note: Four pillars in two rows, average width 0.99 m. }
+    status: documented
+    caveat: The size and four pillars follow the survey; the pillar positions are reconstructed.
+    summary: A roughly square chamber with two rows of two pillars flanking the axis, decorated with the Book of Gates. One scene shows the four "races" of mankind, for the first time distinguished by their physical features. On the rear wall Horus presents the king to Osiris and Hathor.
     scenes:
       - id: gates
-        wall: w
+        wall: e
         title: The Book of Gates
-        text: The sun god's night journey through the twelve hours of the underworld, each hour guarded by a gate and its serpent.
-        status: approximate
+        text: The fourth and fifth divisions of the Book of Gates in three registers, including the four "races" of mankind.
       - id: osiris
         wall: s
         title: The king before Osiris
-        text: Horus leads Seti I into the presence of Osiris, enthroned as ruler of the dead.
-        status: approximate
-  - id: kv17-7
-    code: "7"
-    name: Side hall (the "Drawing Room")
+        text: Horus presents Seti I to Osiris and Hathor.
+  - id: kv17-fd
+    code: Fd
+    name: Descent in the floor of F
+    kind: stairs
+    within: kv17-f
+    x: [1.535, 3.975]
+    y: [55.51, 60.49]
+    floor: [-17.5, -20.5]
+    descends: y+
+    height: 3.25
+    measured: { length: 4.98, width: 2.44, height: 3.25, area: 12.24, source: tmp, note: In the rear (southern) corner of pillared chamber F. }
+    status: documented
+    caveat: Its place in the rear south-east corner of F follows the survey description; the depth it reaches is reconstructed.
+    summary: A stairway cut into the floor at the rear corner of the pillared chamber. From here the axis of the tomb is displaced to the left.
+  - id: kv17-gfa
+    code: gFa
+    name: Gate Fa
+    kind: gate
+    x: [-2.085, -0.515]
+    y: [60.49, 61.48]
+    floor: [-17.5, -17.5]
+    height: 2.34
+    measured: { length: 0.99, width: 1.57, height: 2.34, area: 1.68, source: tmp }
+    status: approximate
+    caveat: Its position in the rear wall of F is reconstructed.
+    summary: Decorated with the Book of Gates and the Amduat.
+  - id: kv17-fa
+    code: Fa
+    name: Side chamber (the "Drawing Room")
     kind: annex
-    x: [4.3, 11.5]
-    y: [55, 61.5]
-    floor: [-17, -17]
-    height: 3
-    pillars: [[7.9, 56.9], [7.9, 59.6]]
-    decorated: [n, e, s]
+    x: [-6.56, 1.3]
+    y: [61.48, 70.1]
+    floor: [-18.5, -18.5]
+    height: 3.67
+    pillars: [[-2.63, 64.3], [-2.63, 67.3]]
+    pillarSize: 1.18
+    decorated: [n, e, s, w]
+    decoratedPillars: true
+    measured: { length: 8.62, width: 7.86, height: 3.67, area: 67.62, source: tmp, note: Two pillars, average width 1.18 m; floor several steps lower than F. }
     status: approximate
     condition: unfinished
-    conditionNote: The decoration was never carved; only the draughtsmen's outlines exist.
-    summary: A side hall left unfinished. Its walls still show the artists' outline drawings in red and black, a rare look at how the decoration was laid out before carving.
+    conditionNote: The decoration was never carved or painted; it is drawn in black outline only.
+    caveat: Size and pillar count follow the survey. Its sideways offset from F (to clear corridor G), the pillar positions and the floor level are reconstructed.
+    summary: A two-pillared room beyond the pillared chamber, its floor several steps lower. Its walls carry the ninth to eleventh hours of the Amduat drawn in black outline only, a rare look at how the decoration was laid out before carving. A break in the bottom of its left wall opens into corridor G.
     scenes:
       - id: drawings
-        wall: e
+        wall: w
         title: Unfinished outline drawings
-        text: Figures of the king and gods sketched in red and corrected in black, left before the sculptors could carve them.
+        text: The ninth, tenth and eleventh hours of the Amduat drawn in black outline, never carved.
+    features:
+      - id: break
+        kind: damage
+        title: Break into corridor G
+        text: A break at the bottom of the left wall opens into corridor G.
+        at: [1.1, 66]
+        z: 0.4
         status: approximate
-  - id: kv17-8
-    code: "8"
-    name: Descending stairway
-    kind: stairs
-    x: [-4.3, -1.7]
-    y: [62.5, 76]
-    floor: [-17, -22.5]
+  - id: kv17-gg
+    code: gG
+    name: Gate G
+    kind: gate
+    x: [1.71, 3.8]
+    y: [60.49, 61.54]
+    floor: [-20.5, -20.8]
     descends: y+
-    height: 3.1
+    height: 2.7
+    measured: { length: 1.05, width: 2.09, height: 2.7, area: 2.2, source: tmp }
+    status: documented
+    summary: Hathor holding up a menat necklace to the king was carved on the thicknesses; these reliefs were removed by Champollion and Rosellini and are now in Paris and Florence.
+  - id: kv17-g
+    code: G
+    name: Fourth corridor
+    kind: corridor
+    x: [1.445, 4.065]
+    y: [61.54, 70.48]
+    floor: [-20.8, -24]
+    descends: y+
+    height: 2.64
     decorated: [e, w]
-    status: approximate
-    caveat: The stair opens from the floor of the pillared hall; its exact position is simplified.
-    summary: The axis steps sideways here and the tomb plunges on. This stretch carries the Opening of the Mouth ritual.
+    measured: { length: 8.94, width: 2.62, height: 2.64, area: 23.4, source: tmp, note: 0.6° right of F. }
+    status: documented
+    summary: The tomb continues a little to the right of the previous axis. The walls carry the Opening of the Mouth ritual; vandals have cut out many cartouches, texts and figures.
     scenes:
       - id: opening
-        wall: e
+        wall: w
         title: The Opening of the Mouth
         text: Priests restore the senses of the king's statue so that it can breathe, eat and speak in the afterlife.
-        status: approximate
-  - id: kv17-9
-    code: "9"
-    name: Lower corridor
-    kind: corridor
-    x: [-4.3, -1.7]
-    y: [76, 88]
-    floor: [-22.5, -25]
+  - id: kv17-gh
+    code: gH
+    name: Gate H
+    kind: gate
+    x: [1.71, 3.8]
+    y: [70.48, 71.52]
+    floor: [-24, -24.3]
     descends: y+
-    height: 3.1
+    height: 2.34
+    measured: { length: 1.04, width: 2.09, height: 2.34, area: 2.17, source: tmp }
+    status: documented
+    summary: The opening scene of the Opening of the Mouth ritual is on the reveals.
+  - id: kv17-h
+    code: H
+    name: Fifth corridor
+    kind: corridor
+    x: [1.44, 4.07]
+    y: [71.52, 76.8]
+    floor: [-24.3, -26]
+    descends: y+
+    height: 2.7
     decorated: [e, w]
-    status: approximate
-    summary: Further scenes of the Opening of the Mouth lead to the antechamber.
-  - id: kv17-10
-    code: "10"
+    measured: { length: 5.28, width: 2.63, height: 2.7, area: 13.81, source: tmp }
+    status: documented
+    summary: Five steps lead into this corridor. Recesses along the upper walls carry more of the Opening of the Mouth; below them is the Litany of the Eye of Horus.
+  - id: kv17-gi
+    code: gI
+    name: Gate I
+    kind: gate
+    x: [1.72, 3.79]
+    y: [76.8, 77.85]
+    floor: [-26, -26]
+    height: 2.09
+    measured: { length: 1.05, width: 2.07, height: 2.09, area: 2.29, source: tmp }
+    status: documented
+    summary: A winged disc on the lintel and cobra goddesses on the thicknesses.
+  - id: kv17-i
+    code: I
     name: Antechamber
     kind: chamber
-    x: [-5.6, -0.4]
-    y: [88, 92.5]
-    floor: [-25, -25]
-    height: 3.2
+    x: [0.675, 4.835]
+    y: [77.85, 83.1]
+    floor: [-26, -26]
+    height: 2.53
     decorated: [n, e, s, w]
+    measured: { length: 5.25, width: 4.16, height: 2.53, area: 21.84, source: tmp, note: "The survey page prints the length as 2.25 m, which does not match its own area (21.84 m² ÷ 4.16 m = 5.25 m). 5.25 m is used here." }
     status: approximate
-    summary: The king is shown before the gods of the underworld, including Osiris, Anubis and Hathor.
+    caveat: The survey's printed length (2.25 m) conflicts with its area; the length is taken from the area.
+    summary: The king is shown with various deities, including Ptah and Nefertem on the rear wall. Squeezes taken in the nineteenth century caused considerable loss of colour.
     scenes:
       - id: gods
         wall: s
         title: The king before the gods
-        text: Seti I stands before the gods who will receive him in the underworld.
-        status: approximate
-  - id: kv17-11
-    code: "11"
-    name: Burial chamber, pillared hall
+        text: Seti I with Ptah and Nefertem on the rear wall.
+  - id: kv17-gj
+    code: gJ
+    name: Gate J
+    kind: gate
+    x: [1.715, 3.795]
+    y: [83.1, 84.14]
+    floor: [-26, -26]
+    height: 2.33
+    measured: { length: 1.04, width: 2.08, height: 2.33, area: 2.28, source: tmp }
+    status: documented
+    summary: A winged sun disc on the lintel; Nekhbet and Wadjet as cobras on the thicknesses.
+  - id: kv17-j
+    room: kv17-j
+    code: J
+    name: Burial chamber, pillared level
     kind: hall
-    x: [-8.8, 3.2]
-    y: [92.5, 101.5]
-    floor: [-25, -25]
+    x: [-1.435, 6.945]
+    y: [84.14, 92.3]
+    floor: [-26, -26]
     height: 3.4
-    pillars: [[-5.5, 95.5], [-3, 95.5], [-0.5, 95.5], [-5.5, 98.7], [-3, 98.7], [-0.5, 98.7]]
+    pillars: [[0.905, 86.3], [4.605, 86.3], [0.905, 88.5], [4.605, 88.5], [0.905, 90.7], [4.605, 90.7]]
+    pillarSize: 1.04
     decorated: [e, w]
     decoratedPillars: true
+    measured: { length: 14.26, width: 8.38, height: 6.05, area: 126.55, source: tmp, note: "Burial chamber J as a whole (both levels); six pillars, average width 1.04 m." }
     status: approximate
-    caveat: The number of pillars is simplified in this model.
-    summary: The upper, pillared part of the burial chamber, decorated with the Book of Gates and the Amduat. Several side rooms open off the burial chamber; only the room of the Heavenly Cow is modelled here.
-  - id: kv17-12
-    code: "12"
-    name: Burial chamber, vaulted crypt
+    caveat: The overall size of the burial chamber follows the survey (14.26 × 8.38 m, up to 6.05 m high under the vault). How it divides between the pillared level and the sunken vaulted level, the pillar positions and the ceiling height of this level are reconstructed.
+    summary: The upper part of the burial chamber, with two rows of three pillars along the axis, decorated with the Book of Gates. Side chambers Ja and Je open off its left and right walls. Three stepped descents lead to the sunken, vaulted rear.
+    condition: damaged
+    conditionNote: Pillar 2 has suffered structural damage; the face of pillar 5 was removed by Lepsius.
+  - id: kv17-j2
+    room: kv17-j
+    code: J↓
+    name: Burial chamber, vaulted level
     kind: crypt
-    x: [-8.8, 3.2]
-    y: [101.5, 110]
-    floor: [-27, -27]
-    height: 5.5
+    x: [-1.435, 6.945]
+    y: [92.3, 98.4]
+    floor: [-28, -28]
+    height: 6.05
     decorated: [e, s, w]
+    pit:
+      x: [-1.2, 0.6]
+      y: [96.6, 98.2]
+      depth: 2
+      title: Pit at the mouth of tunnel K
+      text: A rectangular pit at the north-west end of the sunken floor gives access to tunnel K. Its size and depth here are reconstructed.
+    measured: { length: 14.26, width: 8.38, height: 6.05, area: 126.55, source: tmp, note: Burial chamber J as a whole (both levels). }
     status: approximate
-    summary: A sunken, vaulted crypt where the sarcophagus stood. Its ceiling is painted with an astronomical scene of stars and constellations.
+    caveat: The sunken level is described but not separately measured; its length, the drop from the pillared level and the pit at the mouth of tunnel K are reconstructed.
+    summary: The sunken rear of the burial chamber, the first vaulted burial chamber in the Valley. Three hours of the Amduat cover its walls, with winged Isis and Nephthys under the vault and astronomical figures on the ceiling. A rectangular pit at its north-west end gives access to tunnel K.
     sarcophagus:
-      x: -2.8
-      y: 105.7
-      w: 1.2
-      d: 2.85
+      x: -0.3
+      y: 97.4
+      w: 2.85
+      d: 1.2
       h: 1.05
       material: calcite
       state: removed
-      label: Calcite sarcophagus, now in Sir John Soane's Museum, London
-    features:
-      - id: tunnel-mouth
-        kind: opening
-        title: Mouth of the tunnel
-        text: A narrow tunnel opens from the floor of the crypt and descends into the rock.
-        at: [-2.8, 109.6]
-        z: 0.4
+      label: The calcite sarcophagus, found lying across the pit that leads to tunnel K, box intact and lid shattered; now in Sir John Soane's Museum, London. Its size in the model is approximate
     scenes:
       - id: ceiling
         wall: s
         title: The astronomical ceiling
-        text: The vaulted ceiling shows the night sky, with stars and constellations such as the Bull's Foreleg (the Plough), painted in yellow on dark blue.
-  - id: kv17-13
-    code: "13"
+        text: The vaulted ceiling shows astronomical figures, stars and constellations of the night sky.
+  - id: kv17-gja
+    code: gJa
+    name: Gate Ja
+    kind: gate
+    x: [6.945, 7.715]
+    y: [88.11, 88.89]
+    floor: [-26, -26]
+    height: 1.96
+    measured: { length: 0.77, width: 0.78, height: 1.96, area: 0.6, source: tmp }
+    status: approximate
+    caveat: Its position along the wall is reconstructed.
+    summary: The king and his ka offering ointment on the thickness.
+  - id: kv17-ja
+    code: Ja
+    name: Side chamber
+    kind: annex
+    x: [7.715, 10.355]
+    y: [86.925, 90.075]
+    floor: [-26, -26]
+    height: 2.11
+    decorated: [n, e, s]
+    measured: { length: 2.64, width: 3.15, height: 2.11, area: 8.33, source: tmp, note: Off the left (south-east) wall of the pillared level. }
+    status: approximate
+    caveat: Size follows the survey; its position along the wall is reconstructed.
+    summary: A small side room decorated with the third division of the Book of Gates.
+  - id: kv17-gje
+    code: gJe
+    name: Gate Je
+    kind: gate
+    x: [-2.165, -1.435]
+    y: [88.17, 88.83]
+    floor: [-26, -26]
+    height: 1.74
+    measured: { length: 0.73, width: 0.66, height: 1.74, area: 0.48, source: tmp }
+    status: approximate
+    caveat: Its position along the wall is reconstructed.
+    summary: Seti I offering boxes of coloured cloth on the thickness.
+  - id: kv17-je
+    code: Je
     name: Side chamber of the Heavenly Cow
     kind: annex
-    x: [-13.5, -8.8]
-    y: [102, 108]
-    floor: [-27, -27]
-    height: 3
+    x: [-4.835, -2.165]
+    y: [86.965, 90.035]
+    floor: [-26, -26]
+    height: 1.89
     decorated: [n, s, w]
+    measured: { length: 2.67, width: 3.07, height: 1.89, area: 8.18, source: tmp, note: Off the right (north-west) wall of the pillared level. }
     status: approximate
-    summary: A side room inscribed with the Book of the Heavenly Cow, the myth of the sky goddess lifting the sun god away from rebellious humanity.
-    caveat: The position of this room relative to the crypt is simplified.
+    caveat: Size follows the survey; its position along the wall is reconstructed.
+    summary: A side room inscribed with the Book of the Heavenly Cow, the myth of the sky goddess lifting the sun god away from rebellious humanity. The cow on the rear wall has lost colour to squeezes.
     scenes:
       - id: cow
         wall: w
         title: The Book of the Heavenly Cow
-        text: The sky goddess in the form of a cow, supported by the god Shu, carries the sun god away from humankind.
-        status: approximate
-  - id: kv17-14
-    code: "14"
-    name: Tunnel (continues)
-    kind: tunnel
-    x: [-3.6, -2]
-    y: [110, 126]
-    floor: [-27, -33]
-    descends: y+
-    height: 2
-    status: uncertain
+        text: The sky goddess in the form of a cow carries the sun god away from humankind.
+  - id: kv17-gjb
+    code: gJb
+    name: Gate Jb
+    kind: gate
+    x: [6.945, 7.855]
+    y: [94.845, 95.855]
+    floor: [-28, -28]
+    height: 2.1
+    measured: { length: 0.91, width: 1.01, height: 2.1, area: 1, source: tmp }
+    status: approximate
+    caveat: Its position along the wall is reconstructed.
+    summary: Nekhbet and Wadjet as cobras on the inner thicknesses.
+  - id: kv17-jb
+    code: Jb
+    name: Two-pillared side chamber
+    kind: annex
+    x: [7.855, 15.915]
+    y: [91.395, 99.305]
+    floor: [-28, -28]
+    height: 3
+    pillars: [[11.885, 93.9], [11.885, 96.8]]
+    pillarSize: 0.99
+    decorated: [n, e, s, w]
+    decoratedPillars: true
+    measured: { length: 8.06, width: 7.91, height: 3.0, area: 63.67, source: tmp, note: Two pillars, average width 0.99 m; off the left wall of the sunken level. }
+    status: approximate
+    caveat: Size and pillar count follow the survey; its position, the pillar positions and the benches (not modelled) are reconstructed or omitted.
+    summary: A side chamber with two pillars and wide benches midway up three walls. Recesses below the benches show funerary objects such as animal-headed beds, chests and shrines; above them are the sixth to eighth hours of the Amduat.
+  - id: kv17-gjd
+    code: gJd
+    name: Gate Jd
+    kind: gate
+    x: [-2.335, -1.435]
+    y: [93.395, 94.205]
+    floor: [-28, -28]
+    height: 1.8
+    measured: { length: 0.9, width: 0.81, height: 1.8, area: 0.8, source: tmp }
+    status: approximate
+    caveat: Its position along the wall is reconstructed.
+    summary: Traces of anthropomorphised djed pillars on the thicknesses.
+  - id: kv17-jd
+    code: Jd
+    name: Side chamber
+    kind: annex
+    x: [-4.995, -2.335]
+    y: [92.19, 95.41]
+    floor: [-28, -28]
+    height: 2.03
+    measured: { length: 2.66, width: 3.22, height: 2.03, area: 8.55, source: tmp, note: Off the right wall of the sunken level. }
+    status: approximate
+    caveat: Size follows the survey; its position along the wall is reconstructed.
+    summary: A side room, now filled with relief fragments.
+  - id: kv17-gjc
+    code: gJc
+    name: Gate Jc
+    kind: gate
+    x: [5.455, 6.445]
+    y: [98.4, 100.94]
+    floor: [-28, -28]
+    height: 1.54
+    measured: { length: 2.54, width: 0.99, height: 1.54, area: 2.52, source: tmp, note: Rebuilt by Carter in brick with an arch. }
+    status: approximate
+    condition: damaged
+    conditionNote: Rebuilt by Carter in brick masonry, topped with an arch, after the rear wall collapsed over tunnel K.
+    caveat: At the left (south-east) end of the rear wall, as described; exact position reconstructed.
+    summary: An unusually thick passage at the left end of the rear wall.
+  - id: kv17-jc
+    code: Jc
+    name: Unfinished four-pillared chamber
+    kind: annex
+    x: [-6.2, 7]
+    y: [100.94, 106.26]
+    floor: [-28, -28]
+    height: 3.73
+    pillars: [[-4.3, 103.6], [-1, 103.6], [2.3, 103.6], [5.6, 103.6]]
+    pillarSize: 1.02
+    measured: { length: 5.32, width: 13.2, height: 3.73, area: 70.23, source: tmp, note: Four pillars in a row, average width 1.02 m. }
+    status: approximate
     condition: unfinished
-    conditionNote: Cut but never finished; the end was reached without finding a chamber.
-    caveat: Excavated 2007–2010 to about 174 m. Only the first 16 m are shown, and its course is not modelled from a survey; its purpose is unknown.
-    summary: A narrow tunnel opens from the crypt and descends deep into the rock. It was left unfinished, and no chamber has been found at its end.
+    conditionNote: Unfinished and undecorated; rock movement over tunnel K has damaged pillars 3 and 4.
+    caveat: Size and pillar count follow the survey; its sideways position and the pillar positions are reconstructed.
+    summary: An unfinished, undecorated chamber behind the burial chamber, with four pillars in a row.
+  - id: kv17-k
+    code: K
+    name: Tunnel K (continues)
+    kind: tunnel
+    x: [-0.8, 0.19]
+    y: [98.46, 114.46]
+    floor: [-28.4, -39.2]
+    descends: y+
+    height: 1.57
+    measured: { width: 0.99, height: 1.57, source: tmp, note: "Width and (irregular) height at the start; no length on the survey page. Re-excavated over 174 m, 2007–2010 (Hamed)." }
+    status: uncertain
+    caveat: Only the first 16 m are shown, sloping at the published 34°; the tunnel was re-excavated over 174 m between 2007 and 2010, but its course is not modelled from a survey. Its purpose is unknown.
+    summary: A passage reached through the floor at the rear of the burial chamber, with a divided stairway and a smooth central ramp. Belzoni found the sarcophagus lying across its mouth. Gates appear to have been placed at intervals along it.
