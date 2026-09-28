@@ -7,7 +7,8 @@
 #              FTP_PASSWORD  the FTP password from hPanel
 #   Variables: SITE_URL      e.g. https://your-domain.com (no trailing slash)
 #              FTP_SERVER_DIR  optional; folder of the site on the FTP server, default public_html/
-# Until the secrets exist, the workflow builds and skips the upload.
+# Until the secrets exist, the workflow builds and skips the upload. Either way the built
+# site can be downloaded from the run page (Artifacts → neokemetai-hostinger).
 name: Deploy to Hostinger
 
 on:
@@ -34,7 +35,14 @@ jobs:
       - name: Build for Hostinger
         run: npm run build:hostinger
         env:
-          SITE_URL: ${{ vars.SITE_URL }}
+          SITE_URL: ${{ vars.SITE_URL }} # optional; site.config.mjs is used when empty
+      - name: Save the upload-ready site as a downloadable artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: neokemetai-hostinger
+          path: dist/
+          include-hidden-files: true
+          retention-days: 30
       - name: Upload to Hostinger
         if: ${{ env.HAS_FTP == 'true' }}
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
