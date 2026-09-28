@@ -30,7 +30,7 @@ export const CONTACT_ENDPOINT = process.env.VERCEL ? '/api/contact' : '/api/cont
  * accepts analytics cookies in the consent banner, and the privacy policy
  * describes it automatically.
  */
-export const GA_MEASUREMENT_ID = '';
+export const GA_MEASUREMENT_ID = 'G-LBJNWGZEZT';
 
 /**
  * Google Search Console HTML-tag verification code: only the content value of
