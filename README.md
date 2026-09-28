@@ -58,7 +58,13 @@ Hostinger shared hosting serves static files and PHP but does not build the site
 2. Compress the *contents* of `dist/` (not the folder itself) into a zip, including the hidden `.htaccess`.
 3. hPanel → Files → File Manager → `public_html`: delete the old site files, upload the zip, choose **Extract**, then delete the zip.
 
-**Email.** Create a mailbox on the domain in hPanel → Emails, set `CONTACT_EMAIL` in `site.config.mjs`, rebuild and redeploy. Messages are sent from `no-reply@<domain>`; if they land in spam, enable SPF/DKIM for the domain in hPanel → Emails → DNS settings.
+**Email.** Create a mailbox on the domain in hPanel → Emails and set `CONTACT_EMAIL` in `site.config.mjs`. PHP `mail()` is unreliable on Hostinger, so the handler (`src/lib/contact-handler.php`) sends through the mailbox over SMTP when it finds a settings file **outside** `public_html`, in the folder that contains it (File Manager: go up one level from `public_html`). Create `neokemetai-smtp.php` there:
+
+```php
+<?php return ['host' => 'smtp.hostinger.com', 'port' => 465, 'user' => 'info@neokemetai.online', 'pass' => 'MAILBOX PASSWORD'];
+```
+
+The password stays on the server only: it is not in the repository, the build or the uploaded zip. Without the file the handler falls back to `mail()`. Failures are written to the PHP error log. If messages land in spam, enable SPF/DKIM in hPanel → Emails.
 
 **Vercel instead.** Vercel cannot upload to Hostinger, but you can host on Vercel and keep the domain at Hostinger: add the domain in Vercel, then set the DNS records Vercel shows in hPanel → Domains → DNS.
 
