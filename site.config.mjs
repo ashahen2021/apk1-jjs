@@ -24,6 +24,21 @@ export const CONTACT_EMAIL = 'info@neokemetai.online';
  */
 export const CONTACT_ENDPOINT = process.env.VERCEL ? '/api/contact' : '/api/contact.php';
 
+/**
+ * Google Analytics 4 measurement ID (looks like 'G-XXXXXXXXXX'). Leave empty to
+ * disable analytics. When set, Google Analytics loads only after a visitor
+ * accepts analytics cookies in the consent banner, and the privacy policy
+ * describes it automatically.
+ */
+export const GA_MEASUREMENT_ID = '';
+
+/**
+ * Google Search Console HTML-tag verification code: only the content value of
+ * <meta name="google-site-verification" content="...">. Not needed if the site
+ * is verified through a DNS TXT record (recommended).
+ */
+export const GOOGLE_SITE_VERIFICATION = '';
+
 /** Social profiles shown in the footer. Order here is display order. */
 export const SOCIAL = [
   { id: 'facebook', label: 'Facebook', url: 'https://www.facebook.com/neokemetai' },

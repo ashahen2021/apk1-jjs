@@ -1,0 +1,75 @@
+---
+/**
+ * Google Analytics 4 with a consent banner. Nothing is requested from Google
+ * until the visitor clicks "Allow"; the choice is remembered in localStorage
+ * ("nk-consent") and can be changed from the footer ("Cookie settings").
+ * Rendered only when GA_MEASUREMENT_ID is set in site.config.mjs.
+ */
+import { GA_MEASUREMENT_ID } from '@/lib/site';
+---
+
+{GA_MEASUREMENT_ID && (
+  <>
+    <div class="consent" id="consent" role="dialog" aria-live="polite" aria-labelledby="consent-text" hidden>
+      <p id="consent-text">
+        We would like to use Google Analytics cookies to learn which pages are useful. Nothing is sent to Google unless you
+        allow it. <a href="/privacy/#analytics">Privacy policy</a>
+      </p>
+      <div class="actions">
+        <button type="button" class="btn" data-consent="granted">Allow</button>
+        <button type="button" class="btn btn--ghost" data-consent="denied">Decline</button>
+      </div>
+    </div>
+    <script is:inline define:vars={{ id: GA_MEASUREMENT_ID }}>
+      (function () {
+        var KEY = 'nk-consent';
+        var loaded = false;
+        function read() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+        function save(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
+        function load() {
+          if (loaded) return;
+          loaded = true;
+          window.dataLayer = window.dataLayer || [];
+          window.gtag = function () { dataLayer.push(arguments); };
+          gtag('js', new Date());
+          gtag('config', id, { anonymize_ip: true });
+          var s = document.createElement('script');
+          s.async = true;
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(id);
+          document.head.appendChild(s);
+        }
+        function start() {
+          var box = document.getElementById('consent');
+          var choice = read();
+          if (choice === 'granted') load();
+          else if (choice !== 'denied') box.hidden = false;
+          box.addEventListener('click', function (e) {
+            var v = e.target.closest && e.target.closest('[data-consent]');
+            if (!v) return;
+            save(v.dataset.consent);
+            box.hidden = true;
+            if (v.dataset.consent === 'granted') load();
+            else if (loaded) location.reload(); // stop analytics that was running
+          });
+          document.querySelectorAll('[data-cookie-settings]').forEach(function (b) {
+            b.hidden = false;
+            b.addEventListener('click', function () { box.hidden = false; box.querySelector('button').focus(); });
+          });
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+        else start();
+      })();
+    </script>
+  </>
+)}
+
+<style>
+  .consent {
+    position: fixed; z-index: 50; left: 1rem; right: 1rem; bottom: 1rem; max-width: 34rem; margin-inline: auto;
+    display: grid; gap: 0.9rem; padding: 1rem 1.2rem; border: 1px solid var(--line-strong); border-radius: var(--radius);
+    background: var(--bg-raised); box-shadow: 0 1rem 3rem rgb(0 0 0 / 0.5);
+  }
+  .consent[hidden] { display: none; }
+  .consent p { margin: 0; font-size: var(--step--1); color: var(--text-muted); }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+</style>

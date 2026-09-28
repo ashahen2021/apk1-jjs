@@ -58,7 +58,7 @@ export const GLYPHS = {
 } as const;
 
 // Hand-edited settings shared with the contact-form function live in /site.config.mjs.
-export { SOCIAL, POLICY_LAST_UPDATED } from '../../site.config.mjs';
+export { SOCIAL, POLICY_LAST_UPDATED, GA_MEASUREMENT_ID, GOOGLE_SITE_VERIFICATION } from '../../site.config.mjs';
 
 /** Secondary links shown in the footer. */
 export const LEGAL_NAV = [

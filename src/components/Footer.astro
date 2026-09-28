@@ -40,6 +40,7 @@ const ICONS: Record<string, string> = {
       <p class="heading">NeoKemetAI</p>
       <ul class="links">
         {LEGAL_NAV.map(({ href, label }) => <li><a href={href}>{label}</a></li>)}
+        <li><button type="button" class="linklike" data-cookie-settings hidden>Cookie settings</button></li>
       </ul>
     </nav>
   </div>
@@ -64,6 +65,9 @@ const ICONS: Record<string, string> = {
   .links li { margin-bottom: 0.6rem; }
   .links a { color: var(--text-muted); text-decoration: none; }
   .links a:hover { color: var(--limestone); }
+  .linklike { font: inherit; color: var(--text-muted); background: none; border: 0; padding: 0; cursor: pointer; }
+  .linklike:hover { color: var(--limestone); }
+  .linklike[hidden] { display: none; }
   .social { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 1.2rem 0 1.4rem; }
   .social a {
     display: grid; place-items: center; width: 2.75rem; height: 2.75rem;

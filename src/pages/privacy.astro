@@ -2,8 +2,11 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHero from '@/components/PageHero.astro';
 import Breadcrumbs from '@/components/Breadcrumbs.astro';
-import { POLICY_LAST_UPDATED, SITE } from '@/lib/site';
+import { GA_MEASUREMENT_ID, POLICY_LAST_UPDATED, SITE } from '@/lib/site';
 
+// The host is known at build time: Vercel builds set VERCEL; other builds are for Hostinger.
+const HOST = process.env.VERCEL ? 'Vercel' : 'Hostinger';
+const MAIL = process.env.VERCEL ? 'an email delivery provider' : "the host's email service";
 const updated = new Date(`${POLICY_LAST_UPDATED}T00:00:00Z`).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 ---
 
@@ -26,24 +29,52 @@ const updated = new Date(`${POLICY_LAST_UPDATED}T00:00:00Z`).toLocaleDateString(
     <h2>Visiting the site</h2>
     <p>
       You can read every page without creating an account or giving us any personal information. The site is served as
-      static pages by our hosting provider, Vercel. Like any web server, its infrastructure receives technical information
+      static pages by our hosting provider, {HOST}. Like any web server, its infrastructure receives technical information
       needed to deliver pages and protect the service, such as your IP address, browser type, the page requested and the time
-      of the request. This information is handled by Vercel under its own privacy policy and is kept in short-lived server
+      of the request. This information is handled by {HOST} under its own privacy policy and is kept in short-lived server
       logs; we do not use it to identify visitors.
     </p>
 
-    <h2>Analytics</h2>
-    <p>
-      The site does not currently use any analytics, advertising or tracking service. If we add privacy-respecting analytics
-      in the future, we will update this policy before doing so.
-    </p>
+    <h2 id="analytics">Analytics</h2>
+    {GA_MEASUREMENT_ID ? (
+      <>
+        <p>
+          With your permission, we use Google Analytics 4 (Google LLC) to understand how the site is used: which pages are
+          visited, roughly where visitors come from (country or city level), the device and browser type, and how people
+          arrive (for example from a search engine or social media). We use this only to improve the site; we do not use it
+          to identify you, and we do not use Google's advertising features.
+        </p>
+        <p>
+          Google Analytics is not loaded until you choose "Allow" in the banner shown on your first visit. If you choose
+          "Decline", or make no choice, nothing is sent to Google Analytics. You can change your choice at any time with
+          "Cookie settings" at the bottom of every page. Google processes this information under
+          <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google's privacy policy</a>;
+          analytics data is kept for the retention period set in our Google Analytics account (14 months at most).
+        </p>
+      </>
+    ) : (
+      <p>
+        The site does not currently use any analytics, advertising or tracking service. If we add analytics in the future, we
+        will update this policy before doing so.
+      </p>
+    )}
 
     <h2>Cookies and similar technologies</h2>
-    <p>
-      {SITE.name} does not set cookies and does not use local storage to track you. Fonts are served from our own site, not
-      from a third-party font service. Third-party services described below may set their own cookies only when you choose to
-      use them.
-    </p>
+    {GA_MEASUREMENT_ID ? (
+      <p>
+        {SITE.name} itself sets no cookies. If you allow analytics, Google Analytics sets its own cookies (named
+        <code>_ga</code> and <code>_ga_*</code>) to recognise repeat visits. Your analytics choice is remembered in your
+        browser's local storage (<code>nk-consent</code>), not in a cookie. Fonts are served from our own site, not from a
+        third-party font service. Other third-party services described below may set their own cookies only when you choose to
+        use them.
+      </p>
+    ) : (
+      <p>
+        {SITE.name} does not set cookies and does not use local storage to track you. Fonts are served from our own site, not
+        from a third-party font service. Third-party services described below may set their own cookies only when you choose to
+        use them.
+      </p>
+    )}
 
     <h2>YouTube videos</h2>
     <p>
@@ -63,8 +94,7 @@ const updated = new Date(`${POLICY_LAST_UPDATED}T00:00:00Z`).toLocaleDateString(
     <h2>Contact form</h2>
     <p>
       When you use the <a href="/contact/">contact form</a>, we receive the name, email address, subject and message you
-      enter. The form is processed by a function on our hosting provider (Vercel) and delivered to our inbox by an email
-      delivery provider. We use this information only to read and reply to your message; we do not add you to a mailing list,
+      enter. The form is processed on our hosting provider ({HOST}) and delivered to our inbox through {MAIL}. We use this information only to read and reply to your message; we do not add you to a mailing list,
       sell it or share it for marketing. The form includes simple automatic spam checks that do not involve any third-party
       tracking.
     </p>
@@ -87,9 +117,10 @@ const updated = new Date(`${POLICY_LAST_UPDATED}T00:00:00Z`).toLocaleDateString(
     <h2>Third-party services</h2>
     <p>The services involved in running the site are:</p>
     <ul>
-      <li><strong>Vercel</strong>: hosting and the contact-form function.</li>
-      <li><strong>An email delivery provider</strong>: forwarding contact-form messages to our inbox.</li>
+      <li><strong>{HOST}</strong>: hosting, the contact form and our email.</li>
+      {HOST === 'Vercel' && <li><strong>An email delivery provider</strong>: forwarding contact-form messages to our inbox.</li>}
       <li><strong>YouTube (Google)</strong>: video preview images, and the player once you press play.</li>
+      {GA_MEASUREMENT_ID && <li><strong>Google Analytics (Google)</strong>: visitor statistics, only if you allow them.</li>}
     </ul>
     <p>Each processes information under its own privacy policy.</p>
 

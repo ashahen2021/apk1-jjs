@@ -76,6 +76,11 @@ Hand-edited settings live in one file, **`site.config.mjs`** at the repository r
 - `SOCIAL`: footer social profiles (`id`, `label`, `url`), shown in this order. The icon for each `id` is an inline SVG path in `src/components/Footer.astro` (`facebook`, `tiktok`, `instagram`, `pinterest`, `youtube`); to add a network, add an entry here and a matching path there.
 - `POLICY_LAST_UPDATED`: the "Last updated" date on `/privacy/` and `/disclaimer/`. Change it whenever either text changes.
 
+- `GA_MEASUREMENT_ID`: Google Analytics 4 ID (`G-…`). Empty disables analytics. When set, a consent banner appears; Google's script loads only after "Allow" (choice kept in `localStorage` as `nk-consent`, changeable via "Cookie settings" in the footer), and `/privacy/` switches to text describing Google Analytics.
+- `GOOGLE_SITE_VERIFICATION`: optional Search Console HTML-tag code. Prefer a Domain property verified with a DNS TXT record (hPanel → Domains → DNS), which needs no code change.
+
+After changing any of these, rebuild (`npm run build:hostinger`) and upload.
+
 Other constants (site name, YouTube channel, playlists, navigation) are in `src/lib/site.ts`.
 
 ## Contact form
