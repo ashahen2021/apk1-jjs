@@ -4,11 +4,11 @@ import sitemap from '@astrojs/sitemap';
 import { SITE_URL } from './site.config.mjs';
 
 // Canonical URLs, sitemap and Open Graph tags use this. Order of precedence:
-// 1. SITE_URL environment variable, then SITE_URL in site.config.mjs
-// 2. Vercel's production domain, provided automatically on Vercel builds
-// 3. localhost for local development
+// 1. SITE_URL environment variable
+// 2. on Vercel, Vercel's production domain; elsewhere (Hostinger) SITE_URL in site.config.mjs
+// 3. localhost
 const vercelDomain = process.env.VERCEL_PROJECT_PRODUCTION_URL;
-const site = process.env.SITE_URL || SITE_URL || (vercelDomain ? `https://${vercelDomain}` : 'http://localhost:4321');
+const site = process.env.SITE_URL || (vercelDomain ? `https://${vercelDomain}` : SITE_URL) || 'http://localhost:4321';
 
 export default defineConfig({
   site,

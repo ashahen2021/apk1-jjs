@@ -8,7 +8,7 @@
  * Vercel (e.g. 'https://neokemetai.com', no trailing slash). The SITE_URL
  * environment variable overrides it.
  */
-export const SITE_URL = '';
+export const SITE_URL = 'https://darkred-dunlin-796710.hostingersite.com'; // temporary Hostinger domain; replace with the final domain
 
 /**
  * Where contact-form messages are delivered. Change it here when the
