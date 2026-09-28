@@ -2,7 +2,7 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHero from '@/components/PageHero.astro';
 import Breadcrumbs from '@/components/Breadcrumbs.astro';
-import { CONTACT_EMAIL } from '../../site.config.mjs';
+import { CONTACT_EMAIL, CONTACT_ENDPOINT } from '../../site.config.mjs';
 import { SOCIAL } from '@/lib/site';
 
 // The address is not written into the HTML: it is shipped base64-encoded and only
@@ -31,7 +31,7 @@ const L = { name: 100, email: 200, subject: 150, message: 5000 }; // matches api
       </p>
     </div>
 
-    <form class="form" id="contact-form" action="/api/contact" method="post" novalidate>
+    <form class="form" id="contact-form" action={CONTACT_ENDPOINT} method="post" novalidate>
       <div class="status" id="form-status" role="status" aria-live="polite" tabindex="-1"></div>
 
       <div class="field">

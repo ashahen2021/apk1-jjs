@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.1.0",
   "private": true,
-  "description": "NeoKemetAI — a cinematic interactive educational platform about Ancient Egypt.",
+  "description": "NeoKemetAI \u2014 a cinematic interactive educational platform about Ancient Egypt.",
   "scripts": {
     "dev": "astro dev",
     "build": "astro check && astro build",
@@ -11,7 +11,8 @@
     "check": "astro check",
     "astro": "astro",
     "media:render": "node scripts/render/render.mjs",
-    "media:map": "node scripts/build-map-data.mjs"
+    "media:map": "node scripts/build-map-data.mjs",
+    "build:hostinger": "node scripts/build-hostinger.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.10",

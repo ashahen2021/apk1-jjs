@@ -44,6 +44,24 @@ Never commit keys: set them in **Project → Settings → Environment Variables*
 
 `dist/` also works on any static host, but the contact form then needs an equivalent function or a form service (see below).
 
+## Deploying to Hostinger
+
+Hostinger shared hosting serves static files and PHP but does not build the site, so `dist/` is built first (on your computer or by GitHub Actions) and then uploaded. The contact form uses a PHP handler (`/api/contact.php`, generated from `src/pages/api/contact.php.ts`) that sends with PHP `mail()`; no password is stored. `public/.htaccess` adds HTTPS, the custom 404 page, redirects, caching and security headers.
+
+**Once:** set `SITE_URL` in `site.config.mjs` to the production address (e.g. `https://neokemetai.com`). `npm run build:hostinger` refuses to build without it.
+
+**Option A: automatic from GitHub (recommended).** `.github/workflows/deploy-hostinger.yml` builds and uploads over FTP on every push to `main` or `claude/neokemetai-platform-build-dyfuu8`, or on demand from the Actions tab. In GitHub → Settings → Secrets and variables → Actions add the secrets `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD` (from hPanel → Files → FTP Accounts) and the variable `SITE_URL`; add `FTP_SERVER_DIR` if the site folder is not `public_html/` relative to the FTP login.
+
+**Option B: by hand.**
+
+1. `npm ci`, then `npm run build:hostinger` (or `SITE_URL=https://your-domain npm run build:hostinger`).
+2. Compress the *contents* of `dist/` (not the folder itself) into a zip, including the hidden `.htaccess`.
+3. hPanel → Files → File Manager → `public_html`: delete the old site files, upload the zip, choose **Extract**, then delete the zip.
+
+**Email.** Create a mailbox on the domain in hPanel → Emails, set `CONTACT_EMAIL` in `site.config.mjs`, rebuild and redeploy. Messages are sent from `no-reply@<domain>`; if they land in spam, enable SPF/DKIM for the domain in hPanel → Emails → DNS settings.
+
+**Vercel instead.** Vercel cannot upload to Hostinger, but you can host on Vercel and keep the domain at Hostinger: add the domain in Vercel, then set the DNS records Vercel shows in hPanel → Domains → DNS.
+
 ## Site settings: contact email and social links
 
 Hand-edited settings live in one file, **`site.config.mjs`** at the repository root, which is read by both the site and the contact function:

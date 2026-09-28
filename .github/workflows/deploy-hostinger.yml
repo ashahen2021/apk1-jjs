@@ -1,0 +1,46 @@
+# Builds the site and uploads dist/ to Hostinger over FTP.
+# Runs on every push to the branches below, or by hand (Actions → Deploy to Hostinger → Run workflow).
+#
+# One-time setup in GitHub → Settings → Secrets and variables → Actions:
+#   Secrets:   FTP_SERVER    e.g. ftp.your-domain.com or the IP shown in hPanel → Files → FTP Accounts
+#              FTP_USERNAME  the FTP user from hPanel
+#              FTP_PASSWORD  the FTP password from hPanel
+#   Variables: SITE_URL      e.g. https://your-domain.com (no trailing slash)
+#              FTP_SERVER_DIR  optional; folder of the site on the FTP server, default public_html/
+# Until the secrets exist, the workflow builds and skips the upload.
+name: Deploy to Hostinger
+
+on:
+  push:
+    branches: [main, claude/neokemetai-platform-build-dyfuu8]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-hostinger
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      HAS_FTP: ${{ secrets.FTP_SERVER != '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Build for Hostinger
+        run: npm run build:hostinger
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+      - name: Upload to Hostinger
+        if: ${{ env.HAS_FTP == 'true' }}
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/
+          server-dir: ${{ vars.FTP_SERVER_DIR || 'public_html/' }}
