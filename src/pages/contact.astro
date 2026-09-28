@@ -1,0 +1,188 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import { CONTACT_EMAIL } from '../../site.config.mjs';
+import { SOCIAL } from '@/lib/site';
+
+// The address is not written into the HTML: it is shipped base64-encoded and only
+// decoded when a visitor asks for it, which keeps it away from simple scrapers.
+const encoded = btoa(CONTACT_EMAIL);
+const L = { name: 100, email: 200, subject: 150, message: 5000 }; // matches api/contact.js
+---
+
+<BaseLayout
+  title="Contact"
+  description="Contact NeoKemetAI with questions, corrections, source suggestions or collaboration ideas about our ancient Egypt pages and films."
+>
+  <PageHero kicker="Contact" title="Get in touch" glyph="𓂋">
+    <Breadcrumbs slot="above" items={[{ label: 'Contact', href: '/contact/' }]} />
+  </PageHero>
+
+  <div class="container section wrap">
+    <div class="intro prose">
+      <p>
+        Questions about a pharaoh, monument or tomb, a correction to one of our pages, a source we should read, or an idea
+        for a film: we read every message. Corrections are especially welcome; please say which page you mean and, if you
+        can, the source that supports the change.
+      </p>
+      <p class="small">
+        We use what you send only to reply to you. See the <a href="/privacy/">privacy policy</a>.
+      </p>
+    </div>
+
+    <form class="form" id="contact-form" action="/api/contact" method="post" novalidate>
+      <div class="status" id="form-status" role="status" aria-live="polite" tabindex="-1"></div>
+
+      <div class="field">
+        <label for="cf-name">Name</label>
+        <input id="cf-name" name="name" type="text" autocomplete="name" required maxlength={L.name} aria-describedby="cf-name-err" />
+        <p class="err" id="cf-name-err"></p>
+      </div>
+      <div class="field">
+        <label for="cf-email">Email</label>
+        <input id="cf-email" name="email" type="email" autocomplete="email" required maxlength={L.email} aria-describedby="cf-email-err" />
+        <p class="err" id="cf-email-err"></p>
+      </div>
+      <div class="field">
+        <label for="cf-subject">Subject</label>
+        <input id="cf-subject" name="subject" type="text" required maxlength={L.subject} aria-describedby="cf-subject-err" />
+        <p class="err" id="cf-subject-err"></p>
+      </div>
+      <div class="field">
+        <label for="cf-message">Message</label>
+        <textarea id="cf-message" name="message" rows="7" required minlength="10" maxlength={L.message} aria-describedby="cf-message-err"></textarea>
+        <p class="err" id="cf-message-err"></p>
+      </div>
+
+      <!-- Spam traps: a field people never see, and the time the form was opened. -->
+      <div class="hp" aria-hidden="true">
+        <label for="cf-website">Leave this field empty</label>
+        <input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+      <input type="hidden" name="ts" value="0" />
+
+      <button class="btn" type="submit">Send message</button>
+    </form>
+
+    <aside class="alt">
+      <h2>Other ways to reach us</h2>
+      <p>Prefer email? <button type="button" class="reveal" data-e={encoded}>Show our email address</button></p>
+      <p>Or find NeoKemetAI on {SOCIAL.map((s, i) => <>{i > 0 && (i === SOCIAL.length - 1 ? ' and ' : ', ')}<a href={s.url} target="_blank" rel="noopener noreferrer">{s.label}</a></>)}.</p>
+    </aside>
+  </div>
+</BaseLayout>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('#contact-form')!;
+  const status = document.querySelector<HTMLElement>('#form-status')!;
+  const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+  (form.elements.namedItem('ts') as HTMLInputElement).value = String(Date.now());
+
+  const MESSAGES: Record<string, [string, string]> = {
+    sent: ['ok', 'Thank you. Your message has been sent, and we will reply as soon as we can.'],
+    invalid: ['error', 'Please correct the highlighted fields and try again.'],
+    not_configured: ['error', 'Sorry, the contact form is not accepting messages at the moment. Please try again later, or use the email address below.'],
+    delivery_failed: ['error', 'Sorry, your message could not be sent. Please try again in a few minutes, or use the email address below.'],
+    network: ['error', 'Your message could not be sent: check your connection and try again.'],
+  };
+  function show(key: string) {
+    const [kind, text] = MESSAGES[key] ?? MESSAGES.delivery_failed;
+    status.className = `status status--${kind}`;
+    status.textContent = text;
+    status.focus();
+  }
+  // Result of a submission made without JavaScript (the function redirects back here).
+  const initial = new URLSearchParams(location.search).get('status');
+  if (initial) show(initial);
+
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  function check(el: HTMLInputElement | HTMLTextAreaElement): string {
+    const v = el.value.trim();
+    if (!v) return `Please enter ${el.name === 'email' ? 'your email address' : el.name === 'name' ? 'your name' : `a ${el.name}`}.`;
+    if (el.name === 'email' && !EMAIL_RE.test(v)) return 'Please enter a valid email address.';
+    if (el.name === 'message' && v.length < 10) return 'Please write a message of at least 10 characters.';
+    return '';
+  }
+  function setError(name: string, msg: string) {
+    const el = form.elements.namedItem(name) as HTMLInputElement;
+    const err = document.getElementById(`cf-${name}-err`)!;
+    err.textContent = msg;
+    el.setAttribute('aria-invalid', msg ? 'true' : 'false');
+  }
+  const fields = ['name', 'email', 'subject', 'message'];
+  fields.forEach((n) => (form.elements.namedItem(n) as HTMLInputElement).addEventListener('blur', (e) => {
+    const el = e.target as HTMLInputElement;
+    if (el.value) setError(n, check(el));
+  }));
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    let first: HTMLElement | null = null;
+    for (const n of fields) {
+      const el = form.elements.namedItem(n) as HTMLInputElement;
+      const msg = check(el);
+      setError(n, msg);
+      if (msg && !first) first = el;
+    }
+    if (first) { show('invalid'); first.focus(); return; }
+
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(Object.fromEntries(new FormData(form))),
+      });
+      const out = await res.json().catch(() => ({ ok: false, error: 'delivery_failed' }));
+      if (out.ok) { form.reset(); show('sent'); }
+      else {
+        Object.entries<string>(out.errors ?? {}).forEach(([n, m]) => setError(n, m));
+        show(out.error ?? 'delivery_failed');
+      }
+    } catch {
+      show('network');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Send message';
+    }
+  });
+
+  document.querySelectorAll<HTMLButtonElement>('.reveal').forEach((b) => b.addEventListener('click', () => {
+    const addr = atob(b.dataset.e!);
+    const a = document.createElement('a');
+    a.href = `mailto:${addr}`;
+    a.textContent = addr;
+    b.replaceWith(a);
+    a.focus();
+  }));
+</script>
+
+<style>
+  .wrap { display: grid; gap: 2.5rem; grid-template-columns: 1fr; }
+  @media (min-width: 56rem) { .wrap { grid-template-columns: 1fr 1.3fr; align-items: start; } .alt { grid-column: 1; } .form { grid-row: span 2; } }
+  .small { font-size: var(--step--1); color: var(--text-faint); }
+  .form { display: grid; gap: 1.1rem; padding: clamp(1.2rem, 1rem + 1vw, 2rem); border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--bg-raised); min-width: 0; }
+  .field { display: grid; gap: 0.35rem; }
+  label { font-weight: 600; color: var(--limestone); font-size: 0.95rem; }
+  input, textarea {
+    width: 100%; box-sizing: border-box; font: inherit; color: var(--text); background: rgb(0 0 0 / 0.3);
+    border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 0.7rem 0.85rem;
+  }
+  textarea { resize: vertical; min-height: 9rem; }
+  input:focus, textarea:focus { outline: 2px solid var(--accent-bright); outline-offset: 1px; border-color: var(--gold); }
+  [aria-invalid='true'] { border-color: #d98a7a; }
+  .err { margin: 0; min-height: 1.1em; font-size: 0.85rem; color: #f0a494; }
+  .err:empty { min-height: 0; }
+  .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+  .status:empty { display: none; }
+  .status { padding: 0.8rem 1rem; border-radius: var(--radius); border: 1px solid; }
+  .status--ok { border-color: #7fbf8a; color: #bfe3c4; background: rgb(127 191 138 / 0.08); }
+  .status--error { border-color: #d98a7a; color: #f0c0b5; background: rgb(217 138 122 / 0.08); }
+  .btn { justify-self: start; }
+  .btn:disabled { opacity: 0.6; cursor: wait; }
+  .alt h2 { font-size: var(--step-1); margin-top: 0; }
+  .alt p { color: var(--text-muted); }
+  .reveal { font: inherit; color: var(--accent-bright); background: none; border: 0; padding: 0; text-decoration: underline; cursor: pointer; }
+</style>

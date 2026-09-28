@@ -1,0 +1,123 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import { POLICY_LAST_UPDATED, SITE } from '@/lib/site';
+
+const updated = new Date(`${POLICY_LAST_UPDATED}T00:00:00Z`).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+---
+
+<BaseLayout
+  title="Privacy Policy"
+  description="How NeoKemetAI handles information: what is collected when you visit, contact-form messages, YouTube embeds, cookies and third-party links."
+>
+  <PageHero kicker="Privacy" title="Privacy policy" glyph="𓂀">
+    <Breadcrumbs slot="above" items={[{ label: 'Privacy', href: '/privacy/' }]} />
+  </PageHero>
+
+  <div class="container section prose policy">
+    <div class="updated">Last updated: <time datetime={POLICY_LAST_UPDATED}>{updated}</time></div>
+
+    <p>
+      {SITE.name} is an educational website about ancient Egypt. We aim to collect as little information about visitors as
+      possible. This policy explains what information is involved when you use the site, and why.
+    </p>
+
+    <h2>Visiting the site</h2>
+    <p>
+      You can read every page without creating an account or giving us any personal information. The site is served as
+      static pages by our hosting provider, Vercel. Like any web server, its infrastructure receives technical information
+      needed to deliver pages and protect the service, such as your IP address, browser type, the page requested and the time
+      of the request. This information is handled by Vercel under its own privacy policy and is kept in short-lived server
+      logs; we do not use it to identify visitors.
+    </p>
+
+    <h2>Analytics</h2>
+    <p>
+      The site does not currently use any analytics, advertising or tracking service. If we add privacy-respecting analytics
+      in the future, we will update this policy before doing so.
+    </p>
+
+    <h2>Cookies and similar technologies</h2>
+    <p>
+      {SITE.name} does not set cookies and does not use local storage to track you. Fonts are served from our own site, not
+      from a third-party font service. Third-party services described below may set their own cookies only when you choose to
+      use them.
+    </p>
+
+    <h2>YouTube videos</h2>
+    <p>
+      Pages that feature a NeoKemet film show a preview image loaded from YouTube's image servers (<code>i.ytimg.com</code>),
+      which means YouTube receives the standard technical information of that image request. The video player itself is not
+      loaded until you click play. It then loads from <code>youtube-nocookie.com</code>, YouTube's privacy-enhanced mode, and
+      from that point YouTube (Google) may collect information and set cookies under
+      <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google's privacy policy</a>.
+    </p>
+
+    <h2>Interactive 3D models</h2>
+    <p>
+      3D models and their viewer are loaded from this site only when you choose to open them. No third-party service is
+      involved.
+    </p>
+
+    <h2>Contact form</h2>
+    <p>
+      When you use the <a href="/contact/">contact form</a>, we receive the name, email address, subject and message you
+      enter. The form is processed by a function on our hosting provider (Vercel) and delivered to our inbox by an email
+      delivery provider. We use this information only to read and reply to your message; we do not add you to a mailing list,
+      sell it or share it for marketing. The form includes simple automatic spam checks that do not involve any third-party
+      tracking.
+    </p>
+
+    <h2>How long we keep information</h2>
+    <p>
+      Contact messages are kept in our email for as long as needed to deal with your enquiry and for a reasonable period
+      afterwards for reference, then deleted. You can ask us to delete your message at any time. Server logs are kept by our
+      hosting provider for a limited period according to its own policy.
+    </p>
+
+    <h2>Links to other websites and social media</h2>
+    <p>
+      Our pages link to museums, archives, academic publications and reference works, and our footer links to NeoKemetAI
+      profiles on YouTube, Facebook, TikTok, Instagram and Pinterest. Those links open the other site, which has its own
+      privacy practices; we are not responsible for them. Following a social media link does not share any information from
+      {SITE.name} with that platform beyond what your browser normally sends when opening a page.
+    </p>
+
+    <h2>Third-party services</h2>
+    <p>The services involved in running the site are:</p>
+    <ul>
+      <li><strong>Vercel</strong>: hosting and the contact-form function.</li>
+      <li><strong>An email delivery provider</strong>: forwarding contact-form messages to our inbox.</li>
+      <li><strong>YouTube (Google)</strong>: video preview images, and the player once you press play.</li>
+    </ul>
+    <p>Each processes information under its own privacy policy.</p>
+
+    <h2>Children</h2>
+    <p>
+      {SITE.name} is suitable for learners of all ages but does not knowingly collect personal information from children.
+      Children should ask a parent, guardian or teacher before sending us a message.
+    </p>
+
+    <h2>Your rights</h2>
+    <p>
+      Depending on where you live, you may have the right to ask what personal information we hold about you, to correct it
+      or to have it deleted. Because we hold very little, the only personal information we are likely to have is a message
+      you sent us. Contact us and we will help.
+    </p>
+
+    <h2>Changes to this policy</h2>
+    <p>
+      We may update this policy when the site changes, for example if we add a new service. The date at the top of the page
+      shows when it was last revised.
+    </p>
+
+    <h2>Questions</h2>
+    <p>For any privacy question or request, please use the <a href="/contact/">contact page</a>.</p>
+  </div>
+</BaseLayout>
+
+<style>
+  .updated { color: var(--text-faint); font-size: var(--step--1); margin-bottom: 1.2rem; }
+  .policy h2 { margin-top: 2.2rem; }
+</style>

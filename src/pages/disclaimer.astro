@@ -1,0 +1,63 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import { POLICY_LAST_UPDATED, SITE } from '@/lib/site';
+
+const updated = new Date(`${POLICY_LAST_UPDATED}T00:00:00Z`).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+---
+
+<BaseLayout
+  title="Content Accuracy and Disclaimer"
+  description="How NeoKemetAI sources its information about ancient Egypt, why interpretations change, and how to read our reconstructions, diagrams and 3D models."
+>
+  <PageHero kicker="Disclaimer" title="Content accuracy" glyph="𓆄">
+    <Breadcrumbs slot="above" items={[{ label: 'Content accuracy', href: '/disclaimer/' }]} />
+  </PageHero>
+
+  <div class="container section prose policy">
+    <div class="updated">Last updated: <time datetime={POLICY_LAST_UPDATED}>{updated}</time></div>
+
+    <p>
+      {SITE.name} is an educational and informational website about ancient Egypt. We aim to base every page on reliable
+      archaeological and historical sources, which are listed on the <a href="/about/">about page</a> and, on our most
+      detailed pages, next to the information they support.
+    </p>
+
+    <h2>Knowledge of the past changes</h2>
+    <p>
+      Egyptology is an active field. Chronology, the attribution of monuments and objects, the translation of texts and the
+      interpretation of sites can all change as excavations, surveys and scientific studies produce new evidence. Dates before
+      664 BCE are approximate and differ between published chronologies. Where specialists disagree, we try to say so and to
+      describe the main positions rather than present one as settled.
+    </p>
+
+    <h2>Reconstructions and visualisations</h2>
+    <p>
+      Many images, diagrams, 3D models and films on this site are reconstructions. They are built from published
+      measurements and descriptions, but they also involve assumptions: about lost parts, colours, surroundings and details
+      that no source records. Where our pages mark evidence levels, "documented" or "surveyed" elements follow published data,
+      while "approximate", "reconstructed", "interpretation" and "speculative" elements are our best reading of incomplete
+      evidence. Visual reconstructions in NeoKemet films are AI-assisted interpretations, not photographs.
+    </p>
+
+    <h2>Errors and corrections</h2>
+    <p>
+      We check our information carefully, but errors, omissions or outdated details can still occur, and we cannot guarantee
+      that every page is complete or free of error. If you spot a mistake, please tell us through the
+      <a href="/contact/">contact page</a>, ideally with the source that supports the correction.
+    </p>
+
+    <h2>Using this site for research</h2>
+    <p>
+      {SITE.name} is a starting point, not a primary source. For academic work, publication or any decision that depends on
+      historical accuracy, please consult the primary sources, museum records, excavation reports and peer-reviewed
+      archaeological literature that our pages cite.
+    </p>
+  </div>
+</BaseLayout>
+
+<style>
+  .updated { color: var(--text-faint); font-size: var(--step--1); margin-bottom: 1.2rem; }
+  .policy h2 { margin-top: 2.2rem; }
+</style>

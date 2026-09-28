@@ -15,17 +15,57 @@ npm run preview    # serve the production build
 
 ## Deploying to Vercel
 
-The project is a static Astro site and is configured for Vercel in `vercel.json` (no adapter or server needed).
+The site is static Astro output plus one serverless function (`api/contact.js`, the contact form). Both are configured in `vercel.json`; no adapter is needed.
 
 1. In Vercel, choose **Add New → Project** and import this GitHub repository.
-2. Keep the detected settings: framework **Astro**, install `npm ci`, build `npm run build`, output `dist`. Node 22 is used (`engines` in `package.json`).
-3. Deploy. Every push to the production branch redeploys, and every other branch gets its own preview URL.
+2. Keep the detected settings: framework **Astro**, install `npm ci`, build `npm run build` (type-checks, then builds), output `dist`. Node 22 is used (`engines` in `package.json`).
+3. **Production branch**: the finished work is on `claude/neokemetai-platform-build-dyfuu8`. Either merge it into the repository's default branch (recommended; Vercel uses the default branch for production), or set **Project → Settings → Git → Production Branch** to that branch name.
+4. Add the environment variables below, then deploy. Every push to the production branch redeploys; other branches get preview URLs.
 
-Canonical URLs, the sitemap and Open Graph tags use the Vercel production domain automatically (`VERCEL_PROJECT_PRODUCTION_URL`). When you attach a custom domain, add an environment variable `SITE_URL=https://your-domain` in **Project → Settings → Environment Variables** and redeploy.
+From the command line: `npx vercel` (preview) and `npx vercel --prod` (production).
 
-Or from the command line: `npx vercel` (preview) and `npx vercel --prod` (production).
+### Environment variables
 
-`dist/` is plain static output, so any static host (Netlify, Cloudflare Pages, GitHub Pages) also works; set `SITE_URL` there.
+| Variable | Required | Purpose |
+|---|---|---|
+| `SITE_URL` | once a custom domain is attached | Canonical URLs, sitemap, Open Graph, e.g. `https://neokemetai.com`. Without it, Vercel's production domain (`VERCEL_PROJECT_PRODUCTION_URL`) is used. |
+| `RESEND_API_KEY` | to deliver contact-form mail | API key from [Resend](https://resend.com). Without it the form shows a friendly "not accepting messages" state. |
+| `CONTACT_FROM` | with a verified domain | Sender, e.g. `NeoKemetAI <contact@neokemetai.com>`. The default test sender only delivers to the Resend account owner's address. |
+| `CONTACT_EMAIL` | optional | Overrides `CONTACT_EMAIL` in `site.config.mjs` without a code change. |
+
+Never commit keys: set them in **Project → Settings → Environment Variables** (`.env*` files are git-ignored).
+
+### Production checklist
+
+1. `npm ci && npm run build` passes locally (0 errors).
+2. Production branch and environment variables are set as above; redeploy after changing variables.
+3. After deploying: open `/`, `/contact/` (send a test message), `/privacy/`, a missing URL (custom 404), `/sitemap-index.xml` and `/robots.txt`, and check that canonical URLs use the production domain.
+4. Submit `https://<domain>/sitemap-index.xml` in Google Search Console.
+
+`dist/` also works on any static host, but the contact form then needs an equivalent function or a form service (see below).
+
+## Site settings: contact email and social links
+
+Hand-edited settings live in one file, **`site.config.mjs`** at the repository root, which is read by both the site and the contact function:
+
+- `CONTACT_EMAIL`: the inbox that receives contact-form messages. Change it once when the domain address exists (or set the `CONTACT_EMAIL` variable in Vercel). It is not printed in page HTML; the contact page only reveals it, base64-encoded, when a visitor clicks "Show our email address".
+- `SOCIAL`: footer social profiles (`id`, `label`, `url`), shown in this order. The icon for each `id` is an inline SVG path in `src/components/Footer.astro` (`facebook`, `tiktok`, `instagram`, `pinterest`, `youtube`); to add a network, add an entry here and a matching path there.
+- `POLICY_LAST_UPDATED`: the "Last updated" date on `/privacy/` and `/disclaimer/`. Change it whenever either text changes.
+
+Other constants (site name, YouTube channel, playlists, navigation) are in `src/lib/site.ts`.
+
+## Contact form
+
+`/contact/` (`src/pages/contact.astro`) posts to `/api/contact` (`api/contact.js`, a Vercel Function):
+
+- Validation on both sides (required fields, email format, length limits); accessible labels, inline error messages and a live status region for success and failure.
+- Spam resistance without third parties: a hidden honeypot field and a minimum time-to-submit. Suspected spam gets a silent "success".
+- Works without JavaScript: the function then redirects back to `/contact/?status=…`.
+- Delivery via Resend's HTTP API when `RESEND_API_KEY` is set; otherwise it answers `503 not_configured` and the page says so.
+
+**Connecting the domain email.** Create a Resend account, verify the domain (add the DNS records it shows), create an API key, and set `RESEND_API_KEY`, `CONTACT_FROM=NeoKemetAI <contact@your-domain>` and, if different from `site.config.mjs`, `CONTACT_EMAIL`. Redeploy and send a test message.
+
+**Another provider.** Only the `send()` function in `api/contact.js` is provider-specific; replace its `fetch` with the provider's API (Postmark, SendGrid, Mailgun) or with a POST to a form endpoint (Formspree, Basin). Keep credentials in environment variables.
 
 ## Architecture
 
@@ -61,6 +101,10 @@ src/
 | `/monuments/`, `/tombs/`, `/artifacts/` + `[slug]` | Sites and objects |
 | `/videos/`, `/videos/[slug]/` | NeoKemet films grouped by playlist |
 | `/about/` | Chronology, sources, AI disclosure |
+| `/contact/` | Contact form (see Contact form) |
+| `/privacy/`, `/disclaimer/` | Privacy policy; content accuracy and educational disclaimer |
+| `/monuments/giza-plateau/`, `/monuments/great-pyramid/`, `/monuments/great-sphinx/` | Giza cluster (see below) |
+| `/tombs/kv62-tutankhamun/`, `kv17-seti-i`, `kv43-thutmose-iv`, `qv66-nefertari` | Showcase tombs with plans and 3D |
 
 ### Content relationships
 
@@ -73,6 +117,15 @@ Entries reference each other by id, and the schemas validate every reference at 
 Reverse links (a pharaoh's monuments, tombs, artifacts and videos) are computed in `src/lib/content.ts`, so you only ever write a relationship once.
 
 ## Adding content
+
+Quick guide:
+
+- **Text**: edit the Markdown file for the entry in `src/content/<collection>/`; the front matter is validated by `src/content.config.ts`, so `npm run build` reports any mistake.
+- **Images**: put files in `src/assets/media/<collection>/<slug>/` and reference them from the entry's `media` block (below). Always write `alt`, and set `kind` (`photo`, `reconstruction`, `diagram`, …) plus `credit`, `license` and `sourceUrl` for anything not made by us.
+- **YouTube videos**: add a file in `src/content/videos/` (below) and link it to pharaohs, monuments or tombs with their ids.
+- **3D models**: put a `.glb` in `public/models/` and a poster image in `src/assets/media/…`, then add `media.model` (below). Keep models small (under ~2 MB) and uncompressed or meshopt-free so no external decoder is needed.
+- **Tomb data**: see *Tombs: plans, 3D models and evidence labels*.
+
 
 **A pharaoh** — create `src/content/pharaohs/<slug>.md`:
 
@@ -140,7 +193,7 @@ Videos accept an optional local `thumbnail`; otherwise YouTube's thumbnail is us
 
 **The map.** Coastline and Nile come from [Natural Earth](https://www.naturalearthdata.com) (public domain), clipped and simplified by `npm run media:map` into `src/data/geo/egypt.json`. Ancient cities are listed in `src/data/places.ts`; monuments and tombs appear automatically from their `coordinates`.
 
-**Reconstructions.** The current showcase images, the Step Pyramid model and the pyramidion turntable are procedural three.js reconstructions built from published dimensions (`scripts/render/`). Re-render them with `CHROMIUM_PATH=/path/to/chrome npm run media:render`; replace or add to them with photographs or scans whenever licensed material is available.
+**Reconstructions.** The current showcase images, the Step Pyramid model and the pyramidion turntable are procedural three.js reconstructions built from published dimensions (`scripts/render/`). Re-render them with `CHROMIUM_PATH=/path/to/chrome npm run media:render` (or pass job names, e.g. `node scripts/render/render.mjs giza`); replace or add to them with photographs or scans whenever licensed material is available.
 
 ## Tombs: plans, 3D models and evidence labels
 
@@ -251,16 +304,19 @@ The Giza Plateau hub (`/monuments/giza-plateau/`), the Great Pyramid (`/monument
 - **Structure data** — `src/data/structures/great-pyramid.yaml` (collection `structures`): every passage and chamber in metres from the centre of the base (x east, y up, z south), from Petrie's survey (§ 64), with `status` (documented / approximate / uncertain), `measured` figures and a source key. The 3D model (`scripts/render/pyramid.js`), the to-scale section (`giza/PyramidSection`), the hotspots and the list of spaces are all generated from it.
 - **Rendering** — `node scripts/render/render.mjs giza` writes `public/models/great-pyramid.glb`, `public/models/giza-plateau.glb`, one poster per view mode, the plateau hero and the Sphinx massing render. View modes are defined twice and must match: `MODES` in `scripts/render/pyramid-scenes.js` and `PYRAMID_MODES` in `src/lib/structures.ts` (material names in `MAT`).
 - **Viewer** — `media/GizaModel` switches modes by showing and hiding named materials; the same buttons switch the pre-rendered posters before 3D loads or when WebGL is missing.
-- **Evidence levels** — text content lives in `src/lib/giza.ts`: construction theories, "what the evidence shows", "what remains debated", Sphinx positions and the reference list. Every claim is tagged `established`, `plausible`, `debated` or `speculative` and cites entries in `REFS`; pages print a numbered reference list.
+- **Evidence levels** — text content lives in `src/lib/giza.ts`: construction theories, "what the evidence shows", "what remains debated", Sphinx positions and the reference list. Every claim is tagged `established`, `plausible`, `debated` or `speculative` and cites entries in `REFS`; pages print a reference list grouped by how each source was used (read directly, reference work consulted, standard reference not consulted).
 - **Diagrams** — inline SVG components (plateau plan, pyramid complex, section, ramp comparison, wet sand, alignment, construction sequence, Sphinx elevation, timeline). Keep them labelled as schematic where they are, and never present an interpretation as evidence.
 
 ## SEO
 
 - Per-page title, description, canonical URL, Open Graph and Twitter cards (`components/Seo.astro`)
 - JSON-LD: `WebSite`, `BreadcrumbList`, `CollectionPage`/`ItemList`, `Person` (pharaohs), `LandmarksOrHistoricalBuildings` (monuments, tombs), `VisualArtwork` (artifacts), `VideoObject` (published videos)
-- `sitemap-index.xml` and `robots.txt` generated at build
+- `sitemap-index.xml` and `robots.txt` generated at build; the custom `404.html` is `noindex`
+- Contact, privacy and disclaimer pages carry only the site-wide `WebSite` JSON-LD
 - Crawlable HTML everywhere: the timeline bars are real links and the full dynasty list is always rendered
 
 ## Design
 
 Dark "night in the tomb" identity using the NeoKemet pigment palette — limestone `#D8CBA8`, lapis `#1F4E8C`, gold `#C8952B`, faience `#2E8B84`, carnelian `#A83A2C`, basalt `#14120E` — with Cinzel, Inter and Noto Sans Egyptian Hieroglyphs (self-hosted). All motion respects `prefers-reduced-motion`.
+
+Unfinished ideas and planned work are listed in [FUTURE_WORK.md](FUTURE_WORK.md).

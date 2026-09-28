@@ -1,6 +1,15 @@
 ---
-import { NAV, SITE, YOUTUBE } from '@/lib/site';
+import { LEGAL_NAV, NAV, SITE, SOCIAL, YOUTUBE } from '@/lib/site';
 const year = new Date().getFullYear();
+
+// Simple-Icons-style 24×24 paths, inlined so the footer needs no icon library.
+const ICONS: Record<string, string> = {
+  facebook: 'M9.1 23.7v-8H6.6V12h2.5v-1.6c0-4.1 1.9-6 5.9-6 .8 0 2.1.2 2.6.3v3.3c-.3 0-.8-.1-1.4-.1-2 0-2.7.7-2.7 2.7V12h3.9l-.7 3.7h-3.2v8.2A12 12 0 1 0 9.1 23.7Z',
+  tiktok: 'M12.5.02C13.8 0 15.1.01 16.4 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03a10.7 10.7 0 0 1-4.2-.97 12.3 12.3 0 0 1-1.62-.93c-.01 2.92.01 5.84-.02 8.75a7.6 7.6 0 0 1-1.35 3.94 7.5 7.5 0 0 1-5.92 3.21 7.3 7.3 0 0 1-4.1-1.03A7.6 7.6 0 0 1 1.5 17.2a8.2 8.2 0 0 1-.02-1.49 7.6 7.6 0 0 1 2.62-5.05 7.5 7.5 0 0 1 6.28-1.75c.02 1.48-.04 2.96-.04 4.44a3.4 3.4 0 0 0-3.03.37 3.5 3.5 0 0 0-1.37 1.75c-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87a3.3 3.3 0 0 0 2.76-1.61c.18-.32.39-.66.4-1.04.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07Z',
+  instagram: 'M12 2.2c3.2 0 3.6 0 4.8.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 3.9 3.9 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2ZM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.2 4.4 2.6 6.8 7 7 1.2.1 1.6.1 4.9.1s3.7 0 4.9-.1c4.4-.2 6.8-2.6 7-7 .1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.2-4.4-2.6-6.8-7-7C15.7 0 15.3 0 12 0Zm0 5.8a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4ZM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8Zm6.4-11.8a1.4 1.4 0 1 0 0 2.9 1.4 1.4 0 0 0 0-2.9Z',
+  pinterest: 'M12 0a12 12 0 0 0-4.4 23.2c-.1-.9-.2-2.4 0-3.4l1.4-6s-.4-.7-.4-1.8c0-1.7 1-2.9 2.2-2.9 1 0 1.5.8 1.5 1.7 0 1-.7 2.6-1 4-.3 1.2.6 2.2 1.8 2.2 2.1 0 3.8-2.3 3.8-5.5 0-2.9-2.1-4.9-5-4.9-3.4 0-5.4 2.6-5.4 5.2 0 1 .4 2.1.9 2.7.1.1.1.2.1.4l-.3 1.4c-.1.2-.2.3-.4.2-1.5-.7-2.4-2.9-2.4-4.6 0-3.8 2.7-7.2 7.9-7.2 4.1 0 7.3 3 7.3 6.9 0 4.1-2.6 7.4-6.2 7.4-1.2 0-2.4-.6-2.8-1.4l-.7 2.9c-.3 1-1 2.3-1.5 3.1A12 12 0 1 0 12 0Z',
+  youtube: 'M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.2 3.6-6.2 3.6Z',
+};
 ---
 
 <footer class="site-footer">
@@ -8,35 +17,62 @@ const year = new Date().getFullYear();
     <div class="about">
       <p class="name">Neo<span>Kemet</span>AI</p>
       <p>{SITE.description}</p>
-      <a class="btn btn--ghost" href={YOUTUBE.subscribeUrl} rel="noopener">Subscribe on YouTube</a>
+      <ul class="social" aria-label="NeoKemetAI on social media">
+        {SOCIAL.map((s) => (
+          <li>
+            <a href={s.url} target="_blank" rel="noopener noreferrer" aria-label={`${s.label} (opens in a new tab)`} title={s.label}>
+              <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d={ICONS[s.id]} /></svg>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <a class="btn btn--ghost" href={YOUTUBE.subscribeUrl} target="_blank" rel="noopener noreferrer">Subscribe on YouTube</a>
     </div>
-    <nav aria-label="Footer">
-      <ul>
+    <nav aria-label="Explore">
+      <p class="heading">Explore</p>
+      <ul class="links">
         {NAV.map(({ href, label }) => <li><a href={href}>{label}</a></li>)}
         <li><a href="/dynasties/">All dynasties</a></li>
-        <li><a href="/about/">About &amp; sources</a></li>
+        <li><a href="/monuments/giza-plateau/">Giza Plateau</a></li>
+      </ul>
+    </nav>
+    <nav aria-label="Site information">
+      <p class="heading">NeoKemetAI</p>
+      <ul class="links">
+        {LEGAL_NAV.map(({ href, label }) => <li><a href={href}>{label}</a></li>)}
       </ul>
     </nav>
   </div>
   <div class="container legal">
     <p>
-      © {year} {SITE.name}. Dates follow the conventional chronology and are approximate before 664 BCE.
-      Visual reconstructions in NeoKemet videos are AI-generated interpretations, not photographs.
+      © {year} {SITE.name}. An educational site about ancient Egypt. Dates are approximate before 664 BCE, and
+      reconstructions, diagrams and 3D models are interpretations, not photographs: see <a href="/disclaimer/">content accuracy</a>.
     </p>
   </div>
 </footer>
 
 <style>
   .site-footer { margin-top: 4rem; border-top: 1px solid var(--line); background: var(--bg-raised); }
-  .inner { display: grid; gap: 2.5rem; grid-template-columns: 1fr; padding-block: 3rem; }
-  @media (min-width: 48rem) { .inner { grid-template-columns: 2fr 1fr; } }
+  .inner { display: grid; gap: 2.2rem; grid-template-columns: 1fr; padding-block: 3rem; }
+  @media (min-width: 40rem) { .inner { grid-template-columns: 1fr 1fr; } .about { grid-column: 1 / -1; } }
+  @media (min-width: 60rem) { .inner { grid-template-columns: 2fr 1fr 1fr; } .about { grid-column: auto; } }
   .about p { color: var(--text-muted); max-width: 34rem; }
   .name { font-family: var(--font-display); font-size: 1.4rem; letter-spacing: 0.12em; color: var(--limestone) !important; }
   .name span { color: var(--gold); }
-  ul { list-style: none; margin: 0; padding: 0; columns: 2; gap: 1.5rem; }
-  li { margin-bottom: 0.6rem; }
-  li a { color: var(--text-muted); text-decoration: none; }
-  li a:hover { color: var(--limestone); }
+  .heading { margin: 0 0 0.9rem; font-family: var(--font-display); font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); }
+  ul { list-style: none; margin: 0; padding: 0; }
+  .links li { margin-bottom: 0.6rem; }
+  .links a { color: var(--text-muted); text-decoration: none; }
+  .links a:hover { color: var(--limestone); }
+  .social { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 1.2rem 0 1.4rem; }
+  .social a {
+    display: grid; place-items: center; width: 2.75rem; height: 2.75rem;
+    border: 1px solid var(--line-strong); border-radius: 50%; color: var(--accent-bright);
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+  }
+  .social a:hover, .social a:focus-visible { color: var(--basalt); background: var(--gold); border-color: var(--gold); }
+  .social svg { fill: currentColor; }
   .legal { border-top: 1px solid var(--line); padding-block: 1.25rem; }
   .legal p { margin: 0; font-size: var(--step--1); color: var(--text-faint); }
+  .legal a { color: var(--text-muted); }
 </style>

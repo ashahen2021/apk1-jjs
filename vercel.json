@@ -31,6 +31,15 @@
           "value": "SAMEORIGIN"
         }
       ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
     }
   ],
   "redirects": [
@@ -38,6 +47,12 @@
       "source": "/monuments/great-pyramid-of-giza/",
       "destination": "/monuments/great-pyramid/",
       "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/contact/",
+      "destination": "/api/contact"
     }
   ]
 }

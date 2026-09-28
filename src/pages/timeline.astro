@@ -23,7 +23,8 @@ const [periods, dynasties, pharaohs] = await Promise.all([getPeriods(), getDynas
     <Breadcrumbs slot="above" items={[{ label: 'Timeline', href: '/timeline/' }]} />
   </PageHero>
 
-  <section class="container section" aria-label="Interactive timeline">
+  <section class="container section" aria-labelledby="tl-title">
+    <h2 id="tl-title" class="visually-hidden">Interactive timeline</h2>
     <Timeline periods={periods} dynasties={dynasties} pharaohs={pharaohs} />
   </section>
 
