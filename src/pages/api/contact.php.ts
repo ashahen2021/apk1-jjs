@@ -14,10 +14,12 @@ export const GET: APIRoute = ({ site }) => {
     return new Response('<?php http_response_code(404);\n', { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
   }
   const host = new URL(process.env.SITE_URL || SITE_URL || site!.href).hostname.replace(/^www\./, '');
+  // Hostinger delivers most reliably from a real mailbox on the site's domain.
+  const sender = CONTACT_EMAIL.toLowerCase().endsWith(`@${host}`) ? CONTACT_EMAIL : `no-reply@${host}`;
   const body = `<?php
 // NeoKemetAI contact form handler (generated at build time; edit src/pages/api/contact.php.ts).
 $TO = ${php(CONTACT_EMAIL)};
-$FROM = ${php(`NeoKemetAI <no-reply@${host}>`)}; // must be an address on this domain
+$FROM = ${php(`NeoKemetAI <${sender}>`)}; // an existing mailbox on this domain
 $LIMITS = ['name' => 100, 'email' => 200, 'subject' => 150, 'message' => 5000];
 $MIN_FILL_MS = 3000;
 

@@ -8,14 +8,14 @@
  * Vercel (e.g. 'https://neokemetai.com', no trailing slash). The SITE_URL
  * environment variable overrides it.
  */
-export const SITE_URL = 'https://darkred-dunlin-796710.hostingersite.com'; // temporary Hostinger domain; replace with the final domain
+export const SITE_URL = 'https://neokemetai.online';
 
 /**
  * Where contact-form messages are delivered. Change it here when the
  * production-domain address is ready. On Vercel, the CONTACT_EMAIL environment
  * variable overrides it without a code change. It is never printed in the HTML.
  */
-export const CONTACT_EMAIL = 'neokemetai@gmail.com';
+export const CONTACT_EMAIL = 'info@neokemetai.online';
 
 /**
  * Contact-form endpoint. On Vercel the Node function in /api/contact.js is
