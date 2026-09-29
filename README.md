@@ -326,6 +326,17 @@ The explorer ships as HTML and SVG: plan, profile and every chamber description 
 
 Controls: tabs (3D, plan, depth profile), toggles for the path, evidence colours, hotspots and labels, a Full view button and a guided tour. Keyboard: `N`/`P` next/previous space or tour stop, `F` full view, `1`–`3` views, `R` `E` `H` `L` toggles, `T` tour, `Esc` end tour. Tabs follow the ARIA tabs pattern, plan spaces, scene markers and 3D hotspots are focusable buttons, and the chamber list becomes a swipeable strip on phones.
 
+## Vertical short videos (9:16)
+
+`scripts/render/video.mjs` renders a 1080×1920 short from a tomb plan, using the same geometry as the site's 3D model, and encodes it to MP4 with ffmpeg (`pip install imageio-ffmpeg` provides one; pass its path as `FFMPEG_PATH`).
+
+```sh
+CHROMIUM_PATH=/path/to/chrome FFMPEG_PATH=/path/to/ffmpeg node scripts/render/video.mjs kv62 --out kv62-short.mp4
+node scripts/render/video.mjs kv62 --preview 1.5,9,17   # a few stills to check framing first
+```
+
+The storyboard, camera moves and captions live in `scripts/render/video-scenes.js` (currently `kv62`). Captions must repeat only facts stated on the tomb's page; text stays inside the Shorts/Reels/TikTok safe zone (top half for the model, captions at about 62% height). The file has a silent audio track so platforms accept it; add music in the platform's editor.
+
 ## Giza cluster: structure models, diagrams and evidence levels
 
 The Giza Plateau hub (`/monuments/giza-plateau/`), the Great Pyramid (`/monuments/great-pyramid/`, formerly `/monuments/great-pyramid-of-giza/`, which redirects) and the Great Sphinx (`/monuments/great-sphinx/`) are monument entries with `feature: giza-plateau | great-pyramid | great-sphinx`. The monument page renders the matching component from `src/components/giza/` in its explore slot.
