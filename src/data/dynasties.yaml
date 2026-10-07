@@ -262,7 +262,7 @@
 - id: "8"
   media:
     hero:
-      src: ../assets/media/dynasties/8/plan-de-la-pyramide-de-qakar-ibi-j-quier-1935-pl-i.png
+      src: ../assets/media/dynasties/8/plan-de-la-pyramide-de-qakar-ibi-j-quier-1935-pl-i.jpg
       alt: "Archaeological plan of the small pyramid complex of Qakare Ibi at Saqqara."
       caption: "Plan of the pyramid of Qakare Ibi at Saqqara (G. J\u00e9quier, 1935)."
       kind: diagram
@@ -998,7 +998,7 @@
 - id: "28"
   media:
     hero:
-      src: ../assets/media/dynasties/28/amyrtaios-aramaic-papyrus-sachau.png
+      src: ../assets/media/dynasties/28/amyrtaios-aramaic-papyrus-sachau.jpg
       alt: "Aramaic papyrus document with several lines of ink writing."
       caption: "An Aramaic loan contract from Elephantine dated to year 5 of Amyrtaeus (E. Sachau, 1911)."
       kind: photo
@@ -1031,7 +1031,7 @@
 - id: "29"
   media:
     hero:
-      src: ../assets/media/dynasties/29/achoris-statuetorso-museumoffineartsboston.png
+      src: ../assets/media/dynasties/29/achoris-statuetorso-museumoffineartsboston.jpg
       alt: "Fragmentary dark stone torso of a statue of King Hakor."
       caption: "Fragment of a statue of Hakor (Achoris), Museum of Fine Arts, Boston."
       kind: photo
@@ -1067,7 +1067,7 @@
 - id: "30"
   media:
     hero:
-      src: ../assets/media/dynasties/30/horusandnectaneboii-metropolitanmuseum.png
+      src: ../assets/media/dynasties/30/horusandnectaneboii-metropolitanmuseum.jpg
       alt: "Small statuette of Nectanebo II standing between the legs of a large Horus falcon."
       caption: "Nectanebo II protected by the falcon god Horus, Metropolitan Museum of Art."
       kind: photo

@@ -36,7 +36,7 @@ def download(item, cache):
     folder = f"dynasties/{page[1:]}" if re.fullmatch(r"d\d+", page) else f"artifacts/{page}"
     outdir = os.path.join(ROOT, "src/assets/media", folder)
     os.makedirs(outdir, exist_ok=True)
-    ext = ".png" if item["file"].lower().endswith(".png") else ".jpg"
+    ext = ".jpg"  # PNG sources are re-encoded as JPEG to keep the build small
     out = os.path.join(outdir, slugify(item["file"]) + ext)
     lic, author, w = cache[item["file"]]
     if not os.path.exists(out) or os.path.getsize(out) < 5000:
