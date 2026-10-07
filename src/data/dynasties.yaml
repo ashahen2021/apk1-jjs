@@ -474,6 +474,26 @@
   capital: Bubastis and Tanis
   rulers: [Shoshenq I, Osorkon I, Takelot I, Osorkon II, Shoshenq III]
   summary: Kings of Libyan descent. Shoshenq I campaigns in Palestine; later reigns splinter into rival kingdoms.
+  history:
+    - heading: "Chiefs of the Ma become kings"
+      text: |
+        The Twenty-second Dynasty was founded by Shoshenq I, a descendant of Libyan settlers. His people, the Meshwesh, had lived in Egypt since the Twentieth Dynasty, and their leaders were known as Great Chiefs of the Ma. By his time the family was thoroughly Egyptianised and closely tied to the court.
+
+        Manetho calls the dynasty Bubastite, after the Delta city of Bubastis, but its kings almost certainly governed from Tanis, where their tombs have been excavated.
+    - heading: "Strength and division"
+      text: |
+        Shoshenq I restored royal authority and led a campaign into Palestine, recorded on the walls of the temple of Karnak. His successors, among them Osorkon I and Osorkon II, held the kingdom together for a time, often by placing royal sons in key posts such as the office of High Priest of Amun at Thebes.
+
+        Over the following generations, rival members of the royal family claimed the throne in different cities. Thebes rebelled more than once, and lines of kings ruling in parallel appeared in Upper and Middle Egypt and in the Delta, which modern historians group, not always consistently, as the Twenty-second and Twenty-third Dynasties.
+    - heading: "A lasting memory"
+      text: |
+        By the end of the dynasty, the last kings at Tanis controlled only a small part of Lower Egypt, alongside rulers at Sais and Leontopolis. The divided country was conquered by the Kushite king Piye.
+
+        Shoshenq I's rise to power is still remembered today: in the Berber calendar, his accession is counted as year 0, and the Berber New Year, Yennayer, is celebrated every year.
+  sources:
+    - label: "Wikipedia, \"Twenty-second Dynasty of Egypt\" (reference work consulted)"
+      url: https://en.wikipedia.org/wiki/Twenty-second_Dynasty_of_Egypt
+    - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "23"
   number: 23
   name: Twenty-third Dynasty
@@ -483,6 +503,24 @@
   capital: Leontopolis and Thebes
   rulers: [Pedubast I, Osorkon III, Takelot III, Rudamun]
   summary: A parallel Libyan line, partly based at Thebes, reflecting Egypt's division into several local kingdoms.
+  history:
+    - heading: "A disputed dynasty"
+      text: |
+        The Twenty-third Dynasty is one of the most debated in Egyptian history. Its kings, like those of the Twenty-second, descended from the Libyan Ma, and ruled over parts of Egypt in the 9th and 8th centuries BCE, partly at the same time as the main line at Tanis. Scholars do not agree on which kings belong to it, or where it was based: Leontopolis, Herakleopolis, Hermopolis and Thebes have all been proposed.
+
+        Manetho describes it as four kings of Tanis. The influential model of Kenneth Kitchen grouped many parallel rulers into a single line, but that model has been widely criticised, and many scholars now use a definition closer to Manetho's.
+    - heading: "Civil war at Thebes"
+      text: |
+        The events behind the dynasty began in the reign of Takelot II. When the High Priest of Amun died, the succession to that powerful office was disputed: Thebes revolted, Takelot's son, Prince Osorkon, crushed the revolt, and years of civil war followed. Meanwhile a prince named Pedubast proclaimed himself king and ruled from Leontopolis at the same time as Shoshenq III.
+
+        Prince Osorkon later controlled Upper Egypt as High Priest and eventually became king as Osorkon III. His son Takelot III ruled with him, and Takelot's sister Shepenwepet I became God's Wife of Amun, effectively sharing rule over the Theban region.
+    - heading: "The end of the \"Libyan anarchy\""
+      text: |
+        Under the last kings, Rudamun and Iuput II, Egypt was more divided than ever, with local rulers at Herakleopolis and Hermopolis taking royal titles. This patchwork of kingdoms, sometimes called the Libyan anarchy, was ended by the Kushite king Piye, whose victory stela names several of these rulers as they submitted to him.
+  sources:
+    - label: "Wikipedia, \"Twenty-third Dynasty of Egypt\" (reference work consulted)"
+      url: https://en.wikipedia.org/wiki/Twenty-third_Dynasty_of_Egypt
+    - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "24"
   number: 24
   name: Twenty-fourth Dynasty
@@ -492,6 +530,21 @@
   capital: Sais
   rulers: [Tefnakht, Bakenrenef]
   summary: The western Delta princes of Sais attempt to unite the north before the Kushite king Piye marches down the Nile.
+  history:
+    - heading: "The princes of Sais"
+      text: |
+        The Twenty-fourth Dynasty was a short-lived line of kings with its capital at Sais in the western Nile Delta. Its first leader, Tefnakht, formed an alliance of the Delta rulers and with their support tried to conquer Upper Egypt.
+
+        His campaign drew the Kushite king Piye north. Piye's famous Victory Stela records how he defeated Tefnakht and the other rulers of Lower and Middle Egypt; in that inscription Tefnakht is always called "Great Chief of the West", and it is uncertain whether he ever adopted a full royal title.
+    - heading: "Bakenranef and a sudden end"
+      text: |
+        Tefnakht's successor, Bakenranef, certainly ruled as king at Sais, with the throne name Wahkare. His authority was recognised across much of the Delta, including Memphis, where stelae from his fifth and sixth years were found in the Serapeum, the burial place of the sacred Apis bulls.
+
+        The dynasty ended abruptly when the Kushite king Shebitku attacked Sais, captured Bakenranef and had him burned alive. Sais would rise again: its later rulers founded the Twenty-sixth Dynasty, which reunited Egypt after the Kushites withdrew.
+  sources:
+    - label: "Wikipedia, \"Twenty-fourth Dynasty of Egypt\" (reference work consulted)"
+      url: https://en.wikipedia.org/wiki/Twenty-fourth_Dynasty_of_Egypt
+    - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "25"
   number: 25
   name: Twenty-fifth Dynasty (Kushite)
@@ -559,6 +612,27 @@
   capital: Persepolis (satrapy at Memphis)
   rulers: [Cambyses II, Darius I, Xerxes I, Artaxerxes I, Darius II]
   summary: Achaemenid Persian kings rule Egypt as a satrapy. Darius I completes a canal from the Nile to the Red Sea.
+  history:
+    - heading: "Egypt as a Persian province"
+      text: |
+        The Twenty-seventh Dynasty is the name given to the first period of Persian rule. After defeating Psamtik III at Pelusium in 525 BCE, the Achaemenid king Cambyses II was crowned pharaoh. Egypt became a satrapy, a province of the Persian Empire, joined with Cyprus and Phoenicia, and governed by a satrap; the first was Aryandes.
+
+        Cambyses reduced the income of most Egyptian temples. He left Egypt in 522 BCE and died on the way back to Persia.
+    - heading: "Darius I"
+      text: |
+        Darius I, who seized the Persian throne in 522 BCE, faced a revolt in Egypt led by a local prince who took the name Petubastis III. According to a later Greek writer, Darius won the Egyptians over by honouring the sacred bull of Ptah.
+
+        Darius took more interest in Egypt than Cambyses. He is said to have codified Egyptian law, completed a canal linking the Nile to the Red Sea, and supported Egyptian temples. Skilled Egyptian craftsmen were taken to work on his palaces in Persia. In 497 BCE the satrap Aryandes was executed for treason, probably for issuing his own coinage.
+    - heading: "Revolts and independence"
+      text: |
+        Egypt rebelled again when Xerxes I came to the throne; he put down the revolt, made his brother Achaemenes satrap and demanded more from the country. In 460 BCE a Libyan chief, Inaros, rose with the help of Athens, killed Achaemenes and took Memphis, before being defeated by the Persian general Megabyzus.
+
+        Under Darius II a new revolt was led by Amyrtaeus. With the help of Cretan mercenaries he drove the Persians out of Memphis in 405 BCE and proclaimed himself king the next year, ending the first Persian period.
+  sources:
+    - label: "Wikipedia, \"Twenty-seventh Dynasty of Egypt\" (reference work consulted)"
+      url: https://en.wikipedia.org/wiki/Twenty-seventh_Dynasty_of_Egypt
+    - label: "Ancient sources for the period include Herodotus, Thucydides and Diodorus Siculus"
+    - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "28"
   number: 28
   name: Twenty-eighth Dynasty
@@ -568,6 +642,21 @@
   capital: Sais
   rulers: [Amyrtaeus]
   summary: A single king, Amyrtaeus of Sais, leads a successful revolt against Persia.
+  history:
+    - heading: "One king, one revolt"
+      text: |
+        The Twenty-eighth Dynasty consists of a single king, Amyrtaeus of Sais, also known as Psamtik V. He was probably the grandson of an earlier Amyrtaeus of Sais who had joined the revolt of Inaros against the Persian satrap Achaemenes decades before.
+
+        At the end of the 5th century BCE Amyrtaeus rebelled against the Persian king Darius II. With the help of Cretan mercenaries he expelled the Persians from Memphis in 405 BCE, and after Darius's death he proclaimed himself pharaoh.
+    - heading: "A short independence"
+      text: |
+        The new Persian king, Artaxerxes II, planned to retake Egypt but was distracted by a struggle with his brother, Cyrus the Younger, which gave Amyrtaeus time to secure his rule. Very little is known about his reign, and no monuments from it have been found.
+
+        After about five years, Amyrtaeus was overthrown and executed by Nepherites I, the founder of the Twenty-ninth Dynasty. Egypt would remain independent of Persia for some sixty years.
+  sources:
+    - label: "Wikipedia, \"Twenty-eighth Dynasty of Egypt\" (reference work consulted)"
+      url: https://en.wikipedia.org/wiki/Twenty-eighth_Dynasty_of_Egypt
+    - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "29"
   number: 29
   name: Twenty-ninth Dynasty
