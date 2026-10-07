@@ -19,8 +19,8 @@ Goal: lift thin pages that Search Console lists as "Discovered – currently not
 
 ## Artifacts (`src/content/artifacts/*.md` body)
 
-- [ ] Batch 6: narmer-palette, ivory-statuette-of-khufu, seated-statue-of-hatshepsut, bust-of-nefertiti
-- [ ] Batch 7: gold-mask-of-tutankhamun, younger-memnon, pyramidion-of-amenemhat-iii
+- [x] Batch 6: narmer-palette, ivory-statuette-of-khufu, seated-statue-of-hatshepsut, bust-of-nefertiti
+- [x] Batch 7: gold-mask-of-tutankhamun, younger-memnon, pyramidion-of-amenemhat-iii
 
 ## Images (needs network access)
 
