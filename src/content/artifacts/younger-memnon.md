@@ -1,4 +1,13 @@
 ---
+media:
+  hero:
+    src: ../../assets/media/artifacts/younger-memnon/colossal-bust-of-ramesses-ii-the-younger-memnon-1250-bc-brit.jpg
+    alt: "The colossal granite bust of Ramesses II, the Younger Memnon, in the British Museum."
+    caption: "The Younger Memnon in the British Museum."
+    kind: photo
+    credit: "Photo: Andres Rueda / Wikimedia Commons"
+    license: "CC BY 2.0"
+    sourceUrl: https://commons.wikimedia.org/wiki/File%3AColossal_bust_of_Ramesses_II%2C_the_Younger_Memnon_%281250_BC%29_-_British_Museum_%282%29.jpg
 name: Younger Memnon
 material: Granite (two-coloured)
 dimensions: 2.67 m high, about 7.25 tonnes

@@ -1,4 +1,13 @@
 ---
+media:
+  hero:
+    src: ../../assets/media/artifacts/ivory-statuette-of-khufu/ivory-statuette-of-khufu-from-abydos-2551-2528-bce-egyptian-.jpg
+    alt: "Tiny ivory statuette of King Khufu seated, wearing the red crown."
+    caption: "The ivory statuette of Khufu, Egyptian Museum, Cairo."
+    kind: photo
+    credit: "Photo: Prof. Mortel / Wikimedia Commons"
+    license: "CC BY 2.0"
+    sourceUrl: https://commons.wikimedia.org/wiki/File%3AIvory_statuette_of_Khufu_from_Abydos%2C_2551-2528_BCE%3B_Egyptian_Museum%2C_Cairo_%282%29.jpg
 name: Ivory Statuette of Khufu
 material: Ivory
 dimensions: 7.5 cm high

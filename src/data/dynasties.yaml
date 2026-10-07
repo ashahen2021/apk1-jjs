@@ -2,6 +2,15 @@
 # (Shaw, ed., The Oxford History of Ancient Egypt, 2000) and are approximate.
 # Several dynasties overlap because rival houses ruled parts of Egypt at once.
 - id: "1"
+  media:
+    hero:
+      src: ../assets/media/dynasties/1/stela-of-king-serpent-djet-c-3000-bc-1st-dynasty.jpg
+      alt: "The limestone funerary stela of King Djet, carved with a serpent inside a palace-facade frame topped by a falcon."
+      caption: "Stela of King Djet (the \"Serpent King\") from his tomb at Abydos, now in the Louvre."
+      kind: photo
+      credit: "Photo: akhenatenator / Wikimedia Commons"
+      license: "CC0"
+      sourceUrl: https://commons.wikimedia.org/wiki/File%3AStela_of_%27King_Serpent%27_%28Djet%29_c._3000_BC_%281st_Dynasty%29.jpg
   number: 1
   name: First Dynasty
   period: early-dynastic
@@ -31,6 +40,15 @@
       url: https://en.wikipedia.org/wiki/First_Dynasty_of_Egypt
     - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "2"
+  media:
+    hero:
+      src: ../assets/media/dynasties/2/statue-of-khasekhemwy-cropped.jpg
+      alt: "Seated stone statue of King Khasekhemwy wearing the white crown and a cloak."
+      caption: "Statue of Khasekhemwy from Hierakonpolis, Egyptian Museum, Cairo."
+      kind: photo
+      credit: "Photo: Darer101 / Wikimedia Commons"
+      license: "CC BY-SA 4.0"
+      sourceUrl: https://commons.wikimedia.org/wiki/File%3AStatue_of_Khasekhemwy_%28cropped%29.jpg
   number: 2
   name: Second Dynasty
   period: early-dynastic
@@ -58,6 +76,15 @@
       url: https://en.wikipedia.org/wiki/Second_Dynasty_of_Egypt
     - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "3"
+  media:
+    hero:
+      src: ../assets/media/dynasties/3/saqqara-pyramid-of-djoser-ancient-egypt.jpg
+      alt: "The six stepped tiers of Djoser's pyramid rising above the desert at Saqqara."
+      caption: "The Step Pyramid of Djoser at Saqqara."
+      kind: photo
+      credit: "Photo: Vyacheslav Argenberg / Wikimedia Commons"
+      license: "CC BY 4.0"
+      sourceUrl: https://commons.wikimedia.org/wiki/File%3ASaqqara%2C_Pyramid_of_Djoser%2C_Ancient_Egypt.jpg
   number: 3
   name: Third Dynasty
   period: old-kingdom
@@ -86,6 +113,14 @@
 - id: "4"
   number: 4
   media:
+    gallery:
+      - src: ../assets/media/dynasties/4/red-pyramid-at-dahshur.jpg
+        alt: "The smooth-sided Red Pyramid of Sneferu standing alone in the desert at Dahshur."
+        caption: "Sneferu's Red Pyramid at Dahshur, the first successful true pyramid."
+        kind: photo
+        credit: "Photo: Darer101 / Wikimedia Commons"
+        license: "CC BY 4.0"
+        sourceUrl: https://commons.wikimedia.org/wiki/File%3ARed_Pyramid_at_Dahshur.jpg
     hero:
       src: ../assets/media/monuments/great-pyramid/giza-today.jpg
       alt: The pyramids of Giza, built by the kings of the Fourth Dynasty, at golden hour.
@@ -119,6 +154,15 @@
       url: https://en.wikipedia.org/wiki/Fourth_Dynasty_of_Egypt
     - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "5"
+  media:
+    hero:
+      src: ../assets/media/dynasties/5/pyramid-of-sahure-ii.jpg
+      alt: "The ruined pyramid of Sahure at Abusir, a mound of stepped core masonry."
+      caption: "The pyramid of Sahure at Abusir."
+      kind: photo
+      credit: "Photo: isawnyu / Wikimedia Commons"
+      license: "CC BY 2.0"
+      sourceUrl: https://commons.wikimedia.org/wiki/File%3APyramid_of_Sahure_%28II%29.jpg
   number: 5
   name: Fifth Dynasty
   period: old-kingdom
@@ -146,6 +190,15 @@
       url: https://en.wikipedia.org/wiki/Fifth_Dynasty_of_Egypt
     - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "6"
+  media:
+    hero:
+      src: ../assets/media/dynasties/6/wla-brooklynmuseum-statuette-of-queen-ankhnesmeryre-ii-and-h.jpg
+      alt: "Alabaster statuette of Queen Ankhnesmeryre seated with the child king Pepi II on her lap."
+      caption: "Queen Ankhnesmeryre II with her son Pepi II, Brooklyn Museum."
+      kind: photo
+      credit: "Photo: Brooklyn Museum / Wikimedia Commons"
+      license: "CC BY 2.5"
+      sourceUrl: https://commons.wikimedia.org/wiki/File%3AWLA_brooklynmuseum_Statuette_of_Queen_Ankhnesmeryre_II_and_her_Son_3.jpg
   number: 6
   name: Sixth Dynasty
   period: old-kingdom
@@ -173,6 +226,15 @@
       url: https://en.wikipedia.org/wiki/Sixth_Dynasty_of_Egypt
     - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "7"
+  media:
+    hero:
+      src: ../assets/media/dynasties/7/king-list-of-the-seti-i-temple-at-abydos-i.jpg
+      alt: "Rows of royal cartouches carved on a wall of the temple of Seti I at Abydos."
+      caption: "The Abydos King List in the temple of Seti I, one of the lists that preserve the kings of this obscure period."
+      kind: photo
+      credit: "Photo: isawnyu / Wikimedia Commons"
+      license: "CC BY 2.0"
+      sourceUrl: https://commons.wikimedia.org/wiki/File%3AKing_List_of_the_Seti_I_Temple_at_Abydos_%28I%29.jpg
   number: 7
   name: Seventh Dynasty
   period: old-kingdom
@@ -198,6 +260,15 @@
     - label: "Manetho, Aegyptiaca (as preserved by later writers)"
     - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "8"
+  media:
+    hero:
+      src: ../assets/media/dynasties/8/plan-de-la-pyramide-de-qakar-ibi-j-quier-1935-pl-i.png
+      alt: "Archaeological plan of the small pyramid complex of Qakare Ibi at Saqqara."
+      caption: "Plan of the pyramid of Qakare Ibi at Saqqara (G. J\u00e9quier, 1935)."
+      kind: diagram
+      credit: "Plan: Gustave J\u00e9quier / Wikimedia Commons"
+      license: "Public domain"
+      sourceUrl: https://commons.wikimedia.org/wiki/File%3APlan_de_la_pyramide_de_Qakar%C3%AA_Ibi_%28J%C3%A9quier_1935%2C_Pl._I%29.png
   number: 8
   name: Eighth Dynasty
   period: old-kingdom
@@ -224,6 +295,15 @@
       url: https://en.wikipedia.org/wiki/Eighth_Dynasty_of_Egypt
     - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "9"
+  media:
+    hero:
+      src: ../assets/media/dynasties/9/moallatombankhtifiinside2.jpg
+      alt: "Painted pillars and walls inside the rock-cut tomb of Ankhtifi at el-Mo'alla."
+      caption: "Inside the tomb of the nomarch Ankhtifi at el-Mo'alla."
+      kind: photo
+      credit: "Photo: Roland Unger / Wikimedia Commons"
+      license: "CC BY-SA 3.0"
+      sourceUrl: https://commons.wikimedia.org/wiki/File%3AMoallaTombAnkhtifiInside2.jpg
   number: 9
   name: Ninth Dynasty
   period: first-intermediate
@@ -248,6 +328,15 @@
       url: https://en.wikipedia.org/wiki/First_Intermediate_Period_of_Egypt
     - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "10"
+  media:
+    hero:
+      src: ../assets/media/dynasties/10/replica-of-the-nubian-archers-from-the-tomb-of-mesehti-nubia.jpg
+      alt: "Wooden model of a troop of Nubian archers marching in rows, from the tomb of Mesehti at Asyut."
+      caption: "Replica of the model of Nubian archers from the tomb of Mesehti, a governor of Asyut (Nubian Museum, Aswan)."
+      kind: photo
+      credit: "Photo: Marsupium / Wikimedia Commons"
+      license: "CC BY 4.0"
+      sourceUrl: https://commons.wikimedia.org/wiki/File%3AReplica_of_the_Nubian_Archers_from_the_Tomb_of_Mesehti_-_Nubian_Museum_01.jpg
   number: 10
   name: Tenth Dynasty
   period: first-intermediate
@@ -275,6 +364,15 @@
       url: https://en.wikipedia.org/wiki/First_Intermediate_Period_of_Egypt
     - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "11"
+  media:
+    hero:
+      src: ../assets/media/dynasties/11/statue-of-nebhepetre-mentuhotep-ii-in-the-jubilee-garment-me.jpg
+      alt: "Sandstone statue of Mentuhotep II standing in a short jubilee cloak with crossed arms."
+      caption: "Mentuhotep II in his jubilee garment, Metropolitan Museum of Art."
+      kind: photo
+      credit: "Photo: The Metropolitan Museum of Art / Wikimedia Commons"
+      license: "CC0"
+      sourceUrl: https://commons.wikimedia.org/wiki/File%3AStatue_of_Nebhepetre_Mentuhotep_II_in_the_Jubilee_Garment_MET_DT11494.jpg
   number: 11
   name: Eleventh Dynasty
   period: middle-kingdom
@@ -304,6 +402,15 @@
       url: https://en.wikipedia.org/wiki/Eleventh_Dynasty_of_Egypt
     - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "12"
+  media:
+    hero:
+      src: ../assets/media/dynasties/12/statues-of-senusret-iii-british-museum-01.jpg
+      alt: "Three black granite standing statues of Senusret III side by side."
+      caption: "Statues of Senusret III from Deir el-Bahari, British Museum."
+      kind: photo
+      credit: "Photo: 14GTR / Wikimedia Commons"
+      license: "CC0"
+      sourceUrl: https://commons.wikimedia.org/wiki/File%3AStatues_of_Senusret_III%2C_British_Museum_01.jpg
   number: 12
   name: Twelfth Dynasty
   period: middle-kingdom
@@ -333,6 +440,15 @@
       url: https://en.wikipedia.org/wiki/Twelfth_Dynasty_of_Egypt
     - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "13"
+  media:
+    hero:
+      src: ../assets/media/dynasties/13/kh-n-ferr-sobekhotep-mus-e-du-louvre-antiquit-s-gyptiennes-n.jpg
+      alt: "Pink granite statue of King Sobekhotep IV seated on a throne."
+      caption: "Statue of Sobekhotep IV, Louvre."
+      kind: photo
+      credit: "Photo: Shonagon / Wikimedia Commons"
+      license: "CC0"
+      sourceUrl: https://commons.wikimedia.org/wiki/File%3AKh%C3%A2n%C3%A9ferr%C3%AA_Sobekhotep_-_Mus%C3%A9e_du_Louvre_Antiquit%C3%A9s_%C3%A9gyptiennes_N_17_%3B_A_17.jpg
   number: 13
   name: Thirteenth Dynasty
   period: middle-kingdom
@@ -362,6 +478,15 @@
     - label: "Wikipedia, \"Thirteenth Dynasty of Egypt\" (for further reading)"
       url: https://en.wikipedia.org/wiki/Thirteenth_Dynasty_of_Egypt
 - id: "14"
+  media:
+    hero:
+      src: ../assets/media/dynasties/14/tell-el-daba04.jpg
+      alt: "Excavation trenches at Tell el-Dab'a in the eastern Delta, with a village beyond."
+      caption: "Tell el-Dab'a, the site of ancient Avaris in the eastern Delta."
+      kind: photo
+      credit: "Photo: Didia / Wikimedia Commons"
+      license: "CC BY-SA 3.0"
+      sourceUrl: https://commons.wikimedia.org/wiki/File%3ATell_el-daba04.jpg
   number: 14
   name: Fourteenth Dynasty
   period: second-intermediate
@@ -388,6 +513,15 @@
       url: https://en.wikipedia.org/wiki/Second_Intermediate_Period_of_Egypt
     - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "15"
+  media:
+    hero:
+      src: ../assets/media/dynasties/15/rhind-mathematical-papyrus.jpg
+      alt: "Detail of the Rhind Mathematical Papyrus with columns of hieratic text and geometric problems."
+      caption: "The Rhind Mathematical Papyrus, copied in the reign of the Hyksos king Apepi (British Museum)."
+      kind: photo
+      credit: "Photo: British Museum (scan) / Wikimedia Commons"
+      license: "Public domain"
+      sourceUrl: https://commons.wikimedia.org/wiki/File%3ARhind_Mathematical_Papyrus.jpg
   number: 15
   name: Fifteenth Dynasty (Hyksos)
   period: second-intermediate
@@ -417,6 +551,15 @@
       url: https://en.wikipedia.org/wiki/Second_Intermediate_Period_of_Egypt
     - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "16"
+  media:
+    hero:
+      src: ../assets/media/dynasties/16/view-of-dra-abu-el-naga-2023.jpg
+      alt: "The hillside cemetery of Dra' Abu el-Naga on the west bank of Thebes."
+      caption: "Dra' Abu el-Naga, the Theban cemetery where kings of the late Second Intermediate Period were buried."
+      kind: photo
+      credit: "Photo: Debborah Donnelly / Wikimedia Commons"
+      license: "CC BY-SA 2.0"
+      sourceUrl: https://commons.wikimedia.org/wiki/File%3AView_of_Dra%27_Abu_el-Naga_2023.jpg
   number: 16
   name: Sixteenth Dynasty
   period: second-intermediate
@@ -443,6 +586,15 @@
       url: https://en.wikipedia.org/wiki/Second_Intermediate_Period_of_Egypt
     - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "17"
+  media:
+    hero:
+      src: ../assets/media/dynasties/17/ceremonial-axe-of-ahmose-i-luxor-museum.jpg
+      alt: "Ceremonial axe of Ahmose I with a gold-decorated blade showing the king smiting an enemy."
+      caption: "Ceremonial axe of Ahmose I, from the burial of Queen Ahhotep (Luxor Museum)."
+      kind: photo
+      credit: "Photo: Jesse / Wikimedia Commons"
+      license: "CC BY-SA 2.0"
+      sourceUrl: https://commons.wikimedia.org/wiki/File%3ACeremonial_axe_of_Ahmose_I._Luxor_Museum.jpg
   number: 17
   name: Seventeenth Dynasty
   period: second-intermediate
@@ -472,6 +624,15 @@
       url: https://en.wikipedia.org/wiki/Seventeenth_Dynasty_of_Egypt
     - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "18"
+  media:
+    hero:
+      src: ../assets/media/dynasties/18/thebes-luxor-egypt-temple-of-hatshepsut-deir-el-bahari.jpg
+      alt: "The colonnaded terraces of Hatshepsut's temple below the cliffs of Deir el-Bahari."
+      caption: "The temple of Hatshepsut at Deir el-Bahari."
+      kind: photo
+      credit: "Photo: Vyacheslav Argenberg / Wikimedia Commons"
+      license: "CC BY 4.0"
+      sourceUrl: https://commons.wikimedia.org/wiki/File%3AThebes%2C_Luxor%2C_Egypt%2C_Temple_of_Hatshepsut%2C_Deir_el-Bahari.jpg
   number: 18
   name: Eighteenth Dynasty
   period: new-kingdom
@@ -501,6 +662,15 @@
       url: https://en.wikipedia.org/wiki/Eighteenth_Dynasty_of_Egypt
     - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "19"
+  media:
+    hero:
+      src: ../assets/media/dynasties/19/templo-de-rams-s-ii-abu-simbel-egipto-2022-04-02-dd-03.jpg
+      alt: "The four seated colossi of Ramesses II carved into the facade of the Great Temple of Abu Simbel."
+      caption: "The Great Temple of Ramesses II at Abu Simbel."
+      kind: photo
+      credit: "Photo: Diego Delso / Wikimedia Commons"
+      license: "CC BY-SA 4.0"
+      sourceUrl: https://commons.wikimedia.org/wiki/File%3ATemplo_de_Rams%C3%A9s_II%2C_Abu_Simbel%2C_Egipto%2C_2022-04-02%2C_DD_03.jpg
   number: 19
   name: Nineteenth Dynasty
   period: new-kingdom
@@ -528,6 +698,15 @@
       url: https://en.wikipedia.org/wiki/Nineteenth_Dynasty_of_Egypt
     - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "20"
+  media:
+    hero:
+      src: ../assets/media/dynasties/20/thebes-medinet-habu-egypt-temple-of-ramesses-iii-first-pylon.jpg
+      alt: "The massive first pylon of Ramesses III's temple at Medinet Habu, carved with battle scenes."
+      caption: "The first pylon of Ramesses III's temple at Medinet Habu."
+      kind: photo
+      credit: "Photo: Vyacheslav Argenberg / Wikimedia Commons"
+      license: "CC BY 4.0"
+      sourceUrl: https://commons.wikimedia.org/wiki/File%3AThebes%2C_Medinet_Habu%2C_Egypt%2C_Temple_of_Ramesses_III%2C_First_Pylon%2C_Ancient_Egypt.jpg
   number: 20
   name: Twentieth Dynasty
   period: new-kingdom
@@ -559,6 +738,15 @@
       url: https://neokemetai.online/pharaohs/ramesses-iii/
     - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "21"
+  media:
+    hero:
+      src: ../assets/media/dynasties/21/funerary-mask-of-psusennes-i-upclose.jpg
+      alt: "The gold funerary mask of Psusennes I with nemes headcloth and cobra."
+      caption: "Gold mask of Psusennes I from his tomb at Tanis, Egyptian Museum, Cairo."
+      kind: photo
+      credit: "Photo: DrMoschi / Wikimedia Commons"
+      license: "CC0"
+      sourceUrl: https://commons.wikimedia.org/wiki/File%3AFunerary_Mask_of_Psusennes_I_%28upclose%29.jpg
   number: 21
   name: Twenty-first Dynasty
   period: third-intermediate
@@ -586,6 +774,15 @@
       url: https://en.wikipedia.org/wiki/Twenty-first_Dynasty_of_Egypt
     - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): standard reference, chronology used on this site"
 - id: "22"
+  media:
+    hero:
+      src: ../assets/media/dynasties/22/karnak-tempel-bubastis-portal-01.jpg
+      alt: "The Bubastite Portal at Karnak, a stone gateway carved with reliefs of Shoshenq I."
+      caption: "The Bubastite Portal at Karnak, where Shoshenq I recorded his campaign."
+      kind: photo
+      credit: "Photo: Olaf Tausch / Wikimedia Commons"
+      license: "CC BY 3.0"
+      sourceUrl: https://commons.wikimedia.org/wiki/File%3AKarnak_Tempel_Bubastis-Portal_01.JPG
   number: 22
   name: Twenty-second Dynasty
   period: third-intermediate
@@ -615,6 +812,15 @@
       url: https://en.wikipedia.org/wiki/Twenty-second_Dynasty_of_Egypt
     - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "23"
+  media:
+    hero:
+      src: ../assets/media/dynasties/23/osorkon-iii-s-statue-by-merja-attia.jpg
+      alt: "Limestone statue of Osorkon III kneeling behind a sacred bark."
+      caption: "Statue of Osorkon III from Karnak, Egyptian Museum, Cairo."
+      kind: photo
+      credit: "Photo: Merja Attia / Wikimedia Commons"
+      license: "CC BY-SA 2.0"
+      sourceUrl: https://commons.wikimedia.org/wiki/File%3AOsorkon_III%E2%80%99s_statue_by_Merja_Attia.jpg
   number: 23
   name: Twenty-third Dynasty
   period: third-intermediate
@@ -642,6 +848,15 @@
       url: https://en.wikipedia.org/wiki/Twenty-third_Dynasty_of_Egypt
     - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "24"
+  media:
+    hero:
+      src: ../assets/media/dynasties/24/bocchorisvase.jpg
+      alt: "Faience vase bearing the cartouche of Bakenranef (Bocchoris), decorated with figures and monkeys."
+      caption: "The \"Bocchoris vase\", found in an Etruscan tomb at Tarquinia, Italy."
+      kind: photo
+      credit: "Photo: Udimu / Wikimedia Commons"
+      license: "CC BY-SA 4.0"
+      sourceUrl: https://commons.wikimedia.org/wiki/File%3ABocchorisvase.jpg
   number: 24
   name: Twenty-fourth Dynasty
   period: third-intermediate
@@ -666,6 +881,15 @@
       url: https://en.wikipedia.org/wiki/Twenty-fourth_Dynasty_of_Egypt
     - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "25"
+  media:
+    hero:
+      src: ../assets/media/dynasties/25/sphinx-of-taharqo-front-view.jpg
+      alt: "Granite sphinx with the face of the Kushite king Taharqa and a lion's mane."
+      caption: "Sphinx of Taharqa from Kawa, Sudan, British Museum."
+      kind: photo
+      credit: "Photo: BabelStone / Wikimedia Commons"
+      license: "CC BY-SA 3.0"
+      sourceUrl: https://commons.wikimedia.org/wiki/File%3ASphinx_of_Taharqo_front_view.jpg
   number: 25
   name: Twenty-fifth Dynasty (Kushite)
   period: third-intermediate
@@ -695,6 +919,15 @@
       url: https://en.wikipedia.org/wiki/Twenty-fifth_Dynasty_of_Egypt
     - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "26"
+  media:
+    hero:
+      src: ../assets/media/dynasties/26/naophorous-block-statue-of-a-governor-of-sais-psamtik-seneb-.jpg
+      alt: "Block statue of the governor Psamtik-seneb holding a small shrine, finely polished dark stone."
+      caption: "Block statue of Psamtik-seneb, governor of Sais, Metropolitan Museum of Art."
+      kind: photo
+      credit: "Photo: The Metropolitan Museum of Art / Wikimedia Commons"
+      license: "CC0"
+      sourceUrl: https://commons.wikimedia.org/wiki/File%3ANaophorous_Block_Statue_of_a_Governor_of_Sais%2C_Psamtik-seneb-_MET_DT11707.jpg
   number: 26
   name: Twenty-sixth Dynasty (Saite)
   period: late-period
@@ -724,6 +957,15 @@
       url: https://en.wikipedia.org/wiki/Twenty-sixth_Dynasty_of_Egypt
     - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "27"
+  media:
+    hero:
+      src: ../assets/media/dynasties/27/statue-of-darius-the-great-from-susa-national-museum-of-iran.jpg
+      alt: "Headless Egyptian-style stone statue of Darius I with hieroglyphic inscriptions on its robe and base."
+      caption: "Statue of Darius I made in Egypt and found at Susa, National Museum of Iran."
+      kind: photo
+      credit: "Photo: Yong Woo Park (Ywpark2003) / Wikimedia Commons"
+      license: "CC BY 4.0"
+      sourceUrl: https://commons.wikimedia.org/wiki/File%3AStatue_of_Darius_the_Great_from_Susa_National_Museum_of_Iran.jpg
   number: 27
   name: Twenty-seventh Dynasty (First Persian)
   period: late-period
@@ -754,6 +996,15 @@
     - label: "Ancient sources for the period include Herodotus, Thucydides and Diodorus Siculus"
     - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "28"
+  media:
+    hero:
+      src: ../assets/media/dynasties/28/amyrtaios-aramaic-papyrus-sachau.png
+      alt: "Aramaic papyrus document with several lines of ink writing."
+      caption: "An Aramaic loan contract from Elephantine dated to year 5 of Amyrtaeus (E. Sachau, 1911)."
+      kind: photo
+      credit: "Image: Eduard Sachau / Wikimedia Commons"
+      license: "Public domain"
+      sourceUrl: https://commons.wikimedia.org/wiki/File%3AAmyrtaios_aramaic_papyrus_Sachau.png
   number: 28
   name: Twenty-eighth Dynasty
   period: late-period
@@ -778,6 +1029,15 @@
       url: https://en.wikipedia.org/wiki/Twenty-eighth_Dynasty_of_Egypt
     - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "29"
+  media:
+    hero:
+      src: ../assets/media/dynasties/29/achoris-statuetorso-museumoffineartsboston.png
+      alt: "Fragmentary dark stone torso of a statue of King Hakor."
+      caption: "Fragment of a statue of Hakor (Achoris), Museum of Fine Arts, Boston."
+      kind: photo
+      credit: "Photo: Keith Schengili-Roberts / Wikimedia Commons"
+      license: "CC BY-SA 2.5"
+      sourceUrl: https://commons.wikimedia.org/wiki/File%3AAchoris-StatueTorso_MuseumOfFineArtsBoston.png
   number: 29
   name: Twenty-ninth Dynasty
   period: late-period
@@ -805,6 +1065,15 @@
       url: https://en.wikipedia.org/wiki/Twenty-ninth_Dynasty_of_Egypt
     - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "30"
+  media:
+    hero:
+      src: ../assets/media/dynasties/30/horusandnectaneboii-metropolitanmuseum.png
+      alt: "Small statuette of Nectanebo II standing between the legs of a large Horus falcon."
+      caption: "Nectanebo II protected by the falcon god Horus, Metropolitan Museum of Art."
+      kind: photo
+      credit: "Photo: Keith Schengili-Roberts / Wikimedia Commons"
+      license: "CC BY-SA 2.5"
+      sourceUrl: https://commons.wikimedia.org/wiki/File%3AHorusAndNectaneboII_MetropolitanMuseum.png
   number: 30
   name: Thirtieth Dynasty
   period: late-period

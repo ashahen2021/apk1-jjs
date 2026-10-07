@@ -1,4 +1,13 @@
 ---
+media:
+  hero:
+    src: ../../assets/media/artifacts/gold-mask-of-tutankhamun/cairoegmuseumtaamaskmostlyphotographed.jpg
+    alt: "The gold mask of Tutankhamun with striped blue-and-gold nemes headcloth."
+    caption: "The gold mask of Tutankhamun."
+    kind: photo
+    credit: "Photo: Roland Unger / Wikimedia Commons"
+    license: "Public domain"
+    sourceUrl: https://commons.wikimedia.org/wiki/File%3ACairoEgMuseumTaaMaskMostlyPhotographed.jpg
 name: Gold Mask of Tutankhamun
 material: Gold inlaid with lapis lazuli, carnelian, quartz, obsidian and coloured glass
 dimensions: 54 cm high, about 10 kg

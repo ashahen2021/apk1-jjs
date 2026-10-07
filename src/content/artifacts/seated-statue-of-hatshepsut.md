@@ -1,4 +1,13 @@
 ---
+media:
+  hero:
+    src: ../../assets/media/artifacts/seated-statue-of-hatshepsut/seated-statue-of-hatshepsut-met-21v-cat096r3.jpg
+    alt: "Limestone statue of Hatshepsut seated on a throne, wearing the nemes headcloth and royal kilt."
+    caption: "Seated statue of Hatshepsut, Metropolitan Museum of Art."
+    kind: photo
+    credit: "Photo: The Metropolitan Museum of Art / Wikimedia Commons"
+    license: "CC0"
+    sourceUrl: https://commons.wikimedia.org/wiki/File%3ASeated_Statue_of_Hatshepsut_MET_21V_CAT096R3.jpg
 name: Seated Statue of Hatshepsut
 material: Indurated limestone with traces of paint
 dimensions: 195 cm high

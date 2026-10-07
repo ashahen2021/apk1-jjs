@@ -1,5 +1,20 @@
 ---
 media:
+  gallery:
+    - src: ../../assets/media/artifacts/pyramidion-of-amenemhat-iii/pyramidion-of-the-pyramid-of-amenemhet-iii-at-dahshur.jpg
+      alt: "Photograph of the dark granite pyramidion of Amenemhat III with its carved east face."
+      caption: "The original pyramidion in the Egyptian Museum, Cairo."
+      kind: photo
+      credit: "Photo: Unknown author / Wikimedia Commons"
+      license: "Public domain"
+      sourceUrl: https://commons.wikimedia.org/wiki/File%3APyramidion_of_the_Pyramid_of_Amenemhet_III_at_Dahshur.jpg
+    - src: ../../assets/media/artifacts/pyramidion-of-amenemhat-iii/giza-dahshur-and-saqqara-giza8255.jpg
+      alt: "The ruined mudbrick Black Pyramid of Amenemhat III at Dahshur across the desert plain."
+      caption: "The ruined Black Pyramid at Dahshur today."
+      kind: photo
+      credit: "Photo: lumoplank / Wikimedia Commons"
+      license: "CC0"
+      sourceUrl: https://commons.wikimedia.org/wiki/File%3AGiza%2C_Dahshur_and_Saqqara_-_Giza8255.jpg
   hero:
     src: ../../assets/media/artifacts/pyramidion-of-amenemhat-iii/pyramidion.jpg
     alt: The dark granite capstone of Amenemhat III's pyramid on a museum plinth, its east face carved with a winged sun disc and a pair of eyes.

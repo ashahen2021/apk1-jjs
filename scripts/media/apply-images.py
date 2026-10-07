@@ -5,9 +5,12 @@ artifact pages, with credit, licence and source URL.
 
   python3 scripts/media/apply-images.py
 """
-import json, os, re, subprocess, sys
+import hashlib, json, os, re, sys, time, urllib.error, urllib.parse, urllib.request
+
+UA = {"User-Agent": "NeoKemetAI-media-script/1.0 (https://neokemetai.online)"}
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+CACHE = os.path.join(ROOT, "scripts/media/images-meta.json")
 PLAN = os.path.join(ROOT, "scripts/media/images-plan.json")
 DYN = os.path.join(ROOT, "src/data/dynasties.yaml")
 ART = os.path.join(ROOT, "src/content/artifacts")
@@ -19,26 +22,38 @@ def slugify(title):
     return re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")[:60]
 
 
-CACHE = os.path.join(ROOT, "scripts/media/images-meta.json")
+def thumb_url(title, width):
+    """Direct thumbnail URL on upload.wikimedia.org (no API call, so no API rate limit)."""
+    name = title.split(":", 1)[1].replace(" ", "_")
+    h = hashlib.md5(name.encode()).hexdigest()
+    qn = urllib.parse.quote(name)
+    return f"https://upload.wikimedia.org/wikipedia/commons/thumb/{h[0]}/{h[:2]}/{qn}/{width}px-{qn}"
 
 
 def download(item, cache):
+    """cache maps file title -> [licence, author, original width] (see images-meta.json)."""
     page = item["page"]
     folder = f"dynasties/{page[1:]}" if re.fullmatch(r"d\d+", page) else f"artifacts/{page}"
     outdir = os.path.join(ROOT, "src/assets/media", folder)
     os.makedirs(outdir, exist_ok=True)
     ext = ".png" if item["file"].lower().endswith(".png") else ".jpg"
     out = os.path.join(outdir, slugify(item["file"]) + ext)
-    if item["file"] in cache and os.path.exists(out):
-        return folder, os.path.basename(out), cache[item["file"]]
-    res = subprocess.run([sys.executable, os.path.join(ROOT, "scripts/media/commons.py"), "fetch",
-                          item["file"], out, str(item.get("width", 1600))],
-                         capture_output=True, text=True, check=True)
-    m = json.loads(res.stdout.strip().splitlines()[-1])
-    if item.get("prefix"):
-        m["credit"] = re.sub(r"^Photo:", item["prefix"] + ":", m["credit"])
-    cache[item["file"]] = m
-    json.dump(cache, open(CACHE, "w"), indent=1, ensure_ascii=False)
+    lic, author, w = cache[item["file"]]
+    if not os.path.exists(out) or os.path.getsize(out) < 5000:
+        width = next(b for b in (1280, 960, 500, 330) if b <= w)
+        for attempt in range(8):
+            try:
+                req = urllib.request.Request(thumb_url(item["file"], width), headers=UA)
+                data = urllib.request.urlopen(req, timeout=60).read()
+                break
+            except urllib.error.HTTPError as e:
+                if e.code != 429 or attempt == 7:
+                    raise
+                time.sleep(5 + 5 * attempt)
+        open(out, "wb").write(data)
+    prefix = item.get("prefix", "Photo")
+    m = {"credit": f"{prefix}: {author} / Wikimedia Commons", "license": lic,
+         "sourceUrl": "https://commons.wikimedia.org/wiki/" + urllib.parse.quote(item["file"].replace(" ", "_"))}
     return folder, os.path.basename(out), m
 
 
@@ -78,7 +93,7 @@ def insert(lines, start, end, base, rel, item, m):
 
 def main():
     plan = json.load(open(PLAN))
-    cache = json.load(open(CACHE)) if os.path.exists(CACHE) else {}
+    cache = json.load(open(CACHE))
     got = []
     for item in plan:
         got.append(download(item, cache))

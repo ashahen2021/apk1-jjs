@@ -1,4 +1,21 @@
 ---
+media:
+  gallery:
+    - src: ../../assets/media/artifacts/narmer-palette/narmer-palette-serpopard-side.jpg
+      alt: "The other side of the Narmer Palette with two long-necked serpopards forming a circle."
+      caption: "The serpopard side, with the king in the red crown."
+      kind: photo
+      credit: "Photo: Unknown author / Wikimedia Commons"
+      license: "Public domain"
+      sourceUrl: https://commons.wikimedia.org/wiki/File%3ANarmer_Palette_serpopard_side.jpg
+  hero:
+    src: ../../assets/media/artifacts/narmer-palette/narmer-palette-smiting-side.jpg
+    alt: "The Narmer Palette, showing King Narmer in the white crown striking a captive."
+    caption: "The \"smiting\" side of the Narmer Palette, Egyptian Museum, Cairo."
+    kind: photo
+    credit: "Photo: Unknown author / Wikimedia Commons"
+    license: "Public domain"
+    sourceUrl: https://commons.wikimedia.org/wiki/File%3ANarmer_Palette_smiting_side.jpg
 name: Narmer Palette
 material: Siltstone
 dimensions: 64 cm high

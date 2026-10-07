@@ -1,4 +1,13 @@
 ---
+media:
+  hero:
+    src: ../../assets/media/artifacts/bust-of-nefertiti/nefertiti-bust-neues-museum-berlin.jpg
+    alt: "The painted bust of Nefertiti wearing her flat-topped blue crown."
+    caption: "The bust of Nefertiti in the Neues Museum, Berlin."
+    kind: photo
+    credit: "Photo: Ywpark2003 / Wikimedia Commons"
+    license: "CC0"
+    sourceUrl: https://commons.wikimedia.org/wiki/File%3ANefertiti_Bust_Neues_Museum_Berlin.jpg
 name: Bust of Nefertiti
 material: Painted limestone and gypsum, with a quartz inlay eye
 dimensions: 48 cm high
