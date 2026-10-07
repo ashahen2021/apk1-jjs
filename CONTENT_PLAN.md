@@ -12,7 +12,7 @@ Goal: lift thin pages that Search Console lists as "Discovered – currently not
 ## Dynasties (`src/data/dynasties.yaml` → `history`, `sources`)
 
 - [x] Batch 1: 4, 12, 18, 19, 25, 26
-- [ ] Batch 2: 1, 2, 3, 5, 6
+- [x] Batch 2: 1, 2, 3, 5, 6
 - [ ] Batch 3: 11, 13, 17, 20, 21
 - [ ] Batch 4: 22, 23, 24, 27, 28
 - [ ] Batch 5: 29, 30, 7, 8, 9, 10, 14, 15, 16 (short, poorly documented periods: say so, keep to what is known)
