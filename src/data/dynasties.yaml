@@ -181,6 +181,22 @@
   capital: Memphis
   rulers: [Ephemeral kings, poorly attested]
   summary: Manetho's "seventy kings in seventy days" — probably a literary way of describing a collapse of central rule after Pepi II.
+  history:
+    - heading: "Seventy kings in seventy days"
+      text: |
+        The Seventh Dynasty is the most shadowy of all Egyptian dynasties. The later historian Manetho describes it as seventy kings who reigned for seventy days, a phrase that most scholars read not as history but as a vivid way of describing chaos at the centre of power after the long reign of Pepi II and the end of the Sixth Dynasty.
+
+        No king can be securely assigned to it, and many Egyptologists consider the dynasty spurious, or merge it with the Eighth. One suggestion is that Manetho's tradition preserves the memory of a short time when government at Memphis was in the hands of a group of officials rather than a single king.
+    - heading: "The start of the First Intermediate Period"
+      text: |
+        Whatever its exact nature, the Seventh Dynasty marks the start of the First Intermediate Period, a time when royal authority faded and power passed to the provinces. Several causes are usually put forward: the very long reign of Pepi II and the problems of his succession, the growing independence of provincial governors, the nomarchs, who now passed their offices from father to son, and possibly a series of low Nile floods, although the role of climate is debated.
+
+        Because the evidence is so thin, the dates given here are approximate and some reference works omit this dynasty altogether.
+  sources:
+    - label: "Wikipedia, \"First Intermediate Period of Egypt\" (reference work consulted)"
+      url: https://en.wikipedia.org/wiki/First_Intermediate_Period_of_Egypt
+    - label: "Manetho, Aegyptiaca (as preserved by later writers)"
+    - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "8"
   number: 8
   name: Eighth Dynasty
@@ -190,6 +206,23 @@
   capital: Memphis
   rulers: [Qakara Ibi, Neferkaura, Neferirkara II]
   summary: Short-lived Memphite kings who claimed Old Kingdom legitimacy while real power passed to the provinces.
+  history:
+    - heading: "Heirs of the Old Kingdom"
+      text: |
+        The kings of the Eighth Dynasty still ruled from Memphis and presented themselves as the heirs of the Sixth Dynasty: several of them took throne names modelled on that of Pepi II, Neferkare. They are known mostly from king lists, such as the one carved in the temple of Seti I at Abydos, and from a handful of inscriptions.
+
+        Their reigns were short, and their real authority probably did not reach far beyond the region of Memphis. Royal decrees from the temple of Min at Coptos show that they still tried to reward and appoint officials in the south.
+    - heading: "A small pyramid at Saqqara"
+      text: |
+        The best-known monument of the dynasty is the small pyramid of Qakare Ibi at Saqqara, near the pyramid of Pepi II. It is modest in size, but its burial chamber carries Pyramid Texts, continuing the tradition begun by Unas at the end of the Fifth Dynasty.
+
+        Meanwhile, real power was shifting to the provinces. When the Eighth Dynasty came to an end, a new line of kings from Herakleopolis took over in the north, while the governors of Thebes built up their own power in the south.
+  sources:
+    - label: "Wikipedia, \"First Intermediate Period of Egypt\" (reference work consulted)"
+      url: https://en.wikipedia.org/wiki/First_Intermediate_Period_of_Egypt
+    - label: "Wikipedia, \"Eighth Dynasty of Egypt\" (for further reading)"
+      url: https://en.wikipedia.org/wiki/Eighth_Dynasty_of_Egypt
+    - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "9"
   number: 9
   name: Ninth Dynasty
@@ -199,6 +232,21 @@
   capital: Herakleopolis
   rulers: [Meryibra Khety, Neferkara]
   summary: A new royal house at Herakleopolis, near the Faiyum, controls northern and middle Egypt.
+  history:
+    - heading: "A new royal house at Herakleopolis"
+      text: |
+        After the end of the Memphite kings, power in the north passed to a family from Herakleopolis, a city near the entrance to the Faiyum. Manetho counts two dynasties from this city, the Ninth and the Tenth, but many scholars treat them as a single line of kings, and the division between them is uncertain.
+
+        Several kings of this house bore the name Khety (Greek Akhthoes). Manetho tells a dramatic story about the founder: that he was a cruel ruler who went mad and was killed by a crocodile. The story cannot be checked, and it may reflect the hostile view of later times rather than real events.
+    - heading: "A divided country"
+      text: |
+        The Herakleopolitan kings controlled Lower and Middle Egypt, but much of the south was governed by powerful local rulers. The best known is Ankhtifi, nomarch of Hierakonpolis and Edfu, whose decorated tomb at Mo'alla, discovered in 1928, describes how he took control of neighbouring provinces and fed his people in a time of hunger.
+
+        The period also produced new religious ideas. Spells once reserved for kings began to be written on the coffins of officials and other wealthy people; these Coffin Texts show that hopes of a blessed afterlife were spreading beyond the royal family.
+  sources:
+    - label: "Wikipedia, \"First Intermediate Period of Egypt\" (reference work consulted)"
+      url: https://en.wikipedia.org/wiki/First_Intermediate_Period_of_Egypt
+    - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "10"
   number: 10
   name: Tenth Dynasty
@@ -208,6 +256,24 @@
   capital: Herakleopolis
   rulers: [Wahkara Khety, Merikara]
   summary: The Herakleopolitan kings fight the Theban Intefs. The Teaching for Merikara, a classic of wisdom literature, is set in this era.
+  history:
+    - heading: "North against south"
+      text: |
+        The Tenth Dynasty continued the rule of the Herakleopolitan kings over northern and Middle Egypt. Its defining story is the long struggle with the Eleventh Dynasty, the family of governors at Thebes who had begun to claim the title of king.
+
+        The Herakleopolitans relied on loyal provincial rulers, above all the nomarchs of Asyut, whose tombs record fighting against the Thebans. Asyut acted as a buffer between the two kingdoms, and the border between them moved back and forth around Abydos and the Thinite region.
+    - heading: "The Teaching for Merikare"
+      text: |
+        One of the last kings of the dynasty, Merikare, is remembered through a famous work of wisdom literature, the Teaching for King Merikare, presented as the advice of his father, a king named Khety. It discusses justice, the duties of a ruler and the defence of the borders, and even admits regret for the destruction of a sacred site during the wars. It survives in later copies, and scholars debate whether it was written in his time or composed later.
+
+        Merikare's pyramid is said by inscriptions to have stood near Memphis, but it has not been securely identified.
+    - heading: "Defeat and reunification"
+      text: |
+        The war ended with the victory of Thebes. Under the Theban king Mentuhotep II, Herakleopolis was defeated and Egypt was reunited, opening the Middle Kingdom. The exact date and circumstances of the fall of the Herakleopolitan house are not recorded, so the dates for this dynasty are approximate.
+  sources:
+    - label: "Wikipedia, \"First Intermediate Period of Egypt\" (reference work consulted)"
+      url: https://en.wikipedia.org/wiki/First_Intermediate_Period_of_Egypt
+    - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "11"
   number: 11
   name: Eleventh Dynasty
@@ -304,6 +370,23 @@
   capital: Avaris (eastern Delta)
   rulers: [Nehesy, Yakbim, Sheshi]
   summary: A line of rulers, many with Canaanite names, governs the eastern Delta in parallel with the 13th Dynasty.
+  history:
+    - heading: "Kings in the eastern Delta"
+      text: |
+        The Fourteenth Dynasty was a line of rulers in the eastern Nile Delta during the Second Intermediate Period, reigning at the same time as the later kings of the Thirteenth Dynasty. Manetho places them at Xois, but most scholars think their seat was Avaris, the city that would later become the Hyksos capital.
+
+        The best-attested king is Nehesy, whose name means "the Nubian" and who left monuments at Avaris. Many other rulers of the period, known mainly from scarab seals, have names that point to a Canaanite background, reflecting the large Levantine population settled in the Delta.
+    - heading: "A dynasty of uncertain shape"
+      text: |
+        Almost everything about this dynasty is disputed: its list of kings, their order, and the dates of its beginning and end. The fragmentary Turin King List preserves many names that may belong to it, while others, such as Sheshi and Yakbim, are placed by some scholars in this dynasty and by others among the early Hyksos.
+
+        The dynasty seems to have ended in a period of weakness, possibly linked with famine and plague, before the Hyksos of the Fifteenth Dynasty took control of the north. The dates given here are approximate.
+  sources:
+    - label: "Wikipedia, \"Fourteenth Dynasty of Egypt\" (reference work consulted)"
+      url: https://en.wikipedia.org/wiki/Fourteenth_Dynasty_of_Egypt
+    - label: "Wikipedia, \"Second Intermediate Period of Egypt\" (reference work consulted)"
+      url: https://en.wikipedia.org/wiki/Second_Intermediate_Period_of_Egypt
+    - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "15"
   number: 15
   name: Fifteenth Dynasty (Hyksos)
@@ -313,6 +396,26 @@
   capital: Avaris
   rulers: [Salitis, Khyan, Apepi, Khamudi]
   summary: The Hyksos, "rulers of foreign lands", take Memphis and rule the north, introducing the horse and chariot on a wide scale.
+  history:
+    - heading: "Rulers of foreign lands"
+      text: |
+        The Fifteenth Dynasty was founded by the Hyksos, a name that comes from the Egyptian phrase for "rulers of foreign lands". They were of Levantine origin and ruled from Avaris in the eastern Delta, extending their power over Memphis and much of Egypt. The Turin King List gives the dynasty six kings, from Salitis to Khamudi; among the best known are Khyan and Apepi (Apophis).
+
+        Later Egyptian tradition described their arrival as a violent invasion. Modern research tells a more gradual story: studies of skeletons from Avaris, including strontium isotope analysis, suggest that many people of foreign origin had already lived there for generations, so the Hyksos rise looks more like the takeover of power by an established community than a sudden conquest.
+    - heading: "New technology and Egyptian ways"
+      text: |
+        The Hyksos period brought important innovations to Egypt, or spread them widely: the horse and chariot, the composite bow and new kinds of weapons such as the curved khopesh sword. These would become the basis of Egyptian military power in the New Kingdom.
+
+        The Hyksos kings adopted Egyptian titles and writing. Apepi favoured the god Seth, who was linked with the Levantine storm god, and important texts such as the Rhind Mathematical Papyrus were copied during his reign.
+    - heading: "War with Thebes"
+      text: |
+        For much of the period the Hyksos were overlords of the south, where Theban kings of the Sixteenth and Seventeenth Dynasties ruled. Conflict broke out under Seqenenre Tao and Kamose, and was completed by Ahmose I, who captured Avaris and pursued the Hyksos into southern Canaan. Their defeat marks the beginning of the New Kingdom.
+  sources:
+    - label: "Wikipedia, \"Fifteenth Dynasty of Egypt\" (reference work consulted)"
+      url: https://en.wikipedia.org/wiki/Fifteenth_Dynasty_of_Egypt
+    - label: "Wikipedia, \"Second Intermediate Period of Egypt\" (reference work consulted)"
+      url: https://en.wikipedia.org/wiki/Second_Intermediate_Period_of_Egypt
+    - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "16"
   number: 16
   name: Sixteenth Dynasty
@@ -322,6 +425,23 @@
   capital: Thebes
   rulers: [Djehuti, Sobekhotep VIII, Neferhotep III]
   summary: Minor Theban kings hold Upper Egypt under pressure from the Hyksos in the north and Kush in the south.
+  history:
+    - heading: "Theban kings under pressure"
+      text: |
+        The Sixteenth Dynasty is understood today by many scholars as a line of kings ruling from Thebes after the end of the Thirteenth Dynasty, at the same time as the Hyksos Fifteenth Dynasty in the north. In the reconstruction of the Danish Egyptologist Kim Ryholt it included up to fifteen kings, although older views treated it as a group of Hyksos vassals.
+
+        The Theban kingdom was small, controlling the region of Upper Egypt from around Thebes southwards, and it faced enemies on two sides: the Hyksos in the north and the growing kingdom of Kush in the south.
+    - heading: "War and famine"
+      text: |
+        Inscriptions of the period speak of constant warfare with the Hyksos and of hunger. Eventually the Fifteenth Dynasty seems to have taken Thebes itself, bringing the Sixteenth Dynasty to an end.
+
+        Around the same time, another short-lived line of kings, sometimes called the Abydos Dynasty, may have ruled in the region of Abydos. Theban independence was restored by the kings of the Seventeenth Dynasty, who would eventually drive the Hyksos out of Egypt. Because the sources are so fragmentary, the order of kings and the dates are uncertain.
+  sources:
+    - label: "Wikipedia, \"Sixteenth Dynasty of Egypt\" (reference work consulted)"
+      url: https://en.wikipedia.org/wiki/Sixteenth_Dynasty_of_Egypt
+    - label: "Wikipedia, \"Second Intermediate Period of Egypt\" (reference work consulted)"
+      url: https://en.wikipedia.org/wiki/Second_Intermediate_Period_of_Egypt
+    - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "17"
   number: 17
   name: Seventeenth Dynasty
@@ -666,6 +786,24 @@
   capital: Mendes
   rulers: [Nepherites I, Hakor, Nepherites II]
   summary: Delta kings of Mendes defend independence by allying with Greek city-states against Persia.
+  history:
+    - heading: "A new house at Mendes"
+      text: |
+        The Twenty-ninth Dynasty was founded by Nepherites I (Nefaarud), who overthrew Amyrtaeus, the only king of the Twenty-eighth Dynasty; a papyrus now in Brooklyn records the change of rulers. The new kings came from Mendes in the Delta, which became their capital.
+
+        Their main concern was the threat of a Persian return. Egypt had only recently freed itself from the Achaemenid Empire, and the Persian kings never accepted the loss of their province.
+    - heading: "Rival claimants"
+      text: |
+        When Nepherites I died, the succession was disputed. His son Muthis may have been set aside by a usurper, Psammuthes, who ruled for about a year before he was removed by Hakor (Achoris). Hakor then reigned for more than a decade and became the dynasty's most important king, building and restoring temples across the country.
+    - heading: "Allies against Persia"
+      text: |
+        Hakor resisted Persia by allying with Greek powers: Athens and Evagoras, king of Salamis in Cyprus. The alliance with Athens lasted until the Peace of Antalcidas in 387 BCE, after which Hakor relied increasingly on Greek mercenaries. He repelled a Persian attempt to reconquer Egypt.
+
+        His son Nepherites II reigned only briefly before he was deposed in 380 BCE by Nectanebo I, the founder of the Thirtieth Dynasty.
+  sources:
+    - label: "Wikipedia, \"Twenty-ninth Dynasty of Egypt\" (reference work consulted)"
+      url: https://en.wikipedia.org/wiki/Twenty-ninth_Dynasty_of_Egypt
+    - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"
 - id: "30"
   number: 30
   name: Thirtieth Dynasty
@@ -675,3 +813,19 @@
   capital: Sebennytos
   rulers: [Nectanebo I, Teos, Nectanebo II]
   summary: The last native Egyptian pharaohs. A final burst of temple building ends when Persia reconquers Egypt in 343 BCE.
+  history:
+    - heading: "Nectanebo I"
+      text: |
+        The Thirtieth Dynasty was the last native Egyptian dynasty. Its founder, Nectanebo I, a general from Sebennytos in the Delta, took power in 380 BCE by deposing Nepherites II. He defended Egypt against a Persian invasion and used his reign of peace for a wide programme of temple building, from the Delta to Philae, where the oldest standing structure on the island bears his name.
+    - heading: "Teos and a family betrayal"
+      text: |
+        Nectanebo I's son Teos (Djedhor) was made co-ruler in 365 BCE and then reigned alone. Ambitious, he invaded Persian-held Syria and Palestine with Greek mercenaries, paying for the war with heavy taxes on the temples. While he was abroad, his brother Tjahapimu, left in charge of Egypt, had his own son proclaimed king as Nectanebo II. Abandoned by his army, Teos fled to the Persian court.
+    - heading: "The last native pharaoh"
+      text: |
+        Nectanebo II continued his grandfather's building work and beat off a Persian invasion under Artaxerxes III in 351/350 BCE. In 343 BCE Artaxerxes returned with a larger army and conquered Egypt, opening a second period of Persian rule.
+
+        Nectanebo II fled south, probably to Nubia, and may have kept control of part of Upper Egypt for a time; a document from Edfu is dated to his eighteenth year. He is remembered as the last native ruler of ancient Egypt, and later Greek legend even made him the true father of Alexander the Great.
+  sources:
+    - label: "Wikipedia, \"Thirtieth Dynasty of Egypt\" (reference work consulted)"
+      url: https://en.wikipedia.org/wiki/Thirtieth_Dynasty_of_Egypt
+    - label: "I. Shaw (ed.), The Oxford History of Ancient Egypt (Oxford, 2000): chronology used on this site"

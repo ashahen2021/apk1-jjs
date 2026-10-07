@@ -15,7 +15,7 @@ Goal: lift thin pages that Search Console lists as "Discovered – currently not
 - [x] Batch 2: 1, 2, 3, 5, 6
 - [x] Batch 3: 11, 13, 17, 20, 21
 - [x] Batch 4: 22, 23, 24, 27, 28
-- [ ] Batch 5: 29, 30, 7, 8, 9, 10, 14, 15, 16 (short, poorly documented periods: say so, keep to what is known)
+- [x] Batch 5: 29, 30, 7, 8, 9, 10, 14, 15, 16 (short, poorly documented periods: say so, keep to what is known)
 
 ## Artifacts (`src/content/artifacts/*.md` body)
 
