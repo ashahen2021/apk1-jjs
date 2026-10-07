@@ -26,8 +26,10 @@ Goal: lift thin pages that Search Console lists as "Discovered – currently not
 
 Free images only: Wikimedia Commons files marked public domain or CC BY/CC BY-SA (record author and licence), or museum open-access CC0 images (Metropolitan Museum, Cleveland Museum of Art, Art Institute of Chicago). Download to `src/assets/media/dynasties/<id>/` or the artifact's folder and add a `media.hero` / `media.gallery` entry with `alt`, `kind: photo`, `credit`, `license` and `sourceUrl`.
 
-- [ ] Blocked until these hosts are allowed in the environment's network settings: `upload.wikimedia.org`, `commons.wikimedia.org`, `collectionapi.metmuseum.org`, `images.metmuseum.org` (optionally `openaccess-api.clevelandart.org`, `api.artic.edu`, `www.artic.edu`).
-- [ ] Images for dynasty batch 1 pages
-- [ ] Images for the remaining dynasty and artifact pages
+- [x] Blocked until these hosts are allowed in the environment's network settings: `upload.wikimedia.org`, `commons.wikimedia.org`, `collectionapi.metmuseum.org`, `images.metmuseum.org` (optionally `openaccess-api.clevelandart.org`, `api.artic.edu`, `www.artic.edu`).
+- [x] Images for dynasty batch 1 pages
+- [x] Images for the remaining dynasty and artifact pages
+
+Images are listed in `scripts/media/images-plan.json` (licence data in `images-meta.json`) and applied with `python3 scripts/media/apply-images.py`; it downloads thumbnails directly from upload.wikimedia.org because the Commons API rate-limits this environment.
 
 After every deploy to Hostinger (`npm run build:hostinger`, upload `dist/`), request indexing in Search Console for the pages changed in that batch.
