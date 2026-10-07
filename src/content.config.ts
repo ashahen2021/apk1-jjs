@@ -261,6 +261,10 @@ const dynasties = defineCollection({
     capital: z.string(),
     rulers: z.array(z.string()),
     summary: z.string(),
+    /** Longer history shown on the dynasty page: headed sections of plain paragraphs (blank line = new paragraph). */
+    history: z.array(z.object({ heading: z.string(), text: z.string() })).default([]),
+    /** Sources for the history text, shown under it. */
+    sources: z.array(z.object({ label: z.string(), url: z.url().optional() })).default([]),
   }),
 });
 

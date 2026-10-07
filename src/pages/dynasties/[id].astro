@@ -47,6 +47,13 @@ const otherVideos = related.videos.filter((v) => v !== featuredVideo);
   ]}
   jsonLd={[{ '@type': 'Article', headline: `${d.name} of Egypt`, about: { '@type': 'Thing', name: nth } }]}
 >
+  {d.history.map((section) => (
+    <section class="history">
+      <h2>{section.heading}</h2>
+      {section.text.trim().split(/\n\s*\n/).map((para) => <p>{para.replace(/\s+/g, ' ')}</p>)}
+    </section>
+  ))}
+
   <h2>Rulers</h2>
   <ol class="rulers">
     {d.rulers.map((name) => {
@@ -57,6 +64,16 @@ const otherVideos = related.videos.filter((v) => v !== featuredVideo);
   <p class="note">
     Order and dates of rulers are debated for many dynasties. Names in gold have a full profile.
   </p>
+
+  {d.sources.length > 0 && (
+    <section class="sources" aria-labelledby="sources-title">
+      <h2 id="sources-title">Sources</h2>
+      <ul>
+        {d.sources.map((src) => <li>{src.url ? <a href={src.url} rel="noopener">{src.label}</a> : src.label}</li>)}
+      </ul>
+      <p class="note">Dates follow the conventional chronology used across this site and are approximate; some reference works differ by a few years.</p>
+    </section>
+  )}
 
   <Fragment slot="aside">
     <a class="btn btn--ghost" href={`/timeline/#dynasty-${dynasty.id}`}>See on the timeline</a>
@@ -95,6 +112,10 @@ const otherVideos = related.videos.filter((v) => v !== featuredVideo);
   .rulers { columns: 2 12rem; padding-left: 1.4rem; }
   .rulers a { font-weight: 600; }
   .note { font-size: var(--step--1); color: var(--text-faint); }
+  .history h2 { margin-top: 2.2rem; }
+  .sources { margin-top: 2.5rem; padding-top: 1.2rem; border-top: 1px solid var(--line); }
+  .sources h2 { font-size: var(--step-1); }
+  .sources ul { padding-left: 1.2rem; font-size: var(--step--1); color: var(--text-muted); }
   .pager {
     display: flex;
     justify-content: space-between;
