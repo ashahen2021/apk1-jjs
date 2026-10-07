@@ -19,19 +19,26 @@ def slugify(title):
     return re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")[:60]
 
 
-def download(item):
+CACHE = os.path.join(ROOT, "scripts/media/images-meta.json")
+
+
+def download(item, cache):
     page = item["page"]
     folder = f"dynasties/{page[1:]}" if re.fullmatch(r"d\d+", page) else f"artifacts/{page}"
     outdir = os.path.join(ROOT, "src/assets/media", folder)
     os.makedirs(outdir, exist_ok=True)
     ext = ".png" if item["file"].lower().endswith(".png") else ".jpg"
     out = os.path.join(outdir, slugify(item["file"]) + ext)
+    if item["file"] in cache and os.path.exists(out):
+        return folder, os.path.basename(out), cache[item["file"]]
     res = subprocess.run([sys.executable, os.path.join(ROOT, "scripts/media/commons.py"), "fetch",
                           item["file"], out, str(item.get("width", 1600))],
                          capture_output=True, text=True, check=True)
     m = json.loads(res.stdout.strip().splitlines()[-1])
     if item.get("prefix"):
         m["credit"] = re.sub(r"^Photo:", item["prefix"] + ":", m["credit"])
+    cache[item["file"]] = m
+    json.dump(cache, open(CACHE, "w"), indent=1, ensure_ascii=False)
     return folder, os.path.basename(out), m
 
 
@@ -71,10 +78,15 @@ def insert(lines, start, end, base, rel, item, m):
 
 def main():
     plan = json.load(open(PLAN))
-    dyn = open(DYN).read().split("\n")
+    cache = json.load(open(CACHE)) if os.path.exists(CACHE) else {}
+    got = []
     for item in plan:
-        folder, name, m = download(item)
-        print(item["page"], name, m["license"])
+        got.append(download(item, cache))
+        print(item["page"], got[-1][1], got[-1][2]["license"], flush=True)
+    if "--download-only" in sys.argv:
+        return
+    dyn = open(DYN).read().split("\n")
+    for item, (folder, name, m) in zip(plan, got):
         page = item["page"]
         if page.startswith("d") and page[1:].isdigit():
             n = page[1:]
