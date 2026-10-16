@@ -1,0 +1,94 @@
+/* All rules are confined to the mount root; host typography falls back safely. */
+.nk-game { --gold:#c8952b; --bright:#e2b453; --ink:#0b0a08; --panel:#1b1812; --line:#3a3224; --text:#e9e0c9; --muted:#a89c80; color:var(--text); background:var(--ink); font:14px/1.5 Inter,system-ui,sans-serif; width:100%; max-width:1600px; margin:auto; position:relative; overflow:hidden; border:1px solid var(--line); border-radius:8px; isolation:isolate; color-scheme:dark; }
+.nk-game * { box-sizing:border-box; }
+.nk-game [hidden] { display:none !important; }
+.nk-game button,.nk-game input { font:inherit; }
+.nk-game button,.nk-game a,.nk-game input { -webkit-tap-highlight-color:transparent; }
+.nk-game button { color:var(--text); background:#14120e; border:1px solid var(--line); border-radius:4px; padding:9px 12px; cursor:pointer; min-height:40px; }
+.nk-game button:hover:not(:disabled) { border-color:var(--gold); background:#282216; }
+.nk-game button:disabled { opacity:.45; cursor:not-allowed; }
+.nk-game :focus-visible { outline:2px solid var(--bright); outline-offset:3px; }
+.nk-game a { color:var(--bright); text-underline-offset:4px; }
+.nk-game h1,.nk-game h2,.nk-game h3,.nk-game p { margin:0; }
+.nk-game h1,.nk-game h2,.nk-game h3 { font-family:Cinzel,Georgia,serif; font-weight:400; }
+.nk-game .nk-top { padding:18px 24px; display:flex; justify-content:space-between; align-items:center; gap:12px; border-bottom:1px solid var(--line); }
+.nk-game .nk-brand { color:var(--bright); font:11px/1.3 Inter,system-ui,sans-serif; text-transform:uppercase; letter-spacing:3px; }
+.nk-game .nk-title { font-size:27px; letter-spacing:1px; }
+.nk-game .nk-sub { font-size:11px; color:var(--muted); letter-spacing:.4px; }
+.nk-game .nk-tools { display:flex; gap:6px; }
+.nk-game .nk-hud { display:grid; grid-template-columns:repeat(5,1fr); padding:13px 24px; gap:16px; border-bottom:1px solid var(--line); background:var(--panel); }
+.nk-game .nk-resource { display:flex; gap:10px; align-items:center; }
+.nk-game .nk-resource svg { width:23px; height:23px; color:var(--gold); flex-shrink:0; }
+.nk-game .nk-resource small { display:block; color:var(--muted); font-size:10px; text-transform:uppercase; letter-spacing:1.5px; }
+.nk-game .nk-resource strong { font-size:19px; font-weight:500; font-variant-numeric:tabular-nums; }
+.nk-game .nk-layout { display:grid; grid-template-columns:minmax(0,1fr) 244px; height:clamp(600px,50vw,780px); }
+.nk-game .nk-world { position:relative; min-width:0; background:radial-gradient(ellipse at 40% 40%,#353021,#141410 75%); overflow:hidden; }
+.nk-game .nk-map { display:block; width:100%; height:100%; min-height:540px; position:absolute; inset:0; touch-action:none; cursor:grab; }
+.nk-game .nk-map:active { cursor:grabbing; }
+.nk-game .nk-season { position:absolute; top:18px; left:20px; pointer-events:none; }
+.nk-game .nk-season h2 { font-size:24px; }
+.nk-game .nk-season p { color:#c6b997; font-size:12px; }
+.nk-game .nk-timebar { width:180px; height:2px; background:#5a4a2e; margin-top:10px; }
+.nk-game .nk-timebar span { display:block; height:100%; background:var(--bright); }
+.nk-game .nk-maptools { position:absolute; right:14px; top:18px; display:flex; gap:4px; }
+.nk-game .nk-maptools button { background:#14120ee8; }
+.nk-game .nk-caption { position:absolute; bottom:14px; left:20px; right:20px; color:#c5b999; font-size:11px; pointer-events:none; text-shadow:0 1px 4px #000; }
+.nk-game .nk-selection { position:absolute; bottom:44px; left:16px; right:16px; background:#14120ef5; border:1px solid #5a4a2e; border-radius:5px; padding:13px 16px; display:flex; gap:14px; align-items:center; box-shadow:0 8px 30px #0004; }
+.nk-game .nk-selection div { flex:1; }
+.nk-game .nk-selection strong { color:var(--bright); }
+.nk-game .nk-selection p { color:var(--muted); font-size:12px; }
+.nk-game .nk-sidebar { background:var(--panel); border-left:1px solid var(--line); display:flex; flex-direction:column; min-height:0; }
+.nk-game .nk-objective { padding:14px 18px; border-bottom:1px solid var(--line); flex-shrink:0; }
+.nk-game .nk-eyebrow { font-size:10px; text-transform:uppercase; letter-spacing:2px; color:var(--gold); margin-bottom:7px; }
+.nk-game .nk-objective h3 { font-size:17px; margin-bottom:6px; }
+.nk-game .nk-objective p { color:var(--muted); font-size:12px; }
+.nk-game .nk-buildhead { padding:10px 18px 8px; display:flex; justify-content:space-between; align-items:center; flex-shrink:0; }
+.nk-game .nk-buildhead h3 { font-size:17px; }
+.nk-game .nk-buildhead span { font-size:10px; color:var(--muted); }
+.nk-game .nk-builds { display:grid; grid-template-columns:1fr 1fr; gap:6px; padding:3px 12px 14px; overflow-y:auto; scrollbar-width:thin; scrollbar-color:#5a4a2e #14120e; }
+.nk-game .nk-build { text-align:left; padding:6px 8px; min-height:64px; position:relative; }
+.nk-game .nk-build svg { width:24px; height:20px; color:#d8cba8; display:block; margin-bottom:3px; }
+.nk-game .nk-build b { display:block; font-size:10px; font-weight:500; }
+.nk-game .nk-build small { display:block; font-size:9px; color:var(--muted); }
+.nk-game .nk-build[aria-pressed="true"] { border-color:var(--bright); background:#352b18; box-shadow:inset 0 0 0 1px #c8952b55; }
+.nk-game .nk-build:last-child { grid-column:1/-1; }
+.nk-game .nk-nilometer { margin-top:auto; border-top:1px solid var(--line); padding:12px 18px; flex-shrink:0; }
+.nk-game .nk-nilometer p { font-size:11px; color:var(--muted); margin-top:5px; }
+.nk-game .nk-gauge { display:flex; gap:4px; margin-top:9px; }
+.nk-game .nk-gauge i { height:6px; flex:1; background:#3a3224; }
+.nk-game .nk-gauge i.nk-lit { background:#2e8b84; }
+.nk-game .nk-footer { padding:10px 20px; display:flex; gap:12px; justify-content:space-between; border-top:1px solid var(--line); color:var(--muted); font-size:10px; }
+.nk-game .nk-toast { position:absolute; top:160px; left:50%; transform:translateX(-50%); z-index:5; max-width:90%; background:#1b1812f5; border:1px solid #c8952b; border-radius:4px; padding:10px 18px; text-align:center; box-shadow:0 8px 30px #0008; pointer-events:none; }
+.nk-game .nk-overlay { position:absolute; inset:0; background:#090907a8; backdrop-filter:blur(5px); display:grid; place-items:center; padding:20px; z-index:10; overflow:auto; }
+.nk-game .nk-dialog { width:min(490px,100%); max-height:100%; overflow:auto; background:linear-gradient(150deg,#252017,#14120e 70%); border:1px solid #5a4a2e; box-shadow:0 30px 100px #0009; border-radius:8px; padding:32px; }
+.nk-game .nk-dialog h2 { font-size:36px; line-height:1.15; margin:12px 0 16px; }
+.nk-game .nk-dialog p { color:#c1b69b; margin:12px 0; }
+.nk-game .nk-dialog label { display:block; color:var(--muted); font-size:12px; margin:18px 0 7px; }
+.nk-game .nk-dialog input[type="text"] { background:#0b0a08; border:1px solid #5a4a2e; color:var(--text); width:100%; padding:12px; border-radius:4px; }
+.nk-game .nk-dialog .nk-check { display:flex; gap:9px; align-items:center; margin:14px 0; }
+.nk-game .nk-dialog .nk-primary { background:var(--gold); color:#151109; border-color:var(--gold); font-weight:600; }
+.nk-game .nk-dialog .nk-primary:hover { background:var(--bright); }
+.nk-game .nk-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:20px; }
+.nk-game .nk-actions button { flex:1; }
+.nk-game .nk-dialog .nk-note { font-size:11px; color:var(--muted); }
+.nk-game .nk-dialog .nk-emblem { color:var(--gold); width:70px; height:50px; }
+.nk-game .nk-cardpreview { width:100%; height:auto; border:1px solid #5a4a2e; border-radius:4px; }
+.nk-game .nk-choice { display:block; width:100%; text-align:left; margin:8px 0; }
+.nk-game .nk-sr { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+@media (max-width:700px) {
+  .nk-game .nk-top { padding:12px; } .nk-game .nk-title { font-size:21px; } .nk-game .nk-brand { font-size:9px; letter-spacing:2px; }
+  .nk-game .nk-sub { display:none; } .nk-game .nk-tools button { padding:7px; font-size:11px; }
+  .nk-game .nk-hud { padding:10px 12px; gap:5px; } .nk-game .nk-resource { gap:4px; } .nk-game .nk-resource svg { display:none; }
+  .nk-game .nk-resource small { font-size:8px; letter-spacing:.5px; } .nk-game .nk-resource strong { font-size:16px; }
+  .nk-game .nk-layout { display:flex; flex-direction:column; height:auto; } .nk-game .nk-world { height:430px; } .nk-game .nk-map { min-height:0; }
+  .nk-game .nk-sidebar { border-left:0; border-top:1px solid var(--line); } .nk-game .nk-objective { padding:12px 16px; }
+  .nk-game .nk-builds { grid-template-columns:repeat(4,1fr); } .nk-game .nk-build:last-child { grid-column:span 2; }
+  .nk-game .nk-build { min-height:73px; padding:7px; } .nk-game .nk-buildhead { padding:10px 16px; }
+  .nk-game .nk-nilometer { padding:10px 16px; } .nk-game .nk-season { left:14px; top:14px; } .nk-game .nk-season h2 { font-size:20px; }
+  .nk-game .nk-maptools { top:14px; right:10px; } .nk-game .nk-maptools button { padding:6px 10px; }
+  .nk-game .nk-selection { bottom:40px; padding:9px; left:8px; right:8px; gap:6px; font-size:12px; }
+  .nk-game .nk-selection p { font-size:10px; } .nk-game .nk-selection button { font-size:11px; padding:7px; }
+  .nk-game .nk-dialog { padding:24px; } .nk-game .nk-dialog h2 { font-size:30px; }
+  .nk-game .nk-footer { padding:9px 12px; font-size:9px; } .nk-game .nk-overlay { align-items:start; padding-top:45px; }
+}
+@media (prefers-reduced-motion:reduce) { .nk-game * { scroll-behavior:auto; animation:none !important; transition:none !important; } }

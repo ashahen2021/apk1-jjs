@@ -45,6 +45,7 @@ export const NAV = [
   { href: '/tombs/', label: 'Tombs' },
   { href: '/artifacts/', label: 'Artifacts' },
   { href: '/videos/', label: 'Videos' },
+  { href: '/play/', label: 'Play' },
 ] as const;
 
 /** Decorative hieroglyphs used as section marks (rendered with Noto Sans Egyptian Hieroglyphs). */

@@ -3,6 +3,8 @@ import { getEntry, render } from 'astro:content';
 import EntityLayout from '@/layouts/EntityLayout.astro';
 import Card from '@/components/Card.astro';
 import Related from '@/components/Related.astro';
+import MediaSection from '@/components/media/MediaSection.astro';
+import VideoFeature from '@/components/media/VideoFeature.astro';
 import { getArtifacts, videosAbout } from '@/lib/content';
 import { cards } from '@/lib/cards';
 import { ordinal } from '@/lib/format';
@@ -17,6 +19,8 @@ const a = artifact.data;
 const pharaoh = a.pharaoh && (await getEntry(a.pharaoh));
 const tomb = a.tomb && (await getEntry(a.tomb));
 const videos = await videosAbout('artifacts', artifact.id);
+const featuredVideo = videos.find((v) => v.data.youtubeId);
+const otherVideos = videos.filter((v) => v !== featuredVideo);
 const { Content } = await render(artifact);
 const nth = `${ordinal(Number(a.dynasty.id))} Dynasty`;
 ---
@@ -59,8 +63,13 @@ const nth = `${ordinal(Number(a.dynasty.id))} Dynasty`;
     <Related title="Tomb" count={tomb ? 1 : 0}>
       {tomb && <Card {...cards.tomb(tomb)} />}
     </Related>
-    <Related title="Watch on NeoKemet" count={videos.length}>
-      {videos.map((v) => <Card {...cards.video(v)} />)}
+    {featuredVideo && (
+      <MediaSection kicker="NeoKemet on YouTube" title="Watch the film">
+        <VideoFeature video={featuredVideo} />
+      </MediaSection>
+    )}
+    <Related title={featuredVideo ? 'More films' : 'Watch on NeoKemet'} count={otherVideos.length}>
+      {otherVideos.map((v) => <Card {...cards.video(v)} />)}
     </Related>
   </Fragment>
 </EntityLayout>

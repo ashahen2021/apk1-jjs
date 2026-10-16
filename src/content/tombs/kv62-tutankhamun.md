@@ -39,9 +39,8 @@ media:
       kind: model
       credit: NeoKemetAI interpretive 3D model
   video:
-    ref: boring-history-every-pharaoh-dynasty
-    start: "1:32:20"
-    note: The chapter on Akhenaten and the boy king, from our slow, narrated history of every dynasty.
+    ref: tutankhamun-trumpet-banned-frequency
+    note: Our newest documentary follows the two trumpets found in this tomb, the 1939 BBC broadcast and the legend of a cursed note.
 name: Tomb of Tutankhamun
 code: KV62
 owner: Tutankhamun

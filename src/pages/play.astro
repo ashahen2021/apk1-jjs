@@ -1,0 +1,67 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+---
+
+<BaseLayout
+  title="Rise of Waset: Build an Egyptian City on the Nile"
+  description="Play Rise of Waset, a free browser city-builder: follow the Nile flood seasons, feed your people, keep Ma'at in balance and raise a pyramid. Learn real history as you build."
+>
+  <PageHero kicker="Play" title="Rise of Waset" glyph="𓉐">
+    <Breadcrumbs slot="above" items={[{ label: 'Play', href: '/play/' }]} />
+    <p>Found a city on the Nile, live through the flood seasons and raise a pyramid that outlasts the ages.</p>
+  </PageHero>
+
+  <link rel="stylesheet" href="/play/game.css" />
+
+  <div class="container section">
+    <div id="waset-game" class="game-host">
+      <noscript><p>Rise of Waset needs JavaScript to run.</p></noscript>
+    </div>
+  </div>
+
+  <div class="container section prose">
+    <h2>How to play</h2>
+    <p>
+      Build quarries on the desert and a harbour beside the river to gather stone and gold. Fields on the black earth feed your
+      people, houses give you workers, and a bakery and a temple keep Ma'at, the balance of the city, from falling. A scribe school
+      unlocks the workers' village and the monuments; then place your pyramid and fund it, stage by stage, until it is complete.
+    </p>
+    <h2>The three seasons of the Nile</h2>
+    <p>
+      The Egyptian year was divided into three seasons of four months, all shaped by the river: <strong>Akhet</strong>, the
+      inundation, when the Nile flooded the fields; <strong>Peret</strong>, the growing season, when crops were sown in the wet
+      soil; and <strong>Shemu</strong>, the harvest. A low flood meant a poor harvest, a high one could sweep away houses and
+      dykes. In the game the Nilometer gives you a forecast before each inundation, as the real nilometers along the river once
+      helped officials predict the year ahead.
+    </p>
+    <h2>History in the game</h2>
+    <p>
+      Each building you complete for the first time unlocks a short fact, with a link to the full story on this site, from the
+      logbook of Merer and the <a href="/monuments/great-pyramid/">Great Pyramid</a> to the temples of
+      <a href="/monuments/karnak-temple-complex/">Karnak</a>. The game compresses many centuries into a single city, so it is a
+      playful blend of periods rather than a reconstruction of ancient Waset (Thebes). For the real chronology, see the
+      <a href="/timeline/">timeline</a>.
+    </p>
+    <p>Your city is saved in this browser only. The daily challenge gives every player the same floods and events on a given day.</p>
+  </div>
+
+  <script is:inline type="module">
+    import { mountGame } from '/play/game.js';
+    const host = document.getElementById('waset-game');
+    if (host) {
+      try {
+        mountGame(host);
+      } catch (error) {
+        host.textContent = 'Sorry, this game needs a browser with canvas support.';
+      }
+    }
+  </script>
+</BaseLayout>
+
+<style>
+  .game-host {
+    min-height: 600px;
+  }
+</style>
