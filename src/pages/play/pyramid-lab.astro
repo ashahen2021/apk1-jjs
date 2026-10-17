@@ -1,0 +1,97 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import Card from '@/components/Card.astro';
+import Related from '@/components/Related.astro';
+import MediaSection from '@/components/media/MediaSection.astro';
+import VideoFeature from '@/components/media/VideoFeature.astro';
+import { videosAbout } from '@/lib/content';
+import { cards } from '@/lib/cards';
+
+// The documentary that follows one block from quarry to summit is the natural companion film.
+const featuredVideo = await getEntry('videos', 'how-were-the-pyramids-built');
+const otherVideos = (await videosAbout('monuments', 'great-pyramid')).filter((v) => v.id !== featuredVideo?.id);
+const monuments = (await Promise.all([getEntry('monuments', 'great-pyramid'), getEntry('monuments', 'giza-plateau')])).filter(
+  (m): m is NonNullable<typeof m> => Boolean(m),
+);
+const khufu = await getEntry('pharaohs', 'khufu');
+---
+
+<BaseLayout
+  title="Pyramid Builder Lab: Could You Build the Great Pyramid?"
+  description="An interactive simulation of how the Great Pyramid could have been built: choose a ramp theory, workforce, wet or dry sand and river boats, and see what the evidence allows."
+>
+  <PageHero kicker="Play · Simulation" title="Pyramid Builder Lab" glyph="𓉴">
+    <Breadcrumbs
+      slot="above"
+      items={[
+        { label: 'Play', href: '/play/' },
+        { label: 'Pyramid Builder Lab', href: '/play/pyramid-lab/' },
+      ]}
+    />
+    <p>Step into the role of Khufu's chief builder and test the theories against the evidence.</p>
+  </PageHero>
+
+  <link rel="stylesheet" href="/play/pyramid-lab/lab.css" />
+
+  <div class="container section">
+    <div id="pyramid-lab" class="lab-host">
+      <noscript><p>The Pyramid Builder Lab needs JavaScript to run.</p></noscript>
+    </div>
+  </div>
+
+  <div class="container section prose">
+    <h2>What the lab shows</h2>
+    <p>
+      Nobody knows exactly how the Great Pyramid was built. What we do have are hard limits: about 2.3 million blocks, a reign of
+      roughly two decades, a workforce housed and fed beside the plateau, the logbook of Merer recording boats carrying Tura
+      limestone to Giza, and a Khufu-era hauling ramp at the Hatnub quarry. The lab turns those limits into a simple capacity model.
+      Every course of stone waits for its slowest step: quarrying, hauling, traffic on the ramp, or space to set blocks at the top.
+    </p>
+    <p>
+      Try the five ramp theories with the same workforce and watch which constraint takes over. Near the summit the work slows
+      because there is little room to set stone, not because the blocks get heavier. The results describe a simplified model with
+      stated assumptions; they do not prove how the pyramid was built.
+    </p>
+    <p>
+      For the full story of the building site, read about the <a href="/monuments/great-pyramid/">Great Pyramid</a>, the
+      <a href="/monuments/giza-plateau/">Giza Plateau</a> and <a href="/pharaohs/khufu/">Khufu</a>, or play
+      <a href="/play/">Rise of Waset</a>, our city-builder on the Nile.
+    </p>
+  </div>
+
+  <div class="container section">
+    {featuredVideo && (
+      <MediaSection kicker="NeoKemet on YouTube" title="Watch the film">
+        <VideoFeature video={featuredVideo} />
+      </MediaSection>
+    )}
+    <Related title="More films" count={otherVideos.length}>
+      {otherVideos.map((v) => <Card {...cards.video(v)} />)}
+    </Related>
+    <Related title="Explore the site" count={monuments.length + (khufu ? 1 : 0)}>
+      {monuments.map((m) => <Card {...cards.monument(m)} />)}
+      {khufu && <Card {...cards.pharaoh(khufu)} />}
+    </Related>
+  </div>
+
+  <script is:inline type="module">
+    import { mountLab } from '/play/pyramid-lab/lab.js';
+    const host = document.getElementById('pyramid-lab');
+    if (host) {
+      try {
+        mountLab(host);
+      } catch (error) {
+        host.textContent = 'Sorry, this simulation needs a browser with canvas support.';
+      }
+    }
+  </script>
+</BaseLayout>
+
+<style>
+  .lab-host {
+    min-height: 600px;
+  }
+</style>

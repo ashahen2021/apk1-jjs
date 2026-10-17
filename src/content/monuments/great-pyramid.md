@@ -64,4 +64,6 @@ Its base is almost a perfect square of 230.35 m a side, and its sides face the c
 
 The pyramid was built by an organised Egyptian workforce, housed and fed in a town excavated at the foot of the plateau, with stone brought by boat from Tura and Aswan. Exactly how the blocks were raised is still debated. The sections below set out the evidence and the main proposals, each labelled by how well it is supported.
 
+How many people, ramps and years would it take? Test the theories yourself in the [Pyramid Builder Lab](/play/pyramid-lab/), an interactive simulation built on the evidence summarised on this page.
+
 *Source note: measurements follow W. M. F. Petrie's survey (1883), read directly; height today, volume, the 3,700-year figure and the materials follow the Wikipedia article "Great Pyramid of Giza"; the workers' town follows AERA. Full references, grouped by how each was used, are at the end of the page.*
