@@ -2,6 +2,8 @@
 import { getEntry, render } from 'astro:content';
 import EntityLayout from '@/layouts/EntityLayout.astro';
 import Card from '@/components/Card.astro';
+import InteractiveLinks from '@/components/InteractiveLinks.astro';
+import { experiencesFor } from '@/lib/interactive';
 import Related from '@/components/Related.astro';
 import MediaSection from '@/components/media/MediaSection.astro';
 import VideoFeature from '@/components/media/VideoFeature.astro';
@@ -83,5 +85,6 @@ const otherVideos = related.videos.filter((v) => v !== featuredVideo);
     <Related title={featuredVideo ? 'More films' : 'Watch on NeoKemet'} count={otherVideos.length}>
       {otherVideos.map((v) => <Card {...cards.video(v)} />)}
     </Related>
+    <InteractiveLinks only={experiencesFor('pharaohs', pharaoh.id)} />
   </Fragment>
 </EntityLayout>

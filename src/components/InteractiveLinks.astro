@@ -1,0 +1,21 @@
+---
+/** Cards for the hands-on experiences (game, pyramid lab, valley map). */
+import Card from '@/components/Card.astro';
+import Related from '@/components/Related.astro';
+import { EXPERIENCES, type ExperienceKey } from '@/lib/interactive';
+
+export interface Props {
+  only?: ExperienceKey[];
+  exclude?: ExperienceKey;
+  title?: string;
+}
+const { only, exclude, title = 'Try it yourself' } = Astro.props;
+const keys = (only ?? (Object.keys(EXPERIENCES) as ExperienceKey[])).filter((k) => k !== exclude);
+---
+
+<Related title={title} count={keys.length} id="interactive-links">
+  {keys.map((k) => {
+    const e = EXPERIENCES[k];
+    return <Card href={e.href} title={e.title} kicker={e.kicker} text={e.text} image={{ src: e.image, alt: e.alt, badge: 'Interactive' }} />;
+  })}
+</Related>

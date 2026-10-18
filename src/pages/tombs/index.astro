@@ -7,6 +7,9 @@ import { getTombs } from '@/lib/content';
 import { cards } from '@/lib/cards';
 import { GLYPHS } from '@/lib/site';
 import { VALLEYS } from '@/lib/tombs';
+import { EXPERIENCES } from '@/lib/interactive';
+
+const map = EXPERIENCES.map;
 
 const tombs = await getTombs();
 // Showcase tombs (with 3D models) first, then by dynasty.
@@ -30,6 +33,10 @@ const other = tombs.filter((t) => !t.data.valley);
   path="/tombs/"
   itemList={tombs.map((t) => ({ name: t.data.name, url: `/tombs/${t.id}/` }))}
 >
+  <section class="valley feature" aria-label="Interactive map">
+    <Card href={map.href} title={map.title} kicker={map.kicker} text={map.text} image={{ src: map.image, alt: map.alt, badge: 'Interactive' }} headingLevel="h2" />
+  </section>
+
   {groups.filter((g) => g.tombs.length).map((g) => (
     <section class="valley" aria-labelledby={`valley-${g.valley}`}>
       <div class="valley-head">
@@ -69,6 +76,7 @@ const other = tombs.filter((t) => !t.data.valley);
   .valley h2 { font-size: var(--step-3); }
   .lede { font-size: var(--step-0); }
   .has-3d { margin: 0.6rem 0 0; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-bright); }
+  .feature { max-width: 40rem; }
   .map-block { display: grid; gap: 2rem; align-items: start; }
   @media (min-width: 60rem) { .map-block { grid-template-columns: 1fr 1.2fr; gap: 3rem; } }
 </style>

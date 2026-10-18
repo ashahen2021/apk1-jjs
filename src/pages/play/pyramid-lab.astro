@@ -3,6 +3,7 @@ import { getEntry } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHero from '@/components/PageHero.astro';
 import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import InteractiveLinks from '@/components/InteractiveLinks.astro';
 import Card from '@/components/Card.astro';
 import Related from '@/components/Related.astro';
 import MediaSection from '@/components/media/MediaSection.astro';
@@ -58,7 +59,8 @@ const khufu = await getEntry('pharaohs', 'khufu');
     <p>
       For the full story of the building site, read about the <a href="/monuments/great-pyramid/">Great Pyramid</a>, the
       <a href="/monuments/giza-plateau/">Giza Plateau</a> and <a href="/pharaohs/khufu/">Khufu</a>, or play
-      <a href="/play/">Rise of Waset</a>, our city-builder on the Nile.
+      <a href="/play/">Rise of Waset</a>, our city-builder on the Nile. A thousand years after Khufu, the kings gave up pyramids
+      for hidden tombs: explore them on the <a href="/tombs/valley-of-the-kings-map/">Valley of the Kings 3D map</a>.
     </p>
   </div>
 
@@ -75,6 +77,7 @@ const khufu = await getEntry('pharaohs', 'khufu');
       {monuments.map((m) => <Card {...cards.monument(m)} />)}
       {khufu && <Card {...cards.pharaoh(khufu)} />}
     </Related>
+    <InteractiveLinks exclude="lab" title="More to explore" />
   </div>
 
   <script is:inline type="module">

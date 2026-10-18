@@ -8,6 +8,7 @@ import { getArtifacts, getDynasties, getMonuments, getPeriods, getPharaohs, getT
 import { cards } from '@/lib/cards';
 import { formatRange } from '@/lib/format';
 import { SITE, YOUTUBE } from '@/lib/site';
+import { EXPERIENCES } from '@/lib/interactive';
 
 const [periods, dynasties, pharaohs, monuments, tombs, artifacts, videos] = await Promise.all([
   getPeriods(), getDynasties(), getPharaohs(), getMonuments(), getTombs(), getArtifacts(), getVideos(),
@@ -79,6 +80,21 @@ const stats = [
       <p><a class="btn btn--ghost" href="/monuments/">Browse all monuments</a></p>
     </div>
     <EgyptMap title="Map of ancient Egypt with its capitals, monuments and royal tombs" />
+  </section>
+
+  <section class="section container" aria-labelledby="interactive-title">
+    <div class="head">
+      <div>
+        <span class="kicker">Play and explore</span>
+        <h2 id="interactive-title">Try it yourself</h2>
+      </div>
+      <a href="/play/">Play Rise of Waset →</a>
+    </div>
+    <div class="grid">
+      {Object.values(EXPERIENCES).map((e) => (
+        <Card href={e.href} title={e.title} kicker={e.kicker} text={e.text} image={{ src: e.image, alt: e.alt, badge: 'Interactive' }} />
+      ))}
+    </div>
   </section>
 
   <section class="section container" aria-labelledby="pharaohs-title">

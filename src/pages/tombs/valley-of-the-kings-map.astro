@@ -1,0 +1,103 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import Card from '@/components/Card.astro';
+import Related from '@/components/Related.astro';
+import InteractiveLinks from '@/components/InteractiveLinks.astro';
+import MediaSection from '@/components/media/MediaSection.astro';
+import VideoFeature from '@/components/media/VideoFeature.astro';
+import { getTombs, getVideos } from '@/lib/content';
+import { cards } from '@/lib/cards';
+
+// The documentary about cutting tombs into the mountain is the natural companion film.
+const featuredVideo = await getEntry('videos', 'valley-of-the-kings-carving-tombs');
+const otherVideos = (await getVideos()).filter((v) => v.id !== featuredVideo?.id && v.data.tombs?.length);
+const tombs = (await getTombs()).filter((t) => t.data.valley === 'kings');
+---
+
+<BaseLayout
+  title="Valley of the Kings 3D Map: Explore 65 Royal Tombs"
+  description="Fly over a 3D terrain map of the Valley of the Kings. Find KV62, KV17, KV7 and 62 more tombs, filter by dynasty and decoration, and play the timeline of when they were cut and discovered."
+>
+  <PageHero kicker="Tombs · Interactive map" title="Valley of the Kings in 3D" glyph="𓉐">
+    <Breadcrumbs
+      slot="above"
+      items={[
+        { label: 'Tombs', href: '/tombs/' },
+        { label: 'Valley of the Kings 3D map', href: '/tombs/valley-of-the-kings-map/' },
+      ]}
+    />
+    <p>Fly over the desert valley where the New Kingdom pharaohs were buried and watch their tombs appear, one reign at a time.</p>
+  </PageHero>
+
+  <link rel="stylesheet" href="/maps/valley-of-the-kings/vok-map.css" />
+
+  <div class="container section">
+    <div id="vok-map" class="map-host">
+      <noscript><p>The Valley of the Kings map needs JavaScript to run.</p></noscript>
+    </div>
+  </div>
+
+  <div class="container section prose">
+    <h2>How to use the map</h2>
+    <p>
+      Drag to turn the valley, scroll or pinch to zoom and tap a marker to open a tomb. Search by owner or tomb number, filter by
+      type, decoration and valley, and press play on the timeline to see the tombs appear in the order they were begun, from
+      Thutmose I around 1500 BCE to Ramesses XI, or in the order they were found, from antiquity to KV63 and KV64, found in this century.
+    </p>
+    <h2>What the map is built from</h2>
+    <p>
+      The terrain comes from the Copernicus GLO-30 elevation model, a satellite survey with a cell size of about 30 metres, so
+      the valley floor and the peak of el-Qurn are real while the smallest ridges are smoothed. Tomb entrances use published
+      coordinates where they exist and positions fitted from survey maps elsewhere; each tomb says which. Dates follow the
+      standard chronology for the 18th, 19th and 20th Dynasties.
+    </p>
+    <p>
+      To go inside, open the tomb pages with 3D models and plans:
+      <a href="/tombs/kv62-tutankhamun/">KV62 Tutankhamun</a>, <a href="/tombs/kv17-seti-i/">KV17 Seti I</a>,
+      <a href="/tombs/kv7-ramesses-ii/">KV7 Ramesses II</a>, <a href="/tombs/kv34-thutmose-iii/">KV34 Thutmose III</a> and
+      <a href="/tombs/kv43-thutmose-iv/">KV43 Thutmose IV</a>, or see the <a href="/dynasties/18/">18th Dynasty</a> that started
+      the royal cemetery.
+    </p>
+  </div>
+
+  <div class="container section">
+    {featuredVideo && (
+      <MediaSection kicker="NeoKemet on YouTube" title="Watch the film">
+        <VideoFeature video={featuredVideo} />
+      </MediaSection>
+    )}
+    <Related title="More films" count={otherVideos.length}>
+      {otherVideos.map((v) => <Card {...cards.video(v)} />)}
+    </Related>
+    <Related title="Tombs with 3D models and plans" count={tombs.length}>
+      {tombs.map((t) => <Card {...cards.tomb(t)} />)}
+    </Related>
+    <InteractiveLinks exclude="map" title="More to explore" />
+  </div>
+
+  <script is:inline type="module">
+    import { mountMap } from '/maps/valley-of-the-kings/vok-map.js';
+    const host = document.getElementById('vok-map');
+    if (host) {
+      try {
+        mountMap(host, {
+          dataUrl: '/maps/valley-of-the-kings/vok-tombs.json',
+          heightmapUrl: '/maps/valley-of-the-kings/vok-heightmap.png',
+          heightmapMetaUrl: '/maps/valley-of-the-kings/vok-heightmap.json',
+        });
+      } catch (error) {
+        host.textContent = 'Sorry, this map needs a browser with WebGL or canvas support.';
+      }
+    }
+  </script>
+</BaseLayout>
+
+<style is:global>
+  .map-host.nk-vok {
+    height: min(850px, 88vh);
+    min-height: 560px;
+  }
+</style>

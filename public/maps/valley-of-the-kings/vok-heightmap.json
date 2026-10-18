@@ -1,0 +1,20 @@
+{
+ "file": "vok-heightmap.png",
+ "format": "16-bit grayscale PNG, row 0 = north",
+ "width": 198,
+ "height": 180,
+ "bounds": {
+  "south": 25.712222222222223,
+  "north": 25.76222222222222,
+  "west": 32.57,
+  "east": 32.625
+ },
+ "elevation_m": {
+  "min": 74.2,
+  "max": 504.4
+ },
+ "decode": "elevation = min + value/65535*(max-min)",
+ "pixel_size": "1 arc-second (about 30 m)",
+ "source": "Copernicus DEM GLO-30, tile N25 E032 (produced using Copernicus WorldDEM-30 (c) DLR e.V. 2010-2014 and (c) Airbus Defence and Space GmbH 2014-2018 provided under COPERNICUS by the European Union and ESA; all rights reserved)",
+ "note": "DSM: includes surface objects; elevations are approximate."
+}

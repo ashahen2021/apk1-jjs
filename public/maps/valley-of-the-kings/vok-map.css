@@ -1,0 +1,138 @@
+.nk-vok { --bg:#0b0a08; --panel:#1b1812; --raised:#14120e; --line:#3a3224; --gold:#e2b453; --muted:#a89c80; --text:#e9e0c9; position:relative; display:block; width:100%; height:850px; min-height:580px; overflow:hidden; background:var(--bg); color:var(--text); font:14px/1.5 Inter,system-ui,sans-serif; color-scheme:dark; isolation:isolate; }
+.nk-vok.nk-vok-demo { position:fixed; inset:0; width:100%; height:100dvh; min-height:0; }
+.nk-vok *, .nk-vok *::before, .nk-vok *::after { box-sizing:border-box; }
+.nk-vok [hidden] { display:none !important; }
+.nk-vok button, .nk-vok input, .nk-vok select { font:inherit; color:inherit; }
+.nk-vok button, .nk-vok select { border:1px solid var(--line); background:var(--raised); border-radius:3px; }
+.nk-vok button { cursor:pointer; padding:9px 12px; min-height:40px; }
+.nk-vok button:hover { background:#30281b; border-color:#8b6c32; }
+.nk-vok button:disabled { cursor:default; opacity:.45; }
+.nk-vok :focus-visible { outline:2px solid var(--gold); outline-offset:3px; }
+.nk-vok a { color:var(--gold); text-underline-offset:4px; }
+.nk-vok h2, .nk-vok h3, .nk-vok p { margin:0; }
+.nk-vok h2, .nk-vok h3 { font-family:Cinzel,Georgia,serif; font-weight:400; }
+.nk-vok .nk-shell { height:100%; display:grid; grid-template-rows:auto minmax(0,1fr) auto; }
+.nk-vok .nk-header { display:flex; align-items:center; gap:24px; padding:18px 24px; border-bottom:1px solid var(--line); z-index:4; background:var(--raised); }
+.nk-vok .nk-brand { flex:1; min-width:230px; }
+.nk-vok .nk-eyebrow { color:var(--gold); font-size:10px; letter-spacing:.22em; text-transform:uppercase; margin-bottom:5px; }
+.nk-vok h2 { font-size:clamp(18px,1.55vw,26px); letter-spacing:.015em; line-height:1.25; }
+.nk-vok .nk-header label { color:var(--muted); font-size:10px; letter-spacing:.1em; text-transform:uppercase; display:grid; gap:4px; }
+.nk-vok select { padding:9px 28px 9px 10px; max-width:100%; min-height:40px; }
+.nk-vok input[type=search] { width:210px; min-height:40px; border:1px solid var(--line); border-radius:3px; padding:9px 12px; background:#0e0d0a; }
+.nk-vok .nk-main { display:grid; grid-template-columns:minmax(0,1fr) 332px; min-height:0; }
+.nk-vok .nk-stage { position:relative; min-height:0; overflow:hidden; background:radial-gradient(ellipse at center,#242016,#0b0a08 80%); }
+.nk-vok .nk-canvas { width:100%; height:100%; display:block; touch-action:none; outline-offset:-4px; }
+.nk-vok .nk-stage-top { position:absolute; left:24px; top:22px; pointer-events:none; }
+.nk-vok .nk-map-title { font:20px Cinzel,Georgia,serif; margin-bottom:5px; text-shadow:0 2px 6px #000; }
+.nk-vok .nk-count, .nk-vok .nk-subtle { color:var(--muted); font-size:12px; }
+.nk-vok .nk-count { background:#0b0a08bf; padding:3px 7px; border-left:2px solid var(--gold); }
+.nk-vok .nk-map-actions { position:absolute; left:24px; bottom:49px; display:flex; gap:6px; }
+.nk-vok .nk-map-actions button { background:#14120ee8; font-size:12px; }
+.nk-vok .nk-compass { position:absolute; right:22px; top:20px; width:50px; height:65px; display:grid; place-items:center; border:0; background:transparent; padding:0; color:var(--gold); }
+.nk-vok .nk-compass svg { width:36px; height:36px; }
+.nk-vok .nk-compass span { font-size:10px; letter-spacing:.12em; }
+.nk-vok .nk-scale { position:absolute; right:24px; bottom:55px; text-align:center; font-size:10px; color:var(--text); text-shadow:0 1px 4px #000; }
+.nk-vok .nk-scale-line { display:block; border:1px solid var(--text); border-top:0; height:6px; margin-top:5px; }
+.nk-vok .nk-hint { position:absolute; bottom:14px; left:24px; right:24px; color:var(--muted); font-size:10px; display:flex; justify-content:space-between; gap:16px; }
+.nk-vok .nk-hint span { background:#0b0a0890; padding:2px 5px; }
+.nk-vok .nk-overlay { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+.nk-vok .nk-label { position:absolute; white-space:nowrap; font-size:10px; font-weight:600; line-height:18px; color:#f2dfb1; padding:0 4px; background:#100e0bc9; border:1px solid #5a4a2e; border-radius:2px; pointer-events:none; }
+.nk-vok .nk-label.nk-landmark { color:var(--text); font-weight:400; font-size:11px; border:0; background:#0b0a08ab; padding:2px 6px; }
+.nk-vok .nk-cluster { pointer-events:auto; position:absolute; border:1px solid var(--gold); color:var(--gold); background:#14120ef2; border-radius:24px; box-shadow:0 0 0 5px #e2b45316,0 5px 30px #0006; font-size:12px; white-space:nowrap; transform:translate(-50%,-50%); }
+.nk-vok .nk-tooltip { position:absolute; pointer-events:none; max-width:240px; padding:8px 12px; border:1px solid #6b5530; border-radius:3px; background:#14120ef5; color:var(--text); font-size:12px; box-shadow:0 8px 24px #0005; z-index:3; }
+.nk-vok .nk-status { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); background:var(--panel); border:1px solid var(--line); padding:20px; max-width:90%; text-align:center; z-index:3; }
+.nk-vok .nk-sidebar { background:var(--panel); border-left:1px solid var(--line); min-height:0; display:flex; flex-direction:column; z-index:5; }
+.nk-vok .nk-tabs { display:flex; border-bottom:1px solid var(--line); padding:0 12px; gap:5px; flex-shrink:0; }
+.nk-vok .nk-tabs button { border:0; border-bottom:2px solid transparent; border-radius:0; background:transparent; padding:15px 9px 12px; color:var(--muted); font-size:12px; }
+.nk-vok .nk-tabs button[aria-selected=true] { border-color:var(--gold); color:var(--gold); }
+.nk-vok .nk-panel { padding:21px; overflow:auto; flex:1; min-height:0; scrollbar-width:thin; scrollbar-color:#5a4a2e transparent; }
+.nk-vok .nk-panel h3 { font-size:23px; line-height:1.25; margin:4px 0 12px; }
+.nk-vok .nk-section-title { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.18em; margin:6px 0 16px; }
+.nk-vok .nk-layer { display:grid; grid-template-columns:1fr 75px; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid #302a20; font-size:12px; }
+.nk-vok .nk-layer label { display:flex; align-items:center; gap:8px; }
+.nk-vok input[type=checkbox] { width:15px; height:15px; margin:0; accent-color:var(--gold); }
+.nk-vok input[type=range] { accent-color:var(--gold); width:100%; min-width:0; cursor:pointer; }
+.nk-vok .nk-swatch { display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--swatch,var(--gold)); flex-shrink:0; }
+.nk-vok .nk-exaggeration { display:block; font-size:12px; margin:18px 0 12px; }
+.nk-vok .nk-exaggeration span { float:right; color:var(--gold); }
+.nk-vok .nk-text-button { background:transparent; color:var(--gold); width:100%; margin-top:12px; font-size:12px; }
+.nk-vok .nk-detail-badge { color:var(--gold); text-transform:uppercase; letter-spacing:.2em; font-size:11px; }
+.nk-vok .nk-detail-meta { color:var(--muted); font-size:12px; margin-bottom:16px; }
+.nk-vok dl { margin:15px 0; display:grid; grid-template-columns:85px 1fr; gap:12px 8px; font-size:12px; }
+.nk-vok dt { color:var(--muted); }
+.nk-vok dd { margin:0; overflow-wrap:anywhere; }
+.nk-vok .nk-note { font-size:13px; line-height:1.75; border-top:1px solid var(--line); padding-top:14px; margin:12px 0; }
+.nk-vok .nk-link-button { display:block; border:1px solid #7b5d29; padding:10px; text-align:center; margin-top:18px; font-size:12px; text-decoration:none; }
+.nk-vok .nk-tomb-tools { display:flex; align-items:center; justify-content:space-between; gap:10px; margin:16px 0 10px; font-size:12px; }
+.nk-vok .nk-tomb-tools select { font-size:11px; }
+.nk-vok .nk-tomb-list, .nk-vok .nk-events { display:grid; gap:6px; }
+.nk-vok .nk-tomb-row { text-align:left; display:grid; grid-template-columns:45px 1fr; gap:5px; padding:9px; font-size:12px; }
+.nk-vok .nk-tomb-row strong { color:var(--gold); font-weight:500; }
+.nk-vok .nk-tomb-row small { display:block; color:var(--muted); font-size:10px; }
+.nk-vok .nk-tomb-row[aria-current=true], .nk-vok .nk-event[aria-current=true] { background:#352a18; border-color:#9a7739; }
+.nk-vok .nk-event { text-align:left; display:grid; grid-template-columns:65px 1fr; gap:10px; background:transparent; padding:12px 8px; border:0; border-left:2px solid var(--line); font-size:12px; }
+.nk-vok .nk-event time { color:var(--gold); font-size:11px; }
+.nk-vok .nk-event.nk-future { color:var(--muted); }
+.nk-vok .nk-timeline { background:var(--raised); border-top:1px solid #5a4a2e; padding:15px 24px 14px; z-index:6; }
+.nk-vok .nk-time-top { display:flex; align-items:center; gap:16px; margin-bottom:10px; }
+.nk-vok .nk-mode-switch { display:flex; gap:0; }
+.nk-vok .nk-mode-switch button { min-height:34px; padding:5px 16px; font-size:12px; border-radius:0; }
+.nk-vok .nk-mode-switch button[aria-pressed=true] { background:#3d3019; color:var(--gold); border-color:#88662d; }
+.nk-vok .nk-date { font:24px Cinzel,Georgia,serif; color:var(--gold); margin-left:auto; }
+.nk-vok .nk-play { min-width:76px; font-size:12px; }
+.nk-vok .nk-axis { position:relative; padding:24px 0 0; }
+.nk-vok .nk-event-track { position:absolute; top:0; left:10px; right:10px; height:24px; }
+.nk-vok .nk-event-dot { position:absolute; width:18px; height:22px; min-height:22px; padding:0; transform:translateX(-50%); border:0; background:transparent; color:var(--gold); font-size:12px; }
+.nk-vok .nk-event-dot[aria-current=true] { color:#fff4ce; text-shadow:0 0 8px var(--gold); }
+.nk-vok .nk-scrubber { display:block; margin:0; height:20px; }
+.nk-vok .nk-bands { display:flex; margin:5px 10px 0; height:25px; font-size:10px; color:var(--muted); }
+.nk-vok .nk-band { border-top:2px solid #665232; padding:4px 5px 0; border-right:1px solid #3a3224; overflow:hidden; white-space:nowrap; text-align:center; }
+.nk-vok .nk-band:nth-child(2) { border-top-color:#a78542; }
+.nk-vok .nk-band:nth-child(3) { border-top-color:#456d65; }
+.nk-vok .nk-time-note { color:var(--muted); font-size:10px; margin-top:5px; min-height:15px; }
+.nk-vok .nk-about { position:absolute; inset:18px; z-index:10; background:#14120efa; border:1px solid #6b5530; padding:25px; overflow:auto; max-width:650px; margin:auto; max-height:calc(100% - 36px); box-shadow:0 20px 70px #000b; }
+.nk-vok .nk-about h3 { font-size:25px; margin-bottom:16px; }
+.nk-vok .nk-about p, .nk-vok .nk-about li { font-size:12px; line-height:1.75; margin-bottom:12px; }
+.nk-vok .nk-about ul { padding-left:20px; }
+.nk-vok .nk-about-close { float:right; margin:0 0 10px 15px; }
+.nk-vok .nk-sr { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+@media (max-width:1050px) {
+  .nk-vok .nk-header { gap:12px; padding:14px 18px; }
+  .nk-vok .nk-header input[type=search] { width:165px; }
+  .nk-vok .nk-main { grid-template-columns:minmax(0,1fr) 300px; }
+  .nk-vok .nk-panel { padding:16px; }
+  .nk-vok .nk-tabs { padding:0 7px; gap:0; }
+}
+@media (max-width:759px) {
+  .nk-vok .nk-header { display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:12px 14px; }
+  .nk-vok .nk-brand { grid-column:1/-1; min-width:0; }
+  .nk-vok h2 { font-size:18px; }
+  .nk-vok .nk-eyebrow { font-size:9px; margin-bottom:3px; }
+  .nk-vok .nk-header label { font-size:9px; }
+  .nk-vok .nk-header input[type=search] { width:100%; }
+  .nk-vok .nk-main { display:grid; grid-template-columns:1fr; grid-template-rows:minmax(130px,1fr) auto; }
+  .nk-vok .nk-sidebar { border-left:0; border-top:1px solid #5a4a2e; max-height:32dvh; border-radius:10px 10px 0 0; }
+  .nk-vok .nk-sidebar.nk-collapsed .nk-panel { display:none; }
+  .nk-vok .nk-tabs { justify-content:space-around; }
+  .nk-vok .nk-tabs button { padding:9px 10px; min-height:40px; }
+  .nk-vok .nk-panel { padding:14px 18px; }
+  .nk-vok .nk-stage-top { left:14px; top:12px; }
+  .nk-vok .nk-map-title { font-size:16px; }
+  .nk-vok .nk-count { font-size:10px; }
+  .nk-vok .nk-compass { right:10px; top:7px; transform:scale(.85); transform-origin:top right; }
+  .nk-vok .nk-map-actions { left:14px; bottom:32px; gap:4px; }
+  .nk-vok .nk-map-actions button { min-height:36px; padding:5px 9px; font-size:11px; }
+  .nk-vok .nk-scale { right:14px; bottom:40px; }
+  .nk-vok .nk-hint { left:14px; right:14px; bottom:6px; font-size:9px; }
+  .nk-vok .nk-hint .nk-desktop-hint { display:none; }
+  .nk-vok .nk-timeline { padding:10px 14px 9px; }
+  .nk-vok .nk-time-top { gap:8px; margin-bottom:5px; }
+  .nk-vok .nk-mode-switch button { padding:5px 9px; font-size:11px; }
+  .nk-vok .nk-date { font-size:18px; }
+  .nk-vok .nk-play { min-width:52px; min-height:34px; padding:5px; }
+  .nk-vok .nk-time-note { font-size:9px; }
+  .nk-vok .nk-about { inset:10px; padding:18px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .nk-vok *, .nk-vok *::before, .nk-vok *::after { scroll-behavior:auto !important; animation:none !important; transition:none !important; }
+}
