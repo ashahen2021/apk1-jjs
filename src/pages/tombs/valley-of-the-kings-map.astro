@@ -85,7 +85,8 @@ const tombs = (await getTombs()).filter((t) => t.data.valley === 'kings');
       try {
         mountMap(host, {
           dataUrl: '/maps/valley-of-the-kings/vok-tombs.json',
-          heightmapUrl: '/maps/valley-of-the-kings/vok-heightmap.png',
+          // A 16-bit PNG served as .bin so the host's image optimiser cannot recompress it to 8-bit.
+          heightmapUrl: '/maps/valley-of-the-kings/vok-heightmap.bin',
           heightmapMetaUrl: '/maps/valley-of-the-kings/vok-heightmap.json',
         });
       } catch (error) {
