@@ -4,7 +4,8 @@
   "Coordinates: 'published coordinate' values come from Wikipedia/Wikidata; others are estimated by fitting the German Wikipedia location sketch (Vorlage:Tal der Könige (Ost)) to 27 published coordinates (median error about 15 m). Treat all positions as approximate entrances, good for a map at 30 m terrain resolution, not for survey use.",
   "begun_bce is the start of the owner's reign (I. Shaw, Oxford History of Ancient Egypt), used to order the timeline; it is not an exact construction date. null means unknown.",
   "KV65 (a radar anomaly reported in 2008) and KVF are not included: they are not confirmed tombs.",
-  "Facts summarise Wikipedia's tomb list and individual tomb articles (English and German); tomb plans and maps of the Theban Mapping Project are NOT copied."
+  "Facts summarise Wikipedia's tomb list and individual tomb articles (English and German); tomb plans and maps of the Theban Mapping Project are NOT copied.",
+  "discovered_year: first year the tomb was recorded by modern visitors (for 'before 1739' etc. the year given). discovered_era is 'antiquity' for tombs open since ancient times (Greek and Roman graffiti prove visits), 'modern', or 'unknown'. Event 'year' values below 0 are BCE."
  ],
  "tombs": [
   {
@@ -20,7 +21,9 @@
    "page": null,
    "lat": 25.7425,
    "lon": 32.60194,
-   "position": "published coordinate (Wikipedia/Wikidata), approximate"
+   "position": "published coordinate (Wikipedia/Wikidata), approximate",
+   "discovered_era": "antiquity",
+   "discovered_year": null
   },
   {
    "id": "KV2",
@@ -35,7 +38,9 @@
    "page": null,
    "lat": 25.741508,
    "lon": 32.602272,
-   "position": "published coordinate (Wikipedia/Wikidata)"
+   "position": "published coordinate (Wikipedia/Wikidata)",
+   "discovered_era": "antiquity",
+   "discovered_year": null
   },
   {
    "id": "KV3",
@@ -50,7 +55,9 @@
    "page": null,
    "lat": 25.741051,
    "lon": 32.602694,
-   "position": "published coordinate (Wikipedia/Wikidata)"
+   "position": "published coordinate (Wikipedia/Wikidata)",
+   "discovered_era": "antiquity",
+   "discovered_year": null
   },
   {
    "id": "KV4",
@@ -65,7 +72,9 @@
    "page": null,
    "lat": 25.740764,
    "lon": 32.602915,
-   "position": "published coordinate (Wikipedia/Wikidata)"
+   "position": "published coordinate (Wikipedia/Wikidata)",
+   "discovered_era": "antiquity",
+   "discovered_year": null
   },
   {
    "id": "KV5",
@@ -80,7 +89,9 @@
    "page": null,
    "lat": 25.740611,
    "lon": 32.601972,
-   "position": "published coordinate (Wikipedia/Wikidata)"
+   "position": "published coordinate (Wikipedia/Wikidata)",
+   "discovered_era": "modern",
+   "discovered_year": 1825
   },
   {
    "id": "KV6",
@@ -95,7 +106,9 @@
    "page": null,
    "lat": 25.740444,
    "lon": 32.601861,
-   "position": "published coordinate (Wikipedia/Wikidata)"
+   "position": "published coordinate (Wikipedia/Wikidata)",
+   "discovered_era": "antiquity",
+   "discovered_year": null
   },
   {
    "id": "KV7",
@@ -110,7 +123,9 @@
    "page": "https://neokemetai.online/tombs/kv7-ramesses-ii/",
    "lat": 25.740738,
    "lon": 32.601661,
-   "position": "published coordinate (Wikipedia/Wikidata)"
+   "position": "published coordinate (Wikipedia/Wikidata)",
+   "discovered_era": "antiquity",
+   "discovered_year": null
   },
   {
    "id": "KV8",
@@ -125,7 +140,9 @@
    "page": null,
    "lat": 25.740833,
    "lon": 32.601111,
-   "position": "published coordinate (Wikipedia/Wikidata)"
+   "position": "published coordinate (Wikipedia/Wikidata)",
+   "discovered_era": "antiquity",
+   "discovered_year": null
   },
   {
    "id": "KV9",
@@ -140,7 +157,9 @@
    "page": null,
    "lat": 25.740167,
    "lon": 32.601306,
-   "position": "published coordinate (Wikipedia/Wikidata)"
+   "position": "published coordinate (Wikipedia/Wikidata)",
+   "discovered_era": "antiquity",
+   "discovered_year": null
   },
   {
    "id": "KV10",
@@ -155,7 +174,9 @@
    "page": null,
    "lat": 25.740092,
    "lon": 32.601405,
-   "position": "published coordinate (Wikipedia/Wikidata)"
+   "position": "published coordinate (Wikipedia/Wikidata)",
+   "discovered_era": "antiquity",
+   "discovered_year": null
   },
   {
    "id": "KV11",
@@ -170,7 +191,9 @@
    "page": null,
    "lat": 25.739804,
    "lon": 32.601178,
-   "position": "estimated from a sketch-map fit (typically ±15–40 m)"
+   "position": "estimated from a sketch-map fit (typically ±15–40 m)",
+   "discovered_era": "antiquity",
+   "discovered_year": null
   },
   {
    "id": "KV12",
@@ -185,7 +208,9 @@
    "page": null,
    "lat": 25.740193,
    "lon": 32.600543,
-   "position": "estimated from a sketch-map fit (typically ±15–40 m)"
+   "position": "estimated from a sketch-map fit (typically ±15–40 m)",
+   "discovered_era": "modern",
+   "discovered_year": 1739
   },
   {
    "id": "KV13",
@@ -200,7 +225,9 @@
    "page": null,
    "lat": 25.739316,
    "lon": 32.599688,
-   "position": "estimated from a sketch-map fit (typically ±15–40 m)"
+   "position": "estimated from a sketch-map fit (typically ±15–40 m)",
+   "discovered_era": "antiquity",
+   "discovered_year": null
   },
   {
    "id": "KV14",
@@ -215,7 +242,9 @@
    "page": null,
    "lat": 25.738861,
    "lon": 32.59975,
-   "position": "published coordinate (Wikipedia/Wikidata)"
+   "position": "published coordinate (Wikipedia/Wikidata)",
+   "discovered_era": "antiquity",
+   "discovered_year": null
   },
   {
    "id": "KV15",
@@ -230,7 +259,9 @@
    "page": null,
    "lat": 25.738528,
    "lon": 32.599807,
-   "position": "estimated from a sketch-map fit (typically ±15–40 m)"
+   "position": "estimated from a sketch-map fit (typically ±15–40 m)",
+   "discovered_era": "antiquity",
+   "discovered_year": null
   },
   {
    "id": "KV16",
@@ -245,7 +276,9 @@
    "page": null,
    "lat": 25.73978,
    "lon": 32.601614,
-   "position": "estimated from a sketch-map fit (typically ±15–40 m)"
+   "position": "estimated from a sketch-map fit (typically ±15–40 m)",
+   "discovered_era": "modern",
+   "discovered_year": 1817
   },
   {
    "id": "KV17",
@@ -260,7 +293,9 @@
    "page": "https://neokemetai.online/tombs/kv17-seti-i/",
    "lat": 25.739806,
    "lon": 32.601889,
-   "position": "published coordinate (Wikipedia/Wikidata)"
+   "position": "published coordinate (Wikipedia/Wikidata)",
+   "discovered_era": "modern",
+   "discovered_year": 1817
   },
   {
    "id": "KV18",
@@ -275,7 +310,9 @@
    "page": null,
    "lat": 25.739687,
    "lon": 32.602025,
-   "position": "estimated from a sketch-map fit (typically ±15–40 m)"
+   "position": "estimated from a sketch-map fit (typically ±15–40 m)",
+   "discovered_era": "antiquity",
+   "discovered_year": null
   },
   {
    "id": "KV19",
@@ -290,7 +327,9 @@
    "page": null,
    "lat": 25.739014,
    "lon": 32.60329,
-   "position": "estimated from a sketch-map fit (typically ±15–40 m)"
+   "position": "estimated from a sketch-map fit (typically ±15–40 m)",
+   "discovered_era": "modern",
+   "discovered_year": 1817
   },
   {
    "id": "KV20",
@@ -305,7 +344,9 @@
    "page": null,
    "lat": 25.739083,
    "lon": 32.603444,
-   "position": "published coordinate (Wikipedia/Wikidata)"
+   "position": "published coordinate (Wikipedia/Wikidata)",
+   "discovered_era": "modern",
+   "discovered_year": 1799
   },
   {
    "id": "KV21",
@@ -320,7 +361,9 @@
    "page": null,
    "lat": 25.739623,
    "lon": 32.603035,
-   "position": "estimated from a sketch-map fit (typically ±15–40 m)"
+   "position": "estimated from a sketch-map fit (typically ±15–40 m)",
+   "discovered_era": "modern",
+   "discovered_year": 1817
   },
   {
    "id": "KV26",
@@ -335,7 +378,9 @@
    "page": null,
    "lat": 25.738871,
    "lon": 32.600917,
-   "position": "estimated from a sketch-map fit (typically ±15–40 m)"
+   "position": "estimated from a sketch-map fit (typically ±15–40 m)",
+   "discovered_era": "modern",
+   "discovered_year": 1835
   },
   {
    "id": "KV27",
@@ -350,7 +395,9 @@
    "page": null,
    "lat": 25.739784,
    "lon": 32.603105,
-   "position": "estimated from a sketch-map fit (typically ±15–40 m)"
+   "position": "estimated from a sketch-map fit (typically ±15–40 m)",
+   "discovered_era": "modern",
+   "discovered_year": 1832
   },
   {
    "id": "KV28",
@@ -365,7 +412,9 @@
    "page": null,
    "lat": 25.739891,
    "lon": 32.603135,
-   "position": "estimated from a sketch-map fit (typically ±15–40 m)"
+   "position": "estimated from a sketch-map fit (typically ±15–40 m)",
+   "discovered_era": "modern",
+   "discovered_year": 1832
   },
   {
    "id": "KV29",
@@ -380,7 +429,9 @@
    "page": null,
    "lat": 25.739396,
    "lon": 32.600885,
-   "position": "estimated from a sketch-map fit (typically ±15–40 m)"
+   "position": "estimated from a sketch-map fit (typically ±15–40 m)",
+   "discovered_era": "modern",
+   "discovered_year": 1832
   },
   {
    "id": "KV30",
@@ -395,7 +446,9 @@
    "page": null,
    "lat": 25.738749,
    "lon": 32.60042,
-   "position": "estimated from a sketch-map fit (typically ±15–40 m)"
+   "position": "estimated from a sketch-map fit (typically ±15–40 m)",
+   "discovered_era": "modern",
+   "discovered_year": 1817
   },
   {
    "id": "KV31",
@@ -410,7 +463,9 @@
    "page": null,
    "lat": 25.7386,
    "lon": 32.6008,
-   "position": "published coordinate (Wikipedia/Wikidata)"
+   "position": "published coordinate (Wikipedia/Wikidata)",
+   "discovered_era": "modern",
+   "discovered_year": 1817
   },
   {
    "id": "KV32",
@@ -425,7 +480,9 @@
    "page": null,
    "lat": 25.738331,
    "lon": 32.600561,
-   "position": "published coordinate (Wikipedia/Wikidata)"
+   "position": "published coordinate (Wikipedia/Wikidata)",
+   "discovered_era": "modern",
+   "discovered_year": 1898
   },
   {
    "id": "KV33",
@@ -440,7 +497,9 @@
    "page": null,
    "lat": 25.738061,
    "lon": 32.600831,
-   "position": "published coordinate (Wikipedia/Wikidata)"
+   "position": "published coordinate (Wikipedia/Wikidata)",
+   "discovered_era": "modern",
+   "discovered_year": 1898
   },
   {
    "id": "KV34",
@@ -455,7 +514,9 @@
    "page": "https://neokemetai.online/tombs/kv34-thutmose-iii/",
    "lat": 25.73781,
    "lon": 32.600616,
-   "position": "estimated from a sketch-map fit (typically ±15–40 m)"
+   "position": "estimated from a sketch-map fit (typically ±15–40 m)",
+   "discovered_era": "modern",
+   "discovered_year": 1898
   },
   {
    "id": "KV35",
@@ -470,7 +531,9 @@
    "page": null,
    "lat": 25.739889,
    "lon": 32.600139,
-   "position": "published coordinate (Wikipedia/Wikidata)"
+   "position": "published coordinate (Wikipedia/Wikidata)",
+   "discovered_era": "modern",
+   "discovered_year": 1898
   },
   {
    "id": "KV36",
@@ -485,7 +548,9 @@
    "page": null,
    "lat": 25.739533,
    "lon": 32.600174,
-   "position": "estimated from a sketch-map fit (typically ±15–40 m)"
+   "position": "estimated from a sketch-map fit (typically ±15–40 m)",
+   "discovered_era": "modern",
+   "discovered_year": 1899
   },
   {
    "id": "KV37",
@@ -500,7 +565,9 @@
    "page": null,
    "lat": 25.738376,
    "lon": 32.600898,
-   "position": "estimated from a sketch-map fit (typically ±15–40 m)"
+   "position": "estimated from a sketch-map fit (typically ±15–40 m)",
+   "discovered_era": "modern",
+   "discovered_year": 1899
   },
   {
    "id": "KV38",
@@ -515,7 +582,9 @@
    "page": null,
    "lat": 25.738911,
    "lon": 32.599806,
-   "position": "estimated from a sketch-map fit (typically ±15–40 m)"
+   "position": "estimated from a sketch-map fit (typically ±15–40 m)",
+   "discovered_era": "modern",
+   "discovered_year": 1899
   },
   {
    "id": "KV39",
@@ -530,7 +599,9 @@
    "page": null,
    "lat": 25.736389,
    "lon": 32.600556,
-   "position": "published coordinate (Wikipedia/Wikidata), approximate"
+   "position": "published coordinate (Wikipedia/Wikidata), approximate",
+   "discovered_era": "modern",
+   "discovered_year": 1899
   },
   {
    "id": "KV40",
@@ -545,7 +616,9 @@
    "page": null,
    "lat": 25.739025,
    "lon": 32.600744,
-   "position": "estimated from a sketch-map fit (typically ±15–40 m)"
+   "position": "estimated from a sketch-map fit (typically ±15–40 m)",
+   "discovered_era": "modern",
+   "discovered_year": 1899
   },
   {
    "id": "KV41",
@@ -560,7 +633,9 @@
    "page": null,
    "lat": 25.739383,
    "lon": 32.60405,
-   "position": "estimated from a sketch-map fit (typically ±15–40 m)"
+   "position": "estimated from a sketch-map fit (typically ±15–40 m)",
+   "discovered_era": "modern",
+   "discovered_year": 1899
   },
   {
    "id": "KV42",
@@ -575,7 +650,9 @@
    "page": null,
    "lat": 25.738083,
    "lon": 32.600722,
-   "position": "published coordinate (Wikipedia/Wikidata)"
+   "position": "published coordinate (Wikipedia/Wikidata)",
+   "discovered_era": "modern",
+   "discovered_year": 1900
   },
   {
    "id": "KV43",
@@ -590,7 +667,9 @@
    "page": "https://neokemetai.online/tombs/kv43-thutmose-iv/",
    "lat": 25.738667,
    "lon": 32.603083,
-   "position": "published coordinate (Wikipedia/Wikidata)"
+   "position": "published coordinate (Wikipedia/Wikidata)",
+   "discovered_era": "modern",
+   "discovered_year": 1903
   },
   {
    "id": "KV44",
@@ -605,7 +684,9 @@
    "page": null,
    "lat": 25.740104,
    "lon": 32.603135,
-   "position": "estimated from a sketch-map fit (typically ±15–40 m)"
+   "position": "estimated from a sketch-map fit (typically ±15–40 m)",
+   "discovered_era": "modern",
+   "discovered_year": 1901
   },
   {
    "id": "KV45",
@@ -620,7 +701,9 @@
    "page": null,
    "lat": 25.740281,
    "lon": 32.603061,
-   "position": "published coordinate (Wikipedia/Wikidata)"
+   "position": "published coordinate (Wikipedia/Wikidata)",
+   "discovered_era": "modern",
+   "discovered_year": 1902
   },
   {
    "id": "KV46",
@@ -635,7 +718,9 @@
    "page": null,
    "lat": 25.740833,
    "lon": 32.602778,
-   "position": "published coordinate (Wikipedia/Wikidata)"
+   "position": "published coordinate (Wikipedia/Wikidata)",
+   "discovered_era": "modern",
+   "discovered_year": 1905
   },
   {
    "id": "KV47",
@@ -650,7 +735,9 @@
    "page": null,
    "lat": 25.738998,
    "lon": 32.600222,
-   "position": "estimated from a sketch-map fit (typically ±15–40 m)"
+   "position": "estimated from a sketch-map fit (typically ±15–40 m)",
+   "discovered_era": "modern",
+   "discovered_year": 1905
   },
   {
    "id": "KV48",
@@ -665,7 +752,9 @@
    "page": null,
    "lat": 25.74,
    "lon": 32.600561,
-   "position": "published coordinate (Wikipedia/Wikidata)"
+   "position": "published coordinate (Wikipedia/Wikidata)",
+   "discovered_era": "modern",
+   "discovered_year": 1906
   },
   {
    "id": "KV49",
@@ -680,7 +769,9 @@
    "page": null,
    "lat": 25.73983,
    "lon": 32.600823,
-   "position": "estimated from a sketch-map fit (typically ±15–40 m)"
+   "position": "estimated from a sketch-map fit (typically ±15–40 m)",
+   "discovered_era": "modern",
+   "discovered_year": 1906
   },
   {
    "id": "KV50",
@@ -695,7 +786,9 @@
    "page": null,
    "lat": 25.73956,
    "lon": 32.600529,
-   "position": "estimated from a sketch-map fit (typically ±15–40 m)"
+   "position": "estimated from a sketch-map fit (typically ±15–40 m)",
+   "discovered_era": "modern",
+   "discovered_year": 1906
   },
   {
    "id": "KV51",
@@ -710,7 +803,9 @@
    "page": null,
    "lat": 25.739732,
    "lon": 32.600407,
-   "position": "estimated from a sketch-map fit (typically ±15–40 m)"
+   "position": "estimated from a sketch-map fit (typically ±15–40 m)",
+   "discovered_era": "modern",
+   "discovered_year": 1906
   },
   {
    "id": "KV52",
@@ -725,7 +820,9 @@
    "page": null,
    "lat": 25.739726,
    "lon": 32.600722,
-   "position": "estimated from a sketch-map fit (typically ±15–40 m)"
+   "position": "estimated from a sketch-map fit (typically ±15–40 m)",
+   "discovered_era": "modern",
+   "discovered_year": 1906
   },
   {
    "id": "KV53",
@@ -740,7 +837,9 @@
    "page": null,
    "lat": 25.739719,
    "lon": 32.600561,
-   "position": "published coordinate (Wikipedia/Wikidata)"
+   "position": "published coordinate (Wikipedia/Wikidata)",
+   "discovered_era": "modern",
+   "discovered_year": 1905
   },
   {
    "id": "KV54",
@@ -755,7 +854,9 @@
    "page": null,
    "lat": 25.739719,
    "lon": 32.6025,
-   "position": "published coordinate (Wikipedia/Wikidata)"
+   "position": "published coordinate (Wikipedia/Wikidata)",
+   "discovered_era": "modern",
+   "discovered_year": 1907
   },
   {
    "id": "KV55",
@@ -770,7 +871,9 @@
    "page": null,
    "lat": 25.740361,
    "lon": 32.601667,
-   "position": "published coordinate (Wikipedia/Wikidata)"
+   "position": "published coordinate (Wikipedia/Wikidata)",
+   "discovered_era": "modern",
+   "discovered_year": 1907
   },
   {
    "id": "KV56",
@@ -785,7 +888,9 @@
    "page": null,
    "lat": 25.740215,
    "lon": 32.601075,
-   "position": "estimated from a sketch-map fit (typically ±15–40 m)"
+   "position": "estimated from a sketch-map fit (typically ±15–40 m)",
+   "discovered_era": "modern",
+   "discovered_year": 1908
   },
   {
    "id": "KV57",
@@ -800,7 +905,9 @@
    "page": null,
    "lat": 25.740068,
    "lon": 32.600776,
-   "position": "estimated from a sketch-map fit (typically ±15–40 m)"
+   "position": "estimated from a sketch-map fit (typically ±15–40 m)",
+   "discovered_era": "modern",
+   "discovered_year": 1908
   },
   {
    "id": "KV58",
@@ -815,7 +922,9 @@
    "page": null,
    "lat": 25.740106,
    "lon": 32.600974,
-   "position": "estimated from a sketch-map fit (typically ±15–40 m)"
+   "position": "estimated from a sketch-map fit (typically ±15–40 m)",
+   "discovered_era": "modern",
+   "discovered_year": 1909
   },
   {
    "id": "KV59",
@@ -830,7 +939,9 @@
    "page": null,
    "lat": 25.738717,
    "lon": 32.600923,
-   "position": "estimated from a sketch-map fit (typically ±15–40 m)"
+   "position": "estimated from a sketch-map fit (typically ±15–40 m)",
+   "discovered_era": "unknown",
+   "discovered_year": null
   },
   {
    "id": "KV60",
@@ -845,7 +956,9 @@
    "page": null,
    "lat": 25.739056,
    "lon": 32.603139,
-   "position": "published coordinate (Wikipedia/Wikidata)"
+   "position": "published coordinate (Wikipedia/Wikidata)",
+   "discovered_era": "modern",
+   "discovered_year": 1903
   },
   {
    "id": "KV61",
@@ -860,7 +973,9 @@
    "page": null,
    "lat": 25.739502,
    "lon": 32.600885,
-   "position": "estimated from a sketch-map fit (typically ±15–40 m)"
+   "position": "estimated from a sketch-map fit (typically ±15–40 m)",
+   "discovered_era": "modern",
+   "discovered_year": 1910
   },
   {
    "id": "KV62",
@@ -875,7 +990,9 @@
    "page": "https://neokemetai.online/tombs/kv62-tutankhamun/",
    "lat": 25.740389,
    "lon": 32.601417,
-   "position": "published coordinate (Wikipedia/Wikidata)"
+   "position": "published coordinate (Wikipedia/Wikidata)",
+   "discovered_era": "modern",
+   "discovered_year": 1922
   },
   {
    "id": "KV63",
@@ -890,7 +1007,9 @@
    "page": null,
    "lat": 25.740153,
    "lon": 32.601525,
-   "position": "published coordinate (Wikipedia/Wikidata)"
+   "position": "published coordinate (Wikipedia/Wikidata)",
+   "discovered_era": "modern",
+   "discovered_year": 2005
   },
   {
    "id": "KV64",
@@ -905,7 +1024,9 @@
    "page": null,
    "lat": 25.738947,
    "lon": 32.600795,
-   "position": "estimated from a sketch-map fit (typically ±15–40 m)"
+   "position": "estimated from a sketch-map fit (typically ±15–40 m)",
+   "discovered_era": "modern",
+   "discovered_year": 2011
   },
   {
    "id": "WV22",
@@ -920,7 +1041,9 @@
    "page": null,
    "lat": 25.743333,
    "lon": 32.597222,
-   "position": "published coordinate (Wikipedia/Wikidata), approximate"
+   "position": "published coordinate (Wikipedia/Wikidata), approximate",
+   "discovered_era": "modern",
+   "discovered_year": 1799
   },
   {
    "id": "WV23",
@@ -935,7 +1058,9 @@
    "page": null,
    "lat": 25.741389,
    "lon": 32.591944,
-   "position": "published coordinate (Wikipedia/Wikidata), approximate"
+   "position": "published coordinate (Wikipedia/Wikidata), approximate",
+   "discovered_era": "modern",
+   "discovered_year": 1816
   },
   {
    "id": "WV24",
@@ -950,7 +1075,9 @@
    "page": null,
    "lat": 25.7413,
    "lon": 32.5923,
-   "position": "estimated between WV23 and WV25 (±100 m)"
+   "position": "estimated between WV23 and WV25 (±100 m)",
+   "discovered_era": "modern",
+   "discovered_year": 1832
   },
   {
    "id": "WV25",
@@ -965,7 +1092,9 @@
    "page": null,
    "lat": 25.741194,
    "lon": 32.592667,
-   "position": "published coordinate (Wikipedia/Wikidata), approximate"
+   "position": "published coordinate (Wikipedia/Wikidata), approximate",
+   "discovered_era": "modern",
+   "discovered_year": 1817
   },
   {
    "id": "WVA",
@@ -980,7 +1109,9 @@
    "page": null,
    "lat": 25.74287,
    "lon": 32.59721,
-   "position": "published coordinate (Wikipedia/Wikidata), approximate"
+   "position": "published coordinate (Wikipedia/Wikidata), approximate",
+   "discovered_era": "modern",
+   "discovered_year": 1845
   }
  ],
  "landmarks": [
@@ -1087,6 +1218,23 @@
   {
    "year": 2012,
    "label": "KV64 opened by the University of Basel"
+  }
+ ],
+ "dynasty_bands_bce": [
+  {
+   "dynasty": "18th",
+   "start": -1550,
+   "end": -1295
+  },
+  {
+   "dynasty": "19th",
+   "start": -1295,
+   "end": -1186
+  },
+  {
+   "dynasty": "20th",
+   "start": -1186,
+   "end": -1069
   }
  ]
 }
