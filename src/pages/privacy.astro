@@ -12,7 +12,7 @@ const updated = new Date(`${POLICY_LAST_UPDATED}T00:00:00Z`).toLocaleDateString(
 
 <BaseLayout
   title="Privacy Policy"
-  description="How NeoKemetAI handles information: what is collected when you visit, contact-form messages, YouTube embeds, cookies and third-party links."
+  description="How NeoKemetAI handles information: what is collected when you visit, advertising and analytics cookies, contact-form messages, YouTube embeds and third-party links."
 >
   <PageHero kicker="Privacy" title="Privacy policy" glyph="𓂀">
     <Breadcrumbs slot="above" items={[{ label: 'Privacy', href: '/privacy/' }]} />
@@ -42,7 +42,7 @@ const updated = new Date(`${POLICY_LAST_UPDATED}T00:00:00Z`).toLocaleDateString(
           With your permission, we use Google Analytics 4 (Google LLC) to understand how the site is used: which pages are
           visited, roughly where visitors come from (country or city level), the device and browser type, and how people
           arrive (for example from a search engine or social media). We use this only to improve the site; we do not use it
-          to identify you, and we do not use Google's advertising features.
+          to identify you, and analytics data is not used to target advertising.
         </p>
         <p>
           Google Analytics is not loaded until you choose "Allow" in the banner shown on your first visit. If you choose
@@ -59,12 +59,44 @@ const updated = new Date(`${POLICY_LAST_UPDATED}T00:00:00Z`).toLocaleDateString(
       </p>
     )}
 
+    <h2 id="advertising">Advertising</h2>
+    <p>
+      {SITE.name} is free to use, and we use Google AdSense (Google LLC) to show advertisements on some pages to help cover
+      the cost of running the site. Advertising never changes what we write: our pages are not sponsored, and we do not choose
+      the individual ads you see.
+    </p>
+    <ul>
+      <li>
+        Third-party vendors, including Google, use cookies to serve ads based on a user's prior visits to this website or
+        other websites.
+      </li>
+      <li>
+        Google's use of advertising cookies enables it and its partners to serve ads to our visitors based on their visits to
+        this site and/or other sites on the Internet.
+      </li>
+      <li>
+        You may opt out of personalised advertising by visiting Google's
+        <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer">Ads Settings</a>. You can also opt
+        out of some other third-party vendors' use of cookies for personalised advertising at
+        <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer">www.aboutads.info</a>.
+      </li>
+    </ul>
+    <p>
+      If you do not opt out, or have not given consent where it is required, you may still see ads that are not
+      personalised, based on the page you are reading and your general location. Visitors in the European Economic Area, the
+      United Kingdom and Switzerland are asked for their consent through a consent message before advertising cookies are
+      used for personalised ads, and can change that choice at any time. More detail on how Google uses information from
+      sites that use its services is at
+      <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer">How Google uses information from sites or apps that use our services</a>.
+    </p>
+
     <h2>Cookies and similar technologies</h2>
     {GA_MEASUREMENT_ID ? (
       <p>
         {SITE.name} itself sets no cookies. If you allow analytics, Google Analytics sets its own cookies (named
         <code>_ga</code> and <code>_ga_*</code>) to recognise repeat visits. Your analytics choice is remembered in your
-        browser's local storage (<code>nk-consent</code>), not in a cookie. Fonts are served from our own site, not from a
+        browser's local storage (<code>nk-consent</code>), not in a cookie. Where advertising is shown, Google and its partners
+        may set advertising cookies as described under <a href="#advertising">Advertising</a>. Fonts are served from our own site, not from a
         third-party font service. Other third-party services described below may set their own cookies only when you choose to
         use them.
       </p>
@@ -85,10 +117,12 @@ const updated = new Date(`${POLICY_LAST_UPDATED}T00:00:00Z`).toLocaleDateString(
       <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google's privacy policy</a>.
     </p>
 
-    <h2>Interactive 3D models</h2>
+    <h2>Interactive 3D models, maps and games</h2>
     <p>
-      3D models and their viewer are loaded from this site only when you choose to open them. No third-party service is
-      involved.
+      3D models, the Valley of the Kings map and their viewers are loaded from this site only, and no third-party service is
+      involved. The game Rise of Waset and the Pyramid Builder Lab keep your progress and settings in your own browser's local
+      storage so you can continue later; this information never leaves your device, and you can remove it by clearing your
+      browser's site data.
     </p>
 
     <h2>Contact form</h2>
@@ -109,7 +143,7 @@ const updated = new Date(`${POLICY_LAST_UPDATED}T00:00:00Z`).toLocaleDateString(
     <h2>Links to other websites and social media</h2>
     <p>
       Our pages link to museums, archives, academic publications and reference works, and our footer links to NeoKemetAI
-      profiles on YouTube, Facebook, TikTok, Instagram and Pinterest. Those links open the other site, which has its own
+      profiles on YouTube, Facebook, X (Twitter), TikTok, Instagram and Pinterest. Those links open the other site, which has its own
       privacy practices; we are not responsible for them. Following a social media link does not share any information from
       {SITE.name} with that platform beyond what your browser normally sends when opening a page.
     </p>
@@ -121,6 +155,7 @@ const updated = new Date(`${POLICY_LAST_UPDATED}T00:00:00Z`).toLocaleDateString(
       {HOST === 'Vercel' && <li><strong>An email delivery provider</strong>: forwarding contact-form messages to our inbox.</li>}
       <li><strong>YouTube (Google)</strong>: video preview images, and the player once you press play.</li>
       {GA_MEASUREMENT_ID && <li><strong>Google Analytics (Google)</strong>: visitor statistics, only if you allow them.</li>}
+      <li><strong>Google AdSense (Google)</strong>: advertising, as described above.</li>
     </ul>
     <p>Each processes information under its own privacy policy.</p>
 

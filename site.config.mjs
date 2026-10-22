@@ -43,10 +43,11 @@ export const GOOGLE_SITE_VERIFICATION = '';
 export const SOCIAL = [
   { id: 'facebook', label: 'Facebook', url: 'https://www.facebook.com/neokemetai' },
   { id: 'tiktok', label: 'TikTok', url: 'https://www.tiktok.com/@kemetvision6' },
+  { id: 'x', label: 'X (Twitter)', url: 'https://x.com/neokemetai' },
   { id: 'instagram', label: 'Instagram', url: 'https://www.instagram.com/neokemetai/' },
   { id: 'pinterest', label: 'Pinterest', url: 'https://uk.pinterest.com/neokemet/' },
   { id: 'youtube', label: 'YouTube', url: 'https://www.youtube.com/@NeoKemetAI' },
 ];
 
 /** Shown on /privacy/ and /disclaimer/. Update when either text changes. */
-export const POLICY_LAST_UPDATED = '2026-09-28';
+export const POLICY_LAST_UPDATED = '2026-10-22';
