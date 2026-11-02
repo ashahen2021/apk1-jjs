@@ -38,7 +38,23 @@ The bust has been in Germany since 1913. Hidden during the Second World War, it 
 
 Egypt has asked for its return since it was first shown to the public in 1924. Egyptian officials argue that it was taken out of Egypt by misleading the inspectors during the division of finds; German authorities point to the protocol signed with the Egyptian Antiquities Service in 1913 and say the bust is too fragile to travel. The debate continues.
 
+## Seeing the bust today
+
+The bust is in the **Neues Museum** on Berlin's Museum Island, in the North Dome Room. It has the room to itself, at the end of the museum's Egyptian route, so the galleries before it set the scene with other works from Amarna and from Thutmose's workshop. Photography is not allowed in the North Dome Room. The rule protects the bust's light-sensitive paint, so look closely while you are there:
+
+- **Walk round it.** In profile, the long neck and the tall crown balance each other; the bust was designed to be seen from the side as much as from the front.
+- **Look at the left eye.** The empty socket is easy to miss from the front, and it is the best clue to the bust's role as a workshop model.
+- **Compare it with the plaster heads** from the same workshop shown nearby. They show the stages through which a royal portrait was worked out.
+
+## What we know, and what is still argued
+
+- **Established:** it was found at Amarna in 1912 in the workshop of the sculptor Thutmose, and it shows Nefertiti, identified by her crown.
+- **Established:** it is ancient. Pigment analysis and CT scans rule out the claims, made from time to time, that it is a modern fake.
+- **Likely:** it was a master model kept in the workshop, which would explain the unfinished left eye.
+- **Debated:** whether it left Egypt fairly. The 1913 division of finds was signed, but Egypt argues that the inspectors were misled about the object's importance.
+
 ## Sources
 
 - Wikipedia, "Nefertiti Bust" (reference work consulted)
 - A. Huppertz et al., CT study of the bust, *Radiology* (April 2009)
+- Staatliche Museen zu Berlin, "The presentation of the bust of Nefertiti" (Egyptian Museum and Papyrus Collection)

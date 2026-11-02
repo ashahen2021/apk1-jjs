@@ -36,8 +36,23 @@ In the 1920s the Metropolitan Museum's Egyptian Expedition, led by Herbert Winlo
 
 The attack on Hatshepsut's memory was once explained as revenge by Thutmose III. Because it came so long after her death, most historians now think it was a political measure: removing a female king from the official record, possibly to secure the succession of Thutmose III's son, Amenhotep II. Her temple at Deir el-Bahari, one of the masterpieces of Egyptian architecture, survived, and her statues, pieced together again, now stand in museums in Cairo and New York.
 
+## Seeing the statue today
+
+The statue is in the **Metropolitan Museum of Art** in New York, among the Met's group of Hatshepsut statues in Gallery 115, together with kneeling and standing figures of the queen recovered from the same deposits at Deir el-Bahari.
+
+- **Compare the statues in the room.** Side by side, they show how her image changed from a feminine king to a fully conventional male figure with a beard.
+- **Look for the joins.** The statue was rebuilt from fragments, and the head has been restored several times since 1929 as more pieces were identified, in 1930, 1979 and 1993.
+
+## What we know, and what is still argued
+
+- **Established:** it shows Hatshepsut as king; her royal names are on the throne.
+- **Established:** it was deliberately broken in antiquity and reassembled in the 20th century from fragments found by the Met's expedition.
+- **Likely:** it is an early statue of her reign, made before her official image became fully masculine.
+- **Debated:** why her images were destroyed so long after her death. A political measure to secure the succession of Thutmose III's line is the most common explanation.
+
 ## Sources
 
 - Metropolitan Museum of Art, collection record for the Seated Statue of Hatshepsut (29.3.2)
+- Metropolitan Museum of Art, "Queen Hatshepsut Restored" (essay on the restorations of the statue)
 - I. Shaw (ed.), *The Oxford History of Ancient Egypt* (Oxford, 2000)
 - NeoKemetAI page on Hatshepsut

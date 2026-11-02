@@ -38,4 +38,27 @@ In 1903 Georges Legrain found in a single pit in the court of the seventh pylon,
 
 Build your own Theban city with a temple to Amun in [Rise of Waset](/play/), our city-builder set on the Nile.
 
+## Visiting Karnak today
+
+Karnak is on the east bank at Luxor, about three kilometres north of Luxor Temple. Since 2021 the two temples are linked again by the restored **Avenue of Sphinxes**, which you can walk in part. Karnak is large enough to need at least half a day. A route that shows its history in order:
+
+- **Start at the first pylon**, the unfinished gateway of the last native kings, and look for the mud-brick construction ramp still leaning against its inner face.
+- **Find the single column** of Taharqa's kiosk in the first court, the last standing of ten.
+- **Walk the Great Hypostyle Hall slowly.** Cleaning in recent years has revealed paint on the column capitals and the architraves high above you.
+- **See Hatshepsut's obelisk** and, nearby, the fallen top of its twin, which lies by the sacred lake.
+- **Visit the sacred lake** and the giant granite scarab of Amenhotep III beside it.
+- **Do not skip the Open Air Museum** in the north-west corner. Senusret I's White Chapel, the oldest complete building at Karnak, and Hatshepsut's Red Chapel have been rebuilt there from blocks found inside later pylons.
+
+## What we know, and what is still argued
+
+- **Established:** Karnak grew over about two thousand years, from the Middle Kingdom to the Ptolemies, around the cult of Amun-Ra.
+- **Established:** the Great Hypostyle Hall was decorated under Seti I and Ramesses II, and its outer walls carry Seti's wars and Ramesses' Battle of Kadesh.
+- **Likely:** the first pylon was begun under the 30th Dynasty, the last native dynasty, and left unfinished.
+- **Debated:** how old the sacred site is. Traces of buildings older than Senusret I suggest worship here before the Middle Kingdom, but little survives.
+- **Debated:** how the colossal columns and roof blocks were raised. Ramps of mud brick and sand are the usual answer, and the construction ramp left at the first pylon supports it.
+
+## Explore it from here
+
+See how [Thutmose III](/pharaohs/thutmose-iii/), [Hatshepsut](/pharaohs/hatshepsut/) and [Ramesses II](/pharaohs/ramesses-ii/) each added to the temple, or cross the river to [Hatshepsut's temple](/monuments/temple-of-hatshepsut/), the destination of Amun's yearly festival visit.
+
 *Source note: Wikipedia, "Karnak" and "Great Hypostyle Hall of Karnak" (reference works consulted); Franco-Egyptian Centre for the Study of the Temples of Karnak (CFEETK); R. H. Wilkinson, The Complete Temples of Ancient Egypt (2000). Dates and measurements are approximate.*

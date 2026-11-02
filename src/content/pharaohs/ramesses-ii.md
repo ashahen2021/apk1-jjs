@@ -37,4 +37,24 @@ His chief queen in the early part of the reign was **Nefertari**, for whom he bu
 
 Ramesses was buried in [KV7](/tombs/kv7-ramesses-ii/), now badly damaged by floods; you can see it near the entrance of the valley on the [Valley of the Kings 3D map](/tombs/valley-of-the-kings-map/). His mummy, moved by priests for safety some three centuries after his death, was found in 1881 in the royal cache at Deir el-Bahari. In 1976 it was flown to Paris for conservation, and it is now in the National Museum of Egyptian Civilization in Cairo.
 
+## Where to see Ramesses II today
+
+No pharaoh left more to visit. Some of the places where he can still be seen:
+
+- **Abu Simbel**, Nubia: the four seated colossi and the sun alignment of February and October. See [Abu Simbel](/monuments/abu-simbel/).
+- **The Ramesseum**, western Thebes: his memorial temple, where the broken granite colossus that inspired *Ozymandias* still lies.
+- **Luxor Temple**: his pylon, seated colossi and the obelisk whose twin has stood in the Place de la Concorde in Paris since 1836.
+- **The Grand Egyptian Museum**, Giza: the eleven-metre colossus that stood for decades in Cairo's Ramses Square now greets visitors in the atrium.
+- **Mit Rahina (ancient Memphis)**: a fallen limestone colossus, displayed lying on its back in its own building.
+- **The British Museum**, London: the [Younger Memnon](/artifacts/younger-memnon/), the upper part of a statue from the Ramesseum.
+- **The National Museum of Egyptian Civilization**, Cairo: his mummy, moved there in the procession of royal mummies in 2021.
+- **The Valley of the Kings**: his tomb, [KV7](/tombs/kv7-ramesses-ii/), and the vast tomb of his sons, KV5. Find both on the [Valley of the Kings 3D map](/tombs/valley-of-the-kings-map/).
+
+## What we know, and what is still argued
+
+- **Established:** he reigned for about 66 years, fought the Battle of Kadesh in his fifth year and made a written peace with the Hittites in his twenty-first.
+- **Established:** Kadesh was not the victory his temples claim. The city stayed under Hittite control, and Hittite sources treat the campaign as their success.
+- **Established:** he had more than a hundred sons and daughters; processions of them are carved in his temples.
+- **No evidence:** that he was the pharaoh of the Exodus. The idea comes from the Bible's mention of a store-city called Raamses (Exodus 1:11); no Egyptian source records the events, and scholars do not agree on whether or when they happened.
+
 *Source note: Wikipedia, "Ramesses II", "Battle of Kadesh" and "Egyptian–Hittite peace treaty" (reference works consulted); K. A. Kitchen, Pharaoh Triumphant (1982). Reign dates are approximate.*

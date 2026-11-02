@@ -34,4 +34,18 @@ The *Judicial Papyrus of Turin* records the trial of conspirators from the royal
 
 He was buried in tomb KV11 in the Valley of the Kings, which you can find on the [Valley of the Kings 3D map](/tombs/valley-of-the-kings-map/). His mummy was among the royal bodies hidden in the Deir el-Bahari cache.
 
+## What we know, and what is still argued
+
+- **Established:** a conspiracy in the royal harem tried to kill him; the trial records name the plotters, including Queen Tiye and her son Pentawer.
+- **Established, since 2012:** the plot succeeded. The CT scan of his mummy shows a deep cut across the throat, made while he was alive.
+- **Likely:** "Unknown Man E", a mummy buried wrapped in a goatskin, which was considered ritually impure, is Pentawer. His DNA shows a father–son relationship with Ramesses III, but the identification cannot be proven.
+- **Established:** the workmen of Deir el-Medina went on strike in his 29th year, as the Turin Strike Papyrus records day by day.
+- **Debated:** how far his wars were real campaigns and how far they were copied from earlier kings. His Sea Peoples reliefs are original; some of his lists of foreign conquests repeat those of Ramesses II.
+
+## Where to see Ramesses III today
+
+- **[Medinet Habu](/monuments/medinet-habu/)**, western Thebes: his temple, with the sea battle on the outer north wall.
+- **KV11**, Valley of the Kings: his tomb, known for the painting of two harpists, which gave it the nickname "the tomb of the harpers".
+- **The National Museum of Egyptian Civilization**, Cairo: his mummy, moved there with those of other kings in the procession of 2021.
+
 *Source note: Wikipedia, "Ramesses III", "Sea Peoples", "Papyrus Harris I" and "Harem conspiracy" (reference works consulted); Z. Hawass et al., "Revisiting the harem conspiracy and death of Ramesses III", BMJ 345 (2012). Reign dates are approximate.*

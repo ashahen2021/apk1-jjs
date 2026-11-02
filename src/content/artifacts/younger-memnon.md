@@ -34,7 +34,22 @@ In London it was named after the "Memnonium", the classical name of the Ramesseu
 
 The statue's arrival coincided with a friendly competition between the poets Percy Bysshe Shelley and Horace Smith, who both published sonnets called "Ozymandias", a Greek form of Usermaatre, one of Ramesses II's names. Shelley's poem, with its "colossal wreck" in the desert, became one of the most famous in English. The Younger Memnon was also featured as object 20 in the BBC Radio 4 series *A History of the World in 100 Objects* (2010).
 
+## Seeing it today
+
+The Younger Memnon is in **Room 4**, the Egyptian Sculpture gallery of the British Museum in London (Bay 9), the same long gallery as the Rosetta Stone. Entry to the museum's permanent collection is free.
+
+- **Stand to the side.** The two colours of the granite are clearest at an angle: the sculptors placed the line between them at the king's chest, so the head is pale and the body darker.
+- **Look for the hole** on the right of the chest, traditionally explained as a drill hole from the French attempt to move the statue in 1798–99.
+- **Then visit the Ramesseum** in Luxor if you can. The head of the statue's partner, and the shattered colossus that inspired Shelley, still lie in the temple courts.
+
+## What we know, and what is still argued
+
+- **Established:** it shows Ramesses II and comes from the Ramesseum, where Belzoni moved it in 1816.
+- **Established:** the name is a mistake. Classical writers linked the Theban colossi with the hero Memnon, and the British Museum's statue inherited the label.
+- **Traditional, not proven:** that the hole in the chest was made by Napoleon's expedition.
+- **Debated:** whether it directly inspired Shelley's "Ozymandias". The poem appeared in January 1818, while the statue was still on its way to London, and Shelley drew mainly on the ancient historian Diodorus. News of the statue may still have prompted the competition that produced it.
+
 ## Sources
 
 - Wikipedia, "Younger Memnon" (reference work consulted)
-- British Museum, object EA 19
+- British Museum, object EA 19 (collection record, gallery location)

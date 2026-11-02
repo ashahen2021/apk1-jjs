@@ -33,4 +33,26 @@ When order broke down at the end of the 20th Dynasty, the people of western Theb
 
 Medinet Habu lies at the southern end of the Theban west bank, a short distance from the Valley of the Queens and Deir el-Medina. See it in its landscape on the [Valley of the Kings 3D map](/tombs/valley-of-the-kings-map/).
 
+## Visiting Medinet Habu today
+
+Medinet Habu stands at the southern end of the Theban west bank, a short drive from the Colossi of Memnon, and is usually much quieter than the Valley of the Kings or Hatshepsut's temple. Allow at least an hour and a half. Five things are easy to miss:
+
+- **The High Gate.** Before you reach the temple, climb the steps of the Migdol gateway. Its upper rooms, decorated with the king among the women of his household, are a rare glimpse of royal private life.
+- **The bull hunt.** Walk round to the back (west face) of the first pylon's southern tower: Ramesses III hunts wild bulls in the marshes, one of the most lively scenes in Egyptian relief.
+- **Colour.** In the second court and the colonnades around it, the ceilings and the relief keep much of their original blue, red and yellow paint.
+- **Deep carving.** Ramesses III's hieroglyphs are cut unusually deep into the stone. A likely reason is that it made them hard for later kings to recarve with their own names, as Ramesses III himself had done to others.
+- **The sea battle.** It is on the outer face of the north wall, so you must leave the temple and walk along the outside. Morning light shows the low relief best.
+
+## What we know, and what is still argued
+
+- **Established:** the temple was built for Ramesses III and records wars against Libyans and against the Sea Peoples in his eighth year. The texts name the attackers and the reliefs show them on land and at sea.
+- **Widely accepted:** the Peleset of the inscriptions are the Philistines who settled in southern Canaan soon afterwards.
+- **Debated:** where the other Sea Peoples came from. Links between the Shekelesh and Sicily, or the Sherden and Sardinia, rest mainly on the similarity of names.
+- **Debated:** whether the sea battle was one real engagement or a composite picture of several clashes, arranged to show the king as the defender of Egypt.
+- **Likely:** some of the foreign campaigns shown on the temple, including lists of conquered places, were copied from the Ramesseum of Ramesses II rather than fought by Ramesses III.
+
+## Explore it from here
+
+Find Medinet Habu in its landscape, beside Deir el-Medina and the Valley of the Queens, on the [Valley of the Kings 3D map](/tombs/valley-of-the-kings-map/). For the king who built it, his strike, his murder and his tomb, see [Ramesses III](/pharaohs/ramesses-iii/).
+
 *Source note: Wikipedia, "Medinet Habu (temple)" (reference work consulted); University of Chicago Oriental Institute (ISAC), Epigraphic Survey publications, Medinet Habu vols. I–VIII (1930–70). Dates are approximate.*

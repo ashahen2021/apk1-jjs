@@ -41,6 +41,23 @@ The plaited beard, about 2.5 kg, had come away from the mask by the time it was 
 
 Some scholars, notably Nicholas Reeves, have suggested that parts of the mask were first made for Neferneferuaten, a ruler who reigned just before Tutankhamun, and later given his face and names. The conservator who restored the mask in 2015 found no evidence of a separate face or altered names, and the question remains open.
 
+## Seeing the mask today
+
+Since the Grand Egyptian Museum opened fully in November 2025, the mask has been displayed in the museum's **Tutankhamun Galleries** at Giza, near the pyramids. For the first time since the discovery, the whole burial equipment of KV62 is shown together, so the mask can be seen alongside the coffins, shrines and chariots that surrounded it.
+
+- **Look at the ears.** They are pierced. The holes were covered with small gold discs when the mask was found, and earrings were usually shown on images of princes and women, not on adult kings.
+- **Walk round to the back** to see the ten lines of the protective spell, which most photographs never show.
+- **Then see the tomb itself.** The mummy is still in KV62, in the Valley of the Kings, and you can explore its chambers in 3D on our [KV62 page](/tombs/kv62-tutankhamun/).
+
+## What we know, and what is still argued
+
+- **Established:** the mask was found on Tutankhamun's mummy in 1925, and it is made of two sheets of high-carat gold with stone and glass inlays.
+- **Established:** the beard came off in 2014, was badly glued, and was correctly reattached with beeswax in 2015.
+- **Debated:** whether the mask was first made for another ruler, probably Neferneferuaten, and adapted for Tutankhamun. The 2015 conservation found no clear sign of a replaced face.
+- **Open question:** why the ears are pierced. It may reflect the king's youth, or that parts of the mask were made for someone else.
+
+For how the king died, and what his mummy reveals, see [Tutankhamun](/pharaohs/tutankhamun/).
+
 ## Sources
 
 - Wikipedia, "Mask of Tutankhamun" (reference work consulted)
