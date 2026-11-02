@@ -1,5 +1,6 @@
 ---
 import { SITE } from '@/lib/site';
+import { isNoindexPath } from '../../indexing.config.mjs';
 
 export interface Props {
   title: string;
@@ -11,7 +12,8 @@ export interface Props {
   jsonLd?: Record<string, unknown>[];
 }
 
-const { title, description, image = SITE.defaultOgImage, type = 'website', noindex = false, jsonLd = [] } = Astro.props;
+const { title, description, image = SITE.defaultOgImage, type = 'website', jsonLd = [] } = Astro.props;
+const noindex = Astro.props.noindex || isNoindexPath(Astro.url.pathname);
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(image, Astro.site);

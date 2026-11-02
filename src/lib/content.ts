@@ -30,10 +30,11 @@ export const getTombs = () => sortByDynasty('tombs');
 export const getArtifacts = () => sortByDynasty('artifacts');
 
 export async function getVideos() {
-  // Published videos first (newest first), then announced ones in file order.
-  return (await getCollection('videos')).sort(
-    (a, b) => (b.data.published?.getTime() ?? 0) - (a.data.published?.getTime() ?? 0),
-  );
+  // Only films that are live on YouTube get pages and cards; announced ones stay hidden until
+  // they have a youtubeId, so the site never shows "Coming soon" placeholders. Newest first.
+  return (await getCollection('videos'))
+    .filter((v) => v.data.youtubeId)
+    .sort((a, b) => (b.data.published?.getTime() ?? 0) - (a.data.published?.getTime() ?? 0));
 }
 
 const has = <C extends CollectionKey>(refs: Ref<C>[] | undefined, id: string) =>
