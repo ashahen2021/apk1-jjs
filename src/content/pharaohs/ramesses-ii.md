@@ -1,4 +1,35 @@
 ---
+media:
+  hero:
+    src: ../../assets/media/pharaohs/ramesses-ii/abou-simbel-nubia-met-271099.jpg
+    alt: "Nineteenth-century photograph of the seated colossi of Ramesses II at Abu Simbel."
+    caption: "The Great Temple of Abu Simbel, photographed by Francis Frith in 1857."
+    kind: photo
+    credit: "Photo: Francis Frith, 1857 / The Metropolitan Museum of Art"
+    license: "CC0"
+    sourceUrl: https://www.metmuseum.org/art/collection/search/271099
+  gallery:
+    - src: ../../assets/media/pharaohs/ramesses-ii/abou-sembil-grand-sp-os-statues-colossales-vues-de-trois-qua-met-261806.jpg
+      alt: "Old photograph of the colossal seated statues of Abu Simbel seen from an angle, with sand banked against them."
+      caption: "The colossi of the Great Temple at Abu Simbel, photographed by Félix Teynard in 1851–52 with drifting sand still banked against them."
+      kind: photo
+      credit: "Photo: Félix Teynard, 1851–52 / The Metropolitan Museum of Art"
+      license: "CC0"
+      sourceUrl: https://www.metmuseum.org/art/collection/search/261806
+    - src: ../../assets/media/pharaohs/ramesses-ii/ramesseum-thebes-201-the-bes-1844-202-rhamse-ion-met-726475.jpg
+      alt: "Early photograph with a blue-green tint showing the Osiris pillars of the Ramesseum."
+      caption: "The Ramesseum in 1844, one of the earliest photographs of the temple: a daguerreotype by Joseph-Philibert Girault de Prangey."
+      kind: photo
+      credit: "Photo: Joseph-Philibert Girault de Prangey, 1844 / The Metropolitan Museum of Art"
+      license: "CC0"
+      sourceUrl: https://www.metmuseum.org/art/collection/search/726475
+    - src: ../../assets/media/pharaohs/ramesses-ii/doorjamb-from-a-temple-of-ramesses-ii-met-544718.jpg
+      alt: "A granite doorjamb carved with a figure of the king and hieroglyphs."
+      caption: "A granite doorjamb from a temple of Ramesses II."
+      kind: photo
+      credit: "Photo: The Metropolitan Museum of Art"
+      license: "CC0"
+      sourceUrl: https://www.metmuseum.org/art/collection/search/544718
 name: Ramesses II
 throneName: Usermaatra Setepenra
 epithet: Ramesses the Great

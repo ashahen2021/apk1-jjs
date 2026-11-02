@@ -1,4 +1,28 @@
 ---
+media:
+  hero:
+    src: ../../assets/media/monuments/medinet-habu/m-d-net-abou-th-bes-constructions-post-rieures-deuxi-me-cour-met-261835.jpg
+    alt: "Nineteenth-century photograph of a temple court with square pillars and fallen column drums."
+    caption: "The second court of Ramesses III's temple at Medinet Habu, photographed by Félix Teynard in 1851–52."
+    kind: photo
+    credit: "Photo: Félix Teynard, 1851–52 / The Metropolitan Museum of Art"
+    license: "CC0"
+    sourceUrl: https://www.metmuseum.org/art/collection/search/261835
+  gallery:
+    - src: ../../assets/media/monuments/medinet-habu/m-d-net-abou-th-bes-constructions-post-rieures-fragment-de-s-met-261834.jpg
+      alt: "Old photograph of a temple wall covered with carved scenes and hieroglyphs."
+      caption: "Carved scenes on the north-east face of the temple, photographed by Félix Teynard in 1851–52."
+      kind: photo
+      credit: "Photo: Félix Teynard, 1851–52 / The Metropolitan Museum of Art"
+      license: "CC0"
+      sourceUrl: https://www.metmuseum.org/art/collection/search/261834
+    - src: ../../assets/media/monuments/medinet-habu/window-grill-from-a-palace-of-ramesses-iii-met-544719.jpg
+      alt: "A square sandstone window grill carved with royal names and ankh signs, with traces of paint."
+      caption: "A painted sandstone window grill from a palace of Ramesses III."
+      kind: photo
+      credit: "Photo: The Metropolitan Museum of Art"
+      license: "CC0"
+      sourceUrl: https://www.metmuseum.org/art/collection/search/544719
 name: Medinet Habu
 type: mortuary temple
 site: Western Thebes

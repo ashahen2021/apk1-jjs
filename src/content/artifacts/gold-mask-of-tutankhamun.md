@@ -8,6 +8,28 @@ media:
     credit: "Photo: Roland Unger / Wikimedia Commons"
     license: "Public domain"
     sourceUrl: https://commons.wikimedia.org/wiki/File%3ACairoEgMuseumTaaMaskMostlyPhotographed.jpg
+  gallery:
+    - src: ../../assets/media/artifacts/gold-mask-of-tutankhamun/head-of-tutankhamun-met-544690.jpg
+      alt: "A limestone head of the young king Tutankhamun wearing a crown."
+      caption: "A limestone head of Tutankhamun."
+      kind: photo
+      credit: "Photo: The Metropolitan Museum of Art"
+      license: "CC0"
+      sourceUrl: https://www.metmuseum.org/art/collection/search/544690
+    - src: ../../assets/media/artifacts/gold-mask-of-tutankhamun/blue-kerchief-from-tutankhamun-s-embalming-cache-met-548833.jpg
+      alt: "A blue-dyed linen kerchief, worn and torn."
+      caption: "A blue linen kerchief from Tutankhamun's embalming cache, found in 1907 in the Valley of the Kings."
+      kind: photo
+      credit: "Photo: The Metropolitan Museum of Art"
+      license: "CC0"
+      sourceUrl: https://www.metmuseum.org/art/collection/search/548833
+    - src: ../../assets/media/artifacts/gold-mask-of-tutankhamun/large-storage-jar-from-tutankhamun-s-embalming-cache-met-549580.jpg
+      alt: "A large whitewashed pottery storage jar."
+      caption: "A storage jar from the same cache, which held materials left over from the king's embalming and funeral."
+      kind: photo
+      credit: "Photo: The Metropolitan Museum of Art"
+      license: "CC0"
+      sourceUrl: https://www.metmuseum.org/art/collection/search/549580
 name: Gold Mask of Tutankhamun
 material: Gold inlaid with lapis lazuli, carnelian, quartz, obsidian and coloured glass
 dimensions: 54 cm high, about 10 kg

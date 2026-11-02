@@ -1,4 +1,35 @@
 ---
+media:
+  hero:
+    src: ../../assets/media/monuments/karnak-temple-complex/haute-egypt-salle-hypostyle-karnak-met-260967.jpg
+    alt: "Nineteenth-century photograph of the massive columns of the Great Hypostyle Hall at Karnak."
+    caption: "The Great Hypostyle Hall at Karnak, photographed by Adolphe Braun around 1870."
+    kind: photo
+    credit: "Photo: Adolphe Braun, ca. 1870 / The Metropolitan Museum of Art"
+    license: "CC0"
+    sourceUrl: https://www.metmuseum.org/art/collection/search/260967
+  gallery:
+    - src: ../../assets/media/monuments/karnak-temple-complex/karnak-th-bes-palais-salle-hypostyle-colonnade-centrale-chap-met-261855.jpg
+      alt: "Old photograph of the open papyrus capitals at the top of the central columns."
+      caption: "The capitals of the central colonnade of the Hypostyle Hall, photographed by Félix Teynard in 1851–52."
+      kind: photo
+      credit: "Photo: Félix Teynard, 1851–52 / The Metropolitan Museum of Art"
+      license: "CC0"
+      sourceUrl: https://www.metmuseum.org/art/collection/search/261855
+    - src: ../../assets/media/monuments/karnak-temple-complex/karnak-th-bes-avenue-de-sphinx-vue-g-n-rale-prise-du-point-g-met-261868.jpg
+      alt: "Old photograph of a row of sphinxes half buried in sand, with palm trees behind."
+      caption: "The avenue of sphinxes at Karnak in 1851–52, still half buried in sand."
+      kind: photo
+      credit: "Photo: Félix Teynard, 1851–52 / The Metropolitan Museum of Art"
+      license: "CC0"
+      sourceUrl: https://www.metmuseum.org/art/collection/search/261868
+    - src: ../../assets/media/monuments/karnak-temple-complex/karnak-th-bes-vue-g-n-rale-des-ruines-prise-du-point-b-met-261843.jpg
+      alt: "Old photograph of a stone gateway standing among ruins and low dunes."
+      caption: "A general view of the ruins of Karnak, photographed by Félix Teynard in 1851–52."
+      kind: photo
+      credit: "Photo: Félix Teynard, 1851–52 / The Metropolitan Museum of Art"
+      license: "CC0"
+      sourceUrl: https://www.metmuseum.org/art/collection/search/261843
 name: Karnak Temple Complex
 type: temple
 site: Luxor (ancient Thebes), east bank

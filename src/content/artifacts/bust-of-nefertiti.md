@@ -8,6 +8,21 @@ media:
     credit: "Photo: Ywpark2003 / Wikimedia Commons"
     license: "CC0"
     sourceUrl: https://commons.wikimedia.org/wiki/File%3ANefertiti_Bust_Neues_Museum_Berlin.jpg
+  gallery:
+    - src: ../../assets/media/artifacts/bust-of-nefertiti/relief-of-queen-nefertiti-met-545803.jpg
+      alt: "A sandstone relief fragment showing the profile of Queen Nefertiti."
+      caption: "A sandstone relief of Nefertiti from the Amarna period."
+      kind: photo
+      credit: "Photo: The Metropolitan Museum of Art"
+      license: "CC0"
+      sourceUrl: https://www.metmuseum.org/art/collection/search/545803
+    - src: ../../assets/media/artifacts/bust-of-nefertiti/head-of-akhenaten-or-nefertiti-met-566533.jpg
+      alt: "A plaster head of a royal figure with a calm, idealised face."
+      caption: "A plaster study head of Akhenaten or Nefertiti from the Amarna period, the kind of model found in sculptors' workshops such as Thutmose's."
+      kind: photo
+      credit: "Photo: The Metropolitan Museum of Art"
+      license: "CC0"
+      sourceUrl: https://www.metmuseum.org/art/collection/search/566533
 name: Bust of Nefertiti
 material: Painted limestone and gypsum, with a quartz inlay eye
 dimensions: 48 cm high

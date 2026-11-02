@@ -1067,13 +1067,28 @@
 - id: "30"
   media:
     hero:
-      src: ../assets/media/dynasties/30/horusandnectaneboii-metropolitanmuseum.jpg
+      src: ../assets/media/dynasties/30/statue-of-horus-as-a-falcon-protecting-king-nectanebo-ii-met-544887.jpg
       alt: "Small statuette of Nectanebo II standing between the legs of a large Horus falcon."
       caption: "Nectanebo II protected by the falcon god Horus, Metropolitan Museum of Art."
       kind: photo
-      credit: "Photo: Keith Schengili-Roberts / Wikimedia Commons"
-      license: "CC BY-SA 2.5"
-      sourceUrl: https://commons.wikimedia.org/wiki/File%3AHorusAndNectaneboII_MetropolitanMuseum.png
+      credit: "Photo: The Metropolitan Museum of Art"
+      license: "CC0"
+      sourceUrl: https://www.metmuseum.org/art/collection/search/544887
+    gallery:
+      - src: ../assets/media/dynasties/30/nectanebo-ii-offers-to-osiris-hemag-met-544888.jpg
+        alt: "A granodiorite relief of King Nectanebo II making an offering to a seated god."
+        caption: "Nectanebo II makes an offering to Osiris Hemag, a granodiorite relief of the last native king."
+        kind: photo
+        credit: "Photo: The Metropolitan Museum of Art"
+        license: "CC0"
+        sourceUrl: https://www.metmuseum.org/art/collection/search/544888
+      - src: ../assets/media/dynasties/30/column-with-hathor-emblem-capital-and-names-of-nectanebo-i-o-met-553852.jpg
+        alt: "A painted limestone column topped with the face of the goddess Hathor."
+        caption: "A limestone column with a Hathor capital, inscribed with the names of Nectanebo I."
+        kind: photo
+        credit: "Photo: The Metropolitan Museum of Art"
+        license: "CC0"
+        sourceUrl: https://www.metmuseum.org/art/collection/search/553852
   number: 30
   name: Thirtieth Dynasty
   period: late-period

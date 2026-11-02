@@ -8,6 +8,14 @@ media:
     credit: "Photo: Andres Rueda / Wikimedia Commons"
     license: "CC BY 2.0"
     sourceUrl: https://commons.wikimedia.org/wiki/File%3AColossal_bust_of_Ramesses_II%2C_the_Younger_Memnon_%281250_BC%29_-_British_Museum_%282%29.jpg
+  gallery:
+    - src: ../../assets/media/artifacts/younger-memnon/ramesseum-thebes-201-the-bes-1844-202-rhamse-ion-met-726475.jpg
+      alt: "Early photograph with a blue-green tint showing the Osiris pillars of the Ramesseum."
+      caption: "The Ramesseum in 1844, a daguerreotype by Joseph-Philibert Girault de Prangey. The Younger Memnon had been removed from this temple 28 years earlier."
+      kind: photo
+      credit: "Photo: Joseph-Philibert Girault de Prangey, 1844 / The Metropolitan Museum of Art"
+      license: "CC0"
+      sourceUrl: https://www.metmuseum.org/art/collection/search/726475
 name: Younger Memnon
 material: Granite (two-coloured)
 dimensions: 2.67 m high, about 7.25 tonnes

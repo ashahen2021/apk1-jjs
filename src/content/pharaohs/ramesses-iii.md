@@ -1,4 +1,28 @@
 ---
+media:
+  hero:
+    src: ../../assets/media/pharaohs/ramesses-iii/ramesses-iii-and-prince-amenherkhepeshef-before-hathor-met-548357.jpg
+    alt: "Painted copy of a tomb scene: Ramesses III leads his young son before the goddess Hathor."
+    caption: "Ramesses III presents his son, Prince Amenherkhepeshef, to the goddess Hathor: a facsimile by Nina de Garis Davies of a painting in the prince's tomb in the Valley of the Queens."
+    kind: illustration
+    credit: "Facsimile: Nina de Garis Davies / The Metropolitan Museum of Art"
+    license: "CC0"
+    sourceUrl: https://www.metmuseum.org/art/collection/search/548357
+  gallery:
+    - src: ../../assets/media/pharaohs/ramesses-iii/window-grill-from-a-palace-of-ramesses-iii-met-544719.jpg
+      alt: "A square sandstone window grill carved with royal names and ankh signs, with traces of paint."
+      caption: "A painted sandstone window grill from a palace of Ramesses III."
+      kind: photo
+      credit: "Photo: The Metropolitan Museum of Art"
+      license: "CC0"
+      sourceUrl: https://www.metmuseum.org/art/collection/search/544719
+    - src: ../../assets/media/pharaohs/ramesses-iii/tile-with-the-names-of-ramesses-iii-met-544764.jpg
+      alt: "A white faience tile inlaid with the king's cartouches in blue, red and green."
+      caption: "A faience tile inlaid with the names of Ramesses III."
+      kind: photo
+      credit: "Photo: The Metropolitan Museum of Art"
+      license: "CC0"
+      sourceUrl: https://www.metmuseum.org/art/collection/search/544764
 name: Ramesses III
 throneName: Usermaatra Meryamun
 epithet: Last great pharaoh of the New Kingdom

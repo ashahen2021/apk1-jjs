@@ -8,6 +8,28 @@ media:
     credit: "Photo: The Metropolitan Museum of Art / Wikimedia Commons"
     license: "CC0"
     sourceUrl: https://commons.wikimedia.org/wiki/File%3ASeated_Statue_of_Hatshepsut_MET_21V_CAT096R3.jpg
+  gallery:
+    - src: ../../assets/media/artifacts/seated-statue-of-hatshepsut/kneeling-statue-of-hatshepsut-met-546756.jpg
+      alt: "A granite statue of Hatshepsut kneeling and holding two offering jars."
+      caption: "A kneeling statue of Hatshepsut, one of the figures from Deir el-Bahari shown with the seated statue in New York."
+      kind: photo
+      credit: "Photo: The Metropolitan Museum of Art"
+      license: "CC0"
+      sourceUrl: https://www.metmuseum.org/art/collection/search/546756
+    - src: ../../assets/media/artifacts/seated-statue-of-hatshepsut/sphinx-of-hatshepsut-met-544442.jpg
+      alt: "A granite sphinx with the face of Hatshepsut."
+      caption: "A sphinx of Hatshepsut with a royal face and a lion's body."
+      kind: photo
+      credit: "Photo: The Metropolitan Museum of Art"
+      license: "CC0"
+      sourceUrl: https://www.metmuseum.org/art/collection/search/544442
+    - src: ../../assets/media/artifacts/seated-statue-of-hatshepsut/head-of-hatshepsut-met-548307.jpg
+      alt: "A granite head of Hatshepsut wearing a royal headdress."
+      caption: "A granite head of Hatshepsut."
+      kind: photo
+      credit: "Photo: The Metropolitan Museum of Art"
+      license: "CC0"
+      sourceUrl: https://www.metmuseum.org/art/collection/search/548307
 name: Seated Statue of Hatshepsut
 material: Indurated limestone with traces of paint
 dimensions: 195 cm high

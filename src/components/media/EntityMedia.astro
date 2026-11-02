@@ -39,7 +39,7 @@ const { media, name } = Astro.props;
   </MediaSection>
 )}
 {media.gallery.length > 0 && (
-  <MediaSection kicker="Gallery" title="Illustrations">
+  <MediaSection kicker="Gallery" title={media.gallery.every((g) => g.kind === 'photo') ? 'Photographs' : media.gallery.some((g) => g.kind === 'photo') ? 'Photographs and illustrations' : 'Illustrations'}>
     <Gallery items={media.gallery} label={`${name} gallery`} />
   </MediaSection>
 )}
