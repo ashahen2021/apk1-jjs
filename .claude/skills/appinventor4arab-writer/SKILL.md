@@ -44,12 +44,12 @@ description: Update, rewrite or write Arabic articles for appinventor4arab.com (
 
 ## 6. Hero image
 - Template: `templates/hero.html` (1200x800, Cairo font from Google Fonts, Arabic title with the main keyword, 2-3 keyword chips, year badge, one free phone photo).
-- Render: `node scripts/shot.js <hero.html> <out.png>` (prints true when Cairo loaded), convert to WebP (~50 KB).
+- Render: `node scripts/shot.cjs <hero.html> <out.png>` (prints true when Cairo loaded), convert to WebP (~50 KB).
 - Check a 16:9 centre crop (social share previews) keeps all text visible.
 - If the hero uses a Commons photo, add its credit line under the hero in the article.
 
 ## 7. Test before delivery
-- `node scripts/check-mobile.js <article.html> ...` renders at 390px and reports broken images, iframe sizes and elements wider than the screen. Fix until `0 broken` (placeholders excepted) and `wide: 0`.
+- `node scripts/check-mobile.cjs <article.html> ...` renders at 390px and reports broken images, iframe sizes and elements wider than the screen. Fix until `0 broken` (placeholders excepted) and `wide: 0`.
 - For galleries also click through arrows and thumbnails and confirm the page does not scroll sideways.
 - Playwright and Chromium are preinstalled in cloud sessions; do not reinstall.
 
