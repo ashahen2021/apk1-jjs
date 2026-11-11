@@ -1,0 +1,729 @@
+{
+ "voAvailable": true,
+ "scenes": [
+  {
+   "scene": 1,
+   "title": "THE SECRET",
+   "start": 0.55,
+   "end": 7.681,
+   "tempo": 1,
+   "words": 21,
+   "text": "Some of Egypt’s greatest pharaohs were discovered together in a secret tomb— not beneath a pyramid, but hidden in a cliff."
+  },
+  {
+   "scene": 2,
+   "title": "THE LOOTED TOMBS",
+   "start": 10.55,
+   "end": 18.204,
+   "tempo": 1,
+   "words": 19,
+   "text": "Their original burial places had been threatened by thieves. Gold vanished, coffins were damaged, and royal mummies were disturbed."
+  },
+  {
+   "scene": 3,
+   "title": "A PLAN TO SAVE THE KINGS",
+   "start": 20.55,
+   "end": 26.637,
+   "tempo": 1,
+   "words": 17,
+   "text": "By the Twenty-first Dynasty, priests of Amun were determined to rescue the dead rulers of earlier centuries."
+  },
+  {
+   "scene": 4,
+   "title": "REWRAPPED IN LINEN",
+   "start": 30.55,
+   "end": 37.185,
+   "tempo": 1,
+   "words": 14,
+   "text": "They inspected tombs, repaired damaged burials, and carefully rewrapped royal bodies in fresh linen."
+  },
+  {
+   "scene": 5,
+   "title": "PRESERVING THEIR NAMES",
+   "start": 40.55,
+   "end": 47.499,
+   "tempo": 1,
+   "words": 19,
+   "text": "Labels recorded names and transfers. Some of the mummies were moved several times before reaching their final hiding place."
+  },
+  {
+   "scene": 6,
+   "title": "THE GREAT PHARAOHS",
+   "start": 50.55,
+   "end": 57.368,
+   "tempo": 1,
+   "words": 19,
+   "text": "Among them were famous rulers, including Seti the First and Ramesses the Second, whose tombs had suffered from robbery."
+  },
+  {
+   "scene": 7,
+   "title": "DEIR EL-BAHARI",
+   "start": 60.55,
+   "end": 68.152,
+   "tempo": 1,
+   "words": 19,
+   "text": "Their destination was a remote place among the limestone cliffs of Deir el-Bahari, across the Nile from ancient Thebes."
+  },
+  {
+   "scene": 8,
+   "title": "TT320",
+   "start": 70.55,
+   "end": 78.491,
+   "tempo": 1,
+   "words": 21,
+   "text": "The hiding place, now called TT three-twenty, was also the burial place of High Priest Pinedjem the Second and his family."
+  },
+  {
+   "scene": 9,
+   "title": "MORE THAN FIFTY",
+   "start": 80.55,
+   "end": 88.988,
+   "tempo": 1,
+   "words": 18,
+   "text": "There, more than fifty people, including kings, queens, and other royal figures, rested among coffins and funerary objects."
+  },
+  {
+   "scene": 10,
+   "title": "SEALED BY TIME",
+   "start": 90.55,
+   "end": 97.499,
+   "tempo": 1,
+   "words": 18,
+   "text": "Sand and fallen stones concealed the entrance. Over many generations, the location slipped from the wider world’s knowledge."
+  },
+  {
+   "scene": 11,
+   "title": "THE FAMILY",
+   "start": 100.55,
+   "end": 106.584,
+   "tempo": 1,
+   "words": 16,
+   "text": "Then, in the nineteenth century, members of the local Abd el-Rassul family discovered the hidden chambers."
+  },
+  {
+   "scene": 12,
+   "title": "THE GOAT LEGEND",
+   "start": 110.55,
+   "end": 117.786,
+   "tempo": 1,
+   "words": 20,
+   "text": "According to a famous but uncertain story, a wandering goat fell into a shaft, and its owner followed it below."
+  },
+  {
+   "scene": 13,
+   "title": "A CHAMBER OF KINGS",
+   "start": 120.55,
+   "end": 128.334,
+   "tempo": 1,
+   "words": 20,
+   "text": "What he supposedly found was astonishing: a passage filled with royal coffins, some marked with the cobra symbols of kingship."
+  },
+  {
+   "scene": 14,
+   "title": "CLUES IN THE MARKET",
+   "start": 130.55,
+   "end": 139.17,
+   "tempo": 1,
+   "words": 19,
+   "text": "Objects began circulating on the antiquities market. Their inscriptions drew suspicion, and investigators traced the trail toward the family."
+  },
+  {
+   "scene": 15,
+   "title": "1881: THE SECRET REVEALED",
+   "start": 140.55,
+   "end": 148.517,
+   "tempo": 1,
+   "words": 20,
+   "text": "In eighteen eighty-one, the secret was revealed. On July sixth, Émile Brugsch and Ahmed Kamal arrived to secure the tomb."
+  },
+  {
+   "scene": 16,
+   "title": "THE RUSHED REMOVAL",
+   "start": 150.55,
+   "end": 158.622,
+   "tempo": 1,
+   "words": 20,
+   "text": "The contents were cleared in roughly forty-eight hours. But poor documentation and damage during removal would trouble generations of researchers."
+  },
+  {
+   "scene": 17,
+   "title": "AN EXTRAORDINARY LEGACY",
+   "start": 160.55,
+   "end": 169.144,
+   "tempo": 1,
+   "words": 22,
+   "text": "In twenty twenty-one, ten royal mummies discovered in this cache joined Egypt’s Pharaohs’ Golden Parade on their journey to a new museum."
+  },
+  {
+   "scene": 18,
+   "title": "HIDDEN, NOT FORGOTTEN",
+   "start": 170.55,
+   "end": 178.935,
+   "tempo": 1,
+   "words": 23,
+   "text": "The cache preserved a lost chapter of Egyptian history: kings rescued from robbers, concealed for centuries, and finally brought back into the light."
+  }
+ ],
+ "cues": [
+  {
+   "scene": 1,
+   "start": 0.55,
+   "end": 2.512,
+   "text": "Some of Egypt’s greatest pharaohs",
+   "showFrom": 0.45,
+   "showTo": 2.459
+  },
+  {
+   "scene": 1,
+   "start": 2.559,
+   "end": 4.764,
+   "text": "were discovered together in a secret tomb—",
+   "showFrom": 2.459,
+   "showTo": 4.815
+  },
+  {
+   "scene": 1,
+   "start": 4.915,
+   "end": 6.204,
+   "text": "not beneath a pyramid,",
+   "showFrom": 4.815,
+   "showTo": 6.185
+  },
+  {
+   "scene": 1,
+   "start": 6.285,
+   "end": 7.655,
+   "text": "but hidden in a cliff.",
+   "showFrom": 6.185,
+   "showTo": 8.105
+  },
+  {
+   "scene": 2,
+   "start": 10.55,
+   "end": 12.187,
+   "text": "Their original burial places",
+   "showFrom": 10.45,
+   "showTo": 12.145
+  },
+  {
+   "scene": 2,
+   "start": 12.245,
+   "end": 13.905,
+   "text": "had been threatened by thieves.",
+   "showFrom": 12.145,
+   "showTo": 13.956
+  },
+  {
+   "scene": 2,
+   "start": 14.056,
+   "end": 16.181,
+   "text": "Gold vanished, coffins were damaged,",
+   "showFrom": 13.956,
+   "showTo": 16.104
+  },
+  {
+   "scene": 2,
+   "start": 16.204,
+   "end": 18.166,
+   "text": "and royal mummies were disturbed.",
+   "showFrom": 16.104,
+   "showTo": 18.616
+  },
+  {
+   "scene": 3,
+   "start": 20.55,
+   "end": 22.141,
+   "text": "By the Twenty-first Dynasty,",
+   "showFrom": 20.45,
+   "showTo": 22.122
+  },
+  {
+   "scene": 3,
+   "start": 22.222,
+   "end": 23.859,
+   "text": "priests of Amun were determined",
+   "showFrom": 22.122,
+   "showTo": 23.817
+  },
+  {
+   "scene": 3,
+   "start": 23.917,
+   "end": 25.298,
+   "text": "to rescue the dead rulers",
+   "showFrom": 23.817,
+   "showTo": 25.245
+  },
+  {
+   "scene": 3,
+   "start": 25.345,
+   "end": 26.587,
+   "text": "of earlier centuries.",
+   "showFrom": 25.245,
+   "showTo": 27.037
+  },
+  {
+   "scene": 4,
+   "start": 30.55,
+   "end": 32.094,
+   "text": "They inspected tombs,",
+   "showFrom": 30.45,
+   "showTo": 32.075
+  },
+  {
+   "scene": 4,
+   "start": 32.175,
+   "end": 33.778,
+   "text": "repaired damaged burials,",
+   "showFrom": 32.075,
+   "showTo": 33.701
+  },
+  {
+   "scene": 4,
+   "start": 33.801,
+   "end": 35.925,
+   "text": "and carefully rewrapped royal bodies",
+   "showFrom": 33.701,
+   "showTo": 35.883
+  },
+  {
+   "scene": 4,
+   "start": 35.983,
+   "end": 37.144,
+   "text": "in fresh linen.",
+   "showFrom": 35.883,
+   "showTo": 37.594
+  },
+  {
+   "scene": 5,
+   "start": 40.55,
+   "end": 42.86,
+   "text": "Labels recorded names and transfers.",
+   "showFrom": 40.45,
+   "showTo": 42.876
+  },
+  {
+   "scene": 5,
+   "start": 42.976,
+   "end": 45.066,
+   "text": "Some of the mummies were moved several times",
+   "showFrom": 42.876,
+   "showTo": 45.036
+  },
+  {
+   "scene": 5,
+   "start": 45.136,
+   "end": 47.47,
+   "text": "before reaching their final hiding place.",
+   "showFrom": 45.036,
+   "showTo": 47.92
+  },
+  {
+   "scene": 6,
+   "start": 50.55,
+   "end": 52.268,
+   "text": "Among them were famous rulers,",
+   "showFrom": 50.45,
+   "showTo": 52.203
+  },
+  {
+   "scene": 6,
+   "start": 52.303,
+   "end": 53.743,
+   "text": "including Seti the First",
+   "showFrom": 52.203,
+   "showTo": 53.712
+  },
+  {
+   "scene": 6,
+   "start": 53.812,
+   "end": 55.159,
+   "text": "and Ramesses the Second,",
+   "showFrom": 53.712,
+   "showTo": 55.082
+  },
+  {
+   "scene": 6,
+   "start": 55.182,
+   "end": 57.33,
+   "text": "whose tombs had suffered from robbery.",
+   "showFrom": 55.082,
+   "showTo": 57.78
+  },
+  {
+   "scene": 7,
+   "start": 60.55,
+   "end": 62.628,
+   "text": "Their destination was a remote place",
+   "showFrom": 60.45,
+   "showTo": 62.575
+  },
+  {
+   "scene": 7,
+   "start": 62.675,
+   "end": 65.438,
+   "text": "among the limestone cliffs of Deir el-Bahari,",
+   "showFrom": 62.575,
+   "showTo": 65.396
+  },
+  {
+   "scene": 7,
+   "start": 65.496,
+   "end": 68.12,
+   "text": "across the Nile from ancient Thebes.",
+   "showFrom": 65.396,
+   "showTo": 68.57
+  },
+  {
+   "scene": 8,
+   "start": 70.55,
+   "end": 73.661,
+   "text": "The hiding place, now called TT three-twenty,",
+   "showFrom": 70.45,
+   "showTo": 73.643
+  },
+  {
+   "scene": 8,
+   "start": 73.743,
+   "end": 75.182,
+   "text": "was also the burial place",
+   "showFrom": 73.643,
+   "showTo": 75.129
+  },
+  {
+   "scene": 8,
+   "start": 75.229,
+   "end": 77.075,
+   "text": "of High Priest Pinedjem the Second",
+   "showFrom": 75.129,
+   "showTo": 77.091
+  },
+  {
+   "scene": 8,
+   "start": 77.191,
+   "end": 78.445,
+   "text": "and his family.",
+   "showFrom": 77.091,
+   "showTo": 78.895
+  },
+  {
+   "scene": 9,
+   "start": 80.55,
+   "end": 82.547,
+   "text": "There, more than fifty people,",
+   "showFrom": 80.45,
+   "showTo": 82.575
+  },
+  {
+   "scene": 9,
+   "start": 82.675,
+   "end": 84.37,
+   "text": "including kings, queens,",
+   "showFrom": 82.575,
+   "showTo": 84.305
+  },
+  {
+   "scene": 9,
+   "start": 84.405,
+   "end": 85.774,
+   "text": "and other royal figures,",
+   "showFrom": 84.305,
+   "showTo": 85.767
+  },
+  {
+   "scene": 9,
+   "start": 85.867,
+   "end": 88.956,
+   "text": "rested among coffins and funerary objects.",
+   "showFrom": 85.767,
+   "showTo": 89.406
+  },
+  {
+   "scene": 10,
+   "start": 90.55,
+   "end": 92.083,
+   "text": "Sand and fallen stones",
+   "showFrom": 90.45,
+   "showTo": 92.041
+  },
+  {
+   "scene": 10,
+   "start": 92.141,
+   "end": 93.325,
+   "text": "concealed the entrance.",
+   "showFrom": 92.041,
+   "showTo": 93.341
+  },
+  {
+   "scene": 10,
+   "start": 93.441,
+   "end": 95.844,
+   "text": "Over many generations, the location slipped",
+   "showFrom": 93.341,
+   "showTo": 95.779
+  },
+  {
+   "scene": 10,
+   "start": 95.879,
+   "end": 97.47,
+   "text": "from the wider world’s knowledge.",
+   "showFrom": 95.779,
+   "showTo": 97.92
+  },
+  {
+   "scene": 11,
+   "start": 100.55,
+   "end": 102.303,
+   "text": "Then, in the nineteenth century,",
+   "showFrom": 100.45,
+   "showTo": 102.25
+  },
+  {
+   "scene": 11,
+   "start": 102.35,
+   "end": 104.822,
+   "text": "members of the local Abd el-Rassul family",
+   "showFrom": 102.25,
+   "showTo": 104.804
+  },
+  {
+   "scene": 11,
+   "start": 104.904,
+   "end": 106.541,
+   "text": "discovered the hidden chambers.",
+   "showFrom": 104.804,
+   "showTo": 106.991
+  },
+  {
+   "scene": 12,
+   "start": 110.55,
+   "end": 113.499,
+   "text": "According to a famous but uncertain story,",
+   "showFrom": 110.45,
+   "showTo": 113.434
+  },
+  {
+   "scene": 12,
+   "start": 113.534,
+   "end": 115.763,
+   "text": "a wandering goat fell into a shaft,",
+   "showFrom": 113.434,
+   "showTo": 115.721
+  },
+  {
+   "scene": 12,
+   "start": 115.821,
+   "end": 117.748,
+   "text": "and its owner followed it below.",
+   "showFrom": 115.721,
+   "showTo": 118.198
+  },
+  {
+   "scene": 13,
+   "start": 120.55,
+   "end": 122.849,
+   "text": "What he supposedly found was astonishing:",
+   "showFrom": 120.45,
+   "showTo": 122.784
+  },
+  {
+   "scene": 13,
+   "start": 122.884,
+   "end": 125.322,
+   "text": "a passage filled with royal coffins,",
+   "showFrom": 122.784,
+   "showTo": 125.268
+  },
+  {
+   "scene": 13,
+   "start": 125.368,
+   "end": 127.295,
+   "text": "some marked with the cobra symbols",
+   "showFrom": 125.268,
+   "showTo": 127.242
+  },
+  {
+   "scene": 13,
+   "start": 127.342,
+   "end": 128.305,
+   "text": "of kingship.",
+   "showFrom": 127.242,
+   "showTo": 128.755
+  },
+  {
+   "scene": 14,
+   "start": 130.55,
+   "end": 132.233,
+   "text": "Objects began circulating",
+   "showFrom": 130.45,
+   "showTo": 132.191
+  },
+  {
+   "scene": 14,
+   "start": 132.291,
+   "end": 133.824,
+   "text": "on the antiquities market.",
+   "showFrom": 132.191,
+   "showTo": 133.84
+  },
+  {
+   "scene": 14,
+   "start": 133.94,
+   "end": 135.96,
+   "text": "Their inscriptions drew suspicion,",
+   "showFrom": 133.84,
+   "showTo": 135.918
+  },
+  {
+   "scene": 14,
+   "start": 136.018,
+   "end": 137.922,
+   "text": "and investigators traced the trail",
+   "showFrom": 135.918,
+   "showTo": 137.892
+  },
+  {
+   "scene": 14,
+   "start": 137.992,
+   "end": 139.141,
+   "text": "toward the family.",
+   "showFrom": 137.892,
+   "showTo": 139.591
+  },
+  {
+   "scene": 15,
+   "start": 140.55,
+   "end": 141.827,
+   "text": "In eighteen eighty-one,",
+   "showFrom": 140.45,
+   "showTo": 141.808
+  },
+  {
+   "scene": 15,
+   "start": 141.908,
+   "end": 143.267,
+   "text": "the secret was revealed.",
+   "showFrom": 141.808,
+   "showTo": 143.283
+  },
+  {
+   "scene": 15,
+   "start": 143.383,
+   "end": 146.587,
+   "text": "On July sixth, Émile Brugsch and Ahmed Kamal",
+   "showFrom": 143.283,
+   "showTo": 146.58
+  },
+  {
+   "scene": 15,
+   "start": 146.68,
+   "end": 148.491,
+   "text": "arrived to secure the tomb.",
+   "showFrom": 146.58,
+   "showTo": 148.941
+  },
+  {
+   "scene": 16,
+   "start": 150.55,
+   "end": 151.711,
+   "text": "The contents were cleared",
+   "showFrom": 150.45,
+   "showTo": 151.657
+  },
+  {
+   "scene": 16,
+   "start": 151.757,
+   "end": 153.348,
+   "text": "in roughly forty-eight hours.",
+   "showFrom": 151.657,
+   "showTo": 153.294
+  },
+  {
+   "scene": 16,
+   "start": 153.394,
+   "end": 156.216,
+   "text": "But poor documentation and damage during removal",
+   "showFrom": 153.294,
+   "showTo": 156.185
+  },
+  {
+   "scene": 16,
+   "start": 156.285,
+   "end": 158.584,
+   "text": "would trouble generations of researchers.",
+   "showFrom": 156.185,
+   "showTo": 159.034
+  },
+  {
+   "scene": 17,
+   "start": 160.55,
+   "end": 163.011,
+   "text": "In twenty twenty-one, ten royal mummies",
+   "showFrom": 160.45,
+   "showTo": 162.981
+  },
+  {
+   "scene": 17,
+   "start": 163.081,
+   "end": 164.358,
+   "text": "discovered in this cache",
+   "showFrom": 162.981,
+   "showTo": 164.328
+  },
+  {
+   "scene": 17,
+   "start": 164.428,
+   "end": 166.947,
+   "text": "joined Egypt’s Pharaohs’ Golden Parade",
+   "showFrom": 164.328,
+   "showTo": 166.917
+  },
+  {
+   "scene": 17,
+   "start": 167.017,
+   "end": 169.095,
+   "text": "on their journey to a new museum.",
+   "showFrom": 166.917,
+   "showTo": 169.545
+  },
+  {
+   "scene": 18,
+   "start": 170.55,
+   "end": 172.5,
+   "text": "The cache preserved a lost chapter",
+   "showFrom": 170.45,
+   "showTo": 172.47
+  },
+  {
+   "scene": 18,
+   "start": 172.57,
+   "end": 173.673,
+   "text": "of Egyptian history:",
+   "showFrom": 172.47,
+   "showTo": 173.666
+  },
+  {
+   "scene": 18,
+   "start": 173.766,
+   "end": 175.403,
+   "text": "kings rescued from robbers,",
+   "showFrom": 173.666,
+   "showTo": 175.338
+  },
+  {
+   "scene": 18,
+   "start": 175.438,
+   "end": 176.796,
+   "text": "concealed for centuries,",
+   "showFrom": 175.338,
+   "showTo": 176.719
+  },
+  {
+   "scene": 18,
+   "start": 176.819,
+   "end": 178.909,
+   "text": "and finally brought back into the light.",
+   "showFrom": 176.719,
+   "showTo": 179.359
+  }
+ ]
+}

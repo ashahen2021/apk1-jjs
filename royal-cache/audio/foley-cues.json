@@ -1,0 +1,297 @@
+[
+ {
+  "t": 0,
+  "name": "wind – open desert",
+  "note": "10.6 s bed"
+ },
+ {
+  "t": 9.6,
+  "name": "tomb room tone",
+  "note": "10.8 s bed"
+ },
+ {
+  "t": 12,
+  "name": "fracture crawls across stone",
+  "note": "stone scrape"
+ },
+ {
+  "t": 15.5,
+  "name": "stone settles",
+  "note": "stone / impact"
+ },
+ {
+  "t": 19.6,
+  "name": "courtyard air, palm fronds",
+  "note": "10.8 s bed"
+ },
+ {
+  "t": 24,
+  "name": "papyrus extended",
+  "note": "cloth / paper movement"
+ },
+ {
+  "t": 29.6,
+  "name": "workshop room tone",
+  "note": "10.8 s bed"
+ },
+ {
+  "t": 31.2,
+  "name": "linen band 1",
+  "note": "cloth / paper movement"
+ },
+ {
+  "t": 32.7,
+  "name": "linen band 2",
+  "note": "cloth / paper movement"
+ },
+ {
+  "t": 34.2,
+  "name": "linen band 3",
+  "note": "cloth / paper movement"
+ },
+ {
+  "t": 35.7,
+  "name": "linen band 4",
+  "note": "cloth / paper movement"
+ },
+ {
+  "t": 37.2,
+  "name": "linen band 5",
+  "note": "cloth / paper movement"
+ },
+ {
+  "t": 39.6,
+  "name": "room tone",
+  "note": "10.8 s bed"
+ },
+ {
+  "t": 41.3,
+  "name": "label slides into place",
+  "note": "cloth / paper movement"
+ },
+ {
+  "t": 42.5,
+  "name": "label slides into place",
+  "note": "cloth / paper movement"
+ },
+ {
+  "t": 49.6,
+  "name": "desert air",
+  "note": "10.8 s bed"
+ },
+ {
+  "t": 50.3,
+  "name": "bearers on sand",
+  "note": "footsteps every 0.62s until 59.6"
+ },
+ {
+  "t": 59.6,
+  "name": "high wind over the Nile valley",
+  "note": "10.8 s bed"
+ },
+ {
+  "t": 69.6,
+  "name": "rock interior tone",
+  "note": "10.8 s bed"
+ },
+ {
+  "t": 71,
+  "name": "torch",
+  "note": "torch / lantern flame"
+ },
+ {
+  "t": 73.6,
+  "name": "sandals on rock",
+  "note": "footsteps every 0.58s until 79.2"
+ },
+ {
+  "t": 79.6,
+  "name": "chamber tone",
+  "note": "10.8 s bed"
+ },
+ {
+  "t": 89.6,
+  "name": "sand-laden wind",
+  "note": "10.8 s bed"
+ },
+ {
+  "t": 91.2,
+  "name": "fallen stone 1",
+  "note": "stone / impact"
+ },
+ {
+  "t": 92,
+  "name": "fallen stone 2",
+  "note": "stone / impact"
+ },
+ {
+  "t": 92.9,
+  "name": "fallen stone 3",
+  "note": "stone / impact"
+ },
+ {
+  "t": 93.5,
+  "name": "fallen stone 4",
+  "note": "stone / impact"
+ },
+ {
+  "t": 94.4,
+  "name": "fallen stone 5",
+  "note": "stone / impact"
+ },
+ {
+  "t": 99.6,
+  "name": "village air",
+  "note": "10.8 s bed"
+ },
+ {
+  "t": 100.4,
+  "name": "path footsteps and goats",
+  "note": "footsteps every 0.58s until 109.4"
+ },
+ {
+  "t": 109.6,
+  "name": "foothill wind",
+  "note": "10.8 s bed"
+ },
+ {
+  "t": 110.4,
+  "name": "goat hooves",
+  "note": "footsteps every 0.3s until 113.2"
+ },
+ {
+  "t": 114.6,
+  "name": "goat slips from sight",
+  "note": "soft scuff, no impact"
+ },
+ {
+  "t": 115,
+  "name": "owner approaches",
+  "note": "footsteps every 0.7s until 117"
+ },
+ {
+  "t": 117.4,
+  "name": "rope uncoils",
+  "note": "rope strain"
+ },
+ {
+  "t": 118.6,
+  "name": "rope uncoils",
+  "note": "rope strain"
+ },
+ {
+  "t": 119.6,
+  "name": "passage tone",
+  "note": "10.8 s bed"
+ },
+ {
+  "t": 120.2,
+  "name": "torch",
+  "note": "torch / lantern flame"
+ },
+ {
+  "t": 121,
+  "name": "cautious steps",
+  "note": "footsteps every 0.75s until 126.4"
+ },
+ {
+  "t": 129.6,
+  "name": "market air",
+  "note": "10.8 s bed"
+ },
+ {
+  "t": 133.6,
+  "name": "artifact becomes record card",
+  "note": "cloth / paper movement"
+ },
+ {
+  "t": 136.4,
+  "name": "paper trail",
+  "note": "cloth / paper movement"
+ },
+ {
+  "t": 139.6,
+  "name": "cliff wind",
+  "note": "10.8 s bed"
+ },
+ {
+  "t": 140.6,
+  "name": "date stamp",
+  "note": "stone / impact"
+ },
+ {
+  "t": 141.2,
+  "name": "team arrives",
+  "note": "footsteps every 0.56s until 146.6"
+ },
+ {
+  "t": 149.6,
+  "name": "shaft air",
+  "note": "10.8 s bed"
+ },
+ {
+  "t": 150.8,
+  "name": "rope heave 1",
+  "note": "rope strain"
+ },
+ {
+  "t": 150.9,
+  "name": "coffin against shaft wall",
+  "note": "stone scrape"
+ },
+ {
+  "t": 152.3,
+  "name": "rope heave 2",
+  "note": "rope strain"
+ },
+ {
+  "t": 152.4,
+  "name": "coffin against shaft wall",
+  "note": "stone scrape"
+ },
+ {
+  "t": 153.8,
+  "name": "rope heave 3",
+  "note": "rope strain"
+ },
+ {
+  "t": 153.9,
+  "name": "coffin against shaft wall",
+  "note": "stone scrape"
+ },
+ {
+  "t": 155.3,
+  "name": "rope heave 4",
+  "note": "rope strain"
+ },
+ {
+  "t": 155.4,
+  "name": "coffin against shaft wall",
+  "note": "stone scrape"
+ },
+ {
+  "t": 156.8,
+  "name": "rope heave 5",
+  "note": "rope strain"
+ },
+ {
+  "t": 156.9,
+  "name": "coffin against shaft wall",
+  "note": "stone scrape"
+ },
+ {
+  "t": 157.4,
+  "name": "inventory sheets",
+  "note": "cloth / paper movement"
+ },
+ {
+  "t": 159.6,
+  "name": "city night air",
+  "note": "10.8 s bed"
+ },
+ {
+  "t": 169.6,
+  "name": "wind – Deir el-Bahari",
+  "note": "10.4 s bed"
+ }
+]

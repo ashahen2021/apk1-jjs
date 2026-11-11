@@ -96,3 +96,7 @@ Monuments, tombs and artifacts follow the same pattern — see `src/content.conf
 ## Design
 
 Dark "night in the tomb" identity using the NeoKemet pigment palette — limestone `#D8CBA8`, lapis `#1F4E8C`, gold `#C8952B`, faience `#2E8B84`, carnelian `#A83A2C`, basalt `#14120E` — with Cinzel, Inter and Noto Sans Egyptian Hieroglyphs (self-hosted). All motion respects `prefers-reduced-motion`.
+
+## The Royal Cache (film)
+
+[`royal-cache/`](royal-cache/) is a separate, self-contained Remotion project: a 180-second 9:16 animated documentary about the Royal Cache (TT320) at Deir el-Bahari. It has its own `package.json` and README and is excluded from the site's type-check and build. The finished render is at [`royal-cache/renders/royal-cache.mp4`](royal-cache/renders/royal-cache.mp4).
