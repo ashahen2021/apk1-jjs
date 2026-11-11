@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NeoKemetAI Animation Studio</title>
+<link rel="stylesheet" href="/ui/style.css" />
+</head>
+<body>
+<header>
+  <div class="brand"><span class="mark">◆</span> NeoKemetAI <b>Animation Studio</b></div>
+  <div id="status" class="status"></div>
+  <div class="head-actions">
+    <span id="saved" class="muted"></span>
+    <button id="btnSave">Save project</button>
+  </div>
+</header>
+<div class="layout">
+  <aside>
+    <h3>Projects</h3>
+    <ul id="projectList"></ul>
+    <button id="btnNew" class="wide">+ New project</button>
+    <div class="hint">Projects are folders in <code>projects/</code>. Exports go to <code>workspace/output/</code>.</div>
+  </aside>
+  <main>
+    <nav id="tabs">
+      <button data-tab="project" class="on">1 · Project</button>
+      <button data-tab="script">2 · Script</button>
+      <button data-tab="storyboard">3 · Storyboard</button>
+      <button data-tab="audio">4 · Narration &amp; sound</button>
+      <button data-tab="export">5 · Export</button>
+      <button data-tab="settings">Settings</button>
+    </nav>
+    <div id="banner" class="banner" hidden></div>
+
+    <section id="tab-project" class="tab on">
+      <div class="grid2">
+        <label>Video title<input id="fTitle" maxlength="120" /></label>
+        <label>Topic<input id="fTopic" maxlength="400" placeholder="e.g. How the Great Pyramid was built" /></label>
+        <label>Output format<select id="fFormat"></select></label>
+        <label>Frame rate<select id="fFps"></select></label>
+        <label class="check"><input type="checkbox" id="fSubs" /> Burn subtitles into the video</label>
+      </div>
+      <div id="timelineBox" class="card"></div>
+    </section>
+
+    <section id="tab-script" class="tab">
+      <p class="muted">Write or paste the narration. Leave a blank line between scenes. The script is spoken exactly as written.</p>
+      <textarea id="fScript" rows="16" placeholder="Paste your script here…"></textarea>
+      <div class="row">
+        <label class="filebtn">Import .txt / .md<input type="file" id="fScriptFile" accept=".txt,.md,.markdown" hidden /></label>
+        <button id="btnPlan" class="primary">Build storyboard from script</button>
+        <span class="muted">Works offline: scenes are chosen by keyword rules, then you edit them.</span>
+      </div>
+      <div class="card">
+        <h4>Optional: local AI with Ollama</h4>
+        <p class="muted">Uses a model running on this PC. Give a topic (or the script above) and the number of scenes.</p>
+        <div class="row">
+          <label>Scenes<input type="number" id="fAiScenes" min="3" max="24" value="8" style="width:80px" /></label>
+          <button id="btnOllama">Generate storyboard with Ollama</button>
+          <span id="ollamaState" class="muted"></span>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-storyboard" class="tab">
+      <div class="row">
+        <button id="btnAddScene">+ Add scene</button>
+        <span id="sbSummary" class="muted"></span>
+      </div>
+      <div id="scenes"></div>
+    </section>
+
+    <section id="tab-audio" class="tab">
+      <div class="card">
+        <h4>Narration</h4>
+        <p class="muted">Each scene's length follows its narration automatically. Import your own recordings per scene in the storyboard, or generate all of them here.</p>
+        <div class="row">
+          <button id="btnPiper" class="primary">Generate narration offline (Piper)</button>
+          <span id="piperState" class="muted"></span>
+        </div>
+        <div class="row" id="elRow">
+          <button id="btnEleven">Generate with ElevenLabs</button>
+          <span class="paid">Optional paid cloud service — sends your script to ElevenLabs and uses your credits. Off by default.</span>
+        </div>
+        <label>Narration volume <input type="range" id="fVoVol" min="0" max="1.5" step="0.05" /></label>
+      </div>
+      <div class="card">
+        <h4>Music</h4>
+        <div class="row">
+          <label>Source<select id="fMusic"><option value="generated">Built-in score (generated locally)</option><option value="file">My own music file</option><option value="none">No music</option></select></label>
+          <label>Variation<input type="number" id="fSeed" style="width:110px" /></label>
+          <label class="filebtn">Import music<input type="file" id="fMusicFile" accept="audio/*,.wav,.mp3,.m4a" hidden /></label>
+          <span id="musicName" class="muted"></span>
+        </div>
+        <label>Music volume <input type="range" id="fMusicVol" min="0" max="1" step="0.05" /></label>
+      </div>
+      <div class="card">
+        <h4>Sound effects</h4>
+        <label class="check"><input type="checkbox" id="fSfx" /> Wind, room tone and footsteps (generated locally)</label>
+        <label>Effects volume <input type="range" id="fSfxVol" min="0" max="1" step="0.05" /></label>
+      </div>
+    </section>
+
+    <section id="tab-export" class="tab">
+      <div class="row">
+        <button id="btnRender" class="primary big">Export full MP4</button>
+        <span class="muted">Unchanged scenes are reused from the cache, so re-exports are fast.</span>
+      </div>
+      <div id="job" class="card" hidden>
+        <div class="bar"><div id="jobBar"></div></div>
+        <div id="jobMsg"></div>
+      </div>
+      <div id="result" class="card" hidden></div>
+      <h4>Exported videos</h4>
+      <ul id="outputs" class="outputs"></ul>
+    </section>
+
+    <section id="tab-settings" class="tab">
+      <div class="card">
+        <h4>Ollama (optional, local)</h4>
+        <div class="grid2">
+          <label>Server address<input id="sOllamaUrl" /></label>
+          <label>Model<input id="sOllamaModel" list="ollamaModels" /><datalist id="ollamaModels"></datalist></label>
+        </div>
+      </div>
+      <div class="card">
+        <h4>Piper (offline narration)</h4>
+        <div class="grid2">
+          <label>Piper program (blank = automatic)<input id="sPiperPath" placeholder="tools\piper\piper\piper.exe" /></label>
+          <label>Voice model .onnx (blank = first installed)<input id="sPiperModel" /></label>
+          <label>Speaking pace (1 = normal, higher = slower)<input type="number" id="sPiperSpeed" step="0.02" min="0.7" max="1.6" /></label>
+          <label>Render threads (0 = automatic)<input type="number" id="sConc" min="0" max="32" /></label>
+        </div>
+      </div>
+      <div class="card paidcard">
+        <h4>ElevenLabs <span class="paid">optional · paid cloud service</span></h4>
+        <p class="muted">Not needed for normal use. When enabled, narration text is sent to ElevenLabs and billed to your account. The key is stored only in <code>workspace/settings.json</code> on this PC.</p>
+        <label class="check"><input type="checkbox" id="sElOn" /> Enable ElevenLabs narration</label>
+        <div class="grid2">
+          <label>Voice ID<input id="sElVoice" /></label>
+          <label>API key <span id="sElHas" class="muted"></span><input id="sElKey" type="password" placeholder="leave blank to keep the stored key" autocomplete="off" /></label>
+        </div>
+      </div>
+      <button id="btnSaveSettings" class="primary">Save settings</button>
+    </section>
+  </main>
+</div>
+<script src="/ui/app.js"></script>
+</body>
+</html>

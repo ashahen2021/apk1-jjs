@@ -1,0 +1,36 @@
+{
+  "name": "neokemetai-animation-studio",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "NeoKemetAI Animation Studio — a local, offline 2D animated documentary generator (Remotion + React + SVG).",
+  "scripts": {
+    "start": "tsx server/index.ts",
+    "studio": "remotion studio engine/src/index.ts",
+    "render": "tsx server/cli.ts render",
+    "scene": "tsx server/cli.ts scene",
+    "still": "tsx server/cli.ts still",
+    "narrate": "tsx server/cli.ts narrate",
+    "validate": "tsx server/cli.ts validate",
+    "textures": "node scripts/gen-textures.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx server/selftest.ts"
+  },
+  "dependencies": {
+    "@remotion/bundler": "^4.0.542",
+    "@remotion/cli": "^4.0.542",
+    "@remotion/fonts": "^4.0.542",
+    "@remotion/renderer": "^4.0.542",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "remotion": "^4.0.542",
+    "tsx": "^4.23.15",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "typescript": "^7.0.2"
+  }
+}

@@ -100,3 +100,7 @@ Dark "night in the tomb" identity using the NeoKemet pigment palette — limesto
 ## The Royal Cache (film)
 
 [`royal-cache/`](royal-cache/) is a separate, self-contained Remotion project: a 180-second 9:16 animated documentary about the Royal Cache (TT320) at Deir el-Bahari. It has its own `package.json` and README and is excluded from the site's type-check and build. The finished render is at [`royal-cache/renders/royal-cache.mp4`](royal-cache/renders/royal-cache.mp4).
+
+## NeoKemetAI Animation Studio
+
+[`neokemet-studio/`](neokemet-studio/) is a standalone local application that generates new animated documentary videos in the Royal Cache style from your own scripts: a browser interface, a reusable SVG scene library, offline narration (Piper), optional local AI (Ollama) and local MP4 export. On Windows, double-click `neokemet-studio/Start-NeoKemetAI-Studio.bat`. See its [README](neokemet-studio/README.md). It is separate from the website and excluded from its build.
