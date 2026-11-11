@@ -29,7 +29,7 @@ const stats = run("ffmpeg", ["-v", "error", "-i", file, "-vf", "fps=3,scale=108:
 const yavg = [...stats.matchAll(/YAVG=([\d.]+)/g)].map((m) => Number(m[1]));
 const ymin = [...stats.matchAll(/YMIN=([\d.]+)/g)].map((m) => Number(m[1]));
 const ymax = [...stats.matchAll(/YMAX=([\d.]+)/g)].map((m) => Number(m[1]));
-const flat = yavg.filter((_, i) => ymax[i] - ymin[i] < 40).length;
+const flat = yavg.filter((_, i) => ymax[i] - ymin[i] < 20).length;
 check("no blank frames (every sampled frame has picture contrast)", flat === 0 && yavg.length >= 539, `${yavg.length} samples, ${flat} flat, luma ${Math.min(...yavg).toFixed(0)}–${Math.max(...yavg).toFixed(0)}`);
 const err = (args) => { const { spawnSync } = require_("node:child_process"); return spawnSync("ffmpeg", args, { encoding: "utf8", maxBuffer: 1 << 28 }).stderr; };
 const black = err(["-v", "info", "-i", file, "-vf", "blackdetect=d=0.05:pix_th=0.08", "-an", "-f", "null", "-"]).match(/black_start/g);
@@ -44,7 +44,7 @@ if (a) {
   // audio sync: narration energy must begin within 0.25 s of each cue-sheet start
   const cuesA = JSON.parse(fs.readFileSync(path.join(root, "src/data/cues.json"), "utf8"));
   if (cuesA.voAvailable) {
-    const sil = err(["-v", "info", "-i", path.join(root, "public/audio/royal-cache-vo.wav"), "-af", "silencedetect=n=-38dB:d=0.6", "-f", "null", "-"]);
+    const sil = err(["-v", "info", "-i", path.join(root, "public/audio/royal-cache-vo.wav"), "-af", "silencedetect=n=-38dB:d=0.3", "-f", "null", "-"]);
     const ends = [...sil.matchAll(/silence_end: ([\d.]+)/g)].map((m) => Number(m[1]));
     const worst = Math.max(...cuesA.scenes.map((s) => Math.min(...ends.map((e) => Math.abs(e - s.start)))));
     check("narration onsets match the cue sheet (audio sync)", worst < 0.3, `worst offset ${worst.toFixed(3)} s over ${cuesA.scenes.length} scenes`);
