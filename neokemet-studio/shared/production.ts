@@ -2,6 +2,7 @@
 // Importing is deliberately a dry run: no existing project is changed here.
 // Narration is the only text sent onward to a speech provider.
 import { matchDocumentaryTemplate } from "./documentary.ts";
+import { matchReusableRoyalCacheShot } from "./reusable.ts";
 import { planScene } from "./planner.ts";
 import { MAX_SCENES, type Scene } from "./schema.ts";
 
@@ -113,6 +114,17 @@ export function parseProductionMarkdown(source: string, projectTitle = "Untitled
       if (m) {
         s.template = m.template;
         s.params = m.params;
+        delete s.cast; delete s.prop; delete s.variant;
+      }
+    }
+    // Phase 2: reuse original hand-directed shots only when the visual direction
+    // unmistakably names an existing sequence. This runs after documentary
+    // matching; no generic narration reference can trigger a preset.
+    if (i > 0 && i < drafts.length - 1) {
+      const reuse = matchReusableRoyalCacheShot(visual);
+      if (reuse) {
+        s.template = reuse.template;
+        s.params = reuse.params;
         delete s.cast; delete s.prop; delete s.variant;
       }
     }
