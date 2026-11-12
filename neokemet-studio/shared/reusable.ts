@@ -14,11 +14,11 @@ export function matchReusableRoyalCacheShot(visual: string): ReuseMatch | null {
   // Most specific historical event cues first.
   if (/golden parade|pharaohs.? parade/.test(v) || both(/2021/, /parade|royal mumm|cairo/)) template = "rc-17";
   else if (both(/coffin|sarcophag|mumm/, /hoist|haul|lift|pulley|extract|remove.*shaft/)) template = "rc-16";
-  else if (both(/1881|july 6|july sixth|6 july/, /shaft|entrance|excavat|investigat|brugsch|ahmed kamal/)) template = "rc-15";
+  else if (both(/1881|july 6|july sixth|6 july/, /shaft|entrance|excavat|investigat|brugsch|ahmed kamal/) || both(/brugsch|ahmed kamal/, /shaft|entrance|lantern|passage/)) template = "rc-15";
   else if (both(/goat/, /shaft|fell|fall|opening|rope|lantern/)) template = "rc-12";
   else if (both(/abd.el.rassul|19th.century|nineteenth.century|family/, /village|theban|ravine|foothill|goat|hills/)) template = "rc-11";
   else if (both(/antiquit|papyrus|funerary object|inscription|canopic/, /market|trader|seller|buyer|stall/)) template = "rc-14";
-  else if (/tt.?320|pinedjem.+shaft/.test(v) || both(/deep shaft|shaft diagram/, /passage|corridor|burial chamber/)) template = "rc-08";
+  else if (/tt.?320|pinedjem.+shaft/.test(v) || both(/deep shaft|shaft diagram/, /passage|corridor|burial chamber|cutaway/)) template = "rc-08";
   else if (/deir.el.bahari|hatshepsut/.test(v) && /cliff|temple|escarpment|nile|mountain/.test(v)) template = "rc-07";
 
   if (!template) return null;
