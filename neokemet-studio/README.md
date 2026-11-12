@@ -7,7 +7,7 @@ storyboard, add narration, and export an MP4 — all on your own PC.
 - Runs on Windows (also macOS / Linux). No Claude, no cloud rendering, no paid service needed.
 - Engine: Remotion + React + TypeScript + SVG. FFmpeg is bundled with Remotion; nothing extra to install.
 - Offline narration with Piper. Optional local script/storyboard generation with Ollama.
-- Output: 9:16 (1080×1920), 16:9 (1920×1080) or 1:1 (1080×1080), 24–60 fps, tuned for 60–180 s films.
+- Output: 9:16 (1080×1920), 16:9 (1920×1080) or 1:1 (1080×1080), 24–60 fps. Short films or long documentaries: up to 40 scenes of any length.
 
 ## Install (Windows)
 
@@ -42,7 +42,9 @@ npm start
 The app has five numbered tabs; work left to right.
 
 1. **Project** — title, topic, output format, frame rate, subtitles on/off. The film length is shown here.
-2. **Script** — type, paste or import a `.txt` / `.md` script (blank line between scenes). Then either
+2. **Script** — type, paste or import a `.txt` / `.md` script. **Each paragraph is exactly one scene**:
+   separate scenes with a blank line. A paragraph is never split, however long, and its full text
+   is the narration. Up to 40 paragraphs. Then either
    - **Build storyboard from script** — offline keyword rules choose a template, environment and
      characters for each paragraph; or
    - **Generate storyboard with Ollama** — optional, uses a model running on your PC.
@@ -55,7 +57,12 @@ The app has five numbered tabs; work left to right.
 5. **Export** — *Export full MP4*. Progress is shown per scene; the file appears in
    `workspace\output\` with a player and a download link.
 
-**Timing is automatic.** Each scene lasts as long as its narration (half a second of lead,
+**Building a storyboard is safe.** The new storyboard is validated as a whole before it replaces
+the old one. If anything is wrong (for example more than 40 paragraphs) you get a message and
+the current project stays exactly as it was.
+
+**Timing is automatic.** Scene lengths vary freely — a 36-paragraph script makes a 13–15 minute
+film with scenes of 15–30 seconds each. Each scene lasts as long as its narration (half a second of lead,
 the measured speech, a short tail), and subtitles are spread across the spoken span. Set
 "Length" on a scene only if you want to override that.
 

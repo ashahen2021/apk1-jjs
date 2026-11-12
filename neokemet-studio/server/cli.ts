@@ -8,7 +8,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { FORMAT_IDS } from "../shared/catalog.ts";
 import { narrateProject } from "./narrate.ts";
-import { loadProject, projectDir } from "./projects.ts";
+import { loadProject, planStoryboard, projectDir } from "./projects.ts";
 import { closeBrowser, inspectOutput, renderProject, renderScenePreview } from "./render.ts";
 import { resolveTimeline } from "./timeline.ts";
 
@@ -36,6 +36,11 @@ const main = async () => {
     console.log(`OK  "${project.title}" — ${tl.scenes.length} scenes, ${tl.seconds.toFixed(2)} s, ${project.format} @ ${project.fps} fps`);
     tl.scenes.forEach((s) => console.log(`  ${String(s.index + 1).padStart(2)}  ${s.scene.template.padEnd(15)} ${(s.durationInFrames / project.fps).toFixed(2).padStart(6)} s  voice ${s.narrationSec.toFixed(2)} s ${s.estimated ? "(estimate)" : "(measured)"}  ${s.cues.length} cues`));
     tl.warnings.forEach((w) => console.log("  ! " + w));
+  } else if (cmd === "plan") {
+    // dry run: build a storyboard from the project's script without saving anything
+    const scenes = planStoryboard(project.title, project.script);
+    console.log(`OK  ${scenes.length} scenes from ${scenes.length} paragraphs`);
+    scenes.forEach((s, i) => console.log(`  ${String(i + 1).padStart(2)}  ${s.template.padEnd(15)} ${String(s.narration.split(/\s+/).length).padStart(4)} words`));
   } else if (cmd === "narrate") {
     const r = await narrateProject(project, dir, "piper", { force: flag("force"), onProgress: (m, p) => bar({ message: m, percent: p }) });
     fs.writeFileSync(path.join(dir, "project.json"), JSON.stringify(project, null, 2) + "\n");

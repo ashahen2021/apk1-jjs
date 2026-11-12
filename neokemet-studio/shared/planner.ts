@@ -3,7 +3,6 @@
 // it gives every imported script a usable first storyboard to edit.
 import type { CameraId, CharacterId, EnvId, TemplateId } from "./catalog.ts";
 import type { Scene } from "./schema.ts";
-import { wordCount } from "./timing.ts";
 
 const ENV_RULES: [RegExp, EnvId][] = [
   [/pyramid|giza|khufu|khafre|menkaure|sphinx|saqqara|djoser/i, "giza-pyramids"],
@@ -26,20 +25,18 @@ const CAST_RULES: [RegExp, CharacterId][] = [
 ];
 const CAMERAS: CameraId[] = ["push-in", "pan-right", "rise", "pan-left", "pull-back"];
 
-/** Split a script into scene-sized chunks: paragraphs, or ~2 sentences each. */
-export const splitScript = (script: string): string[] => {
-  const paras = script.replace(/\r/g, "").split(/\n\s*\n/).map((p) => p.replace(/\s+/g, " ").trim()).filter(Boolean);
-  const out: string[] = [];
-  for (const p of paras) {
-    if (wordCount(p) <= 34) { out.push(p); continue; }
-    let cur = "";
-    for (const s of p.split(/(?<=[.!?])\s+/)) {
-      if (cur && wordCount(cur + " " + s) > 30) { out.push(cur); cur = s; } else cur = (cur + " " + s).trim();
-    }
-    if (cur) out.push(cur);
-  }
-  return out;
-};
+/**
+ * One paragraph = one scene. Paragraphs are separated by one or more blank
+ * lines (lines holding only spaces count as blank; Windows line endings are
+ * fine). A paragraph is never split, whatever its length: its full text
+ * becomes that scene's narration, with line breaks inside it joined by spaces.
+ */
+export const splitScript = (script: string): string[] =>
+  script
+    .replace(/\r\n?/g, "\n")
+    .split(/\n[ \t]*(?:\n[ \t]*)+/)
+    .map((p) => p.replace(/\s+/g, " ").trim())
+    .filter(Boolean);
 
 export const planScene = (text: string, i: number, total: number, title: string): Scene => {
   const id = `s${String(i + 1).padStart(2, "0")}`;

@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
-import { Project, ProjectSchema } from "../shared/schema.ts";
+import { planFromScript, splitScript } from "../shared/planner.ts";
+import { MAX_SCENES, Project, ProjectSchema, Scene } from "../shared/schema.ts";
 import { slugify } from "../shared/timing.ts";
 import { ensureDir, PROJECTS_DIR } from "./paths.ts";
 
@@ -16,6 +17,20 @@ export const parseProject = (raw: unknown): Project => {
   const ids = new Set<string>();
   for (const s of r.data.scenes) { if (ids.has(s.id)) throw new Error(`Invalid project: duplicate scene id "${s.id}"`); ids.add(s.id); }
   return r.data;
+};
+
+/**
+ * Build a storyboard from a script and validate it as a whole before anyone
+ * uses it. Throws a plain-language error and returns nothing on failure, so a
+ * caller can never end up holding a partial or invalid storyboard.
+ */
+export const planStoryboard = (title: string, script: string): Scene[] => {
+  const paragraphs = splitScript(script);
+  if (!paragraphs.length) throw new Error("The script is empty. Paste or import a script first.");
+  if (paragraphs.length > MAX_SCENES)
+    throw new Error(`The script has ${paragraphs.length} paragraphs, and each paragraph becomes one scene. The limit is ${MAX_SCENES} scenes. Join some paragraphs (remove the blank line between them) and try again.`);
+  const scenes = planFromScript(title || "Untitled", script);
+  return parseProject({ title: title || "Untitled", scenes }).scenes;
 };
 
 export const loadProject = (dirOrFile: string) => {

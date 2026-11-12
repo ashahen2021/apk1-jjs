@@ -4,13 +4,12 @@ import fs from "node:fs";
 import http from "node:http";
 import path from "node:path";
 import { CATALOG } from "../shared/catalog.ts";
-import { planFromScript } from "../shared/planner.ts";
 import type { Project } from "../shared/schema.ts";
 import { slugify } from "../shared/timing.ts";
 import { narrateProject } from "./narrate.ts";
 import { generateStoryboard, ollamaStatus, storyboardToScenes } from "./ollama.ts";
 import { DEFAULT_SETTINGS, ensureDir, loadSettings, OUTPUT_DIR, saveSettings, Settings, UI_DIR } from "./paths.ts";
-import { listProjects, loadProject, parseProject, projectDir, saveProject } from "./projects.ts";
+import { listProjects, loadProject, parseProject, planStoryboard, projectDir, saveProject } from "./projects.ts";
 import { engineHash, getBundle, inspectOutput, renderProject, renderScenePreview } from "./render.ts";
 import { resolveTimeline } from "./timeline.ts";
 import { findPiper } from "./tts.ts";
@@ -91,8 +90,7 @@ const handle = async (req: http.IncomingMessage, res: http.ServerResponse) => {
   if (p === "/api/outputs") return json(res, fs.existsSync(OUTPUT_DIR) ? fs.readdirSync(OUTPUT_DIR).filter((f) => f.endsWith(".mp4")).map((f) => ({ name: f, bytes: fs.statSync(path.join(OUTPUT_DIR, f)).size, mtime: fs.statSync(path.join(OUTPUT_DIR, f)).mtimeMs })).sort((a, b) => b.mtime - a.mtime) : []);
   if (p === "/api/plan" && m === "POST") {
     const { title, script } = JSON.parse((await body(req)).toString());
-    if (!String(script ?? "").trim()) throw new Error("Paste or import a script first.");
-    return json(res, { scenes: planFromScript(String(title || "Untitled"), String(script)) });
+    return json(res, { scenes: planStoryboard(String(title ?? ""), String(script ?? "")) });
   }
   if (p === "/api/ollama/storyboard" && m === "POST") {
     const { topic, script, sceneCount } = JSON.parse((await body(req)).toString());
@@ -100,7 +98,8 @@ const handle = async (req: http.IncomingMessage, res: http.ServerResponse) => {
     const job = startJob("ollama", async (update) => {
       update(`Asking ${s.ollamaModel} for a storyboard…`, 10);
       const sb = await generateStoryboard({ url: s.ollamaUrl, model: s.ollamaModel, topic: String(topic ?? ""), script: String(script ?? ""), sceneCount: Math.max(3, Math.min(24, Number(sceneCount) || 8)) });
-      return { title: sb.title, scenes: storyboardToScenes(sb) };
+      const scenes = storyboardToScenes(sb);
+      return { title: sb.title, scenes: parseProject({ title: sb.title, scenes }).scenes };
     });
     return json(res, { job: job.id });
   }

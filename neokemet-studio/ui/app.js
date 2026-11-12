@@ -91,7 +91,7 @@ const renderScenes = () => {
     if (uses(s, "variant")) fields.push(el("label", {}, "State", el("select", { onchange: (e) => set("variant", e.target.value) }, (catalog.TEMPLATES[s.template].variants || []).map((v) => el("option", { value: v, selected: v === s.variant }, v)))));
     if (uses(s, "label")) fields.push(el("label", {}, "On-screen label", el("input", { value: s.label || "", maxlength: 70, oninput: (e) => set("label", e.target.value) })));
     if (uses(s, "sublabel")) fields.push(el("label", {}, s.template === "map" ? "Places: A | B | C" : "Second line", el("input", { value: s.sublabel || "", maxlength: 120, oninput: (e) => set("sublabel", e.target.value) })));
-    fields.push(el("label", {}, "Length (seconds, blank = follow narration)", el("input", { type: "number", min: 2, max: 60, step: 0.5, value: s.durationSec ?? "", oninput: (e) => set("durationSec", e.target.value ? Number(e.target.value) : undefined) })));
+    fields.push(el("label", {}, "Length (seconds, blank = follow narration)", el("input", { type: "number", min: 2, max: 300, step: 0.5, value: s.durationSec ?? "", oninput: (e) => set("durationSec", e.target.value ? Number(e.target.value) : undefined) })));
     if (uses(s, "cast")) {
       s.cast = s.cast || [];
       const cast = el("div", { class: "cast" }, el("b", {}, "Characters:"), ...s.cast.map((m, k) => el("span", { class: "member" },
@@ -198,17 +198,32 @@ const init = async () => {
     slug = s; project = blankProject(title); dirty = false; await save(); fill(); refreshTimeline();
   };
   $("fScriptFile").onchange = async (e) => { const f = e.target.files[0]; if (!f) return; project.script = await f.text(); $("fScript").value = project.script; markDirty(); say(`Imported ${f.name}.`, true); };
+  // Replace the storyboard only after the complete candidate project has been
+  // validated by the server. On any failure the current project is untouched.
+  const adoptScenes = async (scenes, extra = {}) => {
+    const candidate = { ...JSON.parse(JSON.stringify(project)), ...extra, scenes };
+    await post(`/api/projects/${slug}/timeline`, { project: candidate }); // throws if the project is invalid
+    project = candidate; for (const k in thumbs) delete thumbs[k];
+    markDirty(); fill(); document.querySelector('[data-tab="storyboard"]').click();
+  };
   $("btnPlan").onclick = async () => {
     if (project.scenes.some((s) => s.narration) && !confirm("Replace the current storyboard with one built from the script?")) return;
-    try { const r = await post("/api/plan", { title: project.title, script: project.script }); project.scenes = r.scenes; markDirty(); renderScenes(); document.querySelector('[data-tab="storyboard"]').click(); say(`Storyboard built: ${r.scenes.length} scenes. Check each scene, then generate narration.`, true); } catch (e) { fail(e); }
+    const btn = $("btnPlan"); btn.disabled = true;
+    try {
+      const r = await post("/api/plan", { title: project.title, script: project.script });
+      await adoptScenes(r.scenes);
+      say(`Storyboard built: ${r.scenes.length} scenes, one per paragraph. Check each scene, then generate narration.`, true);
+    } catch (e) { say(`The storyboard was not changed.\n${e.message}`); }
+    finally { btn.disabled = false; }
   };
   $("btnOllama").onclick = async () => {
     try {
       $("ollamaState").textContent = "Working — local models can take a minute…";
       const { job } = await post("/api/ollama/storyboard", { topic: project.topic || project.title, script: project.script, sceneCount: Number($("fAiScenes").value) });
-      const r = await runJob(job); project.scenes = r.scenes; if (!project.script) project.script = r.scenes.map((s) => s.narration).join("\n\n");
-      $("fScript").value = project.script; markDirty(); renderScenes(); $("ollamaState").textContent = ""; document.querySelector('[data-tab="storyboard"]').click(); say(`Ollama returned ${r.scenes.length} validated scenes. Review the facts before exporting.`, true);
-    } catch (e) { $("ollamaState").textContent = ""; fail(e); }
+      const r = await runJob(job);
+      await adoptScenes(r.scenes, project.script ? {} : { script: r.scenes.map((s) => s.narration).join("\n\n") });
+      $("ollamaState").textContent = ""; say(`Ollama returned ${r.scenes.length} validated scenes. Review the facts before exporting.`, true);
+    } catch (e) { $("ollamaState").textContent = ""; say(`The storyboard was not changed.\n${e.message}`); }
   };
   $("btnAddScene").onclick = () => { project.scenes.push({ id: newId(), template: "landscape", environment: "open-desert", narration: "", camera: "pan-right", ambience: "auto" }); touch(); renderScenes(); };
   $("btnPiper").onclick = () => narrate("piper");

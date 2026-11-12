@@ -26,7 +26,7 @@ export const Cast: React.FC<{ cast: CastMember[]; f: number; D: number; ground: 
         const robe = ROBES[m.kind]?.[i % 3];
         const hh = h * (1 - (i % 3) * 0.035);
         if (m.action === "walk") {
-          const speed = (1.35 * hh) / 150;
+          const speed = ((1.35 * hh) / 150) * Math.min(1, 320 / Math.max(1, D)); // long scenes: slower, never off-screen
           const dist = f * speed;
           const x = cx - 420 - wi * hh * 0.62 + dist + (D > 0 ? 0 : 0);
           wi++;

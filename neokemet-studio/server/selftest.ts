@@ -6,12 +6,12 @@ import http from "node:http";
 import os from "node:os";
 import path from "node:path";
 import { GENERIC_TEMPLATE_IDS, TEMPLATE_IDS } from "../shared/catalog.ts";
-import { planFromScript } from "../shared/planner.ts";
+import { planFromScript, splitScript } from "../shared/planner.ts";
 import { buildCues, sceneSeconds, splitLines } from "../shared/timing.ts";
 import { readWav, speechSpan, synthMusic, writeWav } from "./audio.ts";
 import { generateStoryboard, storyboardJsonSchema, storyboardToScenes, validateStoryboard } from "./ollama.ts";
 import { PROJECTS_DIR } from "./paths.ts";
-import { listProjects, loadProject, parseProject } from "./projects.ts";
+import { listProjects, loadProject, parseProject, planStoryboard } from "./projects.ts";
 import { resolveTimeline } from "./timeline.ts";
 
 let n = 0;
@@ -85,5 +85,46 @@ await test("audio: score is deterministic; WAV round-trips; speech span is measu
   const span = speechSpan(readWav(f));
   fs.rmSync(f);
   assert.ok(Math.abs(span.start - 0.25) < 0.01 && Math.abs(span.end - 0.75) < 0.01);
+});
+
+// ---- long-form scripts: one paragraph = one scene ---------------------------
+// A stand-in for a 36-paragraph documentary script: every paragraph has several
+// sentences and 45-70 words, joined with messy real-world separators.
+const rc = loadProject(path.join(PROJECTS_DIR, "royal-cache")).project.scenes.map((s) => s.narration);
+const longParas = Array.from({ length: 36 }, (_, i) => `${rc[i % 18]} ${rc[(i + 7) % 18]} ${rc[(i + 11) % 18]}`);
+const seps = ["\n\n", "\r\n\r\n", "\n   \n", "\n\n\n\n", "\n\t\n \n"];
+const longScript = "\n\n" + longParas.map((p, i) => (i % 4 === 0 ? p.replace(". ", ".\n") : p) + (i < 35 ? seps[i % seps.length] : "\n\n  ")).join("");
+
+await test("36 multi-sentence paragraphs become exactly 36 scenes, text intact", () => {
+  assert.equal(splitScript(longScript).length, 36);
+  const scenes = planStoryboard("The Royal Cache", longScript);
+  assert.equal(scenes.length, 36);
+  scenes.forEach((s, i) => assert.equal(s.narration, longParas[i], `scene ${i + 1} narration changed`));
+  assert.ok(scenes.every((s) => s.durationSec === undefined), "no fixed durations are imposed");
+  assert.equal(new Set(scenes.map((s) => s.id)).size, 36);
+  assert.equal(scenes[0].template, "title");
+  assert.equal(scenes[35].template, "end-card");
+});
+await test("the complete 36-scene project validates; scene lengths follow the narration", async () => {
+  const project = parseProject({ title: "The Royal Cache", script: longScript, scenes: planStoryboard("The Royal Cache", longScript) });
+  const tl = await resolveTimeline(project, PROJECTS_DIR);
+  const secs = tl.scenes.map((s) => s.durationInFrames / project.fps);
+  assert.equal(tl.scenes.length, 36);
+  assert.ok(new Set(secs.map((x) => x.toFixed(1))).size > 3, "durations vary from scene to scene");
+  assert.ok(Math.min(...secs) > 12 && Math.max(...secs) < 60);
+  assert.ok(tl.seconds > 10 * 60 && tl.seconds < 20 * 60, `total ${tl.seconds.toFixed(0)} s`);
+  assert.deepEqual(tl.warnings, []);
+  for (const s of tl.scenes) { assert.equal(s.cues.map((c) => c.text).join(" "), s.scene.narration); assert.ok(s.cues.every((c) => c.to <= s.durationInFrames)); }
+  console.log(`      (${tl.scenes.length} scenes, ${(tl.seconds / 60).toFixed(1)} min estimated, scenes ${Math.min(...secs).toFixed(0)}–${Math.max(...secs).toFixed(0)} s)`);
+});
+await test("too many paragraphs, or an empty script, fail cleanly with a useful message", () => {
+  const tooMany = Array.from({ length: 41 }, (_, i) => `Paragraph ${i + 1}. It has two sentences.`).join("\n\n");
+  assert.throws(() => planStoryboard("x", tooMany), /41 paragraphs.*limit is 40 scenes/s);
+  assert.throws(() => planStoryboard("x", "  \n\n \n"), /script is empty/);
+  assert.equal(planStoryboard("x", Array.from({ length: 40 }, (_, i) => `Paragraph ${i + 1}.`).join("\n\n")).length, 40);
+});
+await test("a single long paragraph stays one scene", () => {
+  const one = Array.from({ length: 30 }, (_, i) => `Sentence number ${i + 1} of a very long paragraph.`).join(" ");
+  assert.deepEqual(splitScript(one), [one]);
 });
 console.log(`\n${n} checks passed.`);

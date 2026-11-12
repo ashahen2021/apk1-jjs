@@ -47,6 +47,6 @@ export const resolveTimeline = async (project: Project, projectDir: string): Pro
     start += durationInFrames;
   }
   const seconds = start / project.fps;
-  if (seconds < 60 || seconds > 180) warnings.push(`Film length is ${seconds.toFixed(1)} s; the studio is tuned for 60–180 s documentaries.`);
+  if (seconds < 20) warnings.push(`Film length is only ${seconds.toFixed(1)} s.`);
   return { scenes, totalFrames: start, seconds, warnings };
 };

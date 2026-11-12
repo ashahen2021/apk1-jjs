@@ -56,7 +56,7 @@ export const ProcessionTemplate: React.FC<TemplateProps> = ({ scene, seed }) => 
   const { f, D, p } = useClock();
   const cam = cameraMove(scene.camera ?? "pan-right", p);
   const h = 160;
-  const dist = (f + 20) * 1.0;
+  const dist = (f + 20) * Math.min(1, 330 / Math.max(1, D)); // paced to the scene length
   const cx = 300 + dist * 0.9;
   const walkers = (scene.cast ?? [{ kind: "priest" as const, action: "staff" as const }]).slice(0, 4);
   return (

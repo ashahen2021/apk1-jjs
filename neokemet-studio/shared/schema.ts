@@ -1,6 +1,8 @@
 import { z } from "zod";
 import { ACTION_IDS, CAMERA_IDS, CHARACTER_IDS, ENV_IDS, FORMAT_IDS, GENERIC_TEMPLATE_IDS, PROP_IDS, TEMPLATE_IDS } from "./catalog.ts";
 
+export const MAX_SCENES = 40;
+
 export const CastMemberSchema = z.object({
   kind: z.enum(CHARACTER_IDS),
   action: z.enum(ACTION_IDS).default("stand"),
@@ -12,7 +14,7 @@ export const SceneSchema = z.object({
   /** Spoken text for this scene. Also the source of the subtitles. */
   narration: z.string().default(""),
   /** Manual length in seconds. Omit to follow the narration automatically. */
-  durationSec: z.number().min(2).max(60).optional(),
+  durationSec: z.number().min(2).max(300).optional(),
   environment: z.enum(ENV_IDS).optional(),
   cast: z.array(CastMemberSchema).max(5).optional(),
   camera: z.enum(CAMERA_IDS).optional(),
@@ -46,7 +48,7 @@ export const ProjectSchema = z.object({
       narrationVolume: z.number().min(0).max(1.5).default(1),
     })
     .prefault({}),
-  scenes: z.array(SceneSchema).min(1).max(40),
+  scenes: z.array(SceneSchema).min(1).max(MAX_SCENES),
 });
 export type Project = z.infer<typeof ProjectSchema>;
 
