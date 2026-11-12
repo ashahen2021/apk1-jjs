@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { paramProblems } from "../shared/params.ts";
 import { planFromScript, splitScript } from "../shared/planner.ts";
 import { MAX_SCENES, Project, ProjectSchema, Scene } from "../shared/schema.ts";
 import { slugify } from "../shared/timing.ts";
@@ -14,6 +15,7 @@ export const projectDir = (slug: string) => {
 export const parseProject = (raw: unknown): Project => {
   const r = ProjectSchema.safeParse(raw);
   if (!r.success) throw new Error("Invalid project:\n" + r.error.issues.map((i) => `  ${i.path.map((p) => (typeof p === "number" ? `[${p}]` : `.${String(p)}`)).join("").replace(/^\./, "") || "(root)"}: ${i.message}`).join("\n"));
+  r.data.scenes.forEach((s, i) => { const bad = paramProblems(s); if (bad.length) throw new Error(`Invalid project:\n${bad.map((b) => `  scenes[${i}].${b}`).join("\n")}`); });
   const ids = new Set<string>();
   for (const s of r.data.scenes) { if (ids.has(s.id)) throw new Error(`Invalid project: duplicate scene id "${s.id}"`); ids.add(s.id); }
   return r.data;

@@ -77,7 +77,7 @@ export const PROP_IDS = Object.keys(PROPS) as [PropId, ...PropId[]];
 type TemplateInfo = {
   label: string;
   description: string;
-  group: "Generic" | "Royal Cache presets";
+  group: "Generic" | "Documentary" | "Royal Cache presets";
   uses: ("environment" | "cast" | "camera" | "label" | "sublabel" | "prop" | "variant")[];
   variants?: string[];
 };
@@ -93,6 +93,9 @@ export const TEMPLATES = {
   "coffin-chamber": { label: "Coffin chamber", group: "Generic", description: "Torchlight travelling along a row of coffins.", uses: ["label"] },
   map: { label: "Journey map", group: "Generic", description: "Dotted route drawn between three sites on a desert map.", uses: ["label", "sublabel"] },
   "end-card": { label: "End card", group: "Generic", description: "Closing landscape with end title and a credit line.", uses: ["environment", "label", "sublabel"] },
+  "royal-pharaohs": { label: "Royal Pharaohs", group: "Documentary", description: "A pharaoh — seated, standing or as a colossal statue — in a cinematic setting, with a name plate.", uses: ["label", "sublabel"] },
+  "tomb-robbery": { label: "Tomb Robbery", group: "Documentary", description: "A royal burial shown in order, then opened, looted or damaged. Schematic and restrained.", uses: ["label", "sublabel"] },
+  "priests-rewrapping": { label: "Priests Rewrapping", group: "Documentary", description: "Priests of Amun inspect, rewrap, label or carry a royal burial in a work chamber.", uses: ["label", "sublabel"] },
   "rc-01": { label: "RC 01 · The Secret", group: "Royal Cache presets", description: "Cliff, slit and gold coffin; title.", uses: [] },
   "rc-02": { label: "RC 02 · The Looted Tombs", group: "Royal Cache presets", description: "Chamber dissolves from whole to broken.", uses: [] },
   "rc-03": { label: "RC 03 · Priests of Amun", group: "Royal Cache presets", description: "Two priests study a papyrus.", uses: [] },
@@ -116,4 +119,34 @@ export type TemplateId = keyof typeof TEMPLATES;
 export const TEMPLATE_IDS = Object.keys(TEMPLATES) as [TemplateId, ...TemplateId[]];
 export const GENERIC_TEMPLATE_IDS = TEMPLATE_IDS.filter((t) => !t.startsWith("rc-")) as [TemplateId, ...TemplateId[]];
 
-export const CATALOG = { FORMATS, FPS_OPTIONS, ENVIRONMENTS, CHARACTERS, ACTIONS, CAMERAS, PROPS, TEMPLATES };
+/**
+ * Template-specific, editable parameters. A template listed here gets these
+ * fields in the storyboard; values are stored in scene.params. Every parameter
+ * has a default, so a scene without params (or an older project) still renders.
+ */
+export type ParamDef =
+  | { key: string; label: string; type: "select"; options: readonly string[]; default: string }
+  | { key: string; label: string; type: "boolean"; default: boolean };
+
+export const TEMPLATE_PARAMS: Partial<Record<TemplateId, readonly ParamDef[]>> = {
+  "royal-pharaohs": [
+    { key: "pharaohName", label: "Pharaoh", type: "select", options: ["Ramesses II", "Seti I", "Thutmose III", "Amenhotep I", "Seqenenre Tao", "Generic Pharaoh"], default: "Generic Pharaoh" },
+    { key: "pose", label: "Pose", type: "select", options: ["seated", "standing", "statue close-up"], default: "seated" },
+    { key: "environment", label: "Environment", type: "select", options: ["temple courtyard with columns", "theban limestone cliffs", "royal burial chamber", "desert plateau"], default: "temple courtyard with columns" },
+    { key: "camera", label: "Camera", type: "select", options: ["slow push in", "pan left", "pan right", "rise"], default: "slow push in" },
+  ],
+  "tomb-robbery": [
+    { key: "stage", label: "Stage", type: "select", options: ["intact", "opened", "looted", "damaged"], default: "looted" },
+    { key: "environment", label: "Environment", type: "select", options: ["royal burial chamber", "hidden cliff tomb", "corridor with side chamber"], default: "royal burial chamber" },
+    { key: "camera", label: "Camera", type: "select", options: ["slow push in", "pan right", "pan left"], default: "slow push in" },
+    { key: "showTorch", label: "Show torch", type: "boolean", default: true },
+    { key: "showScatteredObjects", label: "Show scattered objects", type: "boolean", default: true },
+  ],
+  "priests-rewrapping": [
+    { key: "action", label: "Action", type: "select", options: ["inspect coffin", "rewrap mummy", "record labels", "carry remains"], default: "rewrap mummy" },
+    { key: "environment", label: "Environment", type: "select", options: ["work chamber", "temple chamber", "burial preparation room"], default: "work chamber" },
+    { key: "camera", label: "Camera", type: "select", options: ["slow push in", "pan left", "pan right"], default: "slow push in" },
+  ],
+};
+
+export const CATALOG = { FORMATS, FPS_OPTIONS, ENVIRONMENTS, CHARACTERS, ACTIONS, CAMERAS, PROPS, TEMPLATES, TEMPLATE_PARAMS };
