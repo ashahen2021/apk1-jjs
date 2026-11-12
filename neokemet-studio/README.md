@@ -138,6 +138,46 @@ choice is only a starting point: review it in the Storyboard.
 The pharaoh name changes the name plate and trim colour, not a likeness: figures have no
 faces by design.
 
+## Phase 2: Reuse original Royal Cache animations
+
+Eight existing hand-directed shots are now **editable, reusable presets** in the
+Storyboard, without redrawing the artwork or changing their original files:
+
+| Preset | Original shot |
+|---|---|
+| `rc-07` | Deir el-Bahari / Hatshepsut temple |
+| `rc-08` | TT320 shaft and passages cutaway |
+| `rc-11` | Nineteenth-century Theban family and village |
+| `rc-12` | Goat story at the tomb opening |
+| `rc-14` | Antiquities market and clues |
+| `rc-15` | Historical discovery of 1881 |
+| `rc-16` | Removing and hoisting royal coffins |
+| `rc-17` | Pharaohs' Golden Parade, 2021 |
+
+On these scenes the **Framing** (original / close-up / wide), **Camera adjustment**
+(original / push in / pull back / pan left / pan right), **Portion of original
+animation** (full / opening half / closing half), **Colour grade** (original /
+warm dusk / cool night), and **Display extra scene label** controls appear
+automatically. With no `params` or all controls left at default, the **original
+shot renders unchanged**. Custom caption text is only displayed if the extra
+label switch is enabled. These adjustments transform an existing shot; they
+do not rearrange its actors or re-choreograph its action. Some shots have
+original fixed captions which remain visible.
+
+**Production-script Markdown:** the importer now recognizes strong, distinctive
+*Visual* directions for these eight shots and uses the existing artwork.
+It does **not** select these presets from the narration alone. Ambiguous
+directions retain the existing matching behavior, and the first and last
+scenes remain title and end card. Review all choices in Storyboard.
+
+**No script edits required:** `Royal_Cache_Long_Production_Script.md` is
+unchanged. Re-importing replaces the current scene list; create a new test
+project to test automatic mapping without overwriting hand-edited scenes,
+saved audio, or your current 36-scene storyboard.
+
+Run `npm run typecheck` and `npm test`, then preview and render a sample
+scene from each reused preset in 16:9 before using the entire film.
+
 ## Optional local AI (Ollama)
 
 Install Ollama from https://ollama.com, pull a model, and the status pill in the header turns green:
