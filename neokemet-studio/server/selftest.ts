@@ -322,10 +322,11 @@ await test("Smart approval changes only approved template/params; protects audio
   assert.deepEqual(applied.changedIds, ["s02"]);
   assert.equal(applied.project.scenes[1].template, "royal-pharaohs");
   assert.equal(applied.project.scenes[1].params?.pharaohName, "Ramesses II");
-  for (const key of Object.keys(source.scenes[1])) {
-    if (key === "template" || key === "params") continue;
-    assert.deepEqual(applied.project.scenes[1][key as keyof typeof source.scenes[1]], source.scenes[1][key as keyof typeof source.scenes[1]], "changed " + key);
-  }
+  const unchangedBefore = { ...source.scenes[1], template: "royal-pharaohs" as const };
+  const unchangedAfter = { ...applied.project.scenes[1] };
+  delete unchangedBefore.params;
+  delete unchangedAfter.params;
+  assert.deepEqual(unchangedAfter, unchangedBefore, "all non-template fields must remain identical");
   assert.deepEqual(applied.project.scenes[2], source.scenes[2]);
   parseProject(applied.project);
 });
