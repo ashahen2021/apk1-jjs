@@ -101,6 +101,15 @@ const renderScenes = () => {
         s.cast.length < 5 ? el("button", { class: "small", onclick: () => { s.cast.push({ kind: "priest", action: "stand" }); touch(); renderScenes(); } }, "+ character") : null);
       fields.push(cast);
     }
+    if (s.production) {
+      const p = s.production;
+      fields.push(el("details", { class: "production-notes" },
+        el("summary", {}, `Production notes · ${p.sceneTitle || "Scene"}${p.chapter ? " · " + p.chapter : ""}`),
+        el("label", {}, "Visual direction (editable)", el("textarea", { rows: 2, oninput: (e) => { p.visual = e.target.value; touch(); } }, p.visual || "")),
+        el("label", {}, "Sound / transition direction (editable)", el("textarea", { rows: 2, oninput: (e) => { p.sound = e.target.value; touch(); } }, p.sound || "")),
+        el("div", { class: "muted" }, "These notes are not spoken. Unsupported directions need manual visual editing.")
+      ));
+    }
     fields.push(el("textarea", { rows: 3, placeholder: "Narration for this scene (also used for the subtitles)", oninput: (e) => { s.narration = e.target.value; touch(); } }, s.narration || ""));
     const file = el("input", { type: "file", accept: "audio/*,.wav,.mp3,.m4a", hidden: true, onchange: async (e) => { const f = e.target.files[0]; if (!f) return; try { const r = await api(`/api/projects/${slug}/upload?kind=narration&name=${encodeURIComponent(String(i + 1).padStart(2, "0") + "-" + f.name)}`, { method: "POST", body: f }); s.narrationFile = r.file; touch(); renderScenes(); refreshTimeline(); } catch (err) { fail(err); } } });
     return el("div", { class: "scene" },
@@ -205,6 +214,50 @@ const init = async () => {
     await post(`/api/projects/${slug}/timeline`, { project: candidate }); // throws if the project is invalid
     project = candidate; for (const k in thumbs) delete thumbs[k];
     markDirty(); fill(); document.querySelector('[data-tab="storyboard"]').click();
+  };
+  let stagedProduction = null;
+  const clearProductionPreview = () => {
+    stagedProduction = null;
+    $("productionPreview").hidden = true;
+    $("productionPreview").replaceChildren();
+    $("productionFileName").textContent = "No production script selected";
+    $("btnApplyProduction").disabled = true;
+    $("btnCancelProduction").disabled = true;
+    $("fProductionFile").value = "";
+  };
+  $("btnCancelProduction").onclick = clearProductionPreview;
+  $("fProductionFile").onchange = async (e) => {
+    const file = e.target.files[0]; if (!file) return;
+    clearProductionPreview();
+    $("productionFileName").textContent = file.name + " — validating…";
+    try {
+      if (file.size > 500_000) throw new Error("This file is too large (max 500 KB).");
+      const response = await post("/api/production/preview", { source: await file.text(), title: project.title });
+      stagedProduction = response;
+      $("productionFileName").textContent = file.name;
+      $("productionPreview").hidden = false;
+      $("productionPreview").replaceChildren(
+        el("b", {}, `${response.summary.sceneCount} validated scenes · ${response.summary.chapters} chapters`),
+        el("p", { class: "muted" }, `First: ${response.scenes[0].production?.sceneTitle || "Scene 1"} — Last: ${response.scenes.at(-1).production?.sceneTitle || "Final scene"}`),
+        el("p", { class: "muted" }, `Recommended format: ${response.suggestedFormat || "not specified"} · Current: ${project.format}`),
+        ...response.warnings.map((w) => el("p", { class: "muted" }, "• " + w)),
+        el("p", { class: "muted" }, "No project files or narration credits were changed. Review before applying.")
+      );
+      $("btnApplyProduction").disabled = false;
+      $("btnCancelProduction").disabled = false;
+    } catch (err) { clearProductionPreview(); say("Production script import failed. Current storyboard remains unchanged.\n" + (err.message || err)); }
+  };
+  $("btnApplyProduction").onclick = async () => {
+    if (!stagedProduction) return;
+    const staged = stagedProduction;
+    if (!confirm(`Replace the current ${project.scenes.length}-scene storyboard with ${staged.scenes.length} imported scenes? Existing narration references will not be carried over. You must still click Save project afterward.`)) return;
+    const extra = { script: staged.script };
+    if ($("productionUseFormat").checked && staged.suggestedFormat) extra.format = staged.suggestedFormat;
+    try {
+      await adoptScenes(staged.scenes, extra);
+      clearProductionPreview();
+      say(`Imported ${staged.scenes.length} validated scenes. Review the notes, then click Save project. No audio was generated.`, true);
+    } catch (err) { say("Current storyboard was not changed.\n" + (err.message || err)); }
   };
   $("btnPlan").onclick = async () => {
     if (project.scenes.some((s) => s.narration) && !confirm("Replace the current storyboard with one built from the script?")) return;
