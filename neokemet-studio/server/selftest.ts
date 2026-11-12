@@ -264,4 +264,85 @@ await test("Royal Cache reusable shot matching is deliberate and never narration
   assert.equal(imported[1].narration, "The mountains hide their secret.");
 });
 
+// ---- smart approval workflow: preview, protect, selectively apply, undo-safe fields ----
+await test("Smart Template Selection is a read-only, conservative review", async () => {
+  const { suggestSmartTemplates } = await import("../shared/smart-selection.ts");
+  const source = parseProject({
+    title: "Royal Cache Demo", format: "16:9",
+    scenes: [
+      { id: "s01", template: "title", label: "MY FILM", narration: "A beginning.",
+        production: { sourceNumber: 1, sceneTitle: "The title", chapter: "", visual: "A giant pharaoh statue.", sound: "" } },
+      { id: "s02", template: "artifact", prop: "statue", label: "Ramesses II", durationSec: 24.5, narrationFile: "narration/02-arthur.mp3",
+        narration: "Ramesses II was one of the rulers of Egypt.",
+        production: { sourceNumber: 2, sceneTitle: "The missing kings", chapter: "I", visual: "Colossal statue of Ramesses II in a temple, pan left.", sound: "Wind." } },
+      { id: "s03", template: "tomb-interior", variant: "looted", label: "The cost of treasure", narration: "Royal coffins were disturbed.",
+        production: { sourceNumber: 3, sceneTitle: "Tomb robbery", chapter: "I", visual: "Looted burial chamber with thieves, torchlight and scattered objects.", sound: "" } },
+      { id: "s04", template: "cutaway", camera: "pan-right", narration: "The place we now call TT320 was reached through a deep shaft.",
+        production: { sourceNumber: 4, sceneTitle: "The hidden entrance", chapter: "II", visual: "Section through rock: shaft, passages, chamber, torch-lit party.", sound: "" } },
+      { id: "s05", template: "rc-07", narration: "West of the Nile the cliffs rise.",
+        production: { sourceNumber: 5, sceneTitle: "Across the Nile", chapter: "II", visual: "Hatshepsut temple at Deir el-Bahari below the cliffs.", sound: "" },
+        params: { framing: "close-up", movement: "original" } },
+      { id: "s06", template: "end-card", label: "THE END", narration: "Remember these kings.",
+        production: { sourceNumber: 6, sceneTitle: "Finale", chapter: "", visual: "Cairo 2021 Golden Parade.", sound: "" } },
+    ],
+  });
+  const before = JSON.stringify(source);
+  const result = suggestSmartTemplates(source);
+  assert.equal(JSON.stringify(source), before, "analyze must never mutate the storyboard");
+  assert.equal(result.summary.total, 6);
+  assert.equal(result.summary.protected, 3, "title, closing card and pre-customized Royal Cache preset");
+  assert.deepEqual(result.suggestions.map((p) => [p.sceneId, p.currentTemplate, p.proposedTemplate]), [
+    ["s02", "artifact", "royal-pharaohs"],
+    ["s03", "tomb-interior", "tomb-robbery"],
+    ["s04", "cutaway", "rc-08"],
+  ]);
+  assert.equal(result.suggestions[0].proposedParams.pharaohName, "Ramesses II");
+  assert.equal(result.suggestions[0].proposedParams.camera, "pan left");
+  assert.ok(result.suggestions.every((p) => !!p.reason));
+});
+await test("Smart approval changes only approved template/params; protects audio and rejects stale IDs", async () => {
+  const { applySmartTemplates, suggestSmartTemplates } = await import("../shared/smart-selection.ts");
+  const source = parseProject({ title: "Saved film", scenes: [
+    { id: "s01", template: "title", label: "Opening", narration: "Intro." },
+    { id: "s02", template: "artifact", prop: "statue", label: "King", durationSec: 28.5, narrationFile: "narration/s02.mp3",
+      environment: "theban-cliffs", camera: "rise", narration: "The reign of Ramesses II.",
+      production: { sourceNumber: 2, sceneTitle: "King", chapter: "I", visual: "Colossal statue of Ramesses II in temple courtyard.", sound: "Trumpet." } },
+    { id: "s03", template: "tomb-robbery", params: { stage: "looted", showTorch: false },
+      narration: "They opened the chamber.", production: { sourceNumber: 3, sceneTitle: "Looting", chapter: "I", visual: "A looted tomb.", sound: "" } },
+    { id: "s04", template: "end-card", narration: "End." },
+  ] });
+  const before = JSON.stringify(source);
+  const preview = suggestSmartTemplates(source);
+  assert.deepEqual(preview.suggestions.map((s) => s.sceneId), ["s02"]);
+  assert.throws(() => applySmartTemplates(source, ["s03"]), /no longer eligible/);
+  assert.throws(() => applySmartTemplates(source, ["s02", "s02"]), /unique scene IDs/);
+  assert.throws(() => applySmartTemplates(source, ["unknown"]), /no longer eligible/);
+  const applied = applySmartTemplates(source, ["s02"]);
+  assert.equal(JSON.stringify(source), before, "apply is pure, source not mutated");
+  assert.deepEqual(applied.changedIds, ["s02"]);
+  assert.equal(applied.project.scenes[1].template, "royal-pharaohs");
+  assert.equal(applied.project.scenes[1].params?.pharaohName, "Ramesses II");
+  const unchangedBefore = { ...source.scenes[1], template: "royal-pharaohs" as const };
+  const unchangedAfter = { ...applied.project.scenes[1] };
+  delete unchangedBefore.params;
+  delete unchangedAfter.params;
+  assert.deepEqual(unchangedAfter, unchangedBefore, "all non-template fields must remain identical");
+  assert.deepEqual(applied.project.scenes[2], source.scenes[2]);
+  parseProject(applied.project);
+});
+
+await test("Smart Template Selection UI has real controls and parseable JavaScript", async () => {
+  const { Script } = await import("node:vm");
+  const uiDir = path.join(PROJECTS_DIR, "..", "ui");
+  const app = fs.readFileSync(path.join(uiDir, "app.js"), "utf8");
+  const html = fs.readFileSync(path.join(uiDir, "index.html"), "utf8");
+  new Script(app, { filename: "app.js" }); // syntax validation, without invoking a browser or network
+  for (const id of ["btnAnalyzeSmart", "btnApplySmart", "btnUndoSmart", "smartSelectionPreview"]) {
+    assert.match(html, new RegExp('id="' + id + '"'));
+    assert.ok(app.includes(id), "unwired UI control: " + id);
+  }
+  assert.ok(app.includes("smartCompareFrame"), "on-demand render comparison is missing");
+  assert.ok(app.includes("undoSmartSelection"), "undo action is missing");
+});
+
 console.log(`\n${n} checks passed.`);
