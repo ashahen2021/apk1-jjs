@@ -178,6 +178,47 @@ saved audio, or your current 36-scene storyboard.
 Run `npm run typecheck` and `npm test`, then preview and render a sample
 scene from each reused preset in 16:9 before using the entire film.
 
+## Smart Template Selection (existing storyboards)
+
+In **3 · Storyboard**, click **Analyze scenes** in the new *Smart Template
+Selection* panel. Analysis works locally and does not save your project, call
+Ollama, generate paid narration, or overwrite the production Markdown.
+
+- The recommendation engine reads each scene's saved **Production notes →
+  Visual direction**, chapter scene title, and narration. Specific cues from the
+  existing Royal Cache presets are considered first; the documentary matcher
+  then proposes one of the three Phase-1 templates. Generic mentions do not
+  automatically trigger a switch, and the first/last scenes, existing
+  documentary/preset choices, and any scene with custom `params` are protected.
+- Each proposal shows **Scene**, **current → proposed template**, a short
+  explanation, and its rule-based confidence. **Preview current** and
+  **Preview suggested** render frame 60% locally, on demand, *without
+  changing the scene*.
+- Nothing is selected by default. Select individual proposals or use
+  **Select all suggestions**. Only **Apply selected changes** (after explicit
+  confirmation) modifies the open storyboard.
+- The server rechecks suggestions against the live project before applying.
+  The operation changes **only `scene.template` and `scene.params`** on
+  approved scene IDs. Script, narration text, narration audio links, manual
+  duration, original title/labels, camera, props, production notes, project
+  settings, and other scenes remain intact.
+- The changes are initially **unsaved**. Review and **Save project** when
+  satisfied. **Undo last smart selection** reverts the last batch's template
+  and params for scenes that have not been subsequently retuned. Undo is
+  available until project switch/page reload. If you saved after applying,
+  click Save again after undo to persist the restoration.
+- Any edits while a preview is open invalidate that preview, preventing a
+  stale approval. Run Analyze again for a fresh comparison. If a scene has
+  no distinctive visual direction, the engine leaves it unchanged.
+
+**Safe upgrade:** keep the original 36-scene Royal Cache project and its
+audio folders. Test the selector on a **copy** of that project. Do not use
+`Import Production Script` or `Build storyboard from script` to update an
+existing edited film; those are replacement operations.
+
+Test from `neokemet-studio`: `npm run typecheck`, `npm test`, and
+compare at least two proposed frames in 16:9 before applying to a long film.
+
 ## Optional local AI (Ollama)
 
 Install Ollama from https://ollama.com, pull a model, and the status pill in the header turns green:
