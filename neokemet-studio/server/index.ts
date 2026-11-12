@@ -5,6 +5,7 @@ import http from "node:http";
 import path from "node:path";
 import { CATALOG } from "../shared/catalog.ts";
 import { parseProductionMarkdown } from "../shared/production.ts";
+import { applySmartTemplates, suggestSmartTemplates } from "../shared/smart-selection.ts";
 import type { Project } from "../shared/schema.ts";
 import { slugify } from "../shared/timing.ts";
 import { narrateProject } from "./narrate.ts";
@@ -100,6 +101,18 @@ const handle = async (req: http.IncomingMessage, res: http.ServerResponse) => {
     // Validate every scene against the same project schema used for saving/rendering.
     const validated = parseProject({ title: String(input.title || "Untitled"), scenes: candidate.scenes });
     return json(res, { ...candidate, scenes: validated.scenes });
+  }
+  // The smart selector is a dry run until a user explicitly approves scene IDs.
+  // Neither route writes to disk, starts narration nor renders a video.
+  if ((p === "/api/smart-selection/preview" || p === "/api/smart-selection/apply") && m === "POST") {
+    const input = JSON.parse((await body(req, 5_000_000)).toString() || "{}");
+    const current = parseProject(input.project);
+    if (p.endsWith("/preview")) return json(res, suggestSmartTemplates(current));
+    const ids: unknown = input.sceneIds;
+    if (!Array.isArray(ids) || !ids.every((id) => typeof id === "string"))
+      throw new Error("Select valid scene IDs from the preview.");
+    const changed = applySmartTemplates(current, ids as string[]);
+    return json(res, { ...changed, project: parseProject(changed.project) });
   }
   if (p === "/api/ollama/storyboard" && m === "POST") {
     const { topic, script, sceneCount } = JSON.parse((await body(req)).toString());
