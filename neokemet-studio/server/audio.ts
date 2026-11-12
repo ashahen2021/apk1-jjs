@@ -130,7 +130,7 @@ export const synthMusic = (dur: number, cuts: number[], seed: number): [Float32A
   return [L, R];
 };
 
-const INTERIOR = new Set(["tomb-interior", "cutaway", "coffin-chamber", "artifact", "map", "rc-02", "rc-04", "rc-05", "rc-08", "rc-09", "rc-13"]);
+const INTERIOR = new Set(["tomb-robbery", "priests-rewrapping", "tomb-interior", "cutaway", "coffin-chamber", "artifact", "map", "rc-02", "rc-04", "rc-05", "rc-08", "rc-09", "rc-13"]);
 const WALKING = new Set(["procession", "rc-06", "rc-11", "rc-15"]);
 
 /** Original foley: wind or room tone per scene, footsteps under walking scenes. */
@@ -154,7 +154,7 @@ export const synthFoley = (tl: Timeline, fps: number, seed: number): [Float32Arr
   };
   for (const s of tl.scenes) {
     const t0 = s.startFrame / fps, t1 = (s.startFrame + s.durationInFrames) / fps;
-    const mode = s.scene.ambience === "auto" ? (INTERIOR.has(s.scene.template) || s.scene.environment === "tomb-wall" ? "interior" : "wind") : s.scene.ambience;
+    const mode = s.scene.ambience === "auto" ? (INTERIOR.has(s.scene.template) || s.scene.environment === "tomb-wall" || s.scene.params?.environment === "royal burial chamber" ? "interior" : "wind") : s.scene.ambience;
     if (mode === "wind") bed(t0 - 0.3, t1 + 0.3, 0.1, 250, 950);
     if (mode === "interior") bed(t0 - 0.3, t1 + 0.3, 0.09, 75, 210);
     const walks = WALKING.has(s.scene.template) || (s.scene.cast ?? []).some((c) => c.action === "walk");

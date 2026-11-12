@@ -23,6 +23,7 @@ import { CharactersTemplate, LandscapeTemplate, ProcessionTemplate, TitleTemplat
 import { CoffinChamberTemplate } from "./CoffinChamber";
 import type { TemplateProps } from "./common";
 import { CutawayTemplate } from "./Cutaway";
+import { PriestsRewrappingTemplate, RoyalPharaohsTemplate, TombRobberyTemplate } from "./Documentary";
 import { ArtifactTemplate, EndCardTemplate, MapTemplate, TombInteriorTemplate } from "./Special";
 
 type Entry = { Component: React.FC<TemplateProps> | React.FC; bg?: string; preset?: boolean };
@@ -44,6 +45,9 @@ export const REGISTRY: Record<TemplateId, Entry> = {
   "coffin-chamber": { Component: CoffinChamberTemplate, bg: C.night },
   map: { Component: MapTemplate },
   "end-card": { Component: EndCardTemplate },
+  "royal-pharaohs": { Component: RoyalPharaohsTemplate },
+  "tomb-robbery": { Component: TombRobberyTemplate },
+  "priests-rewrapping": { Component: PriestsRewrappingTemplate },
   "rc-01": { Component: Scene01Secret, preset: true },
   "rc-02": { Component: Scene02Looted, preset: true },
   "rc-03": { Component: Scene03Priests, preset: true },

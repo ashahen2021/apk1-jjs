@@ -82,15 +82,28 @@ const renderScenes = () => {
   $("scenes").replaceChildren(...project.scenes.map((s, i) => {
     const set = (k, v) => { if (v === "" || v === undefined) delete s[k]; else s[k] = v; touch(); };
     const thumb = el("div", { class: "thumb" }, thumbs[s.id] ? el("img", { src: thumbs[s.id] }) : el("span", {}, "No preview yet"));
-    const tpl = el("select", { onchange: (e) => { s.template = e.target.value; touch(); renderScenes(); } });
-    for (const g of ["Generic", "Royal Cache presets"]) tpl.append(el("optgroup", { label: g }, ...Object.entries(catalog.TEMPLATES).filter(([, t]) => t.group === g).map(([k, t]) => el("option", { value: k, selected: k === s.template }, t.label))));
+    const paramDefs = (t) => (catalog.TEMPLATE_PARAMS || {})[t] || [];
+    const tpl = el("select", { onchange: (e) => {
+      s.template = e.target.value;
+      // start a template's own parameters from their defaults; drop them for templates without any
+      const defs = paramDefs(s.template);
+      if (defs.length) s.params = Object.fromEntries(defs.map((d) => [d.key, d.default])); else delete s.params;
+      touch(); renderScenes();
+    } });
+    for (const g of ["Generic", "Documentary", "Royal Cache presets"]) tpl.append(el("optgroup", { label: g }, ...Object.entries(catalog.TEMPLATES).filter(([, t]) => t.group === g).map(([k, t]) => el("option", { value: k, selected: k === s.template }, t.label))));
     const fields = [el("label", {}, "Template", tpl)];
     if (uses(s, "environment")) fields.push(el("label", {}, "Environment", el("select", { onchange: (e) => set("environment", e.target.value) }, options(catalog.ENVIRONMENTS, s.environment, "(default)"))));
     if (uses(s, "camera")) fields.push(el("label", {}, "Camera", el("select", { onchange: (e) => set("camera", e.target.value) }, options(catalog.CAMERAS, s.camera, "(default)"))));
     if (uses(s, "prop")) fields.push(el("label", {}, "Object", el("select", { onchange: (e) => set("prop", e.target.value) }, options(catalog.PROPS, s.prop, "(default)"))));
     if (uses(s, "variant")) fields.push(el("label", {}, "State", el("select", { onchange: (e) => set("variant", e.target.value) }, (catalog.TEMPLATES[s.template].variants || []).map((v) => el("option", { value: v, selected: v === s.variant }, v)))));
-    if (uses(s, "label")) fields.push(el("label", {}, "On-screen label", el("input", { value: s.label || "", maxlength: 70, oninput: (e) => set("label", e.target.value) })));
-    if (uses(s, "sublabel")) fields.push(el("label", {}, s.template === "map" ? "Places: A | B | C" : "Second line", el("input", { value: s.sublabel || "", maxlength: 120, oninput: (e) => set("sublabel", e.target.value) })));
+    for (const d of paramDefs(s.template)) {
+      const cur = s.params && s.params[d.key] !== undefined ? s.params[d.key] : d.default;
+      const setP = (v) => { s.params = { ...(s.params || {}), [d.key]: v }; touch(); };
+      if (d.type === "boolean") fields.push(el("label", { class: "check" }, el("input", { type: "checkbox", checked: !!cur, "data-param": d.key, onchange: (e) => setP(e.target.checked) }), d.label));
+      else fields.push(el("label", {}, d.label, el("select", { "data-param": d.key, onchange: (e) => setP(e.target.value) }, d.options.map((o) => el("option", { value: o, selected: o === cur }, o)))));
+    }
+    if (uses(s, "label")) fields.push(el("label", {}, paramDefs(s.template).length ? "Label" : "On-screen label", el("input", { value: s.label || "", maxlength: 70, oninput: (e) => set("label", e.target.value) })));
+    if (uses(s, "sublabel")) fields.push(el("label", {}, s.template === "map" ? "Places: A | B | C" : paramDefs(s.template).length ? "Subtitle" : "Second line", el("input", { value: s.sublabel || "", maxlength: 120, oninput: (e) => set("sublabel", e.target.value) })));
     fields.push(el("label", {}, "Length (seconds, blank = follow narration)", el("input", { type: "number", min: 2, max: 300, step: 0.5, value: s.durationSec ?? "", oninput: (e) => set("durationSec", e.target.value ? Number(e.target.value) : undefined) })));
     if (uses(s, "cast")) {
       s.cast = s.cast || [];

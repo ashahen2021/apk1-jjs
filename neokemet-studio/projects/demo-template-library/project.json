@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "title": "Template Library — Phase 1",
+  "topic": "Example scenes for the three documentary templates",
+  "script": "Among the rulers later hidden in the cache was Ramesses the Second, who reigned for sixty-six years.\n\nTheir original burial places had been threatened by thieves. Gold vanished, coffins were damaged, and royal mummies were disturbed.\n\nPriests of Amun repaired damaged burials and carefully rewrapped royal bodies in fresh linen.",
+  "format": "9:16",
+  "fps": 30,
+  "subtitles": true,
+  "scenes": [
+    {
+      "id": "s01",
+      "template": "royal-pharaohs",
+      "label": "The Great Kings",
+      "sublabel": "Nineteenth Dynasty",
+      "params": { "pharaohName": "Ramesses II", "pose": "seated", "environment": "temple courtyard with columns", "camera": "slow push in" },
+      "narration": "Among the rulers later hidden in the cache was Ramesses the Second, who reigned for sixty-six years."
+    },
+    {
+      "id": "s02",
+      "template": "tomb-robbery",
+      "label": "The Looted Tombs",
+      "params": { "stage": "looted", "environment": "royal burial chamber", "camera": "pan right", "showTorch": true, "showScatteredObjects": true },
+      "narration": "Their original burial places had been threatened by thieves. Gold vanished, coffins were damaged, and royal mummies were disturbed."
+    },
+    {
+      "id": "s03",
+      "template": "priests-rewrapping",
+      "label": "Rewrapped in Linen",
+      "sublabel": "Twenty-first Dynasty",
+      "params": { "action": "rewrap mummy", "environment": "work chamber", "camera": "slow push in" },
+      "narration": "Priests of Amun repaired damaged burials and carefully rewrapped royal bodies in fresh linen."
+    }
+  ]
+}

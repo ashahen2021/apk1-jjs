@@ -26,6 +26,8 @@ export const SceneSchema = z.object({
   narrationFile: z.string().optional(),
   /** Foley bed: auto picks from the environment. */
   ambience: z.enum(["auto", "wind", "interior", "none"]).default("auto"),
+  /** Template-specific parameters (see TEMPLATE_PARAMS). Optional: defaults apply. */
+  params: z.record(z.string().max(40), z.union([z.string().max(80), z.boolean()])).optional(),
   /** Production direction notes are descriptive; only supported properties control Remotion. */
   production: z.object({
     sourceNumber: z.number().int().positive(),

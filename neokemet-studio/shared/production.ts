@@ -1,6 +1,7 @@
 // Parse structured production Markdown into editable, validated storyboard candidates.
 // Importing is deliberately a dry run: no existing project is changed here.
 // Narration is the only text sent onward to a speech provider.
+import { matchDocumentaryTemplate } from "./documentary.ts";
 import { planScene } from "./planner.ts";
 import { MAX_SCENES, type Scene } from "./schema.ts";
 
@@ -104,6 +105,16 @@ export function parseProductionMarkdown(source: string, projectTitle = "Untitled
       else if (/map|route|markers|the nile divides/.test(v)) s.template = "map";
       else if (/priests|scribes|officials|family|villagers|workers|hands.*rewrap/.test(v)) s.template = "characters";
       else if (/cliff|temple|nile|mountain|village|desert|landscape/.test(v)) s.template = "landscape";
+    }
+    // Phase-1 documentary templates: chosen when the directions clearly call for one.
+    // Structural diagrams asked for explicitly (cutaway, map, rows of coffins) are left alone.
+    if (i > 0 && i < drafts.length - 1 && !["cutaway", "map", "coffin-chamber"].includes(s.template)) {
+      const m = matchDocumentaryTemplate({ visual, title: d.title, narration });
+      if (m) {
+        s.template = m.template;
+        s.params = m.params;
+        delete s.cast; delete s.prop; delete s.variant;
+      }
     }
     if (/deir el.bahari|hatshepsut/.test(v)) s.environment = "deir-el-bahari";
     else if (/theban|cliff|limestone|valley of the kings/.test(v)) s.environment = "theban-cliffs";
