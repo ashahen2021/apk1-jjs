@@ -48,3 +48,11 @@ video { max-width: 320px; max-height: 480px; border: 2px solid var(--sand); bord
 .outputs { list-style: none; padding: 0; } .outputs li { padding: 6px 0; border-bottom: 1px dashed var(--sand); display: flex; gap: 12px; align-items: center; }
 code { background: #F1DFBE; padding: 1px 5px; border-radius: 4px; font-size: 12.5px; }
 @media (max-width: 860px) { .layout { grid-template-columns: 1fr; } .scene { grid-template-columns: 1fr; } }
+
+/* Production Markdown import preview and per-scene director notes. */
+.production-preview { padding: 12px; margin-top: 10px; border-radius: 7px; background: #edf2ea; border: 1px solid var(--teal); }
+.production-preview p { margin: 5px 0; }
+.production-notes { grid-column: 1 / -1; padding: 10px; background: #f4e9d2; border: 1px solid var(--sand); border-radius: 6px; }
+.production-notes summary { cursor: pointer; font-weight: 600; }
+.production-notes label { margin-top: 10px; }
+.production-notes textarea { min-height: 72px; }
