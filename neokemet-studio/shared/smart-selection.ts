@@ -4,6 +4,7 @@
 import type { TemplateId } from "./catalog.ts";
 import { matchDocumentaryTemplate } from "./documentary.ts";
 import { matchReusableRoyalCacheShot } from "./reusable.ts";
+import { defaultParams } from "./params.ts";
 import type { Project, Scene } from "./schema.ts";
 
 const SPECIALIZED = new Set<TemplateId>([
@@ -64,7 +65,14 @@ export function suggestSmartTemplates(project: Project): SmartPreview {
     let confidence: "high" | "medium" = "high";
 
     // Original animation is preferred only for unmistakably specific visuals.
-    const reusable = matchReusableRoyalCacheShot(visual);
+    // The director may describe the geometry without naming TT320 in Visual.
+    // Permit the existing shaft cutaway only when narration/title ALSO
+    // identifies TT320 and Visual explicitly describes shaft + passages.
+    const tt320Geometry = /section through rock|cross.section|cutaway/i.test(visual) &&
+      /shaft/i.test(visual) && /passage|corridor|chamber/i.test(visual) &&
+      /tt.?320/i.test(title + " " + scene.narration);
+    const reusable = matchReusableRoyalCacheShot(visual) ??
+      (tt320Geometry ? { template: "rc-08" as TemplateId, params: defaultParams("rc-08") } : null);
     if (reusable) {
       template = reusable.template; params = reusable.params;
       reason = reuseReason[template] ?? "Strong visual cue for an existing animation.";
