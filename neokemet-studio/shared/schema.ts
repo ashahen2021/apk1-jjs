@@ -26,6 +26,15 @@ export const SceneSchema = z.object({
   narrationFile: z.string().optional(),
   /** Foley bed: auto picks from the environment. */
   ambience: z.enum(["auto", "wind", "interior", "none"]).default("auto"),
+  /** Production direction notes are descriptive; only supported properties control Remotion. */
+  production: z.object({
+    sourceNumber: z.number().int().positive(),
+    sceneTitle: z.string().max(160),
+    chapter: z.string().max(160),
+    visual: z.string().max(4000),
+    sound: z.string().max(4000),
+    estimatedSeconds: z.number().min(0).max(300).optional(),
+  }).optional(),
 });
 export type Scene = z.infer<typeof SceneSchema>;
 
