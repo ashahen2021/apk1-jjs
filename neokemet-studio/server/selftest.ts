@@ -331,4 +331,18 @@ await test("Smart approval changes only approved template/params; protects audio
   parseProject(applied.project);
 });
 
+await test("Smart Template Selection UI has real controls and parseable JavaScript", async () => {
+  const { Script } = await import("node:vm");
+  const uiDir = path.join(PROJECTS_DIR, "..", "ui");
+  const app = fs.readFileSync(path.join(uiDir, "app.js"), "utf8");
+  const html = fs.readFileSync(path.join(uiDir, "index.html"), "utf8");
+  new Script(app, { filename: "app.js" }); // syntax validation, without invoking a browser or network
+  for (const id of ["btnAnalyzeSmart", "btnApplySmart", "btnUndoSmart", "smartSelectionPreview"]) {
+    assert.match(html, new RegExp('id="' + id + '"'));
+    assert.ok(app.includes(id), "unwired UI control: " + id);
+  }
+  assert.ok(app.includes("smartCompareFrame"), "on-demand render comparison is missing");
+  assert.ok(app.includes("undoSmartSelection"), "undo action is missing");
+});
+
 console.log(`\n${n} checks passed.`);
