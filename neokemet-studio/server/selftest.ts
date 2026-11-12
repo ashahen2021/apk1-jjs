@@ -7,6 +7,7 @@ import os from "node:os";
 import path from "node:path";
 import { GENERIC_TEMPLATE_IDS, TEMPLATE_IDS } from "../shared/catalog.ts";
 import { planFromScript, splitScript } from "../shared/planner.ts";
+import { parseProductionMarkdown } from "../shared/production.ts";
 import { buildCues, sceneSeconds, splitLines } from "../shared/timing.ts";
 import { readWav, speechSpan, synthMusic, writeWav } from "./audio.ts";
 import { generateStoryboard, storyboardJsonSchema, storyboardToScenes, validateStoryboard } from "./ollama.ts";
@@ -126,5 +127,34 @@ await test("too many paragraphs, or an empty script, fail cleanly with a useful 
 await test("a single long paragraph stays one scene", () => {
   const one = Array.from({ length: 30 }, (_, i) => `Sentence number ${i + 1} of a very long paragraph.`).join(" ");
   assert.deepEqual(splitScript(one), [one]);
+});
+await test("production Markdown imports 36 complete numbered scenes with stage cues intact", () => {
+  const scenes = Array.from({ length: 36 }, (_, i) => {
+    const no = String(i + 1).padStart(2, "0");
+    return [
+      i === 0 ? "### Chapter: MISSING KINGS" : i === 18 ? "### Chapter: THE DISCOVERY" : "",
+      "**Scene " + no + " — Scene " + no + "** (50 words; ~20s at 150 wpm)",
+      "", "**Voiceover**",
+      "A complete sentence in scene " + no + ". A second sentence remains in this same scene.",
+      "", "**Visual:** Limestone cliffs, a hidden shaft, and slow push-in.",
+      "**Sound / transition:** A rope scrapes across stone.", "",
+    ].join("\n");
+  }).join("\n");
+  const parsed = parseProductionMarkdown("# THE ROYAL CACHE\n**Target:** 16:9, 1920 × 1080\n\n## Production scenes\n" + scenes + "\n## Production constraints\n- Not narration", "The Royal Cache");
+  assert.equal(parsed.scenes.length, 36);
+  assert.equal(parsed.summary.chapters, 2);
+  assert.equal(parsed.suggestedFormat, "16:9");
+  assert.equal(parsed.scenes[0].production?.sceneTitle, "Scene 01");
+  assert.equal(parsed.scenes[35].production?.sourceNumber, 36);
+  assert.match(parsed.scenes[0].production?.visual ?? "", /hidden shaft/);
+  assert.match(parsed.scenes[0].production?.sound ?? "", /rope scrapes/);
+  assert.equal(parsed.scenes[0].narration, "A complete sentence in scene 01. A second sentence remains in this same scene.");
+  assert.ok(!parsed.script.includes("Sound / transition"));
+  parseProject({ title: "The Royal Cache", scenes: parsed.scenes });
+});
+await test("production import rejects missing narration and more than 40 scenes", () => {
+  assert.throws(() => parseProductionMarkdown("**Scene 01 — Empty**\n\n**Visual:** Rock wall"), /no Voiceover/);
+  const overflow = Array.from({ length: 41 }, (_, i) => "**Scene " + String(i + 1).padStart(2, "0") + " — Test**\n\n**Voiceover**\nComplete thought.\n\n**Visual:** Cliff.\n\n**Sound / transition:** Wind.").join("\n\n");
+  assert.throws(() => parseProductionMarkdown(overflow), /at most 40/);
 });
 console.log(`\n${n} checks passed.`);

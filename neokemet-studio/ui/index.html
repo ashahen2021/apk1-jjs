@@ -68,6 +68,20 @@
         <button id="btnAddScene">+ Add scene</button>
         <span id="sbSummary" class="muted"></span>
       </div>
+      <div class="card" id="productionImporter">
+        <h4>Import Production Script (.md)</h4>
+        <p class="muted">Read numbered scenes with Voiceover, Visual and Sound / transition directions. Preview and validate before replacing this project's storyboard. Narration remains the only spoken text.</p>
+        <div class="row">
+          <label class="filebtn">Choose production .md<input type="file" id="fProductionFile" accept=".md,.markdown,text/markdown" hidden /></label>
+          <span id="productionFileName" class="muted">No production script selected</span>
+        </div>
+        <div id="productionPreview" class="production-preview" hidden></div>
+        <div class="row">
+          <label class="check"><input type="checkbox" id="productionUseFormat" checked /> Use 16:9 if specified by the production script</label>
+          <button id="btnApplyProduction" class="primary" disabled>Apply validated scenes</button>
+          <button id="btnCancelProduction" disabled>Cancel</button>
+        </div>
+      </div>
       <div id="scenes"></div>
     </section>
 

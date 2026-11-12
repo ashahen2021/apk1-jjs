@@ -214,3 +214,14 @@ Fonts: Cormorant Garamond and Josefin Sans (SIL Open Font License, in `engine/pu
 Remotion has its own licence: free for individuals and small teams, a company licence is
 required for larger organisations — see https://remotion.dev/license. Piper and its voices
 have their own licences, shown on their download pages.
+
+
+## Import a structured production script (.md)
+
+Open **3 · Storyboard** and choose **Import Production Script (.md)**. Select a Markdown file with numbered scene headings such as `**Scene 01 — A sound beneath the sand**`, followed by `**Voiceover**`, `**Visual:**`, and `**Sound / transition:**`. Optional `### Chapter: ...` headers are retained as editorial metadata.
+
+The importer shows a **read-only preview** and validates the complete candidate (up to 40 scenes). Press **Apply validated scenes** to load it into the open project, review the results, then press **Save project**. Validation errors do not change the existing storyboard. Importing does **not** call ElevenLabs, modify audio files, or render video.
+
+Every scene receives its complete voiceover as the narration text. Production notes are shown in expandable **Production notes** sections for editing. Basic template, camera, ambience and environment selections are inferred from the **Visual** directions; unique choreography, bespoke assets, transitions and custom sound cues remain editorial instructions and must be implemented manually where unsupported. Scene duration follows its spoken audio when available, otherwise the existing text estimator is used.
+
+For a long documentary such as the 36-scene Royal Cache production file, use **16:9** when prompted. Keep the original production Markdown available because scene descriptions are not substitutes for custom direction. The feature branch can be tested locally with `npm test`, `npm run typecheck`, and the existing Windows launcher.

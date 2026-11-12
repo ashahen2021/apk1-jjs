@@ -4,6 +4,7 @@ import fs from "node:fs";
 import http from "node:http";
 import path from "node:path";
 import { CATALOG } from "../shared/catalog.ts";
+import { parseProductionMarkdown } from "../shared/production.ts";
 import type { Project } from "../shared/schema.ts";
 import { slugify } from "../shared/timing.ts";
 import { narrateProject } from "./narrate.ts";
@@ -91,6 +92,14 @@ const handle = async (req: http.IncomingMessage, res: http.ServerResponse) => {
   if (p === "/api/plan" && m === "POST") {
     const { title, script } = JSON.parse((await body(req)).toString());
     return json(res, { scenes: planStoryboard(String(title ?? ""), String(script ?? "")) });
+  }
+  // Preview a production Markdown document without modifying the current project.
+  if (p === "/api/production/preview" && m === "POST") {
+    const input = JSON.parse((await body(req, 750_000)).toString() || "{}");
+    const candidate = parseProductionMarkdown(String(input.source ?? ""), String(input.title ?? "Untitled"));
+    // Validate every scene against the same project schema used for saving/rendering.
+    const validated = parseProject({ title: String(input.title || "Untitled"), scenes: candidate.scenes });
+    return json(res, { ...candidate, scenes: validated.scenes });
   }
   if (p === "/api/ollama/storyboard" && m === "POST") {
     const { topic, script, sceneCount } = JSON.parse((await body(req)).toString());
