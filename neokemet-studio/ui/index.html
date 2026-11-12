@@ -68,6 +68,20 @@
         <button id="btnAddScene">+ Add scene</button>
         <span id="sbSummary" class="muted"></span>
       </div>
+      <div class="card" id="smartSelector">
+        <h4>Smart Template Selection</h4>
+        <p class="muted">Review locally suggested templates for existing scenes without re-importing the script. Scenes you already assigned a documentary or Royal Cache preset are protected. No scene changes until you approve them.</p>
+        <div class="row">
+          <button id="btnAnalyzeSmart">Analyze scenes</button>
+          <span id="smartSelectionState" class="muted">Uses existing visual-direction rules — no AI credits.</span>
+        </div>
+        <div id="smartSelectionPreview" class="smart-results" hidden></div>
+        <div class="row">
+          <button id="btnApplySmart" class="primary" disabled>Apply selected changes</button>
+          <button id="btnUndoSmart" disabled>Undo last smart selection</button>
+          <span class="muted">Undo remains available in this project until you switch projects or reload. Save after reviewing.</span>
+        </div>
+      </div>
       <div class="card" id="productionImporter">
         <h4>Import Production Script (.md)</h4>
         <p class="muted">Read numbered scenes with Voiceover, Visual and Sound / transition directions. Preview and validate before replacing this project's storyboard. Narration remains the only spoken text.</p>
