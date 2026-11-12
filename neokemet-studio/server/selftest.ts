@@ -208,4 +208,60 @@ await test("production importer maps directions to the documentary templates", a
   assert.equal(matchDocumentaryTemplate({ narration: "Some of Egypt's greatest pharaohs were discovered together in a secret tomb." })?.template ?? null, null);
   assert.equal(matchDocumentaryTemplate({ visual: "A temple at dawn." }), null);
 });
+// ---- phase-2 reuse of existing (not redrawn) Royal Cache presets -----------
+await test("eight original Royal Cache presets expose safe, editable reuse controls", async () => {
+  const { TEMPLATES, TEMPLATE_PARAMS } = await import("../shared/catalog.ts");
+  const { defaultParams, paramProblems, paramOf } = await import("../shared/params.ts");
+  for (const id of ["rc-07", "rc-08", "rc-11", "rc-12", "rc-14", "rc-15", "rc-16", "rc-17"] as const) {
+    assert.equal(TEMPLATES[id].group, "Royal Cache presets");
+    const p = defaultParams(id);
+    assert.deepEqual(Object.keys(p), ["framing", "movement", "segment", "colourGrade", "showCustomLabel"]);
+    assert.equal(p.framing, "original");
+    assert.equal(p.movement, "original");
+    assert.equal(p.segment, "full sequence");
+    assert.equal(p.colourGrade, "original");
+    assert.equal(p.showCustomLabel, false);
+    assert.deepEqual(paramProblems({ template: id, params: p }), []);
+    assert.ok(TEMPLATE_PARAMS[id]);
+    const legacy = parseProject({ title: "Legacy", scenes: [{ id: id, template: id, narration: "Original sequence." }] });
+    assert.equal(legacy.scenes[0].params, undefined);
+    const edited = parseProject({ title: "Adjusted", scenes: [{ id: id, template: id, params: { ...p, framing: "close-up", movement: "pan left" }, narration: "Adjusted." }] });
+    assert.equal(paramOf(edited.scenes[0], "framing"), "close-up");
+    assert.equal(paramOf(edited.scenes[0], "movement"), "pan left");
+  }
+  assert.throws(() => parseProject({ title: "Bad", scenes: [{ id: "s01", template: "rc-07", params: { framing: "outside" } }] }), /params.framing/);
+});
+await test("Royal Cache reusable shot matching is deliberate and never narration-only", async () => {
+  const { matchReusableRoyalCacheShot: match } = await import("../shared/reusable.ts");
+  const yes: [string, string][] = [
+    ["Accurate Theban escarpment and Hatshepsut temple illustration; no Giza pyramids.", "rc-07"],
+    ["Top-down shaft diagram then side cutaway; workers use ropes.", "rc-08"],
+    ["A 19th-century family in a Theban village near the hills.", "rc-11"],
+    ["Stylized goat near an opening; a rope descends.", "rc-12"],
+    ["Papyrus and canopic jar pass in the antiquities market.", "rc-14"],
+    ["Date on paper, Brugsch and Ahmed Kamal by shaft, lantern down passage.", "rc-15"],
+    ["Workers hoist coffins with ropes from a narrow shaft.", "rc-16"],
+    ["Cairo 2021 golden parade of royal mummies.", "rc-17"],
+  ];
+  for (const [visual, expected] of yes) {
+    const m = match(visual);
+    assert.equal(m?.template, expected, visual);
+    assert.equal(m?.params.framing, "original");
+  }
+  for (const visual of ["A goat walks past the river.", "A limestone shaft in darkness.", "The royal tomb.", "Market near Luxor.", "Ancient pharaohs on a temple wall."]) {
+    assert.equal(match(visual), null, visual);
+  }
+  const md = [
+    ["Intro", "The kings lived long ago.", "An empty desert sky."],
+    ["Temple cliffs", "The mountains hide their secret.", "Accurate Theban escarpment and Hatshepsut temple illustration; no Giza pyramids."],
+    ["One shaft", "People searched underground.", "Top-down shaft diagram then side cutaway; workers use ropes."],
+    ["End", "The story continues.", "Sunset across the Nile."],
+  ].map(([name, voice, visual], i) => "**Scene " + String(i+1).padStart(2, "0") + " — " + name + "**\n\n**Voiceover**\n" + voice + "\n\n**Visual:** " + visual + "\n\n**Sound / transition:** Wind.").join("\n\n");
+  const imported = parseProductionMarkdown(md, "The Royal Cache").scenes;
+  assert.deepEqual(imported.map(s => s.template), ["title", "rc-07", "rc-08", "end-card"]);
+  assert.equal(imported[1].params?.segment, "full sequence");
+  assert.equal(imported[2].production?.sourceNumber, 3);
+  assert.equal(imported[1].narration, "The mountains hide their secret.");
+});
+
 console.log(`\n${n} checks passed.`);
