@@ -157,4 +157,55 @@ await test("production import rejects missing narration and more than 40 scenes"
   const overflow = Array.from({ length: 41 }, (_, i) => "**Scene " + String(i + 1).padStart(2, "0") + " — Test**\n\n**Voiceover**\nComplete thought.\n\n**Visual:** Cliff.\n\n**Sound / transition:** Wind.").join("\n\n");
   assert.throws(() => parseProductionMarkdown(overflow), /at most 40/);
 });
+
+// ---- phase-1 documentary templates -------------------------------------------
+await test("documentary templates: catalog, defaults and parameter validation", async () => {
+  const { TEMPLATES, TEMPLATE_PARAMS } = await import("../shared/catalog.ts");
+  const { defaultParams, paramOf, paramProblems } = await import("../shared/params.ts");
+  for (const t of ["royal-pharaohs", "tomb-robbery", "priests-rewrapping"] as const) {
+    assert.equal(TEMPLATES[t].group, "Documentary");
+    assert.ok(TEMPLATE_PARAMS[t]!.length >= 3);
+    // a scene with no params at all is valid and renders from defaults
+    const bare = parseProject({ title: "x", scenes: [{ id: "a", template: t }] }).scenes[0];
+    assert.equal(bare.params, undefined);
+    assert.deepEqual(paramProblems({ template: t, params: defaultParams(t) }), []);
+  }
+  assert.equal(paramOf({ template: "tomb-robbery" }, "stage"), "looted");
+  assert.equal(paramOf<boolean>({ template: "tomb-robbery", params: { showTorch: false } }, "showTorch"), false);
+  assert.equal(paramOf({ template: "royal-pharaohs", params: { pose: "flying" } }, "pose"), "seated");
+  assert.throws(() => parseProject({ title: "x", scenes: [{ id: "a", template: "royal-pharaohs", params: { pose: "flying" } }] }), /scenes\[0\]\.params\.pose/);
+  assert.throws(() => parseProject({ title: "x", scenes: [{ id: "a", template: "tomb-robbery", params: { showTorch: "yes" } }] }), /params\.showTorch/);
+  // params survive a save/load round trip
+  const saved = JSON.parse(JSON.stringify(loadProject(path.join(PROJECTS_DIR, "demo-template-library")).project));
+  assert.deepEqual(parseProject(saved).scenes.map((x) => x.params?.camera), ["slow push in", "pan right", "slow push in"]);
+});
+await test("production importer maps directions to the documentary templates", async () => {
+  const { parseProductionMarkdown } = await import("../shared/production.ts");
+  const { matchDocumentaryTemplate } = await import("../shared/documentary.ts");
+  const md = [
+    ["Opening", "Title over the cliffs.", "A wide view of the Theban cliffs; slow push in."],
+    ["The Great Pharaohs", "Among them were famous rulers, including Seti the First and Ramesses the Second.", "Colossal statue of Ramesses in a temple; pan left."],
+    ["The Looted Tombs", "Gold vanished, coffins were damaged, and royal mummies were disturbed.", "A looted burial chamber by torchlight, the coffin lid askew."],
+    ["Rewrapped", "They repaired damaged burials and rewrapped royal bodies in fresh linen.", "Priests of Amun at a work table with linen bands."],
+    ["Names", "Labels recorded names and transfers.", "Priests of Amun attach linen labels and dockets to coffins in the temple."],
+    ["The River", "The Nile carried stone north.", "A boat drifts on the Nile at dusk."],
+    ["The Plan", "The tomb lay behind a hidden shaft.", "Cutaway of the shaft and corridor, looted long ago."],
+    ["Close", "And so the story ends.", "The cliffs at evening."],
+  ].map(([t, vo, vis], i) => `**Scene ${String(i + 1).padStart(2, "0")} — ${t}**\n\n**Voiceover**\n\n${vo}\n\n**Visual:** ${vis}\n\n**Sound / transition:** Wind.`).join("\n\n");
+  const scenes = parseProject({ title: "T", scenes: parseProductionMarkdown(md, "T").scenes }).scenes;
+  assert.deepEqual(scenes.map((x) => x.template), ["title", "royal-pharaohs", "tomb-robbery", "priests-rewrapping", "priests-rewrapping", "landscape", "cutaway", "end-card"]);
+  assert.deepEqual(scenes[1].params, { pharaohName: "Ramesses II", pose: "statue close-up", environment: "temple courtyard with columns", camera: "pan left" });
+  assert.equal(scenes[2].params?.stage, "damaged");
+  assert.equal(scenes[2].params?.environment, "royal burial chamber");
+  assert.equal(scenes[2].params?.showTorch, true);
+  assert.equal(scenes[3].params?.action, "rewrap mummy");
+  assert.equal(scenes[4].params?.action, "record labels");
+  assert.equal(scenes[4].params?.environment, "temple chamber");
+  assert.equal(scenes[5].params, undefined); // unmatched scenes keep the existing behaviour
+  assert.equal(scenes[5].environment, "nile-valley");
+  assert.ok(scenes.every((x) => x.production?.visual));
+  // weak, narration-only hints do not trigger a template
+  assert.equal(matchDocumentaryTemplate({ narration: "Some of Egypt's greatest pharaohs were discovered together in a secret tomb." })?.template ?? null, null);
+  assert.equal(matchDocumentaryTemplate({ visual: "A temple at dawn." }), null);
+});
 console.log(`\n${n} checks passed.`);

@@ -148,8 +148,8 @@ export const RoyalPharaohsTemplate: React.FC<TemplateProps> = ({ scene, seed }) 
           )}
           {statue && (
             <>
-              <g transform={`translate(520 ${G - 62}) scale(2.55)`}><SeatedStatue c={C.gold} /></g>
-              <RPoly pts={[[300, G - 62], [330, G - 760], [372, G - 880], [400, G - 62]]} seed={seed + 9} fill={C.paper} opacity={0.16} />
+              <g transform={`translate(520 ${G - 62}) scale(2.05)`}><SeatedStatue c={C.gold} /></g>
+              <RPoly pts={[[330, G - 62], [354, G - 600], [392, G - 700], [416, G - 62]]} seed={seed + 9} fill={C.paper} opacity={0.16} />
               {/* a living figure for scale */}
               <GroundShadow x={880} y={G + 4} w={56} />
               <Figure x={872} y={G + 4} h={132} kind="priest" dir={-1} armF={70} />
@@ -308,9 +308,9 @@ export const TombRobberyTemplate: React.FC<TemplateProps> = ({ scene, seed }) =>
       <Camera {...cam} cy={1000}>
         <Layer depth={1}>
           {/* rock in section */}
-          <RRect x={X0} y={200} w={WW} h={1500} seed={seed + 1} fill={C.sand} amp={3} />
-          <Streaks x={X0} y={210} w={WW} h={1480} seed={seed + 2} count={520} color={C.gold} opacity={0.7} maxLen={300} thick={4} />
-          <Streaks x={X0} y={210} w={WW} h={1480} seed={seed + 3} count={320} color={C.paperDark} opacity={0.7} maxLen={260} thick={5} />
+          <RRect x={X0} y={-300} w={WW} h={2700} seed={seed + 1} fill={C.sand} amp={3} />
+          <Streaks x={X0} y={-290} w={WW} h={2680} seed={seed + 2} count={900} color={C.gold} opacity={0.7} maxLen={300} thick={4} />
+          <Streaks x={X0} y={-290} w={WW} h={2680} seed={seed + 3} count={560} color={C.paperDark} opacity={0.7} maxLen={260} thick={5} />
           {/* corridor and side chamber */}
           <RRect x={X0} y={top} w={X0 * -1 + 600} h={256} seed={seed + 4} fill={C.night} amp={2.4} step={28} />
           <RRect x={560} y={G - 470} w={560} h={476} seed={seed + 5} fill={C.night} amp={2.4} step={28} />
