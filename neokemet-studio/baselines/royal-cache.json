@@ -1,0 +1,367 @@
+{
+  "schema": 1,
+  "slug": "royal-cache",
+  "projectFileSha256": "dfea4f43dff4385a56e41f5c3ee608d7c3a03a29e73637b7215f2b4f82a840f9",
+  "title": "The Royal Cache",
+  "format": "9:16",
+  "fps": 30,
+  "subtitles": true,
+  "audio": {
+    "music": "generated",
+    "musicVolume": 0.5,
+    "musicSeed": 1881,
+    "sfx": true,
+    "sfxVolume": 0.55,
+    "narrationVolume": 1
+  },
+  "sceneCount": 18,
+  "totalFrames": 5400,
+  "seconds": 180,
+  "scenes": [
+    {
+      "n": 1,
+      "id": "rc01",
+      "template": "rc-01",
+      "startFrame": 0,
+      "durationInFrames": 300,
+      "narrationSec": 6.9423,
+      "measured": true,
+      "cueCount": 4,
+      "cuesSha256": "10a1a51cde3f2e0afb4c73be739d17cbd016a037137d3da4e647dff22cfb6dab",
+      "renderInputSha256": "83629d1777b457ab8dad98a7e0d5a9357c80f8777f077b790c1e7d5735595c8e",
+      "narrationSha256": "2777aa2ae1234af06a8ae34d34e8c3aa02755276ee5341ab7f79d4e3de7f81f9",
+      "narrationFile": "narration/scene-01.mp3"
+    },
+    {
+      "n": 2,
+      "id": "rc02",
+      "template": "rc-02",
+      "startFrame": 300,
+      "durationInFrames": 300,
+      "narrationSec": 7.3738,
+      "measured": true,
+      "cueCount": 4,
+      "cuesSha256": "c8cdd98baee6ac8e9294a573bcde42d9eba605321bb42b8c22d0ec2b816f31fe",
+      "renderInputSha256": "f6cf30f2c8776422ea0e5062640abbe7e4b3874d6936b22697dd7fe84a9d5272",
+      "narrationSha256": "5284a6b2edec5618d3342d98e98bc6ea9ab0bf7271445e83e9fd6c0a367c03e6",
+      "narrationFile": "narration/scene-02.mp3"
+    },
+    {
+      "n": 3,
+      "id": "rc03",
+      "template": "rc-03",
+      "startFrame": 600,
+      "durationInFrames": 300,
+      "narrationSec": 5.8076,
+      "measured": true,
+      "cueCount": 3,
+      "cuesSha256": "1914faaba905da69971c0045f51ed3451744a7d92c951b7f972b8c3133d3773c",
+      "renderInputSha256": "2ee9dfb755adf9cc33a6d260e21d24fa7ac4f7267a13f499f9105c0569504a8b",
+      "narrationSha256": "ed8009aeb742cdff6458eb02b5e87d310abf9cca947a0bb46a96d7da684ef336",
+      "narrationFile": "narration/scene-03.mp3"
+    },
+    {
+      "n": 4,
+      "id": "rc04",
+      "template": "rc-04",
+      "startFrame": 900,
+      "durationInFrames": 300,
+      "narrationSec": 6.5089,
+      "measured": true,
+      "cueCount": 4,
+      "cuesSha256": "ac09f7513e60bf55316d0896044cc185899428ed1603d7283854d5498c0987f8",
+      "renderInputSha256": "0fc246448c5f265cec8d907b462d9270f900b0c8eb9972e43cc0d27722a2cdf9",
+      "narrationSha256": "24fa1bd1ffc888f4e9ea8bb7aa9c8176e662cc4566e6b07e8f72832b125bef55",
+      "narrationFile": "narration/scene-04.mp3"
+    },
+    {
+      "n": 5,
+      "id": "rc05",
+      "template": "rc-05",
+      "startFrame": 1200,
+      "durationInFrames": 300,
+      "narrationSec": 6.7895,
+      "measured": true,
+      "cueCount": 3,
+      "cuesSha256": "9cc6555c58f4ab7488926dd9c21532dae9761ce9f46e2766525075ab758aee8f",
+      "renderInputSha256": "132e64e802881423ea540d9547da89d4fecd0f7cd1e9582a0d989feec4528004",
+      "narrationSha256": "e5821c50c88fa65c09a28f36cad4dba6c3b9fbd3bd977b4871ac9d2070abc788",
+      "narrationFile": "narration/scene-05.mp3"
+    },
+    {
+      "n": 6,
+      "id": "rc06",
+      "template": "rc-06",
+      "startFrame": 1500,
+      "durationInFrames": 300,
+      "narrationSec": 6.5527,
+      "measured": true,
+      "cueCount": 4,
+      "cuesSha256": "fd0643f7517f5b09b2f53e43209e1a391633cfa2848583c74d1cecf6bfba0e3e",
+      "renderInputSha256": "a13c815ba3fc1c9e89d7de3f1703be58eb6d41e8aa59062d78f4244acf4e26f2",
+      "narrationSha256": "7dd5398af8af7d6dd318d5f8b5e1f3f9f07886e2982d5e2e235501607865fe46",
+      "narrationFile": "narration/scene-06.mp3"
+    },
+    {
+      "n": 7,
+      "id": "rc07",
+      "template": "rc-07",
+      "startFrame": 1800,
+      "durationInFrames": 300,
+      "narrationSec": 7.1505,
+      "measured": true,
+      "cueCount": 3,
+      "cuesSha256": "5d4b283406f1bab185c8527d1b2b9371d57ddebd00572ea7866c6f90013179bc",
+      "renderInputSha256": "51274b07c616d76843101b8d11a432b6fb9c9d89a7344bba74c47ce957341c22",
+      "narrationSha256": "6fb308564ad1ed29d027edcb24a0f22a12cc353353d2298cfdf71d114a69f8ff",
+      "narrationFile": "narration/scene-07.mp3"
+    },
+    {
+      "n": 8,
+      "id": "rc08",
+      "template": "rc-08",
+      "startFrame": 2100,
+      "durationInFrames": 300,
+      "narrationSec": 7.8388,
+      "measured": true,
+      "cueCount": 4,
+      "cuesSha256": "8f6b70660393868f42ae1fed0b2f1cb80f385cdbf951922c118665edf664d823",
+      "renderInputSha256": "4f6ba4c48847a4ba3ec289f96fa747fc57608d14545b94257a86e9fc5ab11607",
+      "narrationSha256": "11fa63d87b490419b359f2860613ea4b71f3c44a4b50376a0eda49608d8d6b70",
+      "narrationFile": "narration/scene-08.mp3"
+    },
+    {
+      "n": 9,
+      "id": "rc09",
+      "template": "rc-09",
+      "startFrame": 2400,
+      "durationInFrames": 300,
+      "narrationSec": 8.3825,
+      "measured": true,
+      "cueCount": 4,
+      "cuesSha256": "2a98506a5cd477af588244f03a5b36808900dc8bb61604ee9629aeab53243d20",
+      "renderInputSha256": "333cb642c5cb430e59a82ebe908b5b7a8eb1b090ca1cfb8ba2022b27c611becb",
+      "narrationSha256": "ffe29e0757f3b4fa1db013976a3e9ca21eb9b42bec9c217e9dd294da14012e93",
+      "narrationFile": "narration/scene-09.mp3"
+    },
+    {
+      "n": 10,
+      "id": "rc10",
+      "template": "rc-10",
+      "startFrame": 2700,
+      "durationInFrames": 300,
+      "narrationSec": 6.7414,
+      "measured": true,
+      "cueCount": 4,
+      "cuesSha256": "ae600c58effa16394d3e4b50393736dbbcdc72a7b125aef964bac10881bee4bb",
+      "renderInputSha256": "a63768152bb73302ab99a07ec90505db6053fcb48177345ac5c40ea24b1107e7",
+      "narrationSha256": "e44b31797d21ce9db67621352a66d70fbb21a5f8fb4ecbb3cbfa7a6c78f87ca3",
+      "narrationFile": "narration/scene-10.mp3"
+    },
+    {
+      "n": 11,
+      "id": "rc11",
+      "template": "rc-11",
+      "startFrame": 3000,
+      "durationInFrames": 300,
+      "narrationSec": 5.7316,
+      "measured": true,
+      "cueCount": 3,
+      "cuesSha256": "0dfbe1ffe8279eea7dbb9069e866cc20cc860805f6d1155feaf3ec6b2c297e7b",
+      "renderInputSha256": "9d8d14a2eebb511d46662b5e6fbe1e34b90510104b9090b579c860c0d4c5da9e",
+      "narrationSha256": "55f67062f44dc753b0643ea4f9a8617d3b54346ad0b7f298e2775bc8f61eee08",
+      "narrationFile": "narration/scene-11.mp3"
+    },
+    {
+      "n": 12,
+      "id": "rc12",
+      "template": "rc-12",
+      "startFrame": 3300,
+      "durationInFrames": 300,
+      "narrationSec": 6.9798,
+      "measured": true,
+      "cueCount": 3,
+      "cuesSha256": "eb981d69c5dbb37a49da0fe55d9e2624ca4e49bf553aedacd120c88db09ec598",
+      "renderInputSha256": "a4be2e09b72530c3184161c923dd8b3911e1345bd35a8c42ddfa7c2b9958b45e",
+      "narrationSha256": "4fbb97d5524f255437793e60622b53c6cc71bb768927ecaa024ae0bb0bfd36d1",
+      "narrationFile": "narration/scene-12.mp3"
+    },
+    {
+      "n": 13,
+      "id": "rc13",
+      "template": "rc-13",
+      "startFrame": 3600,
+      "durationInFrames": 300,
+      "narrationSec": 7.4533,
+      "measured": true,
+      "cueCount": 4,
+      "cuesSha256": "897522c19c879bd23ca725077f5ed6e312038ee68925c0621026b12aa8eb528f",
+      "renderInputSha256": "cd7a9b7a59a6e47703272f2b493fb2a35b8f57afc83ff9fc89ec59aae141e743",
+      "narrationSha256": "2a3eaf62a5c0135f811de6f549272171b112665ccce09dbd77f84ffc6f945789",
+      "narrationFile": "narration/scene-13.mp3"
+    },
+    {
+      "n": 14,
+      "id": "rc14",
+      "template": "rc-14",
+      "startFrame": 3900,
+      "durationInFrames": 300,
+      "narrationSec": 8.3806,
+      "measured": true,
+      "cueCount": 5,
+      "cuesSha256": "c1800daa8432179b14bf60a1ebb6358104d59a67417254db14884282d49a655c",
+      "renderInputSha256": "5888a1e31090468e2dc0692b1cebca9f0018a89691f184ee8af638a3b347a333",
+      "narrationSha256": "ba4cfd6cc6a863f14c92ba09586c2530019b5af50bdfedf3f3448e0affee9fcd",
+      "narrationFile": "narration/scene-14.mp3"
+    },
+    {
+      "n": 15,
+      "id": "rc15",
+      "template": "rc-15",
+      "startFrame": 4200,
+      "durationInFrames": 300,
+      "narrationSec": 7.7621,
+      "measured": true,
+      "cueCount": 4,
+      "cuesSha256": "0e358838f768cd2b407e12f55e703ddaacdea45c069d5fe47a063869c561e89f",
+      "renderInputSha256": "3ce8af992db58ebd69266a9d114e10a6a7563d66df3f4ea5d19d83de505cdca2",
+      "narrationSha256": "bfbd8f902d802527774d3dd66907a537a292e12fe4dcec6a95af636000cdde30",
+      "narrationFile": "narration/scene-15.mp3"
+    },
+    {
+      "n": 16,
+      "id": "rc16",
+      "template": "rc-16",
+      "startFrame": 4500,
+      "durationInFrames": 300,
+      "narrationSec": 7.8521,
+      "measured": true,
+      "cueCount": 5,
+      "cuesSha256": "3b69471798fccbeebf50f76c12f1c6f52da22f0d97b66a8a657c2bbd73814b73",
+      "renderInputSha256": "8273f4b1320672ea0fd939fe1771e9aa720eafa738d08066982ffc29c8c7d5e1",
+      "narrationSha256": "5ec67559bb22330dd46561d5848edffad2a1ea4e95fe023c1beeba43bfa9b2ce",
+      "narrationFile": "narration/scene-16.mp3"
+    },
+    {
+      "n": 17,
+      "id": "rc17",
+      "template": "rc-17",
+      "startFrame": 4800,
+      "durationInFrames": 300,
+      "narrationSec": 8.3404,
+      "measured": true,
+      "cueCount": 4,
+      "cuesSha256": "0657dcd253b67c9b543ca831e2c5502a990bac762eceda3dde60b428a1891de6",
+      "renderInputSha256": "ef18907efec361a919e759b8b5384f12dc362c2d99ae174bd58a52a00cba82c6",
+      "narrationSha256": "7baa6096936eb8fa927e65b1e2db96c095133081fe4ed639f74938b357dae982",
+      "narrationFile": "narration/scene-17.mp3"
+    },
+    {
+      "n": 18,
+      "id": "rc18",
+      "template": "rc-18",
+      "startFrame": 5100,
+      "durationInFrames": 300,
+      "narrationSec": 8.1526,
+      "measured": true,
+      "cueCount": 5,
+      "cuesSha256": "e534014665abac1b733f1df53e04cfa95812f542db5ce6633c562a8752523f6a",
+      "renderInputSha256": "d297cc715eb737c8a3e4cec9c51494b1e96b0e36c4111f994951469abce47bd2",
+      "narrationSha256": "48cd901093a1de04125d122be1c4570bd1a3f269faf1ffb52ffd6504f9f7275a",
+      "narrationFile": "narration/scene-18.mp3"
+    }
+  ],
+  "narrationFiles": [
+    {
+      "file": "narration/scene-01.mp3",
+      "bytes": 114563,
+      "sha256": "d84d3eb8f611fe8d6e89c021c9ca67fb15f5130d6ffe241e4aaa443b9e31049c"
+    },
+    {
+      "file": "narration/scene-02.mp3",
+      "bytes": 122923,
+      "sha256": "c1933e7bee9ce71efc53abcf6e43c139bd7d72fd51f630b0dbfb6722219388c2"
+    },
+    {
+      "file": "narration/scene-03.mp3",
+      "bytes": 97845,
+      "sha256": "8ab92367f1a1aff6f6b4c0066b53bf34a1a220cd373a567ab907262ce58b292d"
+    },
+    {
+      "file": "narration/scene-04.mp3",
+      "bytes": 106622,
+      "sha256": "011123fffe152ff1be7c9b91af0b18e64d79158c93a882e46edd15c3d2311c8d"
+    },
+    {
+      "file": "narration/scene-05.mp3",
+      "bytes": 111638,
+      "sha256": "647dde012f36d10581cf8fa2573b320e7b8ba3489b4904f404482c7f78c6872a"
+    },
+    {
+      "file": "narration/scene-06.mp3",
+      "bytes": 109548,
+      "sha256": "9f8290718730b16007365a39b8719a586e4a9048a6b66d3a9236275c8e95205c"
+    },
+    {
+      "file": "narration/scene-07.mp3",
+      "bytes": 122087,
+      "sha256": "ea1bc2e561178b5870451388b66f519b1c8c62571f92900c0ab25b6a64f200ab"
+    },
+    {
+      "file": "narration/scene-08.mp3",
+      "bytes": 127520,
+      "sha256": "2723c8082d48a45c04f8bbcb7021eb0b972d5bd211dcd017b0a61710fec5dcba"
+    },
+    {
+      "file": "narration/scene-09.mp3",
+      "bytes": 135461,
+      "sha256": "9a66d682284f72d5cd3cbb6f4e8109d1b6a35799cffb6631b640a3c02b788309"
+    },
+    {
+      "file": "narration/scene-10.mp3",
+      "bytes": 111638,
+      "sha256": "761e0cb88fde10adc610373a4a7faa33af5911dee3cfa32e54bc8644d4845a17"
+    },
+    {
+      "file": "narration/scene-11.mp3",
+      "bytes": 97009,
+      "sha256": "3b67d408e834fea215bc68e4de0714015469a1db12ffed828b7eb36f1dc86bfe"
+    },
+    {
+      "file": "narration/scene-12.mp3",
+      "bytes": 116235,
+      "sha256": "2fe0b826410d7ac711df2a6d27c945996544dffdaa90aee906269a3245c9189a"
+    },
+    {
+      "file": "narration/scene-13.mp3",
+      "bytes": 125012,
+      "sha256": "676a87b02ffdb62e2eb2608f102aa8121ec28b2eab04cdbc48f6ccc36f8a1507"
+    },
+    {
+      "file": "narration/scene-14.mp3",
+      "bytes": 138387,
+      "sha256": "115089eb3de7fe9c1895e29858e1ab87f9042aa6703fca05cc53de3d1d5f9855"
+    },
+    {
+      "file": "narration/scene-15.mp3",
+      "bytes": 127938,
+      "sha256": "1efed761d731d842e931f6ff240749561bc030ac53ae3f00bd62dab284dbeee3"
+    },
+    {
+      "file": "narration/scene-16.mp3",
+      "bytes": 129610,
+      "sha256": "f183e8ef816ee6ffa287de039c042860bc4683c72b8f5da57c487a40c1cee398"
+    },
+    {
+      "file": "narration/scene-17.mp3",
+      "bytes": 137969,
+      "sha256": "84f8e2be8b82a54c7ca9ca1c1bb9569e106e29bdab9261532ad90bf721d66c04"
+    },
+    {
+      "file": "narration/scene-18.mp3",
+      "bytes": 134625,
+      "sha256": "23f0db843b09f86e69600a63529f3554d80c5540923572f2ce0bff508823a5f9"
+    }
+  ],
+  "warnings": []
+}

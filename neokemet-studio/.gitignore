@@ -3,3 +3,7 @@ workspace/
 tools/piper/
 tools/voices/
 *.log
+# crash-safe saving: previous versions and interrupted temporary files
+*.bak
+.*.tmp
+.part-*

@@ -1,0 +1,889 @@
+{
+  "schema": 1,
+  "slug": "the-royal-cache-full-documentary",
+  "projectFileSha256": "4af22673ff04d72ac71b732cf8db3ba205bc5a6f246c644b712860b7918ecd70",
+  "title": "The Royal Cache — Full Documentary",
+  "format": "16:9",
+  "fps": 30,
+  "subtitles": false,
+  "audio": {
+    "music": "generated",
+    "musicVolume": 0.5,
+    "musicSeed": 1881,
+    "sfx": true,
+    "sfxVolume": 0.55,
+    "narrationVolume": 1
+  },
+  "sceneCount": 36,
+  "totalFrames": 23522,
+  "seconds": 784.0667,
+  "scenes": [
+    {
+      "n": 1,
+      "id": "s01",
+      "template": "title",
+      "startFrame": 0,
+      "durationInFrames": 747,
+      "narrationSec": 23.4953,
+      "measured": true,
+      "cueCount": 10,
+      "cuesSha256": "9494947451a4f10a9307db21932e858fe4b55efb2b1d1793711ff91719de5463",
+      "renderInputSha256": "f71c883bd208f2be38017a23d9372f0b23cca7690d88b719289aadece27626ae",
+      "narrationSha256": "2327d57b2169478f8caa5b90c6cbddd78eaee3b018a34dcbd0c8f2f731ed5555",
+      "narrationFile": "narration/01-s01.mp3"
+    },
+    {
+      "n": 2,
+      "id": "s02",
+      "template": "royal-pharaohs",
+      "startFrame": 747,
+      "durationInFrames": 593,
+      "narrationSec": 18.3809,
+      "measured": true,
+      "cueCount": 9,
+      "cuesSha256": "192d755d34e230071e11539eaafb0f731f89472b1f932f8087a7adc6a4409aa4",
+      "renderInputSha256": "d6334d03f114035e36fe914ab23d1c71623bd7862808b95a6f71285a3472b235",
+      "narrationSha256": "18c15519910ff5d1f132fd7879322fce5d5f61393e5420d815b0cd33355f43c4",
+      "narrationFile": "narration/02-s02.mp3"
+    },
+    {
+      "n": 3,
+      "id": "s03",
+      "template": "tomb-interior",
+      "startFrame": 1340,
+      "durationInFrames": 586,
+      "narrationSec": 18.1274,
+      "measured": true,
+      "cueCount": 10,
+      "cuesSha256": "61835665750256a37f432175de4f12d288d1f4709f1041d498f541339e6a278e",
+      "renderInputSha256": "e018b6826a36aa56ec942aef2cfcd35e35a61b61dea060afd3d57337596ddfb1",
+      "narrationSha256": "23ad486c98ea4b55f4c4568716fa7cc5aa85994d0c624a6388828dea745b15c2",
+      "narrationFile": "narration/03-s03.mp3"
+    },
+    {
+      "n": 4,
+      "id": "s04",
+      "template": "cutaway",
+      "startFrame": 1926,
+      "durationInFrames": 632,
+      "narrationSec": 19.6794,
+      "measured": true,
+      "cueCount": 9,
+      "cuesSha256": "59ee1d8bba688cc17953e4ba7284d435535a11a170cd25abacb6694863d77b52",
+      "renderInputSha256": "5e2d3e01e01b327e5046a07c099b5589c9ce5cd3c9efea444bc32a02aacbdb68",
+      "narrationSha256": "f0488980d4d85a6859737ce52d578ded27e5628789320cdd4a4ad549152a003f",
+      "narrationFile": "narration/04-s04.mp3"
+    },
+    {
+      "n": 5,
+      "id": "s05",
+      "template": "priests-rewrapping",
+      "startFrame": 2558,
+      "durationInFrames": 637,
+      "narrationSec": 19.8273,
+      "measured": true,
+      "cueCount": 10,
+      "cuesSha256": "23a5af2127bddf8807afd4273cb87473806a7a1673ac13003a37129f1bff8d86",
+      "renderInputSha256": "d2a31e77729b049f17d14ad96aeeed8357677440b4d681a99eb48c27197954a4",
+      "narrationSha256": "d304a278a4986fe5259dacbf22e1f962d412ac27afaf9ba4a057c1dd92c5c9e6",
+      "narrationFile": "narration/05-s05.mp3"
+    },
+    {
+      "n": 6,
+      "id": "s06",
+      "template": "priests-rewrapping",
+      "startFrame": 3195,
+      "durationInFrames": 620,
+      "narrationSec": 19.2579,
+      "measured": true,
+      "cueCount": 9,
+      "cuesSha256": "ebc7a65f42f9b77f6081b2063391c0798ac469eca3ccc2519762c487610ce450",
+      "renderInputSha256": "02b1700a3d3c7db83c95a78a83c0effbbae163cfe310f4461153058750ae75f4",
+      "narrationSha256": "31ce3b59a24170d422492de4919e25e18ebd59b9bba38ba212b9972ee7bbb188",
+      "narrationFile": "narration/06-s06.mp3"
+    },
+    {
+      "n": 7,
+      "id": "s07",
+      "template": "priests-rewrapping",
+      "startFrame": 3815,
+      "durationInFrames": 665,
+      "narrationSec": 20.7727,
+      "measured": true,
+      "cueCount": 11,
+      "cuesSha256": "8712888bc5ea2c556a5626d6a6b7ed5a291eee3efea3c5c72260eefa6201bb3e",
+      "renderInputSha256": "79144693968ba1eeabd145b7f897376288bd9d033e4228ed74e73945d0c2bebb",
+      "narrationSha256": "fbcc5598c629feaa1d91b34148b17d4ca7a2e4ff4ee3e50f9cb8035a3b88aec8",
+      "narrationFile": "narration/07-s07.mp3"
+    },
+    {
+      "n": 8,
+      "id": "s08",
+      "template": "tomb-robbery",
+      "startFrame": 4480,
+      "durationInFrames": 611,
+      "narrationSec": 18.9734,
+      "measured": true,
+      "cueCount": 10,
+      "cuesSha256": "bfcc5b007578c86bf723bd9fdc5ac4b171d20e8d316128e22981bce3ce1b0fb8",
+      "renderInputSha256": "e7a4b32b6ae94815b40639edc0924622827630b1821cbbfe5332d437bb3adcfe",
+      "narrationSha256": "097714645ff95398142ce0e3e97d374d606db591fde374d85889a8d7d99aab41",
+      "narrationFile": "narration/08-s08.mp3"
+    },
+    {
+      "n": 9,
+      "id": "s09",
+      "template": "coffin-chamber",
+      "startFrame": 5091,
+      "durationInFrames": 623,
+      "narrationSec": 19.3608,
+      "measured": true,
+      "cueCount": 10,
+      "cuesSha256": "708cf70e9eeb05ef550ddb0ece97961ba3e19a7c6ffbfbba854edf8db006e208",
+      "renderInputSha256": "53e320c96aa63414aee7c42f942647d734a5aef30be3e8b20e2fea7e49695dd5",
+      "narrationSha256": "c920735edee194c95384f1d29c8235f36a3a8c0d0cdb6970cf4e293006a0a3fb",
+      "narrationFile": "narration/09-s09.mp3"
+    },
+    {
+      "n": 10,
+      "id": "s10",
+      "template": "rc-07",
+      "startFrame": 5714,
+      "durationInFrames": 630,
+      "narrationSec": 19.5986,
+      "measured": true,
+      "cueCount": 11,
+      "cuesSha256": "93b48f3382c3218583fdde233ff06a3fa0f51f54b58bde793860e31370f9de82",
+      "renderInputSha256": "2f133bb1d322116baafb86efaedfd6b39e56a9445a1cef2def871702a3c76233",
+      "narrationSha256": "c0518b1e29459acaff92edfafdceac652ccc52184891a41a9547d9b55fcbad50",
+      "narrationFile": "narration/10-s10.mp3"
+    },
+    {
+      "n": 11,
+      "id": "s11",
+      "template": "rc-08",
+      "startFrame": 6344,
+      "durationInFrames": 586,
+      "narrationSec": 18.1419,
+      "measured": true,
+      "cueCount": 10,
+      "cuesSha256": "9f919f1b45b3cb8ca53255fc5ed62c83240087a16b00cca887d03dc5b335decb",
+      "renderInputSha256": "988b623b2685e115fdc7e77db797a29ace18db87b1f427c39acf2c5e1a802d0e",
+      "narrationSha256": "7d637e986f188a7bf3a3a7771dbff0c9729188f1d38117681f1fbb7142e4d01c",
+      "narrationFile": "narration/11-s11.mp3"
+    },
+    {
+      "n": 12,
+      "id": "s12",
+      "template": "tomb-interior",
+      "startFrame": 6930,
+      "durationInFrames": 618,
+      "narrationSec": 19.2151,
+      "measured": true,
+      "cueCount": 11,
+      "cuesSha256": "c29454623ed121360c948d91d4d638e3dd7b7754c41bb5400fd58a5f6b6ebd3c",
+      "renderInputSha256": "d8d86283370aad54048d79a12b2af0cebf456bd6228c2e27412754ee6b2a3b3d",
+      "narrationSha256": "4a4b35ba1a001db051ab8120ed43f89a6152a9c8f11d4c60a655148ee302bdfb",
+      "narrationFile": "narration/12-s12.mp3"
+    },
+    {
+      "n": 13,
+      "id": "s13",
+      "template": "tomb-interior",
+      "startFrame": 7548,
+      "durationInFrames": 758,
+      "narrationSec": 23.8728,
+      "measured": true,
+      "cueCount": 11,
+      "cuesSha256": "b5a6558225489f6f0517219a56a9cf855508c2ddb77050ef90b0f83559286f74",
+      "renderInputSha256": "2d783cc4255fe0c2a64664625e9752369ffc63ed2511da3a3015ed16a050a1a8",
+      "narrationSha256": "7a307a836021ae9f1ab49f5353154c3c66133b9d9b795106f3d18bd89281d36f",
+      "narrationFile": "narration/13-s13.mp3"
+    },
+    {
+      "n": 14,
+      "id": "s14",
+      "template": "cutaway",
+      "startFrame": 8306,
+      "durationInFrames": 705,
+      "narrationSec": 22.1036,
+      "measured": true,
+      "cueCount": 11,
+      "cuesSha256": "35fcf145113c67b81c59c92118dcef97a579da1c6e2f8fe51fc8405cda6000dc",
+      "renderInputSha256": "d69e0f7078eee11aeb76bbd1f47eaf1630336ed768cb6e521bfcc7098969b158",
+      "narrationSha256": "8bd4e58fcd4d7b12f42903ac2b0cb68f5eee4ecba47f934c957df89fe4e4aeaf",
+      "narrationFile": "narration/14-s14.mp3"
+    },
+    {
+      "n": 15,
+      "id": "s15",
+      "template": "landscape",
+      "startFrame": 9011,
+      "durationInFrames": 576,
+      "narrationSec": 17.7949,
+      "measured": true,
+      "cueCount": 9,
+      "cuesSha256": "b8174966456eb23b79e10e412cd9df84547f2439a9a8dc542c8a77ea23f0dd5b",
+      "renderInputSha256": "5ab6f7b1757a42bfc34ad69f99326c2f201f4e50e8448957bc5f1075db9a305c",
+      "narrationSha256": "295c9cfe8f9d6f9f7ad35715fba8033f006a6e2b177811f9747bd40acceac7b5",
+      "narrationFile": "narration/15-s15.mp3"
+    },
+    {
+      "n": 16,
+      "id": "s16",
+      "template": "rc-12",
+      "startFrame": 9587,
+      "durationInFrames": 614,
+      "narrationSec": 19.0626,
+      "measured": true,
+      "cueCount": 12,
+      "cuesSha256": "2b45943751a36a686a913183c40d948a113bd981b931fb3cebc7020ae6087b3d",
+      "renderInputSha256": "9bfd4948677da3784037fb094b25e3a0922050753bf012b8546e9438707ee007",
+      "narrationSha256": "34f681bd6e38544610b8da787eb6e31888da6e77b46672660a9026ffa5af96ef",
+      "narrationFile": "narration/16-s16.mp3"
+    },
+    {
+      "n": 17,
+      "id": "s17",
+      "template": "rc-14",
+      "startFrame": 10201,
+      "durationInFrames": 775,
+      "narrationSec": 24.4492,
+      "measured": true,
+      "cueCount": 10,
+      "cuesSha256": "c86c03c83b3acae5b5eaed6a39290a523083ce813048dca7eeddf36a2f856cec",
+      "renderInputSha256": "e69576f46b45c276ff19f57e76bff23f3498a48be04563319ff24e4818c14b00",
+      "narrationSha256": "f2caa5f899cbbf22367675c13f36506a13f289fee5c55bf3c6754d51d8d27035",
+      "narrationFile": "narration/17-s17.mp3"
+    },
+    {
+      "n": 18,
+      "id": "s18",
+      "template": "artifact",
+      "startFrame": 10976,
+      "durationInFrames": 629,
+      "narrationSec": 19.5706,
+      "measured": true,
+      "cueCount": 11,
+      "cuesSha256": "ccca1c40628a1bf157e2adbcee2424ecf8a41376aa11d5326126da16a5f62493",
+      "renderInputSha256": "6f129e46e47e65eee39ad67abab46e788beec3515f1ca13841290a2e50fa17f6",
+      "narrationSha256": "7f7214eef2e327f3cb0b5a422ea3ea033a9f921a64e82c013ae356ed1101dbd2",
+      "narrationFile": "narration/18-s18.mp3"
+    },
+    {
+      "n": 19,
+      "id": "s19",
+      "template": "tomb-interior",
+      "startFrame": 11605,
+      "durationInFrames": 660,
+      "narrationSec": 20.6063,
+      "measured": true,
+      "cueCount": 11,
+      "cuesSha256": "2fc28a91be858caa55ac46e925ac1eb2feee3778a2e48074ab5791730eb462c5",
+      "renderInputSha256": "9790f52af289b53f6a5e5003b25d908a3bf3b82ccda7d4738ef45251ef95c5b5",
+      "narrationSha256": "20b425988468bec6b7bf0a3f40f427d440e7a80ec8788d7e1ca53e26de57465f",
+      "narrationFile": "narration/19-s19.mp3"
+    },
+    {
+      "n": 20,
+      "id": "s20",
+      "template": "rc-15",
+      "startFrame": 12265,
+      "durationInFrames": 642,
+      "narrationSec": 19.9863,
+      "measured": true,
+      "cueCount": 10,
+      "cuesSha256": "3ee07d8c4eb4955d52829f1d64beb91bbd5f6e64b18bf1298a794b630b62ba1a",
+      "renderInputSha256": "e87c8d89687fa703fccc14bd919eb207e0b11f9fca2984025312a6c1d6a7d57b",
+      "narrationSha256": "22bb84afde473995a7aa2d853f9b468e769802f21e379d39db588f1bbfe5c4d2",
+      "narrationFile": "narration/20-s20.mp3"
+    },
+    {
+      "n": 21,
+      "id": "s21",
+      "template": "tomb-interior",
+      "startFrame": 12907,
+      "durationInFrames": 708,
+      "narrationSec": 22.1917,
+      "measured": true,
+      "cueCount": 10,
+      "cuesSha256": "7ac2f77f805237b6c14316ddc7cc8e32fc6b1eca8968330a45a5d4cb26c86be2",
+      "renderInputSha256": "782c9802399abd41646388717328a61ac1836957bbe468d9617751b3bfc5feef",
+      "narrationSha256": "7e7643e7a111610df5dd3e3a1bc745723da8c6f7614c9fa7235e70234199971f",
+      "narrationFile": "narration/21-s21.mp3"
+    },
+    {
+      "n": 22,
+      "id": "s22",
+      "template": "tomb-interior",
+      "startFrame": 13615,
+      "durationInFrames": 716,
+      "narrationSec": 22.4577,
+      "measured": true,
+      "cueCount": 10,
+      "cuesSha256": "d6eee2ae3c7a6ca32bcda44ed5d98417b9dd867216741e8d1422a650bef830d7",
+      "renderInputSha256": "b93fec4574c3f617c411aa48cb51b21754d515d3ff7877806f337b791d2a523b",
+      "narrationSha256": "adac13c442adad08572156d302dd6594474c9cc208915db782ce331a461338d0",
+      "narrationFile": "narration/22-s22.mp3"
+    },
+    {
+      "n": 23,
+      "id": "s23",
+      "template": "cutaway",
+      "startFrame": 14331,
+      "durationInFrames": 588,
+      "narrationSec": 18.2039,
+      "measured": true,
+      "cueCount": 10,
+      "cuesSha256": "6d2cf5194211dee25f0c0d4e3b63014ced08899dc44c81d681e0796277c63f21",
+      "renderInputSha256": "6e0c43120da9b767e46d6a4ad728233a6ed9c499155bce22283b0b761c997b84",
+      "narrationSha256": "cc741627e5c2308a071908e6c1b535b2cf2a099166a1c019071d6f4b2df27438",
+      "narrationFile": "narration/23-s23.mp3"
+    },
+    {
+      "n": 24,
+      "id": "s24",
+      "template": "tomb-interior",
+      "startFrame": 14919,
+      "durationInFrames": 622,
+      "narrationSec": 19.3213,
+      "measured": true,
+      "cueCount": 11,
+      "cuesSha256": "8c16e82416003adb83ad1d7ca8eccc9475d848fa830ab665dfd8e14603e03343",
+      "renderInputSha256": "c6791e18276cb864dd7ce9bd78c894dcb90c51d1cc74b769e875bdfc591ac57f",
+      "narrationSha256": "874c7a65286e0a2821309bd5b8232acb82eef5210fcf1256cdcb54a32038f5ef",
+      "narrationFile": "narration/24-s24.mp3"
+    },
+    {
+      "n": 25,
+      "id": "s25",
+      "template": "landscape",
+      "startFrame": 15541,
+      "durationInFrames": 622,
+      "narrationSec": 19.334,
+      "measured": true,
+      "cueCount": 11,
+      "cuesSha256": "b110d1c6f5dd27702e9b12ed7343275b1e34f429be3c7c129edab45d1d6d5453",
+      "renderInputSha256": "6b1af184d20e2ae37e2a9a5ad273518ced490089736ba2ffb37e00f855e43864",
+      "narrationSha256": "a542ec7472dfe12b3bdb1cea27b9763ca597fe77594cde2ec8dbde234872d2b9",
+      "narrationFile": "narration/25-s25.mp3"
+    },
+    {
+      "n": 26,
+      "id": "s26",
+      "template": "priests-rewrapping",
+      "startFrame": 16163,
+      "durationInFrames": 698,
+      "narrationSec": 21.8661,
+      "measured": true,
+      "cueCount": 12,
+      "cuesSha256": "2438f09c52c55b2db81417500fc4d0986b9708173a2204c558c7ae8beb182018",
+      "renderInputSha256": "3c3550fa509db332fa73ab8d23c61bfa1fb531b3613f9fb69e2102c1765349ba",
+      "narrationSha256": "44b0019ecb0cd3c056361cdb3de3b2801407fbce3a2f18b1036415e3a017255e",
+      "narrationFile": "narration/26-s26.mp3"
+    },
+    {
+      "n": 27,
+      "id": "s27",
+      "template": "map",
+      "startFrame": 16861,
+      "durationInFrames": 598,
+      "narrationSec": 18.5273,
+      "measured": true,
+      "cueCount": 9,
+      "cuesSha256": "b453f338c3e13ca882a106cc711e0d7571392516823423a28620efb6290f13b9",
+      "renderInputSha256": "5188f552f1acab2d992fef4861bb3ef303a6d23d2fad31736fa4d0e23e15e632",
+      "narrationSha256": "89627596b67e8a85f953978977b9e2fe3879baf0fee8ac90855ae5bf266ee077",
+      "narrationFile": "narration/27-s27.mp3"
+    },
+    {
+      "n": 28,
+      "id": "s28",
+      "template": "cutaway",
+      "startFrame": 17459,
+      "durationInFrames": 721,
+      "narrationSec": 22.6264,
+      "measured": true,
+      "cueCount": 10,
+      "cuesSha256": "c57cd8fb4c724e554e098251cb648caefd39366fae1df3cc757d45bbb21dc29e",
+      "renderInputSha256": "8df03229c2e5ddc53b67e9033a9906b9d537e339bfb646328f7506288eccf781",
+      "narrationSha256": "db5db174cea3b29683b3817036389cad8bf519169eb149f1b76c62ed1b748a72",
+      "narrationFile": "narration/28-s28.mp3"
+    },
+    {
+      "n": 29,
+      "id": "s29",
+      "template": "coffin-chamber",
+      "startFrame": 18180,
+      "durationInFrames": 687,
+      "narrationSec": 21.4934,
+      "measured": true,
+      "cueCount": 10,
+      "cuesSha256": "57c3399d7599527b5d21e165313068208fcc27d580871fe904974e6662e63251",
+      "renderInputSha256": "c2e20c88bb8807dcc7996d9871c622198d044a8c4799380089f8945fb68ba189",
+      "narrationSha256": "136f0f0a1788434e991d330ad9a9811de486fbfe17bf856b1dd9deaab1957ed3",
+      "narrationFile": "narration/29-s29.mp3"
+    },
+    {
+      "n": 30,
+      "id": "s30",
+      "template": "coffin-chamber",
+      "startFrame": 18867,
+      "durationInFrames": 628,
+      "narrationSec": 19.5435,
+      "measured": true,
+      "cueCount": 9,
+      "cuesSha256": "4b6114d6c4056a1485cd7cfa82199c30173ff38f1581b0d348171610f0da822a",
+      "renderInputSha256": "2d25045e9a2db7bd79581c2db66a8ee25226a5ebf27149b336fd13715631a738",
+      "narrationSha256": "53ca537aa33bc604405d73fea542bc25d2647211132bac574f930f3cc1732ef5",
+      "narrationFile": "narration/30-s30.mp3"
+    },
+    {
+      "n": 31,
+      "id": "s31",
+      "template": "rc-08",
+      "startFrame": 19495,
+      "durationInFrames": 657,
+      "narrationSec": 20.5012,
+      "measured": true,
+      "cueCount": 11,
+      "cuesSha256": "42b2d29517693bf40ecc2736b511686afe655c2660e337e613e50dffeec77439",
+      "renderInputSha256": "307e596af77c4acc12c9378590d6b84ff52423a67a2bf0cc7502d54d6438eedc",
+      "narrationSha256": "b5beb49409309c60dded1f0681f5e54d2b319b2cc95c2c40b492370f3a0647ac",
+      "narrationFile": "narration/31-s31.mp3"
+    },
+    {
+      "n": 32,
+      "id": "s32",
+      "template": "characters",
+      "startFrame": 20152,
+      "durationInFrames": 692,
+      "narrationSec": 21.6802,
+      "measured": true,
+      "cueCount": 12,
+      "cuesSha256": "16034f4672d8bda783df916d2ebe018a5090191917d5513a8b367ba3e81f52b1",
+      "renderInputSha256": "910e6b32fafbe78e3bf83f69690fd9f8966ac60452f702ab623a53d532141b56",
+      "narrationSha256": "2bb713f373b6678147605ae281af9ffcfc2a8620243bea854b9a4f6d97cc5a6a",
+      "narrationFile": "narration/32-s32.mp3"
+    },
+    {
+      "n": 33,
+      "id": "s33",
+      "template": "artifact",
+      "startFrame": 20844,
+      "durationInFrames": 653,
+      "narrationSec": 20.3827,
+      "measured": true,
+      "cueCount": 10,
+      "cuesSha256": "ee72d94c1ff4601e66d70ed6415b7df6b7f99058b139ffaf617e5a9325d47acc",
+      "renderInputSha256": "c7ff92ed15dfa5a422aafba56e22cfb5a881c049eb977291fbce1755b7963836",
+      "narrationSha256": "95ff7ede0308e61b7527f6f2a71e71cc75db291be877019b655ba478edff756d",
+      "narrationFile": "narration/33-s33.mp3"
+    },
+    {
+      "n": 34,
+      "id": "s34",
+      "template": "cutaway",
+      "startFrame": 21497,
+      "durationInFrames": 624,
+      "narrationSec": 19.4073,
+      "measured": true,
+      "cueCount": 10,
+      "cuesSha256": "9ecb4d32060f38e91abede0158ef830b58cba09bd4fb51b1916326867143d9ed",
+      "renderInputSha256": "586ed6343129ac797d2c74f1984d084f154977aa2fd57953fbea80e5735c0c74",
+      "narrationSha256": "db172272d34015b662f47128a659575dbf05b8ceccd8d84497036ae4bf314650",
+      "narrationFile": "narration/34-s34.mp3"
+    },
+    {
+      "n": 35,
+      "id": "s35",
+      "template": "cutaway",
+      "startFrame": 22121,
+      "durationInFrames": 674,
+      "narrationSec": 21.0661,
+      "measured": true,
+      "cueCount": 11,
+      "cuesSha256": "abd6dbba6645aa9ae1e800b6b739315086c1faff6f1ff5039fc9398348d53bc2",
+      "renderInputSha256": "9ff359ba707adcadb1f24501fd3450e53f92973815b37a35cb957f55c02324ba",
+      "narrationSha256": "8e6e4e2b7be212526f95752a2a76bc56e88ddcce9776c9f62997e37855f05d99",
+      "narrationFile": "narration/35-s35.mp3"
+    },
+    {
+      "n": 36,
+      "id": "s36",
+      "template": "end-card",
+      "startFrame": 22795,
+      "durationInFrames": 727,
+      "narrationSec": 22.8309,
+      "measured": true,
+      "cueCount": 12,
+      "cuesSha256": "fe1c0665da84f8ccc1b1ef3bd499c4acd6071e6487bb094dc6e788f0a1b20c44",
+      "renderInputSha256": "2fd49bbb65138cfe7f7829d83087121bf9c96c1d2358c2631f0289eaa8b34329",
+      "narrationSha256": "6b264ace254de6bfcb186b235dfba019ec03eb48dae67a1a1fbd2a0c1f8ef331",
+      "narrationFile": "narration/36-s36.mp3"
+    }
+  ],
+  "narrationFiles": [
+    {
+      "file": "narration/01-s01.mp3",
+      "bytes": 381639,
+      "sha256": "9207db4148ba90f7e3fa9180960da3bc9c55439fe2798138c3b2b5c53c211484"
+    },
+    {
+      "file": "narration/01-s01.mp3.txt",
+      "bytes": 338,
+      "sha256": "2327d57b2169478f8caa5b90c6cbddd78eaee3b018a34dcbd0c8f2f731ed5555"
+    },
+    {
+      "file": "narration/02-s02.mp3",
+      "bytes": 299719,
+      "sha256": "65eb2ab0f2bb9c49a7b33ea9033db2b5d720d9282517b56f7685f6c63dfc79e1"
+    },
+    {
+      "file": "narration/02-s02.mp3.txt",
+      "bytes": 276,
+      "sha256": "18c15519910ff5d1f132fd7879322fce5d5f61393e5420d815b0cd33355f43c4"
+    },
+    {
+      "file": "narration/03-s03.mp3",
+      "bytes": 295122,
+      "sha256": "5e50738e75e0db5770831ae7ef3800f18fefd71a292cd74d2c49d2c4256eb746"
+    },
+    {
+      "file": "narration/03-s03.mp3.txt",
+      "bytes": 308,
+      "sha256": "23ad486c98ea4b55f4c4568716fa7cc5aa85994d0c624a6388828dea745b15c2"
+    },
+    {
+      "file": "narration/04-s04.mp3",
+      "bytes": 322707,
+      "sha256": "126ae9a265148dd1f120228c80cbd1d73d19ea34430f32594ace5bd3f940d5d9"
+    },
+    {
+      "file": "narration/04-s04.mp3.txt",
+      "bytes": 327,
+      "sha256": "f0488980d4d85a6859737ce52d578ded27e5628789320cdd4a4ad549152a003f"
+    },
+    {
+      "file": "narration/05-s05.mp3",
+      "bytes": 324379,
+      "sha256": "fd6b8cb1800e37870067c91d5b442c1befe9155480cef3a6c8cc9ee669d318bd"
+    },
+    {
+      "file": "narration/05-s05.mp3.txt",
+      "bytes": 328,
+      "sha256": "d304a278a4986fe5259dacbf22e1f962d412ac27afaf9ba4a057c1dd92c5c9e6"
+    },
+    {
+      "file": "narration/06-s06.mp3",
+      "bytes": 315184,
+      "sha256": "ce2f638e47dcb4fc327b044c5778e8e0264fd3552e5b745ecdab538ee33562f9"
+    },
+    {
+      "file": "narration/06-s06.mp3.txt",
+      "bytes": 294,
+      "sha256": "31ce3b59a24170d422492de4919e25e18ebd59b9bba38ba212b9972ee7bbb188"
+    },
+    {
+      "file": "narration/07-s07.mp3",
+      "bytes": 339007,
+      "sha256": "1943e9e0b2563fda483fd84491aa7870755a6d39a521f153065789059a07c11f"
+    },
+    {
+      "file": "narration/07-s07.mp3.txt",
+      "bytes": 324,
+      "sha256": "fbcc5598c629feaa1d91b34148b17d4ca7a2e4ff4ee3e50f9cb8035a3b88aec8"
+    },
+    {
+      "file": "narration/08-s08.mp3",
+      "bytes": 311840,
+      "sha256": "f6a758eb9bd794cef3fea6f5f7a7a2cca12727abe16692ed2e9b533f3972f57e"
+    },
+    {
+      "file": "narration/08-s08.mp3.txt",
+      "bytes": 313,
+      "sha256": "097714645ff95398142ce0e3e97d374d606db591fde374d85889a8d7d99aab41"
+    },
+    {
+      "file": "narration/09-s09.mp3",
+      "bytes": 315184,
+      "sha256": "350563f03822b33bbae312553d8f23e82269baf7ff54eaac1273f4c27633c5ca"
+    },
+    {
+      "file": "narration/09-s09.mp3.txt",
+      "bytes": 332,
+      "sha256": "c920735edee194c95384f1d29c8235f36a3a8c0d0cdb6970cf4e293006a0a3fb"
+    },
+    {
+      "file": "narration/10-s10.mp3",
+      "bytes": 318945,
+      "sha256": "ec90f862d18df86d9786d1bc8fb4837c47259ed33bb90e7a3788957de942ee94"
+    },
+    {
+      "file": "narration/10-s10.mp3.txt",
+      "bytes": 321,
+      "sha256": "c0518b1e29459acaff92edfafdceac652ccc52184891a41a9547d9b55fcbad50"
+    },
+    {
+      "file": "narration/11-s11.mp3",
+      "bytes": 296794,
+      "sha256": "8c2a4866ffcf3be77069a12be796bd96887527c15890790d2f5484c5b176aeaf"
+    },
+    {
+      "file": "narration/11-s11.mp3.txt",
+      "bytes": 288,
+      "sha256": "7d637e986f188a7bf3a3a7771dbff0c9729188f1d38117681f1fbb7142e4d01c"
+    },
+    {
+      "file": "narration/12-s12.mp3",
+      "bytes": 314766,
+      "sha256": "5e2a4e8ddfb3ac7578cd82ccc820ed0d03f261184a441ba73fb65f8adca0d5bf"
+    },
+    {
+      "file": "narration/12-s12.mp3.txt",
+      "bytes": 330,
+      "sha256": "4a4b35ba1a001db051ab8120ed43f89a6152a9c8f11d4c60a655148ee302bdfb"
+    },
+    {
+      "file": "narration/13-s13.mp3",
+      "bytes": 389581,
+      "sha256": "a8a0478cf2102d3b29db5748e6c5ce80941aeeabc4eb4eb007af4232f227d547"
+    },
+    {
+      "file": "narration/13-s13.mp3.txt",
+      "bytes": 349,
+      "sha256": "7a307a836021ae9f1ab49f5353154c3c66133b9d9b795106f3d18bd89281d36f"
+    },
+    {
+      "file": "narration/14-s14.mp3",
+      "bytes": 357816,
+      "sha256": "2dc5641d94277384734c9993f0f60d5f30f92719088cef29330fede7e356098f"
+    },
+    {
+      "file": "narration/14-s14.mp3.txt",
+      "bytes": 346,
+      "sha256": "8bd4e58fcd4d7b12f42903ac2b0cb68f5eee4ecba47f934c957df89fe4e4aeaf"
+    },
+    {
+      "file": "narration/15-s15.mp3",
+      "bytes": 291778,
+      "sha256": "9d2f5c0ae61df2e8eae9eea9e11e17516622356626dd02bc09142608d630d1b2"
+    },
+    {
+      "file": "narration/15-s15.mp3.txt",
+      "bytes": 304,
+      "sha256": "295c9cfe8f9d6f9f7ad35715fba8033f006a6e2b177811f9747bd40acceac7b5"
+    },
+    {
+      "file": "narration/16-s16.mp3",
+      "bytes": 308078,
+      "sha256": "f4fc3aae5bda6e0a90a16f5126dd9d26d0f27096a504c8b355b9dcda8fb1babe"
+    },
+    {
+      "file": "narration/16-s16.mp3.txt",
+      "bytes": 315,
+      "sha256": "34f681bd6e38544610b8da787eb6e31888da6e77b46672660a9026ffa5af96ef"
+    },
+    {
+      "file": "narration/17-s17.mp3",
+      "bytes": 398776,
+      "sha256": "3f67bb1e085707d37132d81661ae583c184625d739940b710c2528407e3908b4"
+    },
+    {
+      "file": "narration/17-s17.mp3.txt",
+      "bytes": 361,
+      "sha256": "f2caa5f899cbbf22367675c13f36506a13f289fee5c55bf3c6754d51d8d27035"
+    },
+    {
+      "file": "narration/18-s18.mp3",
+      "bytes": 319781,
+      "sha256": "bfa0f2de4c78305b5e5828abf26ffa03c4e36f02d87aac97d85258bd3b3cec23"
+    },
+    {
+      "file": "narration/18-s18.mp3.txt",
+      "bytes": 326,
+      "sha256": "7f7214eef2e327f3cb0b5a422ea3ea033a9f921a64e82c013ae356ed1101dbd2"
+    },
+    {
+      "file": "narration/19-s19.mp3",
+      "bytes": 335246,
+      "sha256": "0f4caf5b8518b1798365fa611ae9cc577648457652453c801e69d9d475e8755a"
+    },
+    {
+      "file": "narration/19-s19.mp3.txt",
+      "bytes": 350,
+      "sha256": "20b425988468bec6b7bf0a3f40f427d440e7a80ec8788d7e1ca53e26de57465f"
+    },
+    {
+      "file": "narration/20-s20.mp3",
+      "bytes": 325215,
+      "sha256": "886ea91af4b46955938830834f9ab9e49109cd996a8d73831b19c443fcff1640"
+    },
+    {
+      "file": "narration/20-s20.mp3.txt",
+      "bytes": 337,
+      "sha256": "22bb84afde473995a7aa2d853f9b468e769802f21e379d39db588f1bbfe5c4d2"
+    },
+    {
+      "file": "narration/21-s21.mp3",
+      "bytes": 361577,
+      "sha256": "f6b01e8184b3807dcffebf34926369652776bb56e6e8544c2b229ca7acbc924d"
+    },
+    {
+      "file": "narration/21-s21.mp3.txt",
+      "bytes": 334,
+      "sha256": "7e7643e7a111610df5dd3e3a1bc745723da8c6f7614c9fa7235e70234199971f"
+    },
+    {
+      "file": "narration/22-s22.mp3",
+      "bytes": 365339,
+      "sha256": "9d85682b8a91a9bf8cec0814f80a84d86ad74536a6f39831656a86cbe5832ce7"
+    },
+    {
+      "file": "narration/22-s22.mp3.txt",
+      "bytes": 341,
+      "sha256": "adac13c442adad08572156d302dd6594474c9cc208915db782ce331a461338d0"
+    },
+    {
+      "file": "narration/23-s23.mp3",
+      "bytes": 298465,
+      "sha256": "670e325cb76d5908da3190a20cd7f9e23801fbaf8916ff2f512a4cb55dfddca4"
+    },
+    {
+      "file": "narration/23-s23.mp3.txt",
+      "bytes": 347,
+      "sha256": "cc741627e5c2308a071908e6c1b535b2cf2a099166a1c019071d6f4b2df27438"
+    },
+    {
+      "file": "narration/24-s24.mp3",
+      "bytes": 313930,
+      "sha256": "9fb9f83088240a4f7ede9dc761c8335403244cd76204d0ba9e50ae87c2800436"
+    },
+    {
+      "file": "narration/24-s24.mp3.txt",
+      "bytes": 343,
+      "sha256": "874c7a65286e0a2821309bd5b8232acb82eef5210fcf1256cdcb54a32038f5ef"
+    },
+    {
+      "file": "narration/25-s25.mp3",
+      "bytes": 316856,
+      "sha256": "a1a63ce03ed79bd22e20f0832fd70cc53f8a87921780e89a10cd7adbe96ab36e"
+    },
+    {
+      "file": "narration/25-s25.mp3.txt",
+      "bytes": 339,
+      "sha256": "a542ec7472dfe12b3bdb1cea27b9763ca597fe77594cde2ec8dbde234872d2b9"
+    },
+    {
+      "file": "narration/26-s26.mp3",
+      "bytes": 356144,
+      "sha256": "750842ceb6a8111c21e35fca0f9e893b0a42d5bed81ab58d68fbb83e0b7da699"
+    },
+    {
+      "file": "narration/26-s26.mp3.txt",
+      "bytes": 388,
+      "sha256": "44b0019ecb0cd3c056361cdb3de3b2801407fbce3a2f18b1036415e3a017255e"
+    },
+    {
+      "file": "narration/27-s27.mp3",
+      "bytes": 304317,
+      "sha256": "811c32bf57489d0b5a6325d2156a3de023496b19d1fc87bc174202a73ba9c778"
+    },
+    {
+      "file": "narration/27-s27.mp3.txt",
+      "bytes": 303,
+      "sha256": "89627596b67e8a85f953978977b9e2fe3879baf0fee8ac90855ae5bf266ee077"
+    },
+    {
+      "file": "narration/28-s28.mp3",
+      "bytes": 368265,
+      "sha256": "c541933cca05b58982b45ea61a3d7c1cb12fe20fc5589a678651bd0ab40e16f6"
+    },
+    {
+      "file": "narration/28-s28.mp3.txt",
+      "bytes": 371,
+      "sha256": "db5db174cea3b29683b3817036389cad8bf519169eb149f1b76c62ed1b748a72"
+    },
+    {
+      "file": "narration/29-s29.mp3",
+      "bytes": 349456,
+      "sha256": "f37f88853964287b4e97d02ef70360df9889ed739353b7dfbe6ea410d3175b93"
+    },
+    {
+      "file": "narration/29-s29.mp3.txt",
+      "bytes": 360,
+      "sha256": "136f0f0a1788434e991d330ad9a9811de486fbfe17bf856b1dd9deaab1957ed3"
+    },
+    {
+      "file": "narration/30-s30.mp3",
+      "bytes": 319781,
+      "sha256": "a380d7ee28ba2e835b3513ebc4fe984be0ad21e13eb6ea768237112e3cad99f7"
+    },
+    {
+      "file": "narration/30-s30.mp3.txt",
+      "bytes": 338,
+      "sha256": "53ca537aa33bc604405d73fea542bc25d2647211132bac574f930f3cc1732ef5"
+    },
+    {
+      "file": "narration/31-s31.mp3",
+      "bytes": 335246,
+      "sha256": "f6639dccc49ab2bcd98c9d405c0e45d45e8fc68287c60db9e0355998c8317b19"
+    },
+    {
+      "file": "narration/31-s31.mp3.txt",
+      "bytes": 317,
+      "sha256": "b5beb49409309c60dded1f0681f5e54d2b319b2cc95c2c40b492370f3a0647ac"
+    },
+    {
+      "file": "narration/32-s32.mp3",
+      "bytes": 351964,
+      "sha256": "32b5d36ea428b9efca7d632b4fd1afa5b331271074773d17d0bb9c81a8234447"
+    },
+    {
+      "file": "narration/32-s32.mp3.txt",
+      "bytes": 371,
+      "sha256": "2bb713f373b6678147605ae281af9ffcfc2a8620243bea854b9a4f6d97cc5a6a"
+    },
+    {
+      "file": "narration/33-s33.mp3",
+      "bytes": 331902,
+      "sha256": "ee6b64db5949c7e9a84102c6cf3baecab03804d5c943c8f4524c35b7e464ebec"
+    },
+    {
+      "file": "narration/33-s33.mp3.txt",
+      "bytes": 331,
+      "sha256": "95ff7ede0308e61b7527f6f2a71e71cc75db291be877019b655ba478edff756d"
+    },
+    {
+      "file": "narration/34-s34.mp3",
+      "bytes": 316856,
+      "sha256": "2c0a1dbff125ff47e46a753a49d1d2b49ebe0da52811356d26a80162d2717940"
+    },
+    {
+      "file": "narration/34-s34.mp3.txt",
+      "bytes": 347,
+      "sha256": "db172272d34015b662f47128a659575dbf05b8ceccd8d84497036ae4bf314650"
+    },
+    {
+      "file": "narration/35-s35.mp3",
+      "bytes": 342769,
+      "sha256": "e9d7aaf8468900bec8e2d49142272a7883c9823dc1424d800cbb14362fa0381c"
+    },
+    {
+      "file": "narration/35-s35.mp3.txt",
+      "bytes": 325,
+      "sha256": "8e6e4e2b7be212526f95752a2a76bc56e88ddcce9776c9f62997e37855f05d99"
+    },
+    {
+      "file": "narration/36-s36.mp3",
+      "bytes": 371190,
+      "sha256": "9ba7d987a5f3e529c2b4c4e10a0f9a82fad81f53f74e2bb0c6d5e27590ac9564"
+    },
+    {
+      "file": "narration/36-s36.mp3.txt",
+      "bytes": 349,
+      "sha256": "6b264ace254de6bfcb186b235dfba019ec03eb48dae67a1a1fbd2a0c1f8ef331"
+    }
+  ],
+  "warnings": []
+}

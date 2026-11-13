@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "slug": "demo-template-library",
+  "projectFileSha256": "df045d448f9ede3c5a63c93d34bb5fd896240803594b1375a036b71d4d9d2a6a",
+  "title": "Template Library — Phase 1",
+  "format": "9:16",
+  "fps": 30,
+  "subtitles": true,
+  "audio": {
+    "music": "generated",
+    "musicVolume": 0.5,
+    "musicSeed": 1881,
+    "sfx": true,
+    "sfxVolume": 0.55,
+    "narrationVolume": 1
+  },
+  "sceneCount": 3,
+  "totalFrames": 793,
+  "seconds": 26.4333,
+  "scenes": [
+    {
+      "n": 1,
+      "id": "s01",
+      "template": "royal-pharaohs",
+      "startFrame": 0,
+      "durationInFrames": 269,
+      "narrationSec": 7.5556,
+      "measured": false,
+      "cueCount": 3,
+      "cuesSha256": "84836ff6f72f18438cfb124a741edb61c38f8e2c95eb635412e81d0974316c45",
+      "renderInputSha256": "94ae3302f38b040841fc15a4c71ba2e4cf442002dccf0e7d870abf35fdcf3540",
+      "narrationSha256": "2f81963bd9149e2f93406f28cb695e364aaced4d39031285475bed943acc758a",
+      "narrationFile": null
+    },
+    {
+      "n": 2,
+      "id": "s02",
+      "template": "tomb-robbery",
+      "startFrame": 269,
+      "durationInFrames": 295,
+      "narrationSec": 8.4444,
+      "measured": false,
+      "cueCount": 4,
+      "cuesSha256": "9c290329903664d2bc54ce7b2ab63e0d297ae701d7b307b932f39d55524adb0a",
+      "renderInputSha256": "a89be36587d2212502af736905ead73fd1bfe2446f1b8ab81a197b252a4d7d04",
+      "narrationSha256": "5284a6b2edec5618d3342d98e98bc6ea9ab0bf7271445e83e9fd6c0a367c03e6",
+      "narrationFile": null
+    },
+    {
+      "n": 3,
+      "id": "s03",
+      "template": "priests-rewrapping",
+      "startFrame": 564,
+      "durationInFrames": 229,
+      "narrationSec": 6.2222,
+      "measured": false,
+      "cueCount": 3,
+      "cuesSha256": "7d63b1f8c861ec32b9480ec25b22c3eef83cb1aeaeef7334cb1f7fea0f7573f4",
+      "renderInputSha256": "c17239319175747c5b58ed6b38f85833408aff7c66a83d680b1bbce5c9249ce1",
+      "narrationSha256": "27b35845674510cbe14eec24b2272b68f0e0023318cd18c29cdf39d0f52061c9",
+      "narrationFile": null
+    }
+  ],
+  "narrationFiles": [],
+  "warnings": []
+}
