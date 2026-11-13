@@ -12,9 +12,13 @@
     "still": "tsx server/cli.ts still",
     "narrate": "tsx server/cli.ts narrate",
     "validate": "tsx server/cli.ts validate",
+    "intent": "tsx server/cli.ts intent",
+    "audio": "tsx server/cli.ts audio",
+    "baseline": "tsx server/cli.ts baseline",
+    "restore": "tsx server/cli.ts restore",
     "textures": "node scripts/gen-textures.mjs",
     "typecheck": "tsc --noEmit",
-    "test": "tsx server/selftest.ts"
+    "test": "tsx server/selftest.ts && tsx server/selftest-phase3.ts"
   },
   "dependencies": {
     "@remotion/bundler": "^4.0.542",
