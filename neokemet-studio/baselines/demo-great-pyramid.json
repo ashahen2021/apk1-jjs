@@ -1,0 +1,217 @@
+{
+  "schema": 1,
+  "slug": "demo-great-pyramid",
+  "projectFileSha256": "37d455c827999a61af8879320285d2e7d93201e1f61deb23ea7b8b233d6a5014",
+  "title": "The Great Pyramid",
+  "format": "9:16",
+  "fps": 30,
+  "subtitles": true,
+  "audio": {
+    "music": "generated",
+    "musicVolume": 0.5,
+    "musicSeed": 1881,
+    "sfx": true,
+    "sfxVolume": 0.55,
+    "narrationVolume": 1
+  },
+  "sceneCount": 8,
+  "totalFrames": 1949,
+  "seconds": 64.9667,
+  "scenes": [
+    {
+      "n": 1,
+      "id": "s01",
+      "template": "title",
+      "startFrame": 0,
+      "durationInFrames": 229,
+      "narrationSec": 6.2309,
+      "measured": true,
+      "cueCount": 3,
+      "cuesSha256": "26de73e68be372215788da359407665a6a165d8c75f5900fd0256b56555d4b6e",
+      "renderInputSha256": "a26c9db4e9a99751aaa65f303df4d0b7de309234d101de9b4aa0c9a296d40842",
+      "narrationSha256": "448e594449f0e357acbf005b318d7c1b8fb20075cf0d51075d55cc99696bc5a9",
+      "narrationFile": "narration/01-s01.wav"
+    },
+    {
+      "n": 2,
+      "id": "s02",
+      "template": "characters",
+      "startFrame": 229,
+      "durationInFrames": 233,
+      "narrationSec": 6.3532,
+      "measured": true,
+      "cueCount": 4,
+      "cuesSha256": "32d1959b343d63510981e0c0a7109ccf71cac5082dba14d2eb0d198a2ecd48c3",
+      "renderInputSha256": "e44853981896e65435aa21d293ab61ca64227f413bd3b8bb68f732d77f197221",
+      "narrationSha256": "f12f627db5be5559a7d136813082ae90ecfcfc7f897bdda03e1357811469e9f0",
+      "narrationFile": "narration/02-s02.wav"
+    },
+    {
+      "n": 3,
+      "id": "s03",
+      "template": "map",
+      "startFrame": 462,
+      "durationInFrames": 232,
+      "narrationSec": 6.3371,
+      "measured": true,
+      "cueCount": 3,
+      "cuesSha256": "69978a94a05129f0e8d68c27a30b6ba746e8e60876d5713fed6764623d49b97e",
+      "renderInputSha256": "eb38e319e36d51effdf18b86bd0684690c4d779cb7916a8d413e9fd463cdb031",
+      "narrationSha256": "2f91a632a85bb7a7c8141710fdcd37c134a501e27f350755d92a709545586047",
+      "narrationFile": "narration/03-s03.wav"
+    },
+    {
+      "n": 4,
+      "id": "s04",
+      "template": "artifact",
+      "startFrame": 694,
+      "durationInFrames": 216,
+      "narrationSec": 5.8142,
+      "measured": true,
+      "cueCount": 2,
+      "cuesSha256": "8fb43caf9903313d371ba6629b0325131968dcf7ba5f5cded71f09c3a80ae770",
+      "renderInputSha256": "1f2255e684ed95eb8fdb05313ef9cdc8e715302112c5f82a3531b35457cb10b7",
+      "narrationSha256": "54716df6b533790a4d9328cb28481b95c83d2e3596b311e126d05d6214b72f5c",
+      "narrationFile": "narration/04-s04.wav"
+    },
+    {
+      "n": 5,
+      "id": "s05",
+      "template": "landscape",
+      "startFrame": 910,
+      "durationInFrames": 282,
+      "narrationSec": 7.9941,
+      "measured": true,
+      "cueCount": 4,
+      "cuesSha256": "3a5362963bbf6c7bd9113374e7e86d7974f08cf9241afa6833b85b6a564aaade",
+      "renderInputSha256": "a6f3a02f2fc5570990abf897212621344e1209ee9b0aaf73ef98aecfdfa398f3",
+      "narrationSha256": "5a81ece1a7942a004523fa30f8374a656bff95b51d98aafad738a2f73286cea5",
+      "narrationFile": "narration/05-s05.wav"
+    },
+    {
+      "n": 6,
+      "id": "s06",
+      "template": "characters",
+      "startFrame": 1192,
+      "durationInFrames": 197,
+      "narrationSec": 5.1734,
+      "measured": true,
+      "cueCount": 3,
+      "cuesSha256": "4462ed5af8773a7cfa0d8392b9d8480c0299436002bd44ce436eb1c40af19b86",
+      "renderInputSha256": "dd7edf5e1d12e915f228f451b8f3c4a9e56943e21effd780a5e09a690a2844e2",
+      "narrationSha256": "9e057d7a7f38b32dd8f7c4107bf57409f535883d41418453a72ee7291c79d751",
+      "narrationFile": "narration/06-s06.wav"
+    },
+    {
+      "n": 7,
+      "id": "s07",
+      "template": "landscape",
+      "startFrame": 1389,
+      "durationInFrames": 216,
+      "narrationSec": 5.7899,
+      "measured": true,
+      "cueCount": 3,
+      "cuesSha256": "3e8e26c615f503d4da392575226c4a585635b19414e6f74f06e358e21853e914",
+      "renderInputSha256": "ecdac68901314e60397d7e933116001f20207117c5731e1a8cfa762a1105968f",
+      "narrationSha256": "128f04230aaafc65ae37755ba5830e1e944b08f0e0fc7a0c5689b598654fc5b4",
+      "narrationFile": "narration/07-s07.wav"
+    },
+    {
+      "n": 8,
+      "id": "s08",
+      "template": "end-card",
+      "startFrame": 1605,
+      "durationInFrames": 344,
+      "narrationSec": 10.0765,
+      "measured": true,
+      "cueCount": 5,
+      "cuesSha256": "60e0fc8ba7884be360c39c4f0c1bc56cb95255b15623a75d68b3a67342f28095",
+      "renderInputSha256": "a4410bef6816c5573c50974f4c954e6f9d434114f3875a4fbd7a394ef3882ab1",
+      "narrationSha256": "cd8e6026b74e314dc852b203ef1ab42bad38bfc79d2273ca086639f0124bd7f8",
+      "narrationFile": "narration/08-s08.wav"
+    }
+  ],
+  "narrationFiles": [
+    {
+      "file": "narration/01-s01.wav",
+      "bytes": 296040,
+      "sha256": "9c26ee7704dcc61e06359f4aca9235485c6325b4b2fe832de49792b3c164932a"
+    },
+    {
+      "file": "narration/01-s01.wav.txt",
+      "bytes": 93,
+      "sha256": "448e594449f0e357acbf005b318d7c1b8fb20075cf0d51075d55cc99696bc5a9"
+    },
+    {
+      "file": "narration/02-s02.wav",
+      "bytes": 304744,
+      "sha256": "47651ea8105bb708c7cb886019d5639b246f584681936bda8014dee780ec02ff"
+    },
+    {
+      "file": "narration/02-s02.wav.txt",
+      "bytes": 98,
+      "sha256": "f12f627db5be5559a7d136813082ae90ecfcfc7f897bdda03e1357811469e9f0"
+    },
+    {
+      "file": "narration/03-s03.wav",
+      "bytes": 300136,
+      "sha256": "5db784831e98b240dda9ce5ab3224ae98beb25c1a4b05c7b0ee9e5c0759f27d2"
+    },
+    {
+      "file": "narration/03-s03.wav.txt",
+      "bytes": 93,
+      "sha256": "2f91a632a85bb7a7c8141710fdcd37c134a501e27f350755d92a709545586047"
+    },
+    {
+      "file": "narration/04-s04.wav",
+      "bytes": 276584,
+      "sha256": "14ee5fc30175d225f609e0fb41932026c8bd2a02d1d8c32f3635de9ba7875378"
+    },
+    {
+      "file": "narration/04-s04.wav.txt",
+      "bytes": 82,
+      "sha256": "54716df6b533790a4d9328cb28481b95c83d2e3596b311e126d05d6214b72f5c"
+    },
+    {
+      "file": "narration/05-s05.wav",
+      "bytes": 377448,
+      "sha256": "605bbe69d8f58d37809785cfc382ad106da83fc27050527b8f2229a5378d7415"
+    },
+    {
+      "file": "narration/05-s05.wav.txt",
+      "bytes": 120,
+      "sha256": "5a81ece1a7942a004523fa30f8374a656bff95b51d98aafad738a2f73286cea5"
+    },
+    {
+      "file": "narration/06-s06.wav",
+      "bytes": 246888,
+      "sha256": "425cdeb700f69c801bb7c8341ecd5bc2adfc0f7908aa44789d3ae4088a9a087a"
+    },
+    {
+      "file": "narration/06-s06.wav.txt",
+      "bytes": 76,
+      "sha256": "9e057d7a7f38b32dd8f7c4107bf57409f535883d41418453a72ee7291c79d751"
+    },
+    {
+      "file": "narration/07-s07.wav",
+      "bytes": 277096,
+      "sha256": "c9e1d79d05277987e0c99d79ffa1776cf3171033bbebcb7c6e5efb1864135a66"
+    },
+    {
+      "file": "narration/07-s07.wav.txt",
+      "bytes": 84,
+      "sha256": "128f04230aaafc65ae37755ba5830e1e944b08f0e0fc7a0c5689b598654fc5b4"
+    },
+    {
+      "file": "narration/08-s08.wav",
+      "bytes": 465000,
+      "sha256": "620071332b20cf2f348eeb18a6ac54bc9c52677c186f6a787d977ba7d33fe462"
+    },
+    {
+      "file": "narration/08-s08.wav.txt",
+      "bytes": 147,
+      "sha256": "cd8e6026b74e314dc852b203ef1ab42bad38bfc79d2273ca086639f0124bd7f8"
+    }
+  ],
+  "warnings": []
+}

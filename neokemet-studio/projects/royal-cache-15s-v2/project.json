@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "title": "Egypt's Hidden Pharaohs | Royal Cache · Shorts15 V2",
+  "topic": "15-second companion Short for full documentary https://www.youtube.com/watch?v=YIS3_xrkv4I",
+  "script": "Egypt's greatest pharaohs were hidden!\n\nRobbers came. Priests moved royal mummies to safety.\n\nInside TT320, they hid kings together.\n\nWatch the full Royal Cache.",
+  "format": "9:16",
+  "fps": 30,
+  "subtitles": false,
+  "audio": {
+    "music": "generated",
+    "musicVolume": 0.23,
+    "musicSeed": 1881,
+    "sfx": true,
+    "sfxVolume": 0.27,
+    "narrationVolume": 1
+  },
+  "scenes": [
+    {
+      "id": "s15-01",
+      "template": "shorts15-hook",
+      "narration": "Egypt's greatest pharaohs were hidden!",
+      "durationSec": 3,
+      "label": "WHERE IS RAMSES?",
+      "sublabel": "THE KING WHO VANISHED",
+      "ambience": "auto",
+      "production": {
+        "sourceNumber": 1,
+        "sceneTitle": "The hook",
+        "chapter": "Royal Cache 15-second Short",
+        "visual": "Hook: vivid, dominant Royal Portrait, then sudden cut to the hidden coffin. Two distinct beats in the first three seconds.",
+        "sound": "Urgent original score with a hit on first frame, then quick sting."
+      }
+    },
+    {
+      "id": "s15-02",
+      "template": "shorts15-danger",
+      "narration": "Robbers came. Priests moved royal mummies to safety.",
+      "durationSec": 5,
+      "label": "TOMBS ROBBED",
+      "sublabel": "THE PRIESTS ACT",
+      "ambience": "auto",
+      "production": {
+        "sourceNumber": 2,
+        "sceneTitle": "The danger",
+        "chapter": "Royal Cache 15-second Short",
+        "visual": "Three shots, 0-1.67s: intruder with torch by robbed coffin; 1.67-3.33s: priests actively rewrap burial; 3.33-5s: bearers move a coffin beneath the cliffs.",
+        "sound": "Stone scrape, linen rustle, desert wind. Event Foley is a production cue, not yet automatically executed."
+      }
+    },
+    {
+      "id": "s15-03",
+      "template": "shorts15-reveal",
+      "narration": "Inside TT320, they hid kings together.",
+      "durationSec": 4,
+      "label": "THE SECRET SHAFT",
+      "sublabel": "TT320",
+      "ambience": "auto",
+      "production": {
+        "sourceNumber": 3,
+        "sceneTitle": "The secret shaft",
+        "chapter": "Royal Cache 15-second Short",
+        "visual": "Three shots: descend into shaft, then cross-sectional schematic of corridors and cache, then atmospheric closeup of three coffins. Artistic reconstruction, not measured archaeological plan.",
+        "sound": "Descending bass, quick reveal hit, quiet torch crackle."
+      }
+    },
+    {
+      "id": "s15-04",
+      "template": "shorts15-cta",
+      "narration": "Watch the full Royal Cache.",
+      "durationSec": 3,
+      "label": "WATCH THE FULL FILM",
+      "sublabel": "THE ROYAL CACHE",
+      "ambience": "auto",
+      "production": {
+        "sourceNumber": 4,
+        "sceneTitle": "Watch full film",
+        "chapter": "Royal Cache 15-second Short",
+        "visual": "Two shots: close royal burial discovery then full high contrast title card. YouTube Related Video must be attached in Studio after publishing.",
+        "sound": "Short resolving chord; no overlong silence."
+      }
+    }
+  ]
+}

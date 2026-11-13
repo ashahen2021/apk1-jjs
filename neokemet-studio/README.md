@@ -219,6 +219,52 @@ existing edited film; those are replacement operations.
 Test from `neokemet-studio`: `npm run typecheck`, `npm test`, and
 compare at least two proposed frames in 16:9 before applying to a long film.
 
+## Safety and production matching (phase 3A/3B)
+
+Details, evidence and the next-phase specification are in `docs/phase3/`.
+
+**Scene length and subtitles.** A manual scene length is used exactly when the recorded voice
+fits inside it. If the voice is longer, the scene is lengthened and a warning says so: narration
+is never cut off and never plays over the next scene. Subtitle cues are always inside their
+scene, in order, and at least one frame long.
+
+**Saving.** `project.json` is written to a temporary file and swapped in with one rename, so a
+failed or interrupted save leaves the previous file intact. The version being replaced is kept
+as `project.json.bak`:
+
+```bash
+npm run restore -- my-project
+```
+
+Deleting a project in the app moves its folder to `workspace/trash/`; nothing is erased.
+
+**Production Match Check** (Storyboard tab, or the command below) compares each scene's visual
+direction with what its template can draw and reports one of: *Validated match*, *Unsupported
+direction* (with the closest existing template), or *Requires human review*. It is a report
+only and never edits a scene. The vocabulary lives in `shared/capabilities.ts`.
+
+```bash
+npm run intent -- the-royal-cache-full-documentary
+```
+
+**Narration is never overwritten.** Existing audio that matches a scene's text is kept; audio
+that says the same words elsewhere in the project is reused (so reordering scenes costs
+nothing); a new take always gets a new file name. Audio with no record of its text is kept
+unless you narrate with `--force`. To see how each clip relates to its text:
+
+```bash
+npm run audio -- the-royal-cache-full-documentary
+```
+
+Set `NEOKEMET_NO_PAID=1` to make every paid call fail before any request is sent.
+
+**Baselines.** `baselines/<project>.json` records scene order, exact frame timings, subtitle
+cues, renderer input and the hash of every narration file. This reports any drift:
+
+```bash
+npm run baseline -- the-royal-cache-full-documentary
+```
+
 ## Optional local AI (Ollama)
 
 Install Ollama from https://ollama.com, pull a model, and the status pill in the header turns green:
@@ -268,7 +314,9 @@ npm test
 ```
 
 `npm test` checks the bundled projects, schema validation, the offline planner, caption
-timing, the Ollama client (against a mock server) and the audio engine.
+timing, the Ollama client (against a mock server) and the audio engine, then the phase 3
+checks: baselines, timeline and subtitle safety, atomic saving, the production match check and
+narration reuse. It renders nothing and contacts no outside service.
 
 ## Project files
 

@@ -1,0 +1,82 @@
+{
+  "schema": 1,
+  "slug": "royal-cache-15s-v2",
+  "projectFileSha256": "4ef8c3d0206bfe96ec37719e37e715cb59772f8fea26d73f221099e93d748c86",
+  "title": "Egypt's Hidden Pharaohs | Royal Cache · Shorts15 V2",
+  "format": "9:16",
+  "fps": 30,
+  "subtitles": false,
+  "audio": {
+    "music": "generated",
+    "musicVolume": 0.23,
+    "musicSeed": 1881,
+    "sfx": true,
+    "sfxVolume": 0.27,
+    "narrationVolume": 1
+  },
+  "sceneCount": 4,
+  "totalFrames": 450,
+  "seconds": 15,
+  "scenes": [
+    {
+      "n": 1,
+      "id": "s15-01",
+      "template": "shorts15-hook",
+      "startFrame": 0,
+      "durationInFrames": 90,
+      "narrationSec": 2.2222,
+      "measured": false,
+      "cueCount": 1,
+      "cuesSha256": "fba13ea9af531626852bd02b69efbf8d76d9abe1f7afcfbe5dfbf29ccd572809",
+      "renderInputSha256": "dae67f939a97384e5f78205ccc03a22012788638afc71a35b93c1c9655476d36",
+      "narrationSha256": "95f6b8ac5e7667ea91c2a8f0d6876e519b2112adde6b96653db4dd3426d452da",
+      "narrationFile": null
+    },
+    {
+      "n": 2,
+      "id": "s15-02",
+      "template": "shorts15-danger",
+      "startFrame": 90,
+      "durationInFrames": 150,
+      "narrationSec": 3.5556,
+      "measured": false,
+      "cueCount": 2,
+      "cuesSha256": "08d9c951533716d58ce7479c774adf5835520f471730208a19411e254a8c6b5b",
+      "renderInputSha256": "ab41c5e58386cb4552e9567d0cd109cc959868edc8d8e69f68338165b09342be",
+      "narrationSha256": "4c9eac26d7dd6fde0070329247061243ceb14d29072519db1e1434b123591ccc",
+      "narrationFile": null
+    },
+    {
+      "n": 3,
+      "id": "s15-03",
+      "template": "shorts15-reveal",
+      "startFrame": 240,
+      "durationInFrames": 120,
+      "narrationSec": 2.6667,
+      "measured": false,
+      "cueCount": 1,
+      "cuesSha256": "2fb180e394748dac2d085cd6e45a4e5a221e51f636571fb5390b42570abb486b",
+      "renderInputSha256": "cf1f901eade7559bea0710f4f3249a1f84270a5f744d075f06acf451eff705ba",
+      "narrationSha256": "3815262c8fc58264d1d8adcbd7c15ad76907b77eb2231347254a3f5bf6f4c6b0",
+      "narrationFile": null
+    },
+    {
+      "n": 4,
+      "id": "s15-04",
+      "template": "shorts15-cta",
+      "startFrame": 360,
+      "durationInFrames": 90,
+      "narrationSec": 2.2222,
+      "measured": false,
+      "cueCount": 1,
+      "cuesSha256": "b0f4c338f5d8ca76c2ba44f168aa1e2b06900e6146f81607ceb822cd7dc160c5",
+      "renderInputSha256": "c8eb8134a8b2c39bf945ffa0d864bc5b732b0a5a674887ee30988ee62d38ec65",
+      "narrationSha256": "3da2a9f486b280c27e4e34f0bd0e612ced8b9e68f7e2769a2513a275bf377025",
+      "narrationFile": null
+    }
+  ],
+  "narrationFiles": [],
+  "warnings": [
+    "Film length is only 15.0 s."
+  ]
+}

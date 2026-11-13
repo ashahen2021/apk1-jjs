@@ -4,13 +4,15 @@ import fs from "node:fs";
 import http from "node:http";
 import path from "node:path";
 import { CATALOG } from "../shared/catalog.ts";
+import { validateIntent } from "../shared/intent.ts";
 import { parseProductionMarkdown } from "../shared/production.ts";
 import { applySmartTemplates, suggestSmartTemplates } from "../shared/smart-selection.ts";
 import type { Project } from "../shared/schema.ts";
 import { slugify } from "../shared/timing.ts";
 import { narrateProject } from "./narrate.ts";
 import { generateStoryboard, ollamaStatus, storyboardToScenes } from "./ollama.ts";
-import { DEFAULT_SETTINGS, ensureDir, loadSettings, OUTPUT_DIR, saveSettings, Settings, UI_DIR } from "./paths.ts";
+import { DEFAULT_SETTINGS, ensureDir, loadSettings, OUTPUT_DIR, saveSettings, Settings, TRASH_DIR, UI_DIR } from "./paths.ts";
+import { freeFileName } from "./persist.ts";
 import { listProjects, loadProject, parseProject, planStoryboard, projectDir, saveProject } from "./projects.ts";
 import { engineHash, getBundle, inspectOutput, renderProject, renderScenePreview } from "./render.ts";
 import { resolveTimeline } from "./timeline.ts";
@@ -114,6 +116,11 @@ const handle = async (req: http.IncomingMessage, res: http.ServerResponse) => {
     const changed = applySmartTemplates(current, ids as string[]);
     return json(res, { ...changed, project: parseProject(changed.project) });
   }
+  // Production intent check: a report only. Reads the project sent by the UI; writes nothing.
+  if (p === "/api/intent/preview" && m === "POST") {
+    const input = JSON.parse((await body(req, 5_000_000)).toString() || "{}");
+    return json(res, validateIntent(parseProject(input.project)));
+  }
   if (p === "/api/ollama/storyboard" && m === "POST") {
     const { topic, script, sceneCount } = JSON.parse((await body(req)).toString());
     const s = loadSettings();
@@ -134,15 +141,26 @@ const handle = async (req: http.IncomingMessage, res: http.ServerResponse) => {
     const dir = projectDir(slug);
     if (!action && m === "GET") { const { project } = loadProject(dir); return json(res, project); }
     if (!action && m === "PUT") { const { project } = saveProject(slug, JSON.parse((await body(req)).toString())); return json(res, project); }
-    if (!action && m === "DELETE") { if (fs.existsSync(dir)) fs.rmSync(dir, { recursive: true, force: true }); return json(res, { ok: true }); }
+    if (!action && m === "DELETE") {
+      // Never destroy narration: the project folder is moved aside, not erased.
+      if (!fs.existsSync(dir)) return json(res, { ok: true });
+      const kept = path.join(ensureDir(TRASH_DIR), `${slug}-${new Date().toISOString().replace(/[:.]/g, "-")}`);
+      fs.renameSync(dir, kept);
+      return json(res, { ok: true, movedTo: kept });
+    }
     if (action === "upload" && m === "POST") {
       const kind = url.searchParams.get("kind") === "music" ? "music" : "narration";
-      const name = safeName(url.searchParams.get("name") ?? "audio.wav");
-      if (!/\.(wav|mp3|m4a|ogg|flac)$/i.test(name)) throw new Error("Audio must be wav, mp3, m4a, ogg or flac.");
-      const rel = `${kind}/${name}`;
-      ensureDir(path.join(dir, kind));
-      fs.writeFileSync(path.join(dir, rel), await body(req));
-      return json(res, { file: rel });
+      const wanted = safeName(url.searchParams.get("name") ?? "audio.wav");
+      if (!/\.(wav|mp3|m4a|ogg|flac)$/i.test(wanted)) throw new Error("Audio must be wav, mp3, m4a, ogg or flac.");
+      const data = await body(req);
+      const folder = ensureDir(path.join(dir, kind));
+      // An upload never replaces audio that is already in the project: the same
+      // bytes reuse the existing file, different bytes get a new name.
+      const existing = path.join(folder, wanted);
+      const same = fs.existsSync(existing) && fs.readFileSync(existing).equals(data);
+      const name = same ? wanted : freeFileName(folder, wanted);
+      if (!same) fs.writeFileSync(path.join(folder, name), data, { flag: "wx" });
+      return json(res, { file: `${kind}/${name}`, reused: same, renamed: name !== wanted });
     }
     // the remaining actions take the project as currently edited in the UI
     const project: Project = parseProject(JSON.parse((await body(req)).toString() || "{}").project);

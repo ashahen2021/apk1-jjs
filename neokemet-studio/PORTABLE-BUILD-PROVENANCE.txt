@@ -1,0 +1,11 @@
+﻿This portable copy was assembled from:
+1. GitHub ashahen2021/apk1-jjs pinned commit 241956403770bc0b0cf2df259feaae7b4e7b909d (base)
+2. User-supplied Fable 3A/3B changed-source export (source modules; no long-film audio)
+3. NeoKemetAI V1 CinematicPilot artwork patch
+4. NeoKemetAI Shorts15 V2 (4 templates, 10 micro-shots, bold captions)
+5. User's companion Royal Cache 8-scene project (for reference)
+
+IMPORTANT: The 36-scene film, its voice files and existing final MP4 were NOT in the source export.
+The full 42-test archive-specific suite cannot be reproduced on this second PC without them.
+The portable first-run script runs TypeScript, original 21 checks, 15-second QA and validation.
+No cloud AI/ElevenLabs generation is performed by installer or test runner.
