@@ -1,0 +1,145 @@
+{
+  "version": 1,
+  "title": "The Royal Cache",
+  "topic": "The secret tomb of Egypt's greatest pharaohs (TT320, Deir el-Bahari)",
+  "script": "Some of Egypt’s greatest pharaohs were discovered together in a secret tomb—not beneath a pyramid, but hidden in a cliff.\n\nTheir original burial places had been threatened by thieves. Gold vanished, coffins were damaged, and royal mummies were disturbed.\n\nBy the Twenty-first Dynasty, priests of Amun were determined to rescue the dead rulers of earlier centuries.\n\nThey inspected tombs, repaired damaged burials, and carefully rewrapped royal bodies in fresh linen.\n\nLabels recorded names and transfers. Some of the mummies were moved several times before reaching their final hiding place.\n\nAmong them were famous rulers, including Seti the First and Ramesses the Second, whose tombs had suffered from robbery.\n\nTheir destination was a remote place among the limestone cliffs of Deir el-Bahari, across the Nile from ancient Thebes.\n\nThe hiding place, now called TT three-twenty, was also the burial place of High Priest Pinedjem the Second and his family.\n\nThere, more than fifty people, including kings, queens, and other royal figures, rested among coffins and funerary objects.\n\nSand and fallen stones concealed the entrance. Over many generations, the location slipped from the wider world’s knowledge.\n\nThen, in the nineteenth century, members of the local Abd el-Rassul family discovered the hidden chambers.\n\nAccording to a famous but uncertain story, a wandering goat fell into a shaft, and its owner followed it below.\n\nWhat he supposedly found was astonishing: a passage filled with royal coffins, some marked with the cobra symbols of kingship.\n\nObjects began circulating on the antiquities market. Their inscriptions drew suspicion, and investigators traced the trail toward the family.\n\nIn eighteen eighty-one, the secret was revealed. On July sixth, Émile Brugsch and Ahmed Kamal arrived to secure the tomb.\n\nThe contents were cleared in roughly forty-eight hours. But poor documentation and damage during removal would trouble generations of researchers.\n\nIn twenty twenty-one, ten royal mummies discovered in this cache joined Egypt’s Pharaohs’ Golden Parade on their journey to a new museum.\n\nThe cache preserved a lost chapter of Egyptian history: kings rescued from robbers, concealed for centuries, and finally brought back into the light.",
+  "format": "9:16",
+  "fps": 30,
+  "subtitles": true,
+  "audio": {
+    "music": "generated",
+    "musicVolume": 0.5,
+    "musicSeed": 1881,
+    "sfx": true,
+    "sfxVolume": 0.55,
+    "narrationVolume": 1
+  },
+  "scenes": [
+    {
+      "id": "rc01",
+      "template": "rc-01",
+      "narration": "Some of Egypt’s greatest pharaohs were discovered together in a secret tomb—not beneath a pyramid, but hidden in a cliff.",
+      "durationSec": 10,
+      "narrationFile": "narration/scene-01.mp3"
+    },
+    {
+      "id": "rc02",
+      "template": "rc-02",
+      "narration": "Their original burial places had been threatened by thieves. Gold vanished, coffins were damaged, and royal mummies were disturbed.",
+      "durationSec": 10,
+      "narrationFile": "narration/scene-02.mp3"
+    },
+    {
+      "id": "rc03",
+      "template": "rc-03",
+      "narration": "By the Twenty-first Dynasty, priests of Amun were determined to rescue the dead rulers of earlier centuries.",
+      "durationSec": 10,
+      "narrationFile": "narration/scene-03.mp3"
+    },
+    {
+      "id": "rc04",
+      "template": "rc-04",
+      "narration": "They inspected tombs, repaired damaged burials, and carefully rewrapped royal bodies in fresh linen.",
+      "durationSec": 10,
+      "narrationFile": "narration/scene-04.mp3"
+    },
+    {
+      "id": "rc05",
+      "template": "rc-05",
+      "narration": "Labels recorded names and transfers. Some of the mummies were moved several times before reaching their final hiding place.",
+      "durationSec": 10,
+      "narrationFile": "narration/scene-05.mp3"
+    },
+    {
+      "id": "rc06",
+      "template": "rc-06",
+      "narration": "Among them were famous rulers, including Seti the First and Ramesses the Second, whose tombs had suffered from robbery.",
+      "durationSec": 10,
+      "narrationFile": "narration/scene-06.mp3"
+    },
+    {
+      "id": "rc07",
+      "template": "rc-07",
+      "narration": "Their destination was a remote place among the limestone cliffs of Deir el-Bahari, across the Nile from ancient Thebes.",
+      "durationSec": 10,
+      "narrationFile": "narration/scene-07.mp3"
+    },
+    {
+      "id": "rc08",
+      "template": "rc-08",
+      "narration": "The hiding place, now called TT three-twenty, was also the burial place of High Priest Pinedjem the Second and his family.",
+      "durationSec": 10,
+      "narrationFile": "narration/scene-08.mp3"
+    },
+    {
+      "id": "rc09",
+      "template": "rc-09",
+      "narration": "There, more than fifty people, including kings, queens, and other royal figures, rested among coffins and funerary objects.",
+      "durationSec": 10,
+      "narrationFile": "narration/scene-09.mp3"
+    },
+    {
+      "id": "rc10",
+      "template": "rc-10",
+      "narration": "Sand and fallen stones concealed the entrance. Over many generations, the location slipped from the wider world’s knowledge.",
+      "durationSec": 10,
+      "narrationFile": "narration/scene-10.mp3"
+    },
+    {
+      "id": "rc11",
+      "template": "rc-11",
+      "narration": "Then, in the nineteenth century, members of the local Abd el-Rassul family discovered the hidden chambers.",
+      "durationSec": 10,
+      "narrationFile": "narration/scene-11.mp3"
+    },
+    {
+      "id": "rc12",
+      "template": "rc-12",
+      "narration": "According to a famous but uncertain story, a wandering goat fell into a shaft, and its owner followed it below.",
+      "durationSec": 10,
+      "narrationFile": "narration/scene-12.mp3"
+    },
+    {
+      "id": "rc13",
+      "template": "rc-13",
+      "narration": "What he supposedly found was astonishing: a passage filled with royal coffins, some marked with the cobra symbols of kingship.",
+      "durationSec": 10,
+      "narrationFile": "narration/scene-13.mp3"
+    },
+    {
+      "id": "rc14",
+      "template": "rc-14",
+      "narration": "Objects began circulating on the antiquities market. Their inscriptions drew suspicion, and investigators traced the trail toward the family.",
+      "durationSec": 10,
+      "narrationFile": "narration/scene-14.mp3"
+    },
+    {
+      "id": "rc15",
+      "template": "rc-15",
+      "narration": "In eighteen eighty-one, the secret was revealed. On July sixth, Émile Brugsch and Ahmed Kamal arrived to secure the tomb.",
+      "durationSec": 10,
+      "narrationFile": "narration/scene-15.mp3"
+    },
+    {
+      "id": "rc16",
+      "template": "rc-16",
+      "narration": "The contents were cleared in roughly forty-eight hours. But poor documentation and damage during removal would trouble generations of researchers.",
+      "durationSec": 10,
+      "narrationFile": "narration/scene-16.mp3"
+    },
+    {
+      "id": "rc17",
+      "template": "rc-17",
+      "narration": "In twenty twenty-one, ten royal mummies discovered in this cache joined Egypt’s Pharaohs’ Golden Parade on their journey to a new museum.",
+      "durationSec": 10,
+      "narrationFile": "narration/scene-17.mp3"
+    },
+    {
+      "id": "rc18",
+      "template": "rc-18",
+      "narration": "The cache preserved a lost chapter of Egyptian history: kings rescued from robbers, concealed for centuries, and finally brought back into the light.",
+      "durationSec": 10,
+      "narrationFile": "narration/scene-18.mp3"
+    }
+  ]
+}

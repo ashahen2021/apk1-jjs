@@ -1,0 +1,69 @@
+---
+import ListingPage from '@/components/ListingPage.astro';
+import Card from '@/components/Card.astro';
+import VideoEmbed from '@/components/VideoEmbed.astro';
+import { getVideos } from '@/lib/content';
+import { cards } from '@/lib/cards';
+import { GLYPHS, PLAYLISTS, YOUTUBE } from '@/lib/site';
+
+const videos = await getVideos();
+const featured = videos.find((v) => v.data.youtubeId) ?? videos[0];
+const playlists = Object.entries(PLAYLISTS).map(([id, meta]) => ({
+  id,
+  ...meta,
+  videos: videos.filter((v) => v.data.playlist === id),
+}));
+---
+
+<ListingPage
+  title="Videos"
+  metaTitle="Ancient Egypt Documentaries"
+  description="Documentaries, sleep histories and complete guides to ancient Egypt from the NeoKemet YouTube channel, linked to the pharaohs and sites they cover."
+  kicker={`NeoKemet on YouTube · ${YOUTUBE.handle}`}
+  lede="Cinematic, archaeologically grounded films about ancient Egypt. Every video links to the pharaohs, monuments and artifacts it covers."
+  glyph={GLYPHS.videos}
+  path="/videos/"
+  itemList={videos.map((v) => ({ name: v.data.title, url: `/videos/${v.id}/` }))}
+>
+  {featured && (
+    <section class="featured" aria-labelledby="featured-title">
+      <VideoEmbed youtubeId={featured.data.youtubeId} title={featured.data.title} />
+      <div>
+        <span class="kicker">Featured</span>
+        <h2 id="featured-title"><a href={`/videos/${featured.id}/`}>{featured.data.title}</a></h2>
+        <p>{featured.data.description}</p>
+        <div class="actions">
+          <a class="btn" href={YOUTUBE.subscribeUrl} rel="noopener">Subscribe</a>
+          <a class="btn btn--ghost" href={YOUTUBE.playlistsUrl} rel="noopener">All playlists</a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  {playlists.filter((p) => p.videos.length > 0).map((p) => (
+    <section class="playlist" id={p.id} aria-labelledby={`${p.id}-title`}>
+      <h2 id={`${p.id}-title`}>{p.label}</h2>
+      <p class="blurb">{p.blurb}</p>
+      <div class="grid">
+        {p.videos.map((v) => <Card {...cards.video(v)} />)}
+      </div>
+    </section>
+  ))}
+</ListingPage>
+
+<style>
+  .featured {
+    display: grid;
+    gap: 2rem;
+    align-items: center;
+    margin-bottom: 4rem;
+  }
+  @media (min-width: 56rem) { .featured { grid-template-columns: 3fr 2fr; gap: 3rem; } }
+  .featured h2 { font-size: var(--step-2); }
+  .featured h2 a { color: var(--limestone); text-decoration: none; }
+  .featured p { color: var(--text-muted); }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .playlist { margin-top: 3.5rem; scroll-margin-top: 5rem; }
+  .playlist h2 { font-size: var(--step-2); margin-bottom: 0.2rem; }
+  .blurb { color: var(--text-muted); margin-bottom: 1.5rem; }
+</style>

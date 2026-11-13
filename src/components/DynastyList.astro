@@ -1,0 +1,84 @@
+---
+/** Vertical list of all periods and dynasties — the crawlable, mobile-first view of the timeline. */
+import type { CollectionEntry } from 'astro:content';
+import { formatRange, ordinal } from '@/lib/format';
+
+export interface Props {
+  periods: CollectionEntry<'periods'>[];
+  dynasties: CollectionEntry<'dynasties'>[];
+  headingLevel?: 'h2' | 'h3';
+}
+const { periods, dynasties, headingLevel: H = 'h2' } = Astro.props;
+---
+
+<ol class="eras">
+  {periods.map((p) => (
+    <li class="era" style={`--c:${p.data.color}`} id={p.id} data-reveal>
+      <H class="era-title">
+        {p.data.name} <span>{formatRange(p.data.start, p.data.end)}</span>
+      </H>
+      <p class="era-summary">{p.data.summary}</p>
+      <ol class="dyns">
+        {dynasties.filter((d) => d.data.period.id === p.id).map((d) => (
+          <li>
+            <a href={`/dynasties/${d.id}/`}>
+              <span class="num">{d.data.number}</span>
+              <span class="body">
+                <strong>{ordinal(d.data.number)} Dynasty</strong>
+                <span class="range">{formatRange(d.data.start, d.data.end)} · {d.data.capital}</span>
+                <span class="rulers">{d.data.rulers.slice(0, 5).join(', ')}{d.data.rulers.length > 5 && '…'}</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </li>
+  ))}
+</ol>
+
+<style>
+  ol { list-style: none; margin: 0; padding: 0; }
+  .era { position: relative; padding: 0 0 2.5rem 2rem; border-left: 2px solid var(--c); }
+  .era::before {
+    content: '';
+    position: absolute;
+    left: -9px; top: 0.4rem;
+    width: 16px; height: 16px;
+    transform: rotate(45deg);
+    background: var(--c);
+    box-shadow: 0 0 1rem var(--c);
+  }
+  .era-title { font-size: var(--step-2); margin-bottom: 0.3rem; }
+  .era-title span { display: block; font-family: var(--font-body); font-size: var(--step--1); font-weight: 500; letter-spacing: 0.1em; color: var(--text-muted); margin-top: 0.3rem; }
+  .era-summary { color: var(--text-muted); max-width: var(--prose-width); }
+  .dyns { display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr)); }
+  .dyns a {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    height: 100%;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--bg-raised);
+    color: inherit;
+    text-decoration: none;
+    transition: border-color 0.3s var(--ease), background 0.3s var(--ease);
+  }
+  .dyns a:hover { border-color: var(--c); background: color-mix(in srgb, var(--c) 12%, var(--bg-raised)); }
+  .num {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 2.6rem; height: 2.6rem;
+    border: 1px solid var(--c);
+    border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--limestone);
+  }
+  .body { display: flex; flex-direction: column; gap: 0.15rem; }
+  .body strong { font-family: var(--font-display); color: var(--limestone); font-weight: 600; }
+  .range, .rulers { font-size: 0.85rem; color: var(--text-muted); }
+  .rulers { color: var(--text-faint); }
+</style>

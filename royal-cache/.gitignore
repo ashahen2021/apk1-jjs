@@ -1,0 +1,6 @@
+node_modules/
+out/
+.remotion/
+*.log
+# large generated audio stems — rebuilt by `npm run assets` (see README)
+public/audio/*.wav

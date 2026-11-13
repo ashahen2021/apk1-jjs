@@ -1,0 +1,44 @@
+---
+/** Shared shell for collection index pages. */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+
+export interface Props {
+  title: string;
+  metaTitle?: string;
+  description: string;
+  kicker: string;
+  lede: string;
+  glyph: string;
+  path: string;
+  itemList?: { name: string; url: string }[];
+}
+const { title, metaTitle = title, description, kicker, lede, glyph, path, itemList = [] } = Astro.props;
+
+const jsonLd = [
+  {
+    '@type': 'CollectionPage',
+    name: metaTitle,
+    description,
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: itemList.map((item, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: item.name,
+        url: new URL(item.url, Astro.site).href,
+      })),
+    },
+  },
+];
+---
+
+<BaseLayout title={metaTitle} description={description} jsonLd={jsonLd}>
+  <PageHero kicker={kicker} title={title} lede={lede} glyph={glyph}>
+    <Breadcrumbs slot="above" items={[{ label: title, href: path }]} />
+  </PageHero>
+  <div class="container section">
+    <slot />
+  </div>
+</BaseLayout>

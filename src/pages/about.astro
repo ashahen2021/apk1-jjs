@@ -1,0 +1,46 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import { YOUTUBE } from '@/lib/site';
+---
+
+<BaseLayout
+  title="About NeoKemetAI"
+  description="About NeoKemetAI: our approach to ancient Egyptian history, the chronology we use, our sources and how AI reconstructions are made."
+>
+  <PageHero kicker="About" title="Ancient Egypt, reconstructed" glyph="𓋹">
+    <Breadcrumbs slot="above" items={[{ label: 'About', href: '/about/' }]} />
+  </PageHero>
+
+  <div class="container section prose">
+    <p>
+      NeoKemetAI is the companion platform to the <a href={YOUTUBE.url} rel="noopener">NeoKemet YouTube channel</a>. It
+      brings together the history behind our films: the thirty dynasties, the pharaohs, and the monuments, tombs and objects they
+      left behind.
+    </p>
+
+    <h2>Chronology</h2>
+    <p>
+      Dates follow the conventional chronology of <em>The Oxford History of Ancient Egypt</em> (ed. Ian Shaw, 2000). Before
+      664 BCE every date is approximate, often by decades, and scholars disagree about the length of several reigns. Where
+      dynasties overlap, rival royal houses ruled different parts of the country at the same time.
+    </p>
+
+    <h2>Sources</h2>
+    <ul>
+      <li>Ian Shaw (ed.), <em>The Oxford History of Ancient Egypt</em>, Oxford University Press.</li>
+      <li>Aidan Dodson &amp; Dyan Hilton, <em>The Complete Royal Families of Ancient Egypt</em>, Thames &amp; Hudson.</li>
+      <li>Nicholas Reeves &amp; Richard H. Wilkinson, <em>The Complete Valley of the Kings</em>, Thames &amp; Hudson.</li>
+      <li>Collections and catalogue records of the Egyptian Museum (Cairo), the Grand Egyptian Museum, the British Museum, the Metropolitan Museum of Art and the Neues Museum.</li>
+      <li>Theban Mapping Project and the ISAC (formerly Oriental Institute), University of Chicago.</li>
+    </ul>
+
+    <h2>How our visuals are made</h2>
+    <p>
+      The imagery in NeoKemet films is AI-assisted archaeological reconstruction. It is an interpretation based on excavated
+      evidence and museum objects, not photographs or footage. Narration is written originally for the channel, and each
+      video's YouTube description lists its sources.
+    </p>
+  </div>
+</BaseLayout>

@@ -1,0 +1,10 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+---
+
+<BaseLayout title="Page not found" description="This page could not be found." noindex>
+  <PageHero kicker="404" title="Lost in the Duat" lede="This chamber is empty — perhaps the robbers got here first." glyph="𓉐">
+    <p><a class="btn" href="/">Return to the surface</a></p>
+  </PageHero>
+</BaseLayout>

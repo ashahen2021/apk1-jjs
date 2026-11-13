@@ -1,0 +1,65 @@
+---
+export interface Props {
+  href: string;
+  title: string;
+  kicker?: string;
+  meta?: string;
+  text?: string;
+  glyph?: string;
+  headingLevel?: 'h2' | 'h3';
+}
+const { href, title, kicker, meta, text, glyph, headingLevel: H = 'h3' } = Astro.props;
+---
+
+<article class="card" data-reveal>
+  {glyph && <span class="card-glyph" aria-hidden="true">{glyph}</span>}
+  {kicker && <p class="card-kicker">{kicker}</p>}
+  <H class="card-title"><a href={href}>{title}</a></H>
+  {meta && <p class="card-meta">{meta}</p>}
+  {text && <p class="card-text">{text}</p>}
+  <slot />
+</article>
+
+<style>
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 1.6rem 1.5rem 1.4rem;
+    background: linear-gradient(180deg, var(--bg-panel), var(--bg-raised));
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: border-color 0.4s var(--ease), box-shadow 0.4s var(--ease), transform 0.4s var(--ease);
+  }
+  /* Gilded top edge, like the band on a painted coffin. */
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 3px;
+    background: linear-gradient(90deg, var(--lapis), var(--gold), var(--faience), var(--gold), var(--carnelian));
+    opacity: 0.55;
+    transition: opacity 0.4s var(--ease);
+  }
+  .card:hover, .card:focus-within { border-color: var(--line-strong); box-shadow: var(--shadow), var(--glow); transform: translateY(-3px); }
+  .card:hover::before { opacity: 1; }
+  .card-glyph {
+    position: absolute;
+    right: 0.9rem;
+    bottom: -0.6rem;
+    font-family: var(--font-glyph);
+    font-size: 4.5rem;
+    line-height: 1;
+    color: var(--gold);
+    opacity: 0.08;
+  }
+  .card-kicker { margin: 0; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); }
+  .card-title { margin: 0; font-size: var(--step-1); }
+  /* Whole card is clickable through the heading link. */
+  .card-title a { color: var(--limestone); text-decoration: none; }
+  .card-title a::after { content: ''; position: absolute; inset: 0; }
+  .card-meta { margin: 0; font-size: var(--step--1); color: var(--text-muted); }
+  .card-text { margin: 0.4rem 0 0; font-size: 0.95rem; color: var(--text-muted); }
+</style>

@@ -1,0 +1,42 @@
+---
+import { NAV, SITE, YOUTUBE } from '@/lib/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container inner">
+    <div class="about">
+      <p class="name">Neo<span>Kemet</span>AI</p>
+      <p>{SITE.description}</p>
+      <a class="btn btn--ghost" href={YOUTUBE.subscribeUrl} rel="noopener">Subscribe on YouTube</a>
+    </div>
+    <nav aria-label="Footer">
+      <ul>
+        {NAV.map(({ href, label }) => <li><a href={href}>{label}</a></li>)}
+        <li><a href="/dynasties/">All dynasties</a></li>
+        <li><a href="/about/">About &amp; sources</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="container legal">
+    <p>
+      © {year} {SITE.name}. Dates follow the conventional chronology and are approximate before 664 BCE.
+      Visual reconstructions in NeoKemet videos are AI-generated interpretations, not photographs.
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer { margin-top: 4rem; border-top: 1px solid var(--line); background: var(--bg-raised); }
+  .inner { display: grid; gap: 2.5rem; grid-template-columns: 1fr; padding-block: 3rem; }
+  @media (min-width: 48rem) { .inner { grid-template-columns: 2fr 1fr; } }
+  .about p { color: var(--text-muted); max-width: 34rem; }
+  .name { font-family: var(--font-display); font-size: 1.4rem; letter-spacing: 0.12em; color: var(--limestone) !important; }
+  .name span { color: var(--gold); }
+  ul { list-style: none; margin: 0; padding: 0; columns: 2; gap: 1.5rem; }
+  li { margin-bottom: 0.6rem; }
+  li a { color: var(--text-muted); text-decoration: none; }
+  li a:hover { color: var(--limestone); }
+  .legal { border-top: 1px solid var(--line); padding-block: 1.25rem; }
+  .legal p { margin: 0; font-size: var(--step--1); color: var(--text-faint); }
+</style>

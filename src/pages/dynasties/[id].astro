@@ -1,0 +1,99 @@
+---
+import { getEntry } from 'astro:content';
+import EntityLayout from '@/layouts/EntityLayout.astro';
+import Card from '@/components/Card.astro';
+import Related from '@/components/Related.astro';
+import { getDynasties, relatedToDynasty } from '@/lib/content';
+import { cards } from '@/lib/cards';
+import { formatRange, ordinal } from '@/lib/format';
+import { GLYPHS } from '@/lib/site';
+
+export async function getStaticPaths() {
+  const dynasties = await getDynasties();
+  return dynasties.map((dynasty, i) => ({
+    params: { id: dynasty.id },
+    props: { dynasty, prev: dynasties[i - 1], next: dynasties[i + 1] },
+  }));
+}
+
+const { dynasty, prev, next } = Astro.props;
+const d = dynasty.data;
+const period = await getEntry(d.period);
+const related = await relatedToDynasty(dynasty.id);
+const nth = `${ordinal(d.number)} Dynasty`;
+const range = formatRange(d.start, d.end);
+---
+
+<EntityLayout
+  title={`${d.name} of Egypt`}
+  description={`The ${nth} of ancient Egypt (${range}): capital, rulers and history. ${d.summary}`.slice(0, 165)}
+  kicker={`${period?.data.name} · ${range}`}
+  lede={d.summary}
+  glyph={GLYPHS.dynasties}
+  crumbs={[
+    { label: 'Dynasties', href: '/dynasties/' },
+    { label: nth, href: `/dynasties/${dynasty.id}/` },
+  ]}
+  facts={[
+    { label: 'Period', value: period?.data.name ?? '', href: `/dynasties/#${d.period.id}` },
+    { label: 'Dates', value: range },
+    { label: 'Capital', value: d.capital },
+    { label: 'Known rulers', value: String(d.rulers.length) },
+  ]}
+  jsonLd={[{ '@type': 'Article', headline: `${d.name} of Egypt`, about: { '@type': 'Thing', name: nth } }]}
+>
+  <h2>Rulers</h2>
+  <ol class="rulers">
+    {d.rulers.map((name) => {
+      const match = related.pharaohs.find((p) => p.data.name === name || name.startsWith(`${p.data.name} `));
+      return <li>{match ? <a href={`/pharaohs/${match.id}/`}>{name}</a> : name}</li>;
+    })}
+  </ol>
+  <p class="note">
+    Order and dates of rulers are debated for many dynasties. Names in gold have a full profile.
+  </p>
+
+  <Fragment slot="aside">
+    <a class="btn btn--ghost" href={`/timeline/#dynasty-${dynasty.id}`}>See on the timeline</a>
+  </Fragment>
+
+  <Fragment slot="related">
+    <Related title={`Pharaohs of the ${nth}`} count={related.pharaohs.length}>
+      {related.pharaohs.map((p) => <Card {...cards.pharaoh(p)} />)}
+    </Related>
+    <Related title="Monuments" count={related.monuments.length}>
+      {related.monuments.map((m) => <Card {...cards.monument(m)} />)}
+    </Related>
+    <Related title="Tombs" count={related.tombs.length}>
+      {related.tombs.map((t) => <Card {...cards.tomb(t)} />)}
+    </Related>
+    <Related title="Artifacts" count={related.artifacts.length}>
+      {related.artifacts.map((a) => <Card {...cards.artifact(a)} />)}
+    </Related>
+    <Related title="Watch" count={related.videos.length}>
+      {related.videos.map((v) => <Card {...cards.video(v)} />)}
+    </Related>
+
+    <nav class="pager" aria-label="Dynasty navigation">
+      {prev ? <a href={`/dynasties/${prev.id}/`} rel="prev">← {ordinal(prev.data.number)} Dynasty</a> : <span />}
+      {next && <a href={`/dynasties/${next.id}/`} rel="next">{ordinal(next.data.number)} Dynasty →</a>}
+    </nav>
+  </Fragment>
+</EntityLayout>
+
+<style>
+  .rulers { columns: 2 12rem; padding-left: 1.4rem; }
+  .rulers a { font-weight: 600; }
+  .note { font-size: var(--step--1); color: var(--text-faint); }
+  .pager {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    font-family: var(--font-display);
+    letter-spacing: 0.08em;
+  }
+  .pager a { text-decoration: none; }
+</style>

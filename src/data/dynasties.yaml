@@ -1,0 +1,273 @@
+# The 30 dynasties of Manetho. Dates follow the conventional chronology
+# (Shaw, ed., The Oxford History of Ancient Egypt, 2000) and are approximate.
+# Several dynasties overlap because rival houses ruled parts of Egypt at once.
+- id: "1"
+  number: 1
+  name: First Dynasty
+  period: early-dynastic
+  start: -3000
+  end: -2890
+  capital: Memphis (royal burials at Abydos)
+  rulers: [Narmer, Aha, Djer, Djet, Den, Merneith (regent), Anedjib, Semerkhet, Qaa]
+  summary: The first kings of a unified Egypt found Memphis, record events with early hieroglyphs and are buried in great tombs at Abydos.
+- id: "2"
+  number: 2
+  name: Second Dynasty
+  period: early-dynastic
+  start: -2890
+  end: -2686
+  capital: Memphis
+  rulers: [Hetepsekhemwy, Raneb, Nynetjer, Peribsen, Khasekhemwy]
+  summary: A turbulent dynasty in which Horus and Seth kingships appear to compete, ending with Khasekhemwy's consolidation of the state.
+- id: "3"
+  number: 3
+  name: Third Dynasty
+  period: old-kingdom
+  start: -2686
+  end: -2613
+  capital: Memphis
+  rulers: [Djoser, Sekhemkhet, Khaba, Huni]
+  summary: Djoser and his architect Imhotep build the Step Pyramid at Saqqara, the first monumental stone building in the world.
+- id: "4"
+  number: 4
+  name: Fourth Dynasty
+  period: old-kingdom
+  start: -2613
+  end: -2494
+  capital: Memphis
+  rulers: [Sneferu, Khufu, Djedefra, Khafra, Menkaura, Shepseskaf]
+  summary: The pyramid builders. Sneferu perfects the true pyramid at Dahshur and his successors raise the pyramids and Great Sphinx of Giza.
+- id: "5"
+  number: 5
+  name: Fifth Dynasty
+  period: old-kingdom
+  start: -2494
+  end: -2345
+  capital: Memphis
+  rulers: [Userkaf, Sahura, Neferirkara, Nyuserra, Djedkara Isesi, Unas]
+  summary: Kings build sun temples to Ra at Abusir. Unas inscribes the Pyramid Texts, the oldest religious texts in Egypt, inside his pyramid.
+- id: "6"
+  number: 6
+  name: Sixth Dynasty
+  period: old-kingdom
+  start: -2345
+  end: -2181
+  capital: Memphis
+  rulers: [Teti, Userkara, Pepi I, Merenra, Pepi II]
+  summary: Provincial governors grow powerful. Pepi II's reign, among the longest in history, ends in a weakened state.
+- id: "7"
+  number: 7
+  name: Seventh Dynasty
+  period: old-kingdom
+  start: -2181
+  end: -2170
+  capital: Memphis
+  rulers: [Ephemeral kings, poorly attested]
+  summary: Manetho's "seventy kings in seventy days" — probably a literary way of describing a collapse of central rule after Pepi II.
+- id: "8"
+  number: 8
+  name: Eighth Dynasty
+  period: old-kingdom
+  start: -2170
+  end: -2160
+  capital: Memphis
+  rulers: [Qakara Ibi, Neferkaura, Neferirkara II]
+  summary: Short-lived Memphite kings who claimed Old Kingdom legitimacy while real power passed to the provinces.
+- id: "9"
+  number: 9
+  name: Ninth Dynasty
+  period: first-intermediate
+  start: -2160
+  end: -2130
+  capital: Herakleopolis
+  rulers: [Meryibra Khety, Neferkara]
+  summary: A new royal house at Herakleopolis, near the Faiyum, controls northern and middle Egypt.
+- id: "10"
+  number: 10
+  name: Tenth Dynasty
+  period: first-intermediate
+  start: -2130
+  end: -2040
+  capital: Herakleopolis
+  rulers: [Wahkara Khety, Merikara]
+  summary: The Herakleopolitan kings fight the Theban Intefs. The Teaching for Merikara, a classic of wisdom literature, is set in this era.
+- id: "11"
+  number: 11
+  name: Eleventh Dynasty
+  period: middle-kingdom
+  start: -2125
+  end: -1985
+  capital: Thebes
+  rulers: [Intef I, Intef II, Intef III, Mentuhotep II, Mentuhotep III, Mentuhotep IV]
+  summary: Theban rulers expand north. Mentuhotep II reunifies Egypt around 2055 BCE and begins the Middle Kingdom.
+- id: "12"
+  number: 12
+  name: Twelfth Dynasty
+  period: middle-kingdom
+  start: -1985
+  end: -1773
+  capital: Itjtawy (near el-Lisht)
+  rulers: [Amenemhat I, Senusret I, Amenemhat II, Senusret II, Senusret III, Amenemhat III, Amenemhat IV, Sobekneferu]
+  summary: A classical age of art and literature. Senusret III fortifies Nubia and Sobekneferu becomes one of Egypt's first confirmed female kings.
+- id: "13"
+  number: 13
+  name: Thirteenth Dynasty
+  period: middle-kingdom
+  start: -1773
+  end: -1650
+  capital: Itjtawy, later Thebes
+  rulers: [Sobekhotep I, Neferhotep I, Sobekhotep IV, Ay]
+  summary: Dozens of short reigns keep the Middle Kingdom administration running while the Delta slips from royal control.
+- id: "14"
+  number: 14
+  name: Fourteenth Dynasty
+  period: second-intermediate
+  start: -1773
+  end: -1650
+  capital: Avaris (eastern Delta)
+  rulers: [Nehesy, Yakbim, Sheshi]
+  summary: A line of rulers, many with Canaanite names, governs the eastern Delta in parallel with the 13th Dynasty.
+- id: "15"
+  number: 15
+  name: Fifteenth Dynasty (Hyksos)
+  period: second-intermediate
+  start: -1650
+  end: -1550
+  capital: Avaris
+  rulers: [Salitis, Khyan, Apepi, Khamudi]
+  summary: The Hyksos, "rulers of foreign lands", take Memphis and rule the north, introducing the horse and chariot on a wide scale.
+- id: "16"
+  number: 16
+  name: Sixteenth Dynasty
+  period: second-intermediate
+  start: -1650
+  end: -1580
+  capital: Thebes
+  rulers: [Djehuti, Sobekhotep VIII, Neferhotep III]
+  summary: Minor Theban kings hold Upper Egypt under pressure from the Hyksos in the north and Kush in the south.
+- id: "17"
+  number: 17
+  name: Seventeenth Dynasty
+  period: second-intermediate
+  start: -1580
+  end: -1550
+  capital: Thebes
+  rulers: [Intef V, Seqenenra Taa, Kamose]
+  summary: Theban kings launch the war of liberation. Seqenenra Taa dies in battle and Kamose pushes the Hyksos back to Avaris.
+- id: "18"
+  number: 18
+  name: Eighteenth Dynasty
+  period: new-kingdom
+  start: -1550
+  end: -1295
+  capital: Thebes, briefly Amarna
+  rulers: [Ahmose I, Amenhotep I, Thutmose I, Thutmose II, Hatshepsut, Thutmose III, Amenhotep II, Thutmose IV, Amenhotep III, Akhenaten, Smenkhkara, Tutankhamun, Ay, Horemheb]
+  summary: Egypt's most famous dynasty builds an empire, raises Karnak and Luxor, experiments with Akhenaten's sun-disc religion and produces Tutankhamun.
+- id: "19"
+  number: 19
+  name: Nineteenth Dynasty
+  period: new-kingdom
+  start: -1295
+  end: -1186
+  capital: Pi-Ramesses (Delta) and Memphis
+  rulers: [Ramesses I, Seti I, Ramesses II, Merenptah, Amenmesse, Seti II, Siptah, Twosret]
+  summary: The Ramesside age. Ramesses II fights at Kadesh, signs the first known peace treaty and fills Egypt with colossal monuments.
+- id: "20"
+  number: 20
+  name: Twentieth Dynasty
+  period: new-kingdom
+  start: -1186
+  end: -1069
+  capital: Pi-Ramesses and Thebes
+  rulers: [Sethnakht, Ramesses III, Ramesses IV, Ramesses VI, Ramesses IX, Ramesses XI]
+  summary: Ramesses III repels the Sea Peoples, but strikes, tomb robberies and a harem conspiracy mark the decline of the New Kingdom.
+- id: "21"
+  number: 21
+  name: Twenty-first Dynasty
+  period: third-intermediate
+  start: -1069
+  end: -945
+  capital: Tanis
+  rulers: [Smendes, Amenemnisu, Psusennes I, Amenemope, Siamun, Psusennes II]
+  summary: Kings rule from Tanis while the High Priests of Amun govern Thebes. Royal mummies are gathered into caches for safety.
+- id: "22"
+  number: 22
+  name: Twenty-second Dynasty
+  period: third-intermediate
+  start: -945
+  end: -715
+  capital: Bubastis and Tanis
+  rulers: [Shoshenq I, Osorkon I, Takelot I, Osorkon II, Shoshenq III]
+  summary: Kings of Libyan descent. Shoshenq I campaigns in Palestine; later reigns splinter into rival kingdoms.
+- id: "23"
+  number: 23
+  name: Twenty-third Dynasty
+  period: third-intermediate
+  start: -818
+  end: -715
+  capital: Leontopolis and Thebes
+  rulers: [Pedubast I, Osorkon III, Takelot III, Rudamun]
+  summary: A parallel Libyan line, partly based at Thebes, reflecting Egypt's division into several local kingdoms.
+- id: "24"
+  number: 24
+  name: Twenty-fourth Dynasty
+  period: third-intermediate
+  start: -727
+  end: -715
+  capital: Sais
+  rulers: [Tefnakht, Bakenrenef]
+  summary: The western Delta princes of Sais attempt to unite the north before the Kushite king Piye marches down the Nile.
+- id: "25"
+  number: 25
+  name: Twenty-fifth Dynasty (Kushite)
+  period: third-intermediate
+  start: -747
+  end: -656
+  capital: Napata and Memphis
+  rulers: [Piye, Shabaqo, Shabitqo, Taharqa, Tanutamani]
+  summary: The kings of Kush conquer Egypt and revive classical traditions, until Assyrian invasions drive them back south.
+- id: "26"
+  number: 26
+  name: Twenty-sixth Dynasty (Saite)
+  period: late-period
+  start: -664
+  end: -525
+  capital: Sais
+  rulers: [Psamtek I, Necho II, Psamtek II, Apries, Ahmose II (Amasis), Psamtek III]
+  summary: A Saite renaissance reunites Egypt, revives Old Kingdom art and builds ties with the Greek world.
+- id: "27"
+  number: 27
+  name: Twenty-seventh Dynasty (First Persian)
+  period: late-period
+  start: -525
+  end: -404
+  capital: Persepolis (satrapy at Memphis)
+  rulers: [Cambyses II, Darius I, Xerxes I, Artaxerxes I, Darius II]
+  summary: Achaemenid Persian kings rule Egypt as a satrapy. Darius I completes a canal from the Nile to the Red Sea.
+- id: "28"
+  number: 28
+  name: Twenty-eighth Dynasty
+  period: late-period
+  start: -404
+  end: -399
+  capital: Sais
+  rulers: [Amyrtaeus]
+  summary: A single king, Amyrtaeus of Sais, leads a successful revolt against Persia.
+- id: "29"
+  number: 29
+  name: Twenty-ninth Dynasty
+  period: late-period
+  start: -399
+  end: -380
+  capital: Mendes
+  rulers: [Nepherites I, Hakor, Nepherites II]
+  summary: Delta kings of Mendes defend independence by allying with Greek city-states against Persia.
+- id: "30"
+  number: 30
+  name: Thirtieth Dynasty
+  period: late-period
+  start: -380
+  end: -343
+  capital: Sebennytos
+  rulers: [Nectanebo I, Teos, Nectanebo II]
+  summary: The last native Egyptian pharaohs. A final burst of temple building ends when Persia reconquers Egypt in 343 BCE.

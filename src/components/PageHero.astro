@@ -1,0 +1,45 @@
+---
+export interface Props {
+  kicker?: string;
+  title: string;
+  lede?: string;
+  glyph?: string;
+}
+const { kicker, title, lede, glyph } = Astro.props;
+---
+
+<section class="hero">
+  {glyph && <span class="glyph" aria-hidden="true">{glyph}</span>}
+  <div class="container">
+    <slot name="above" />
+    {kicker && <span class="kicker">{kicker}</span>}
+    <h1>{title}</h1>
+    {lede && <p class="lede">{lede}</p>}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(3rem, 2rem + 5vw, 6.5rem) clamp(2rem, 1.5rem + 3vw, 4rem);
+    border-bottom: 1px solid var(--line);
+    background:
+      radial-gradient(ellipse 60% 90% at 85% 0%, rgb(31 78 140 / 0.22), transparent 70%),
+      radial-gradient(ellipse 50% 80% at 10% 100%, rgb(200 149 43 / 0.12), transparent 70%);
+  }
+  .glyph {
+    position: absolute;
+    right: -2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--font-glyph);
+    font-size: clamp(10rem, 6rem + 18vw, 22rem);
+    line-height: 1;
+    color: var(--gold);
+    opacity: 0.07;
+    pointer-events: none;
+  }
+  h1 { max-width: 20ch; }
+</style>

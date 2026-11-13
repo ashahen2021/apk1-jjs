@@ -1,0 +1,66 @@
+---
+import { getEntry, render } from 'astro:content';
+import EntityLayout from '@/layouts/EntityLayout.astro';
+import Card from '@/components/Card.astro';
+import Related from '@/components/Related.astro';
+import { getArtifacts, getTombs, videosAbout } from '@/lib/content';
+import { cards } from '@/lib/cards';
+import { ordinal } from '@/lib/format';
+import { GLYPHS } from '@/lib/site';
+
+export async function getStaticPaths() {
+  return (await getTombs()).map((tomb) => ({ params: { slug: tomb.id }, props: { tomb } }));
+}
+
+const { tomb } = Astro.props;
+const t = tomb.data;
+const pharaoh = t.pharaoh && (await getEntry(t.pharaoh));
+const artifacts = (await getArtifacts()).filter((a) => a.data.tomb?.id === tomb.id);
+const videos = await videosAbout('tombs', tomb.id);
+const { Content } = await render(tomb);
+---
+
+<EntityLayout
+  title={t.code ? `${t.code}: ${t.name}` : t.name}
+  description={t.description}
+  kicker={`Tomb · ${ordinal(Number(t.dynasty.id))} Dynasty`}
+  lede={t.site}
+  glyph={GLYPHS.tombs}
+  crumbs={[
+    { label: 'Tombs', href: '/tombs/' },
+    { label: t.code ?? t.name, href: `/tombs/${tomb.id}/` },
+  ]}
+  facts={[
+    t.code && { label: 'Tomb number', value: t.code },
+    { label: 'Owner', value: t.owner },
+    { label: 'Dynasty', value: `${ordinal(Number(t.dynasty.id))} Dynasty`, href: `/dynasties/${t.dynasty.id}/` },
+    { label: 'Location', value: t.site },
+    t.discovered && { label: 'Discovered', value: `${t.discovered.year} by ${t.discovered.by}` },
+  ]}
+  jsonLd={[
+    {
+      '@type': 'LandmarksOrHistoricalBuildings',
+      name: t.name,
+      alternateName: t.code,
+      description: t.description,
+      url: new URL(`/tombs/${tomb.id}/`, Astro.site).href,
+      ...(t.coordinates && {
+        geo: { '@type': 'GeoCoordinates', latitude: t.coordinates[0], longitude: t.coordinates[1] },
+      }),
+    },
+  ]}
+>
+  <Content />
+
+  <Fragment slot="related">
+    <Related title="Pharaoh" count={pharaoh ? 1 : 0}>
+      {pharaoh && <Card {...cards.pharaoh(pharaoh)} />}
+    </Related>
+    <Related title="Found in this tomb" count={artifacts.length}>
+      {artifacts.map((a) => <Card {...cards.artifact(a)} />)}
+    </Related>
+    <Related title="Watch on NeoKemet" count={videos.length}>
+      {videos.map((v) => <Card {...cards.video(v)} />)}
+    </Related>
+  </Fragment>
+</EntityLayout>
