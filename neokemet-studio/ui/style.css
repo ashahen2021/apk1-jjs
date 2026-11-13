@@ -57,6 +57,15 @@ code { background: #F1DFBE; padding: 1px 5px; border-radius: 4px; font-size: 12.
 .production-notes label { margin-top: 10px; }
 .production-notes textarea { min-height: 72px; }
 
+/* Production Match Check: read-only report, one row per scene. */
+.intent-results { margin-top: 12px; padding: 11px; background: #f4e9d2; border: 1.5px solid var(--sand); border-radius: 8px; }
+.intent-row { display: flex; align-items: flex-start; gap: 10px; padding: 10px 6px; border-top: 1px dashed var(--sand); }
+.intent-body { flex: 1; min-width: 0; }
+.intent-badge { flex-shrink: 0; width: 158px; font-size: 12px; font-weight: 650; padding: 3px 8px; border-radius: 5px; border: 1.5px solid; text-align: center; }
+.intent-validated .intent-badge { color: #2f6b4f; border-color: #2f6b4f; background: #e3f0e6; }
+.intent-unsupported .intent-badge { color: #9a3b22; border-color: #9a3b22; background: #f7e1d8; }
+.intent-review .intent-badge { color: #8a6412; border-color: #8a6412; background: #f8ecc9; }
+.intent-no-direction .intent-badge { color: #7b6c5a; border-color: var(--sand); background: var(--cream); }
 /* Smart Template Selection: approval list with per-scene compare previews. */
 .smart-results { margin-top: 12px; padding: 11px; background: #f4e9d2; border: 1.5px solid var(--sand); border-radius: 8px; }
 .smart-results .smart-tools { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin: 10px 0; }
