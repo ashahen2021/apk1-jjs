@@ -1,0 +1,164 @@
+{
+  "version": 1,
+  "title": "Why Egypt Hid Its Greatest Kings | Royal Cache Short",
+  "topic": "Companion YouTube Short for the published Royal Cache documentary: https://www.youtube.com/watch?v=YIS3_xrkv4I",
+  "script": "Ramesses the Great had a royal tomb. So why was his mummy found somewhere else?\n\nTomb robbers threatened the Valley of the Kings—even the mightiest pharaohs.\n\nPriests rewrapped royal bodies and moved them to safety.\n\nHigh above the Nile, cliffs concealed their new resting place.\n\nDeep inside TT320, royal mummies lay together in the dark.\n\nThe secret was revealed to officials in eighteen eighty-one.\n\nAmong the dead were Ramesses the Second and Seti the First.\n\nWho moved them—and why? Watch The Royal Cache, the full documentary, on NeoKemetAI.",
+  "format": "9:16",
+  "fps": 30,
+  "subtitles": true,
+  "audio": {
+    "music": "generated",
+    "musicVolume": 0.25,
+    "musicSeed": 1881,
+    "sfx": true,
+    "sfxVolume": 0.35,
+    "narrationVolume": 1
+  },
+  "scenes": [
+    {
+      "id": "rct-01",
+      "template": "royal-pharaohs",
+      "narration": "Ramesses the Great had a royal tomb. So why was his mummy found somewhere else?",
+      "label": "WHERE IS RAMSES?",
+      "sublabel": "A king's burial was moved",
+      "params": {
+        "pharaohName": "Ramesses II",
+        "pose": "statue close-up",
+        "environment": "temple courtyard with columns",
+        "camera": "slow push in"
+      },
+      "production": {
+        "sourceNumber": 1,
+        "sceneTitle": "The missing pharaoh",
+        "chapter": "Royal Cache Short — Companion",
+        "visual": "A prominent Ramesses II colossal statue. The hook must question why his burial was not where he was first interred.",
+        "sound": "One restrained stone tap followed by a brief pause."
+      }
+    },
+    {
+      "id": "rct-02",
+      "template": "tomb-robbery",
+      "narration": "Tomb robbers threatened the Valley of the Kings—even the mightiest pharaohs.",
+      "label": "THE TOMBS WERE ROBBED",
+      "params": {
+        "stage": "looted",
+        "environment": "royal burial chamber",
+        "camera": "slow push in",
+        "showTorch": true,
+        "showScatteredObjects": true
+      },
+      "production": {
+        "sourceNumber": 2,
+        "sceneTitle": "Robbed tombs",
+        "chapter": "Royal Cache Short — Companion",
+        "visual": "Open or disturbed burial chamber, not a pyramid interior. Avoid showing a specific thief as historical fact.",
+        "sound": "Stone scrape and a distant echo."
+      }
+    },
+    {
+      "id": "rct-03",
+      "template": "priests-rewrapping",
+      "narration": "Priests rewrapped royal bodies and moved them to safety.",
+      "label": "A SECRET RESCUE",
+      "params": {
+        "action": "rewrap mummy",
+        "environment": "work chamber",
+        "camera": "slow push in"
+      },
+      "production": {
+        "sourceNumber": 3,
+        "sceneTitle": "Priests safeguard the dead",
+        "chapter": "Royal Cache Short — Companion",
+        "visual": "Priests rewrap a royal body. Use actual wrapping action template; this is a schematic reconstruction.",
+        "sound": "Soft linen and a low interior ambience."
+      }
+    },
+    {
+      "id": "rct-04",
+      "template": "rc-07",
+      "narration": "High above the Nile, cliffs concealed their new resting place.",
+      "label": "DEIR EL-BAHARI",
+      "params": {
+        "framing": "original",
+        "movement": "push in",
+        "segment": "full sequence",
+        "colourGrade": "original",
+        "showCustomLabel": true
+      },
+      "production": {
+        "sourceNumber": 4,
+        "sceneTitle": "A hidden landscape",
+        "chapter": "Royal Cache Short — Companion",
+        "visual": "Rocky cliffs of Deir el-Bahari on the west bank. Do not imply priests crossed the Nile to move the bodies.",
+        "sound": "Mountain wind; music rises subtly."
+      }
+    },
+    {
+      "id": "rct-05",
+      "template": "rc-08",
+      "narration": "Deep inside TT320, royal mummies lay together in the dark.",
+      "label": "THE HIDDEN SHAFT",
+      "params": {
+        "framing": "original",
+        "movement": "original",
+        "segment": "full sequence",
+        "colourGrade": "cool night",
+        "showCustomLabel": true
+      },
+      "production": {
+        "sourceNumber": 5,
+        "sceneTitle": "The royal mummy cache",
+        "chapter": "Royal Cache Short — Companion",
+        "visual": "Diagram of TT320 shaft, passages and coffins. Schematic, not a survey or an exact archaeological plan.",
+        "sound": "Lantern and footsteps echo; reduce music."
+      }
+    },
+    {
+      "id": "rct-06",
+      "template": "rc-15",
+      "narration": "The secret was revealed to officials in eighteen eighty-one.",
+      "label": "1881: REVEALED",
+      "params": {
+        "framing": "original",
+        "movement": "original",
+        "segment": "full sequence",
+        "colourGrade": "original",
+        "showCustomLabel": true
+      },
+      "production": {
+        "sourceNumber": 6,
+        "sceneTitle": "1881 discovery",
+        "chapter": "Royal Cache Short — Companion",
+        "visual": "1881 investigators at the hidden shaft; no invented dialogue, no literal goat-discovery claim.",
+        "sound": "Rope against stone and then a quiet beat."
+      }
+    },
+    {
+      "id": "rct-07",
+      "template": "rc-06",
+      "narration": "Among the dead were Ramesses the Second and Seti the First.",
+      "production": {
+        "sourceNumber": 7,
+        "sceneTitle": "The royal names",
+        "chapter": "Royal Cache Short — Companion",
+        "visual": "The two known royal mummies are Ramesses II and Seti I; reused hand-directed two-bier preset. No implication both were found in their original tombs.",
+        "sound": "Music resolves toward the CTA."
+      }
+    },
+    {
+      "id": "rct-08",
+      "template": "end-card",
+      "narration": "Who moved them—and why? Watch The Royal Cache, the full documentary, on NeoKemetAI.",
+      "label": "WATCH THE FULL FILM",
+      "sublabel": "THE ROYAL CACHE · NEOKEMETAI",
+      "environment": "deir-el-bahari",
+      "production": {
+        "sourceNumber": 8,
+        "sceneTitle": "Watch the full documentary",
+        "chapter": "Royal Cache Short — Companion",
+        "visual": "A clean 9:16 end card with a clear watch-the-full-documentary invitation; place Related Video in YouTube Studio after upload.",
+        "sound": "Music resolves, followed by a brief quiet end."
+      }
+    }
+  ]
+}
