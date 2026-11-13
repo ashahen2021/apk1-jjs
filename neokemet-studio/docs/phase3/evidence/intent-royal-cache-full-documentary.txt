@@ -1,0 +1,71 @@
+﻿Production intent for "The Royal Cache — Full Documentary": 5 validated, 21 unsupported, 10 need review, 0 without direction (of 36)
+   1  Requires human review  title              "Title card" shows limestone cliffs, but a person should confirm the match. The direction describes a transformation or bespoke animation; templates play a fixed animation.
+      sound not performed: rope or pulley, water, voices or choir, named musical gesture
+   2  Unsupported direction  royal-pharaohs     "Royal Pharaohs" does not show: burial chamber interior, coffin or mummy. Closest existing template: "Tomb interior" (shows burial chamber interior, coffin or mummy; still missing pharaoh or royal statue) or "Tomb Robbery" (shows burial chamber interior, coffin or mummy; still missing pharaoh or royal statue). Nothing was changed.
+      sound not performed: metal or stone impact, door or room event
+   3  Unsupported direction  tomb-interior      "Tomb interior" does not show: tomb robbers. Closest existing template: "Tomb Robbery" (shows tomb robbers, looted or damaged burial, coffin or mummy). Nothing was changed.
+      sound not performed: water, metal or stone impact
+   4  Unsupported direction  cutaway            "Tomb cutaway" does not show: the Nile, map with a drawn route. Closest existing template: "Journey map" (shows map with a drawn route; still missing the Nile) or "RC 05 · Labels and Journeys" (shows map with a drawn route; still missing the Nile). Nothing was changed.
+   5  Unsupported direction  priests-rewrapping "Priests Rewrapping" does not show: scribes. Closest existing template: "Landscape" (shows burial chamber interior, priests, scribes; needs its environment, cast or prop set) or "Characters" (shows burial chamber interior, priests, scribes; needs its environment, cast or prop set). Nothing was changed.
+      sound not performed: paper, pen or brush, named musical gesture
+   6  Requires human review  priests-rewrapping "Priests Rewrapping" shows rewrapping in linen, coffin or mummy, but a person should confirm the match. The direction rules something out ("graphic dissection") that cannot be checked automatically.
+      sound not performed: paper, pen or brush, named musical gesture
+   7  Unsupported direction  priests-rewrapping "Priests Rewrapping" does not show: map with a drawn route. Closest existing template: "RC 05 · Labels and Journeys" (shows map with a drawn route, papyrus, docket or inscription) or "Journey map" (shows map with a drawn route; still missing papyrus, docket or inscription). Nothing was changed.
+      sound not performed: paper, pen or brush
+   8  Requires human review  tomb-robbery       "Tomb Robbery" shows looted or damaged burial, but a person should confirm the match. The direction rules something out ("a literal theft claim") that cannot be checked automatically.
+      sound not performed: metal or stone impact
+   9  Requires human review  coffin-chamber     "Coffin chamber" shows coffin or mummy, but a person should confirm the match. The direction describes a transformation or bespoke animation; templates play a fixed animation.
+      sound not performed: metal or stone impact
+  10  Validated match        rc-07              "RC 07 · Deir el-Bahari" shows what the direction asks for: limestone cliffs, Deir el-Bahari / Hatshepsut's temple, temple with columns.
+      sound not performed: bell or animal call
+  11  Unsupported direction  rc-08              "RC 08 · TT320 cutaway" does not show: 19th-century workers. Closest existing template: "RC 16 · The Rushed Removal" (shows cutaway through rock (shaft and passages), 19th-century workers, rope) or "Landscape" (shows 19th-century workers; still missing cutaway through rock (shaft and passages), rope; needs its environment, cast or prop set). Nothing was changed.
+      sound not performed: rope or pulley
+  12  Validated match        tomb-interior      "Tomb interior" shows what the direction asks for: burial chamber interior, coffin or mummy.
+      sound not performed: door or room event
+  13  Unsupported direction  tomb-interior      "Tomb interior" does not show: a row of many coffins, papyrus, docket or inscription. Closest existing template: "Coffin chamber" (shows coffin or mummy, a row of many coffins; still missing papyrus, docket or inscription) or "RC 08 · TT320 cutaway" (shows coffin or mummy, papyrus, docket or inscription; still missing a row of many coffins). Nothing was changed.
+      sound not performed: breathing, voices or choir
+  14  Unsupported direction  cutaway            "Tomb cutaway" does not show: the Nile, villagers or a local family. Closest existing template: "RC 07 · Deir el-Bahari" (shows limestone cliffs, the Nile; still missing cutaway through rock (shaft and passages), villagers or a local family) or "RC 11 · The Family" (shows limestone cliffs, villagers or a local family; still missing the Nile, cutaway through rock (shaft and passages)). Nothing was changed.
+      sound not performed: bell or animal call
+  15  Validated match        landscape          "Landscape" shows what the direction asks for: limestone cliffs.
+      sound not performed: bell or animal call
+  16  Requires human review  rc-12              "RC 12 · The Goat Legend" shows goat, but a person should confirm the match. The direction rules something out ("a dramatized factual caption") that cannot be checked automatically.
+      sound not performed: bell or animal call, metal or stone impact, voices or choir
+  17  Validated match        rc-14              "RC 14 · Clues in the Market" shows what the direction asks for: market street, papyrus, docket or inscription, canopic jars.
+      sound not performed: paper, pen or brush, voices or choir
+  18  Unsupported direction  artifact           "Artifact" does not show: mud-brick village, 19th-century officials, 19th-century paper records. Closest existing template: "RC 14 · Clues in the Market" (shows mud-brick village, papyrus, docket or inscription, 19th-century paper records; still missing 19th-century officials) or "RC 15 · 1881" (shows 19th-century officials, 19th-century paper records; still missing mud-brick village, papyrus, docket or inscription). Nothing was changed.
+      sound not performed: paper, pen or brush
+  19  Unsupported direction  tomb-interior      "Tomb interior" does not show: 19th-century paper records, office interior (door, desk). Closest existing template: "RC 14 · Clues in the Market" (shows 19th-century paper records, office interior (door, desk)) or "RC 15 · 1881" (shows 19th-century paper records; still missing office interior (door, desk)). Nothing was changed.
+      sound not performed: door or room event
+  20  Validated match        rc-15              "RC 15 · 1881" shows what the direction asks for: limestone cliffs, cutaway through rock (shaft and passages), 19th-century officials, torch or lantern light, 19th-century paper records.
+      sound not performed: rope or pulley, water, named musical gesture, machine or electronic tone
+  21  Unsupported direction  tomb-interior      "Tomb interior" does not show: torch or lantern light, a row of many coffins, papyrus, docket or inscription. Closest existing template: "Coffin chamber" (shows torch or lantern light, coffin or mummy, a row of many coffins; still missing papyrus, docket or inscription) or "RC 08 · TT320 cutaway" (shows torch or lantern light, coffin or mummy, papyrus, docket or inscription; still missing a row of many coffins). Nothing was changed.
+      sound not performed: named musical gesture
+  22  Requires human review  tomb-interior      Nothing in this direction is in the template vocabulary, so the match with "Tomb interior" cannot be judged automatically. Compare a preview frame with the direction.
+      sound not performed: named musical gesture
+  23  Unsupported direction  cutaway            "Tomb cutaway" does not show: 19th-century workers, coffins hauled by rope. Closest existing template: "RC 16 · The Rushed Removal" (shows cutaway through rock (shaft and passages), 19th-century workers, coffins hauled by rope, coffin or mummy, rope) or "Procession" (shows 19th-century workers, coffin or mummy; still missing cutaway through rock (shaft and passages), coffins hauled by rope, rope; needs its environment, cast or prop set). Nothing was changed.
+      sound not performed: rope or pulley, breathing
+  24  Unsupported direction  tomb-interior      "Tomb interior" does not show: 19th-century paper records. Closest existing template: "RC 16 · The Rushed Removal" (shows coffin or mummy, 19th-century paper records) or "RC 14 · Clues in the Market" (shows 19th-century paper records; still missing coffin or mummy). Nothing was changed.
+      sound not performed: paper, pen or brush, machine or electronic tone
+  25  Unsupported direction  landscape          "Landscape" does not show: temple with columns, steamship. Closest existing template: "RC 07 · Deir el-Bahari" (shows the Nile, temple with columns; still missing steamship) or "Title card" (shows the Nile, temple with columns; still missing steamship; needs its environment, cast or prop set). Nothing was changed.
+      sound not performed: machine or electronic tone
+  26  Requires human review  priests-rewrapping "Priests Rewrapping" shows coffin or mummy, but a person should confirm the match. "Priests Rewrapping" is mainly about priests, rewrapping in linen, which the direction does not ask for.
+      sound not performed: paper, pen or brush, named musical gesture
+  27  Requires human review  map                "Journey map" shows map with a drawn route, but a person should confirm the match. The direction rules something out ("merging the two caches") that cannot be checked automatically.
+      sound not performed: metal or stone impact, named musical gesture
+  28  Unsupported direction  cutaway            "Tomb cutaway" does not show: museum interior, X-ray or scan imagery. Closest existing template: "RC 17 · Golden Parade" (shows museum interior; still missing cutaway through rock (shaft and passages), X-ray or scan imagery). Nothing was changed.
+      sound not performed: named musical gesture, machine or electronic tone
+  29  Unsupported direction  coffin-chamber     "Coffin chamber" does not show: modern people (visitors, conservators), X-ray or scan imagery. No existing template shows this. Rewrite the direction, accept the approximation, or plan new artwork.
+      sound not performed: named musical gesture, machine or electronic tone
+  30  Unsupported direction  coffin-chamber     "Coffin chamber" does not show: modern city streets, the 2021 parade of vehicles. Closest existing template: "RC 17 · Golden Parade" (shows modern city streets, the 2021 parade of vehicles). Nothing was changed.
+      sound not performed: named musical gesture
+  31  Unsupported direction  rc-08              "RC 08 · TT320 cutaway" does not show: map with a drawn route, museum interior. Closest existing template: "Journey map" (shows map with a drawn route; still missing museum interior) or "RC 05 · Labels and Journeys" (shows map with a drawn route; still missing museum interior). Nothing was changed.
+      sound not performed: named musical gesture
+  32  Unsupported direction  characters         "Characters" does not show: museum interior, modern people (visitors, conservators). Closest existing template: "RC 17 · Golden Parade" (shows museum interior; still missing modern people (visitors, conservators)). Nothing was changed.
+  33  Unsupported direction  artifact           "Artifact" does not show: 19th-century paper records. Closest existing template: "RC 14 · Clues in the Market" (shows papyrus, docket or inscription, 19th-century paper records) or "RC 15 · 1881" (shows 19th-century paper records; still missing papyrus, docket or inscription). Nothing was changed.
+      sound not performed: paper, pen or brush, named musical gesture
+  34  Requires human review  cutaway            "Tomb cutaway" shows cutaway through rock (shaft and passages), but a person should confirm the match. The direction describes a transformation or bespoke animation; templates play a fixed animation.
+      sound not performed: named musical gesture
+  35  Unsupported direction  cutaway            "Tomb cutaway" does not show: a row of many coffins. Closest existing template: "Coffin chamber" (shows coffin or mummy, a row of many coffins) or "RC 09 · More Than Fifty" (shows coffin or mummy, a row of many coffins). Nothing was changed.
+      sound not performed: named musical gesture
+  36  Requires human review  end-card           "End card" shows the Nile, but a person should confirm the match. The direction describes a transformation or bespoke animation; templates play a fixed animation.
+      sound not performed: water, named musical gesture

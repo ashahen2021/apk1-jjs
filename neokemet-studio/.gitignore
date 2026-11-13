@@ -1,5 +1,52 @@
+# --- Dependencies (reinstalled per computer with `npm ci`) ---
 node_modules/
+
+# --- Local runtime data: settings (may hold an ElevenLabs key), caches, renders ---
 workspace/
+
+# --- Credentials and secrets: never commit ---
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*api-key*.txt
+*apikey*.txt
+*credentials*
+*secret*.txt
+
+# --- Downloaded offline-voice tooling (re-run scripts\setup-piper.ps1) ---
 tools/piper/
 tools/voices/
+
+# --- Generated / rendered video (the tracked examples/ demo predates this rule) ---
+*.mp4
+*.mov
+*.webm
+*.mkv
+out/
+renders/
+
+# --- Narration audio and its per-machine manifests (production-only data) ---
+# Narration already tracked for the bundled demo projects stays tracked;
+# new recordings and paid-voice output stay on the production machine.
+projects/*/narration/
+*.mp3
+*.wav
+*.m4a
+*.flac
+
+# --- Local caches, backups, logs, archives ---
+.cache/
+.remotion/
+*.bak
+*.tmp
 *.log
+*.zip
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# --- Editor state ---
+.vscode/
+.idea/

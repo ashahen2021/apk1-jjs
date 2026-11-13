@@ -165,15 +165,24 @@ export const synthFoley = (tl: Timeline, fps: number, seed: number): [Float32Arr
   return [L, R];
 };
 
-const addInto = (dst: [Float32Array, Float32Array], src: Pcm, atSec: number, gain: number) => {
+const FADE_OUT_SEC = 0.03;
+/**
+ * Mix `src` into `dst` starting at `atSec`. With `untilSec`, nothing is written
+ * at or after that time and the last 30 ms before it fade out, so a clip can be
+ * held inside its own scene without a click.
+ */
+const addInto = (dst: [Float32Array, Float32Array], src: Pcm, atSec: number, gain: number, untilSec?: number) => {
   const ratio = src.sr / SR;
   const a = Math.round(atSec * SR);
   const n = Math.floor(src.ch[0].length / ratio);
   const l = src.ch[0], rr = src.ch[1] ?? src.ch[0];
-  for (let i = 0; i < n && a + i < dst[0].length; i++) {
+  const stop = untilSec === undefined ? dst[0].length : Math.min(dst[0].length, Math.round(untilSec * SR));
+  const fade = Math.round(FADE_OUT_SEC * SR);
+  for (let i = Math.max(0, -a); i < n && a + i < stop; i++) {
     const x = i * ratio, i0 = Math.floor(x), fr = x - i0, i1 = Math.min(l.length - 1, i0 + 1);
-    dst[0][a + i] += (l[i0] + (l[i1] - l[i0]) * fr) * gain;
-    dst[1][a + i] += (rr[i0] + (rr[i1] - rr[i0]) * fr) * gain;
+    const g = untilSec === undefined ? gain : gain * Math.min(1, (stop - (a + i)) / fade);
+    dst[0][a + i] += (l[i0] + (l[i1] - l[i0]) * fr) * g;
+    dst[1][a + i] += (rr[i0] + (rr[i1] - rr[i0]) * fr) * g;
   }
 };
 
@@ -183,13 +192,20 @@ export const mixProject = async (project: Project, projectDir: string, tl: Timel
   const N = Math.ceil(dur * SR);
   const mix: [Float32Array, Float32Array] = [new Float32Array(N), new Float32Array(N)];
   let narrated = 0;
+  const contained: number[] = []; // scene indexes whose voice had to be held inside the scene
   for (const s of tl.scenes) {
     if (!s.narrationPath) continue;
     const pcm = await decodeAudio(s.narrationPath);
     let peak = 0; for (const v of pcm.ch[0]) peak = Math.max(peak, Math.abs(v));
     const span = speechSpan(pcm);
     // align the first spoken sample with the cue start
-    addInto(mix, pcm, s.startFrame / project.fps + VO_LEAD - span.start, (peak > 0 ? 0.82 / peak : 1) * project.audio.narrationVolume);
+    const at = s.startFrame / project.fps + VO_LEAD - span.start;
+    const sceneEnd = (s.startFrame + s.durationInFrames) / project.fps;
+    // resolveTimeline never produces a scene shorter than its voice, so this only
+    // triggers for a hand-built timeline. Speech that fits is mixed exactly as before.
+    const spills = at + span.end > sceneEnd + 1 / SR;
+    addInto(mix, pcm, at, (peak > 0 ? 0.82 / peak : 1) * project.audio.narrationVolume, spills ? sceneEnd : undefined);
+    if (spills) contained.push(s.index);
     narrated++;
   }
   const cuts = tl.scenes.slice(1).map((s) => s.startFrame / project.fps);
@@ -212,5 +228,5 @@ export const mixProject = async (project: Project, projectDir: string, tl: Timel
   let peak = 0; for (let i = 0; i < N; i++) peak = Math.max(peak, Math.abs(mix[0][i]), Math.abs(mix[1][i]));
   if (peak > 0.97) { const g = 0.97 / peak; for (let i = 0; i < N; i++) { mix[0][i] *= g; mix[1][i] *= g; } }
   writeWav(outFile, mix[0], mix[1]);
-  return { narrated, peak };
+  return { narrated, peak, contained };
 };

@@ -1,0 +1,14 @@
+{
+    "cinematicPlates":  [
+                            "royal-tomb.webp",
+                            "theban-procession.webp"
+                        ],
+    "kind":  "cinematic-shorts15",
+    "parent":  "installed Shorts15 Cinematic V2",
+    "version":  "V3",
+    "scenes":  4,
+    "sourceV2":  "C:\\neokemetai\\NeoKemetAI_Shorts15_V2_Portable_AllInOne\\Studio-Shorts15-Cinematic-V2",
+    "scope":  "New V3 templates only. Earlier V2 projects and all previous template files remain.",
+    "durationSec":  15,
+    "shots":  10
+}

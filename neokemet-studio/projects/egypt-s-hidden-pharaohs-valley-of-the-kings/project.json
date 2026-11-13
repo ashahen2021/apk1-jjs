@@ -1,0 +1,85 @@
+{
+  "version": 1,
+  "title": "Egypt’s Hidden Pharaohs | Valley of the Kings",
+  "topic": "",
+  "script": "Egypt buried its kings inside a mountain.\n\nWorkers carved long corridors deep into limestone.\n\nThey painted the underworld by lamplight.\n\nMost tombs were robbed. Tutankhamun's was found largely intact.",
+  "format": "9:16",
+  "fps": 30,
+  "subtitles": false,
+  "audio": {
+    "music": "generated",
+    "musicVolume": 0.5,
+    "musicSeed": 1881,
+    "sfx": true,
+    "sfxVolume": 0.55,
+    "narrationVolume": 1
+  },
+  "scenes": [
+    {
+      "id": "s01",
+      "template": "title",
+      "narration": "Egypt buried its kings inside a mountain.",
+      "environment": "theban-cliffs",
+      "camera": "push-in",
+      "label": "Egypt’s Hidden Pharaohs | Valley of the Kings",
+      "ambience": "auto",
+      "production": {
+        "sourceNumber": 1,
+        "sceneTitle": "A mountain for kings",
+        "chapter": "THE KINGS BENEATH THE MOUNTAIN",
+        "visual": "Hook. 9:16. Two shots: (0.0–1.5s) dramatic aerial of the Valley of the Kings and the pyramid-shaped el-Qurn mountain, bold high-contrast label \"INSIDE A MOUNTAIN\" in a reserved upper title zone; (1.5–3.0s) whip/push through a rock-cut tomb entrance, a torchlight flash revealing the dark corridor. Place labels in clear negative space, never on the main subject. Historically grounded New Kingdom landscape, cinematic sandstone detail, warm/cool lighting.",
+        "sound": "Immediate low impact at frame one, short stone-whoosh into the opening. No slow logo intro; scene transition on a sharp beat.",
+        "estimatedSeconds": 3
+      }
+    },
+    {
+      "id": "s02",
+      "template": "cutaway",
+      "narration": "Workers carved long corridors deep into limestone.",
+      "environment": "theban-cliffs",
+      "camera": "push-in",
+      "ambience": "auto",
+      "production": {
+        "sourceNumber": 2,
+        "sceneTitle": "The tunnels",
+        "chapter": "THE KINGS BENEATH THE MOUNTAIN",
+        "visual": "Three shots: (3.0–4.3s) a crew of Deir el-Medina craftsmen with copper/bronze chisels cutting rock under lamplight; (4.3–5.6s) close-up of a chisel and flying limestone dust; (5.6–7.0s) schematic tomb cutaway through limestone with a descending corridor and burial chamber, not a surveyed archaeological plan. Quick camera moves and depth parallax. On-screen label \"CUT BY HAND\" in the upper safe area; keep subtitles separate.",
+        "sound": "Rhythmic chisel taps and stone grit, subtle lamp ambience, quick cut into painted walls.",
+        "estimatedSeconds": 4
+      }
+    },
+    {
+      "id": "s03",
+      "template": "cutaway",
+      "narration": "They painted the underworld by lamplight.",
+      "environment": "open-desert",
+      "camera": "push-in",
+      "ambience": "auto",
+      "production": {
+        "sourceNumber": 3,
+        "sceneTitle": "Painting the darkness",
+        "chapter": "THE KINGS BENEATH THE MOUNTAIN",
+        "visual": "Three shots: (7.0–8.3s) Egyptian artisan carefully painting an underground tomb wall; (8.3–9.6s) close-up of vividly painted funerary figures, hieroglyphs and mineral pigment with lamplight flicker; (9.6–11.0s) camera reveals a beautifully decorated rock-cut royal passage receding into darkness. Place \"PAINTED IN DARKNESS\" in negative space above the art. Preserve historical restraint; no fantasy glyphs.",
+        "sound": "Soft brush-on-plaster, lamp flame, quick ominous drop before the reveal.",
+        "estimatedSeconds": 4
+      }
+    },
+    {
+      "id": "s04",
+      "template": "end-card",
+      "narration": "Most tombs were robbed. Tutankhamun's was found largely intact.",
+      "environment": "theban-cliffs",
+      "camera": "pull-back",
+      "label": "Egypt’s Hidden Pharaohs | Valley of the Kings",
+      "ambience": "none",
+      "production": {
+        "sourceNumber": 4,
+        "sceneTitle": "The tomb that survived",
+        "chapter": "THE KINGS BENEATH THE MOUNTAIN",
+        "visual": "Two shots: (11.0–12.6s) disturbed/robbed royal burial entrance, broken seal, no graphic violence; (12.6–15.0s) atmospheric reference to Tutankhamun's discovery with a decorated coffin and a restrained gold-lit entrance, then bold end card \"THE VALLEY OF THE KINGS\" and \"WATCH THE FULL DOCUMENTARY\" with unobscured main object and subtitle-safe separation. Do not depict Tutankhamun's tomb as completely untouched; it was found largely intact relative to other royal burials. Ensure the YouTube related-video link is set to https://youtu.be/Nw6pvULzs1c after posting.",
+        "sound": "Short stone-seal crack, silence beat, uplifting final music accent; end clearly at 15.0s.",
+        "estimatedSeconds": 4
+      }
+    }
+  ]
+}

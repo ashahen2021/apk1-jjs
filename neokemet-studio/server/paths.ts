@@ -14,6 +14,8 @@ export const WORKSPACE = path.join(ROOT, "workspace");
 export const CACHE_DIR = path.join(WORKSPACE, "cache");
 export const OUTPUT_DIR = path.join(WORKSPACE, "output");
 export const SETTINGS_FILE = path.join(WORKSPACE, "settings.json");
+/** Deleted projects are moved here (with their narration) instead of being erased. */
+export const TRASH_DIR = path.join(WORKSPACE, "trash");
 
 export const ensureDir = (d: string) => { fs.mkdirSync(d, { recursive: true }); return d; };
 
@@ -43,4 +45,10 @@ export const loadSettings = (): Settings => {
     return DEFAULT_SETTINGS;
   }
 };
-export const saveSettings = (s: Settings) => { ensureDir(WORKSPACE); fs.writeFileSync(SETTINGS_FILE, JSON.stringify(s, null, 2)); };
+/** Written via a temporary file and a rename, so a failed save cannot wipe the stored settings. */
+export const saveSettings = (s: Settings) => {
+  ensureDir(WORKSPACE);
+  const tmp = `${SETTINGS_FILE}.${process.pid}.tmp`;
+  try { fs.writeFileSync(tmp, JSON.stringify(s, null, 2)); fs.renameSync(tmp, SETTINGS_FILE); }
+  catch (e) { fs.rmSync(tmp, { force: true }); throw e; }
+};

@@ -82,6 +82,15 @@
           <span class="muted">Undo remains available in this project until you switch projects or reload. Save after reviewing.</span>
         </div>
       </div>
+      <div class="card" id="intentValidator">
+        <h4>Production Match Check</h4>
+        <p class="muted">Compare each scene's visual direction with what its template can actually draw. This is a report only: no template, parameter, narration or audio is changed.</p>
+        <div class="row">
+          <button id="btnCheckIntent">Check production match</button>
+          <span id="intentState" class="muted">Rule-based and offline — no AI credits.</span>
+        </div>
+        <div id="intentResults" class="intent-results" hidden></div>
+      </div>
       <div class="card" id="productionImporter">
         <h4>Import Production Script (.md)</h4>
         <p class="muted">Read numbered scenes with Voiceover, Visual and Sound / transition directions. Preview and validate before replacing this project's storyboard. Narration remains the only spoken text.</p>

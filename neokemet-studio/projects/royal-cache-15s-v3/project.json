@@ -1,0 +1,87 @@
+{
+  "version": 1,
+  "title": "Egypt's Hidden Pharaohs | Shorts15 Cinematic V3",
+  "topic": "15-second cinematic companion Short for https://www.youtube.com/watch?v=YIS3_xrkv4I. Historical artistic reconstruction.",
+  "script": "Egypt's greatest kings were hidden.\n\nRobbers struck. Priests rescued the royal mummies.\n\nOne secret shaft held them together.\n\nWatch the full Royal Cache.",
+  "format": "9:16",
+  "fps": 30,
+  "subtitles": false,
+  "audio": {
+    "music": "generated",
+    "musicVolume": 0.23,
+    "musicSeed": 1881,
+    "sfx": true,
+    "sfxVolume": 0.28,
+    "narrationVolume": 1
+  },
+  "scenes": [
+    {
+      "id": "s15v3-01",
+      "template": "shorts15-v3-hook",
+      "narration": "Egypt's greatest kings were hidden.",
+      "durationSec": 3,
+      "label": "WHERE IS RAMSES?",
+      "sublabel": "THE KING WHO VANISHED",
+      "narrationFile": "narration/01-s15v3-01.mp3",
+      "ambience": "auto",
+      "production": {
+        "sourceNumber": 1,
+        "sceneTitle": "The 3-second hook",
+        "chapter": "Royal Cache Shorts15 V3",
+        "visual": "Two cinematic shots: detailed Ramesses portrait with hook and torchlit secret royal coffin. Title reserved at top and burned subtitle lane at lower edge.",
+        "sound": "Immediate hit and urgency; audio events require separate SFX mixing. No paid requests."
+      }
+    },
+    {
+      "id": "s15v3-02",
+      "template": "shorts15-v3-danger",
+      "narration": "Robbers struck. Priests rescued the royal mummies.",
+      "durationSec": 5,
+      "label": "MOVED TO SAFETY",
+      "sublabel": "THE PRIESTS OF AMUN",
+      "narrationFile": "narration/02-s15v3-02.mp3",
+      "ambience": "auto",
+      "production": {
+        "sourceNumber": 2,
+        "sceneTitle": "Threat and rescue",
+        "chapter": "Royal Cache Shorts15 V3",
+        "visual": "Three distinct microshots: disturbed royal tomb, articulated priests rewrapping a royal mummy, high-fidelity Theban cliffs with procession carrying ornate royal coffin. Separate headline and subtitle safety lanes.",
+        "sound": "Stone scrape, cloth, procession wind. Current audio engine has ambient Foley only; do not claim these event cues are auto mixed."
+      }
+    },
+    {
+      "id": "s15v3-03",
+      "template": "shorts15-v3-reveal",
+      "narration": "One secret shaft held them together.",
+      "durationSec": 4,
+      "label": "INSIDE TT320",
+      "sublabel": "THE ROYAL CACHE",
+      "narrationFile": "narration/03-s15v3-03.mp3",
+      "ambience": "auto",
+      "production": {
+        "sourceNumber": 3,
+        "sceneTitle": "The secret shaft",
+        "chapter": "Royal Cache Shorts15 V3",
+        "visual": "Three reveal microshots: shaft descent, labelled cutaway of shaft and burial cache, cinematic close-up of royal coffins. Cutaway is illustrative and not a surveyed plan.",
+        "sound": "Deepening resonance, descending whoosh. Event cue timing is editorial until implemented."
+      }
+    },
+    {
+      "id": "s15v3-04",
+      "template": "shorts15-v3-cta",
+      "narration": "Watch the full Royal Cache.",
+      "durationSec": 3,
+      "label": "WATCH THE FULL FILM",
+      "sublabel": "THE ROYAL CACHE",
+      "narrationFile": "narration/04-s15v3-04.mp3",
+      "ambience": "auto",
+      "production": {
+        "sourceNumber": 4,
+        "sceneTitle": "Revelation and CTA",
+        "chapter": "Royal Cache Shorts15 V3",
+        "visual": "Two microshots: royal coffin discovered in 1881, then legible full documentary CTA with no art or subtitles covering the CTA. Select original YouTube video as native Related Video after upload.",
+        "sound": "Short final sting then stop; avoid prolonged silence."
+      }
+    }
+  ]
+}

@@ -163,6 +163,37 @@ const renderScenes = () => {
 const newId = () => { let n = project.scenes.length + 1; while (project.scenes.some((s) => s.id === "s" + String(n).padStart(2, "0"))) n++; return "s" + String(n).padStart(2, "0"); };
 
 
+// ---------- Production Match Check (report only; never edits the project) ----------
+const INTENT_NAMES = { validated: "Validated match", unsupported: "Unsupported direction", review: "Requires human review", "no-direction": "No direction to check" };
+const checkProductionIntent = async () => {
+  if (!project) return;
+  const btn = $("btnCheckIntent"), box = $("intentResults");
+  btn.disabled = true;
+  $("intentState").textContent = "Checking visual directions…";
+  try {
+    const report = await post("/api/intent/preview", { project });
+    const s = report.summary;
+    $("intentState").textContent = `${s.validated} validated · ${s.unsupported} unsupported · ${s.review} need review · ${s["no-direction"]} without direction`;
+    const order = { unsupported: 0, review: 1, validated: 2, "no-direction": 3 };
+    const rows = report.scenes.filter((x) => x.status !== "no-direction").sort((a, b) => order[a.status] - order[b.status] || a.index - b.index);
+    box.replaceChildren(
+      el("p", { class: "smart-note" }, "Nothing was changed. To act on a warning, edit that scene's template or its visual direction yourself, then check again."),
+      ...(rows.length ? rows : [{ status: "no-direction", index: 0, sceneTitle: "", message: "No scene in this project has a visual direction, so there is nothing to check." }]).map((x) =>
+        el("div", { class: "intent-row intent-" + x.status },
+          el("span", { class: "intent-badge" }, INTENT_NAMES[x.status]),
+          el("div", { class: "intent-body" },
+            x.index ? el("div", { class: "smart-choice-name" }, "Scene " + x.index + " — " + x.sceneTitle) : "",
+            el("div", { class: "smart-choice-reason" }, x.message),
+            x.soundNotPerformed && x.soundNotPerformed.length ? el("div", { class: "muted" }, "Sound note not performed by the audio engine: " + x.soundNotPerformed.join(", ")) : ""
+          )
+        )
+      )
+    );
+    box.hidden = false;
+  } catch (e) { $("intentState").textContent = ""; say(e.message || String(e)); }
+  finally { btn.disabled = false; }
+};
+
 // ---------- Smart Template Selection (review only until approval) ----------
 const smartCompareFrame = async (suggestion, mode, holder) => {
   const session = smartDraft;
@@ -355,7 +386,11 @@ const narrate = async (provider) => {
     const { job } = await post(`/api/projects/${slug}/narrate?provider=${provider}`, { project });
     const r = await runJob(job, (j) => { $("piperState").textContent = j.status === "running" ? `${j.percent}% — ${j.message}` : ""; });
     project = r.project; dirty = false; fill();
-    say(`Narration ready: ${r.made} generated, ${r.total - r.made} already up to date.`, true); $("piperState").textContent = "";
+    const notes = [];
+    if (r.reused) notes.push(`${r.reused} reused from audio already in this project`);
+    if (r.keptUnverified && r.keptUnverified.length) notes.push(`scenes ${r.keptUnverified.join(", ")} kept their existing audio (no record of its text; nothing was replaced)`);
+    if (r.voiceDiffers && r.voiceDiffers.length) notes.push(`scenes ${r.voiceDiffers.join(", ")} were recorded with a different voice or settings`);
+    say(`Narration ready: ${r.made} generated, ${r.total - r.made - (r.reused || 0)} already up to date.${notes.length ? "\n" + notes.join("; ") + "." : ""}`, true); $("piperState").textContent = "";
   } catch (e) { fail(e); $("piperState").textContent = ""; }
 };
 const loadOutputs = async () => {
@@ -480,6 +515,7 @@ const init = async () => {
     } catch (e) { $("ollamaState").textContent = ""; say(`The storyboard was not changed.\n${e.message}`); }
   };
   $("btnAddScene").onclick = () => { project.scenes.push({ id: newId(), template: "landscape", environment: "open-desert", narration: "", camera: "pan-right", ambience: "auto" }); touch(); renderScenes(); };
+  $("btnCheckIntent").onclick = checkProductionIntent;
   $("btnAnalyzeSmart").onclick = analyzeSmartSelection;
   $("btnApplySmart").onclick = applySmartSelection;
   $("btnUndoSmart").onclick = undoSmartSelection;

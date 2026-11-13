@@ -1,0 +1,48 @@
+﻿PASS  every bundled project is valid and resolves to a timeline
+PASS  Royal Cache converts to 18 preset scenes of exactly 180 s
+PASS  invalid projects are rejected with a readable message
+PASS  script planner builds a storyboard offline
+PASS  captions split at natural pauses and keep every word
+PASS  Ollama storyboard: schema export and answer validation
+PASS  Ollama client: retries once on an invalid answer (mock server)
+PASS  audio: score is deterministic; WAV round-trips; speech span is measured
+PASS  36 multi-sentence paragraphs become exactly 36 scenes, text intact
+      (36 scenes, 16.1 min estimated, scenes 24–29 s)
+PASS  the complete 36-scene project validates; scene lengths follow the narration
+PASS  too many paragraphs, or an empty script, fail cleanly with a useful message
+PASS  a single long paragraph stays one scene
+PASS  production Markdown imports 36 complete numbered scenes with stage cues intact
+PASS  production import rejects missing narration and more than 40 scenes
+PASS  documentary templates: catalog, defaults and parameter validation
+PASS  production importer maps directions to the documentary templates
+PASS  eight original Royal Cache presets expose safe, editable reuse controls
+PASS  Royal Cache reusable shot matching is deliberate and never narration-only
+PASS  Smart Template Selection is a read-only, conservative review
+PASS  Smart approval changes only approved template/params; protects audio and rejects stale IDs
+PASS  Smart Template Selection UI has real controls and parseable JavaScript
+
+21 checks passed.
+PASS  every bundled project still matches its recorded baseline exactly
+PASS  Royal Cache documentary: 36 scenes in order, 23,522 frames (784.07 s), every voice measured
+PASS  a manual duration is honoured when the voice fits, and can never truncate recorded narration
+PASS  resolveTimeline lengthens a too-short manual scene and says so; a generous one is untouched
+PASS  an estimated narration never changes a manual duration; its subtitles are compressed, not broken
+PASS  narration cannot leak into the next scene, even from a hand-built unsafe timeline
+PASS  subtitle cues are always displayable: invalid timing is detected and resolved
+PASS  saving is atomic and keeps the previous version
+PASS  an interrupted or failed save leaves the project exactly as it was
+PASS  a damaged project file can be recovered from the previous version
+PASS  uploads and new takes can never land on an existing file name
+PASS  capability vocabulary is small, complete and safe to match with
+PASS  the three outcomes are distinct: validated match, unsupported direction, requires human review
+PASS  Royal Cache scenes 23, 30 and 31 are flagged with a concrete, actionable alternative
+PASS  projects without production notes are unaffected by the validator
+PASS  the Production Match Check is wired into the UI and server as a read-only report
+PASS  narration identity covers text, voice, model and settings — and nothing private
+PASS  existing narration is recognised as-is: no regeneration, no file touched, no manifest required
+PASS  narration is reused across reordering, renumbering and spacing edits; old takes are never overwritten
+PASS  paid narration is blocked outright when NEOKEMET_NO_PAID=1, before any request
+PASS  no bundled project file was created, moved, renamed, replaced or rewritten by any check
+
+21 checks passed.
+test exit 0

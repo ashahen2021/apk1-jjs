@@ -5,7 +5,7 @@
   "script": "On the Giza plateau, west of the Nile, stands the last surviving wonder of the ancient world.\n\nIt was built for King Khufu of the Fourth Dynasty, more than four thousand five hundred years ago.\n\nFine white limestone for its casing was quarried at Tura and carried across the Nile by boat.\n\nPapyrus logbooks found at Wadi al-Jarf record one crew's journeys with that stone.\n\nEvidence from a workers' town nearby suggests the builders were organised labourers who were housed and fed, not slaves.\n\nCrews hauled an estimated two million blocks into place, course upon course.\n\nDeep inside, narrow passages lead to the King's Chamber and its granite sarcophagus.\n\nWhen it was finished, it rose about one hundred and forty-six metres, and for nearly four thousand years nothing built by human hands stood taller.",
   "format": "9:16",
   "fps": 30,
-  "subtitles": true,
+  "subtitles": false,
   "audio": {
     "music": "generated",
     "musicVolume": 0.5,
@@ -23,8 +23,8 @@
       "camera": "push-in",
       "label": "The Great Pyramid",
       "sublabel": "Giza · Fourth Dynasty",
-      "ambience": "auto",
-      "narrationFile": "narration/01-s01.wav"
+      "narrationFile": "narration/01-s01.wav",
+      "ambience": "auto"
     },
     {
       "id": "s02",
@@ -47,8 +47,8 @@
       ],
       "camera": "pan-right",
       "label": "King Khufu",
-      "ambience": "auto",
-      "narrationFile": "narration/02-s02.wav"
+      "narrationFile": "narration/02-s02.wav",
+      "ambience": "auto"
     },
     {
       "id": "s03",
@@ -56,8 +56,8 @@
       "narration": "Fine white limestone for its casing was quarried at Tura and carried across the Nile by boat.",
       "label": "The casing stone",
       "sublabel": "Tura | The Nile | Giza",
-      "ambience": "auto",
-      "narrationFile": "narration/03-s03.wav"
+      "narrationFile": "narration/03-s03.wav",
+      "ambience": "auto"
     },
     {
       "id": "s04",
@@ -66,8 +66,8 @@
       "label": "Wadi al-Jarf",
       "sublabel": "Papyrus logbooks",
       "prop": "papyrus",
-      "ambience": "auto",
-      "narrationFile": "narration/04-s04.wav"
+      "narrationFile": "narration/04-s04.wav",
+      "ambience": "auto"
     },
     {
       "id": "s05",
@@ -90,8 +90,8 @@
       ],
       "camera": "pan-left",
       "label": "The workers' town",
-      "ambience": "auto",
-      "narrationFile": "narration/05-s05.wav"
+      "narrationFile": "narration/05-s05.wav",
+      "ambience": "auto"
     },
     {
       "id": "s06",
@@ -117,18 +117,19 @@
         }
       ],
       "camera": "push-in",
-      "ambience": "auto",
-      "narrationFile": "narration/06-s06.wav"
+      "narrationFile": "narration/06-s06.wav",
+      "ambience": "auto"
     },
     {
       "id": "s07",
       "template": "landscape",
       "narration": "Deep inside, narrow passages lead to the King's Chamber and its granite sarcophagus.",
       "environment": "giza-pyramids",
+      "cast": [],
       "camera": "rise",
       "label": "The King's Chamber",
-      "ambience": "auto",
-      "narrationFile": "narration/07-s07.wav"
+      "narrationFile": "narration/07-s07.wav",
+      "ambience": "auto"
     },
     {
       "id": "s08",
@@ -137,8 +138,8 @@
       "environment": "giza-pyramids",
       "label": "Built to last",
       "sublabel": "Demonstration film · NeoKemetAI Animation Studio",
-      "ambience": "auto",
-      "narrationFile": "narration/08-s08.wav"
+      "narrationFile": "narration/08-s08.wav",
+      "ambience": "auto"
     }
   ]
 }

@@ -17,6 +17,9 @@ import type { TemplateProps } from "./common";
 import { CutawayTemplate } from "./Cutaway";
 import { PriestsRewrappingTemplate, RoyalPharaohsTemplate, TombRobberyTemplate } from "./Documentary";
 import { ArtifactTemplate, EndCardTemplate, MapTemplate, TombInteriorTemplate } from "./Special";
+import { CinematicRoyalReveal, CinematicTT320 } from "./CinematicPilot";
+import { Shorts15V3Hook, Shorts15V3Danger, Shorts15V3Reveal, Shorts15V3CTA } from "./Shorts15V3";
+import { Shorts15Hook, Shorts15Danger, Shorts15Reveal, Shorts15CTA } from "./Shorts15Cinematic";
 import { ReusableRoyalCacheShot } from "./RoyalCacheReusable";
 
 type Entry = { Component: React.FC<TemplateProps> | React.FC; bg?: string; preset?: boolean };
@@ -42,6 +45,17 @@ export const REGISTRY: Record<TemplateId, Entry> = {
   "royal-pharaohs": { Component: RoyalPharaohsTemplate },
   "tomb-robbery": { Component: TombRobberyTemplate },
   "priests-rewrapping": { Component: PriestsRewrappingTemplate },
+  "cinematic-royal-reveal": { Component: CinematicRoyalReveal, bg: C.night },
+  "cinematic-tt320": { Component: CinematicTT320, bg: C.night },
+  "shorts15-v3-hook": { Component: Shorts15V3Hook, bg: C.night },
+  "shorts15-v3-danger": { Component: Shorts15V3Danger, bg: C.night },
+  "shorts15-v3-reveal": { Component: Shorts15V3Reveal, bg: C.night },
+  "shorts15-v3-cta": { Component: Shorts15V3CTA, bg: C.night },
+  "shorts15-hook": { Component: Shorts15Hook, bg: C.night },
+  "shorts15-danger": { Component: Shorts15Danger, bg: C.night },
+  "shorts15-reveal": { Component: Shorts15Reveal, bg: C.night },
+  "shorts15-cta": { Component: Shorts15CTA, bg: C.night },
+
   "rc-01": { Component: Scene01Secret, preset: true },
   "rc-02": { Component: Scene02Looted, preset: true },
   "rc-03": { Component: Scene03Priests, preset: true },
