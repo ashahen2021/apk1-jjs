@@ -139,7 +139,8 @@ export const renderProject = async (project: Project, projectDir: string, onProg
   // a single-scene export is timed from zero
   const subTl: Timeline = only === undefined ? tl : { ...tl, scenes: picked.map((s) => ({ ...s, startFrame: 0 })), totalFrames: frames };
   const wav = path.join(work, `${tag}-mix.wav`);
-  const { narrated } = await mixProject(project, projectDir, subTl, wav);
+  const { narrated, contained } = await mixProject(project, projectDir, subTl, wav);
+  const mixWarnings = contained.map((i) => `Scene ${i + 1}: the narration was longer than the scene and was faded out at the scene end so it does not play over the next scene.`);
 
   onProgress?.({ stage: "mux", message: "Writing MP4…", percent: 97 });
   const name = `${slugify(project.title)}-${project.format.replace(":", "x")}${only === undefined ? "" : `-scene${String(only + 1).padStart(2, "0")}`}.mp4`;
@@ -147,7 +148,7 @@ export const renderProject = async (project: Project, projectDir: string, onProg
   await ffmpeg(["-v", "error", "-i", video, "-i", wav, "-map", "0:v", "-map", "1:a", "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-shortest", "-movflags", "+faststart", out]);
   fs.rmSync(video, { force: true }); fs.rmSync(wav, { force: true }); fs.rmSync(list, { force: true });
   onProgress?.({ stage: "done", message: `Finished: ${name}`, percent: 100 });
-  return { file: out, seconds: frames / project.fps, frames, ...FORMATS[project.format], fps: project.fps, scenes: picked.length, rendered, reused, narrated, warnings: tl.warnings, tookSec: (Date.now() - t0) / 1000 };
+  return { file: out, seconds: frames / project.fps, frames, ...FORMATS[project.format], fps: project.fps, scenes: picked.length, rendered, reused, narrated, warnings: [...tl.warnings, ...mixWarnings], tookSec: (Date.now() - t0) / 1000 };
 };
 
 /** Independent check of an exported file. */
