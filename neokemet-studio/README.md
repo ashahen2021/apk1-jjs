@@ -9,6 +9,12 @@ storyboard, add narration, and export an MP4 — all on your own PC.
 - Offline narration with Piper. Optional local script/storyboard generation with Ollama.
 - Output: 9:16 (1080×1920), 16:9 (1920×1080) or 1:1 (1080×1080), 24–60 fps. Short films or long documentaries: up to 40 scenes of any length.
 
+## Working from GitHub on several computers
+
+Development of Cinematic V3 and later happens in Git. For cloning, installing, the daily
+pull/push routine, and the list of files that deliberately stay off GitHub (credentials,
+`workspace\`, rendered video, narration audio), see **[SETUP-WINDOWS.md](SETUP-WINDOWS.md)**.
+
 ## Install (Windows)
 
 1. Install **Node.js LTS** (version 18 or newer) from https://nodejs.org.
