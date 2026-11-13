@@ -1,0 +1,85 @@
+﻿OK  "The Royal Cache — Full Documentary" — 36 scenes, 784.07 s, 16:9 @ 30 fps
+   1  title            24.90 s  voice 23.50 s (measured)  10 cues
+   2  royal-pharaohs   19.77 s  voice 18.38 s (measured)  9 cues
+   3  tomb-interior    19.53 s  voice 18.13 s (measured)  10 cues
+   4  cutaway          21.07 s  voice 19.68 s (measured)  9 cues
+   5  priests-rewrapping  21.23 s  voice 19.83 s (measured)  10 cues
+   6  priests-rewrapping  20.67 s  voice 19.26 s (measured)  9 cues
+   7  priests-rewrapping  22.17 s  voice 20.77 s (measured)  11 cues
+   8  tomb-robbery     20.37 s  voice 18.97 s (measured)  10 cues
+   9  coffin-chamber   20.77 s  voice 19.36 s (measured)  10 cues
+  10  rc-07            21.00 s  voice 19.60 s (measured)  11 cues
+  11  rc-08            19.53 s  voice 18.14 s (measured)  10 cues
+  12  tomb-interior    20.60 s  voice 19.22 s (measured)  11 cues
+  13  tomb-interior    25.27 s  voice 23.87 s (measured)  11 cues
+  14  cutaway          23.50 s  voice 22.10 s (measured)  11 cues
+  15  landscape        19.20 s  voice 17.79 s (measured)  9 cues
+  16  rc-12            20.47 s  voice 19.06 s (measured)  12 cues
+  17  rc-14            25.83 s  voice 24.45 s (measured)  10 cues
+  18  artifact         20.97 s  voice 19.57 s (measured)  11 cues
+  19  tomb-interior    22.00 s  voice 20.61 s (measured)  11 cues
+  20  rc-15            21.40 s  voice 19.99 s (measured)  10 cues
+  21  tomb-interior    23.60 s  voice 22.19 s (measured)  10 cues
+  22  tomb-interior    23.87 s  voice 22.46 s (measured)  10 cues
+  23  cutaway          19.60 s  voice 18.20 s (measured)  10 cues
+  24  tomb-interior    20.73 s  voice 19.32 s (measured)  11 cues
+  25  landscape        20.73 s  voice 19.33 s (measured)  11 cues
+  26  priests-rewrapping  23.27 s  voice 21.87 s (measured)  12 cues
+  27  map              19.93 s  voice 18.53 s (measured)  9 cues
+  28  cutaway          24.03 s  voice 22.63 s (measured)  10 cues
+  29  coffin-chamber   22.90 s  voice 21.49 s (measured)  10 cues
+  30  coffin-chamber   20.93 s  voice 19.54 s (measured)  9 cues
+  31  rc-08            21.90 s  voice 20.50 s (measured)  11 cues
+  32  characters       23.07 s  voice 21.68 s (measured)  12 cues
+  33  artifact         21.77 s  voice 20.38 s (measured)  10 cues
+  34  cutaway          20.80 s  voice 19.41 s (measured)  10 cues
+  35  cutaway          22.47 s  voice 21.07 s (measured)  11 cues
+  36  end-card         24.23 s  voice 22.83 s (measured)  12 cues
+exit 0
+UNCHANGED  "the-royal-cache-full-documentary" — 36 scenes, 23522 frames, 72 narration files all identical to the baseline
+exit 0
+
+OK  "The Royal Cache" — 18 scenes, 180.00 s, 9:16 @ 30 fps
+   1  rc-01            10.00 s  voice 6.94 s (measured)  4 cues
+   2  rc-02            10.00 s  voice 7.37 s (measured)  4 cues
+   3  rc-03            10.00 s  voice 5.81 s (measured)  3 cues
+   4  rc-04            10.00 s  voice 6.51 s (measured)  4 cues
+   5  rc-05            10.00 s  voice 6.79 s (measured)  3 cues
+   6  rc-06            10.00 s  voice 6.55 s (measured)  4 cues
+   7  rc-07            10.00 s  voice 7.15 s (measured)  3 cues
+   8  rc-08            10.00 s  voice 7.84 s (measured)  4 cues
+   9  rc-09            10.00 s  voice 8.38 s (measured)  4 cues
+  10  rc-10            10.00 s  voice 6.74 s (measured)  4 cues
+  11  rc-11            10.00 s  voice 5.73 s (measured)  3 cues
+  12  rc-12            10.00 s  voice 6.98 s (measured)  3 cues
+  13  rc-13            10.00 s  voice 7.45 s (measured)  4 cues
+  14  rc-14            10.00 s  voice 8.38 s (measured)  5 cues
+  15  rc-15            10.00 s  voice 7.76 s (measured)  4 cues
+  16  rc-16            10.00 s  voice 7.85 s (measured)  5 cues
+  17  rc-17            10.00 s  voice 8.34 s (measured)  4 cues
+  18  rc-18            10.00 s  voice 8.15 s (measured)  5 cues
+exit 0
+UNCHANGED  "royal-cache" — 18 scenes, 5400 frames, 18 narration files all identical to the baseline
+exit 0
+
+OK  "The Great Pyramid" — 8 scenes, 64.97 s, 9:16 @ 30 fps
+   1  title             7.63 s  voice 6.23 s (measured)  3 cues
+   2  characters        7.77 s  voice 6.35 s (measured)  4 cues
+   3  map               7.73 s  voice 6.34 s (measured)  3 cues
+   4  artifact          7.20 s  voice 5.81 s (measured)  2 cues
+   5  landscape         9.40 s  voice 7.99 s (measured)  4 cues
+   6  characters        6.57 s  voice 5.17 s (measured)  3 cues
+   7  landscape         7.20 s  voice 5.79 s (measured)  3 cues
+   8  end-card         11.47 s  voice 10.08 s (measured)  5 cues
+exit 0
+UNCHANGED  "demo-great-pyramid" — 8 scenes, 1949 frames, 16 narration files all identical to the baseline
+exit 0
+
+OK  "Template Library — Phase 1" — 3 scenes, 26.43 s, 9:16 @ 30 fps
+   1  royal-pharaohs    8.97 s  voice 7.56 s (estimate)  3 cues
+   2  tomb-robbery      9.83 s  voice 8.44 s (estimate)  4 cues
+   3  priests-rewrapping   7.63 s  voice 6.22 s (estimate)  3 cues
+exit 0
+UNCHANGED  "demo-template-library" — 3 scenes, 793 frames, 0 narration files all identical to the baseline
+exit 0
+
