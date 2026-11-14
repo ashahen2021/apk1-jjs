@@ -114,7 +114,7 @@ export const TombCameraPush:React.FC<{frame:number;duration:number;children:Reac
  const alpha=Math.min(1,Math.max(0,frame/Math.max(1,duration-1)));
  const amount=Math.min(T.pacing.pushInMax,Math.max(T.pacing.pushInMin,strength));
  const scale=1+alpha*amount;
- return <g transform={"translate(540 920) scale("+scale.toFixed(5)+") translate(-540 -920)"}>{children}</g>;
+ return <g transform={"translate(540 "+T.composition.groundLineY+") scale("+scale.toFixed(5)+") translate(-540 -"+T.composition.groundLineY+")"}>{children}</g>;
 };
 export const TombSceneTitle:React.FC<{title:string;mode:PaintMode;visible?:boolean}> = ({title,mode,visible=true})=>{
  if(!visible || !title.trim())return null;
@@ -130,7 +130,7 @@ export const TombSceneTitle:React.FC<{title:string;mode:PaintMode;visible?:boole
    else line2.push(word);
  }
  const lines=line2.length?[line1.join(" "),line2.join(" ")]:[text];
- const labelFont=Math.min(size,T.typography.labelMaxWidth/(Math.max(1,...lines.map(l=>l.length))*.6));
+ const labelFont=Math.max(T.typography.titleMinSize,Math.min(size,T.typography.labelMaxWidth/(Math.max(1,...lines.map(l=>l.length))*.6)));
  const baseline=lines.length===1?T.typography.titleBaseline:T.typography.titleBaseline-40;
  return <g data-layout="title-band" data-safe-zone="1250-1450">
    <rect x="0" y={T.typography.bandTop} width={T.width} height={T.typography.bandBottom-T.typography.bandTop} fill={P.carbonBlack}/>
