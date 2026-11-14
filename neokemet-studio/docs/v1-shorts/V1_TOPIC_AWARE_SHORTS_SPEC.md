@@ -1,6 +1,6 @@
 # NeoKemetAI V1 — Topic-Aware Shorts (15–30 s)
 
-Status: **implementation specification**. This document does NOT claim that the features below are implemented.
+Status: **beta implementation for three subject domains**. The opt-in planner, 15 original SVG illustrations, 15/30-second editor controls, hooks, and caption selection are implemented and have passed code + visual smoke tests. The broader universal art library and full editorial QA below remain future work.
 Working branch: `feature/v1-topic-aware-shorts`, based on `develop/neokemetai-v3.1`.
 Purpose: preserve V1's approachable, expressive, flat illustrated SVG art; stop repeating unrelated generic drawings for unrelated subjects.
 
