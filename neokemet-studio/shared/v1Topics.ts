@@ -136,7 +136,8 @@ export const conformV1VisualCadence = (
     if(scene.template!=="v1-topic-short"){
       out.push(scene);current+=seconds;continue;
     }
-    const target=Math.max(1,Math.round(seconds/2.5));
+    const target=Math.max(1,Math.min(8,Math.round(seconds/2.5)));
+    if(seconds/target>3.05)warnings.push(`Scene ${i+1}: a ${seconds.toFixed(1)}s narration exceeds the 8-shot safe V1 limit; shorten or split the scene.`);
     if(scene.artShots?.length){
       const n=Math.min(scene.artShots.length,target);
       if(seconds/n>3.05)warnings.push(`Scene ${i+1}: approved Visual Lab art has only ${n} unique shots for ${seconds.toFixed(1)} seconds. Add more art for 2–3-second cuts.`);
@@ -164,7 +165,7 @@ export const conformV1VisualCadence = (
         // Cycle the named candidates so each new beat begins with a new drawing.
         available.splice(available.indexOf(chosen),1);available.push(chosen);
       }else{
-        const missing=`missing-art-scene-${i+1}-beat-${k+1}`;
+        const missing=`art${i+1}b${k+1}`;
         selected.push(missing);
         history.push({id:missing,sec:at});
         warnings.push(`Scene ${i+1}: the art library cannot supply enough unique 2–3s beats; create an original illustration in Visual Lab.`);
