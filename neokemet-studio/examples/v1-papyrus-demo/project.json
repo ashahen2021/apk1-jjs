@@ -1,0 +1,80 @@
+{
+  "version": 1,
+  "title": "How Egyptians Made Papyrus | V1 Illustrated Short",
+  "topic": "V1 illustrative Shorts acceptance demo (offline)",
+  "script": "How did a Nile plant become ancient Egypt's writing material?\n\nWorkers harvested papyrus reeds and stripped away their outer layers.\n\nThey laid the soft pith strips across each other in two directions.\n\nHeavy presses flattened the layers into sheets that could dry.\n\nFinally, scribes wrote their records on the finished papyrus.",
+  "format": "9:16",
+  "fps": 30,
+  "subtitles": true,
+  "audio": {
+    "music": "generated",
+    "musicVolume": 0.4,
+    "musicSeed": 1881,
+    "sfx": true,
+    "sfxVolume": 0.4,
+    "narrationVolume": 1
+  },
+  "scenes": [
+    {
+      "id": "s01",
+      "template": "v1-topic-short",
+      "narration": "How did a Nile plant become ancient Egypt's writing material?",
+      "durationSec": 6,
+      "label": "How Egyptians Made Papyrus | V1 Illustrated Short",
+      "params": {
+        "topic": "papyrus",
+        "shots": "reeds,strip,layer,press",
+        "hook": true
+      },
+      "ambience": "auto"
+    },
+    {
+      "id": "s02",
+      "template": "v1-topic-short",
+      "narration": "Workers harvested papyrus reeds and stripped away their outer layers.",
+      "durationSec": 6,
+      "params": {
+        "topic": "papyrus",
+        "shots": "strip,reeds,press,scribe",
+        "hook": false
+      },
+      "ambience": "auto"
+    },
+    {
+      "id": "s03",
+      "template": "v1-topic-short",
+      "narration": "They laid the soft pith strips across each other in two directions.",
+      "durationSec": 6,
+      "params": {
+        "topic": "papyrus",
+        "shots": "layer,strip,press,scribe",
+        "hook": false
+      },
+      "ambience": "auto"
+    },
+    {
+      "id": "s04",
+      "template": "v1-topic-short",
+      "narration": "Heavy presses flattened the layers into sheets that could dry.",
+      "durationSec": 6,
+      "params": {
+        "topic": "papyrus",
+        "shots": "press,layer,reeds,scribe",
+        "hook": false
+      },
+      "ambience": "auto"
+    },
+    {
+      "id": "s05",
+      "template": "v1-topic-short",
+      "narration": "Finally, scribes wrote their records on the finished papyrus.",
+      "durationSec": 6,
+      "params": {
+        "topic": "papyrus",
+        "shots": "scribe,press,layer,reeds",
+        "hook": false
+      },
+      "ambience": "auto"
+    }
+  ]
+}
