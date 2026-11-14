@@ -4,6 +4,7 @@ import React from "react";
 import { useClock } from "../components/AnimatedScene";
 import { C } from "../lib/theme";
 import type { TemplateProps } from "./common";
+import { V1LabShots } from "./V1LabShots";
 
 type ArtProps = { t: number; f: number; seed: number };
 const tr = (v: number) => Math.max(0, Math.min(1, v));
@@ -139,6 +140,7 @@ const LABELS: Record<string,string> = {
 
 export const V1TopicShortTemplate: React.FC<TemplateProps> = ({scene,seed}) => {
   const {f,D} = useClock();
+  if (scene.artShots?.length) return <V1LabShots shots={scene.artShots} frame={f} duration={D}/>;
   const shots = String(scene.params?.shots ?? "").split(",").map(x=>x.trim()).filter(Boolean);
   const n = Math.max(1,shots.length);
   const pos = tr(f/Math.max(1,D)) * n;

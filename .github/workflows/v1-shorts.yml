@@ -2,7 +2,7 @@ name: V1 illustrated Shorts checks
 
 on:
   push:
-    branches: [feature/v1-topic-aware-shorts]
+    branches: [feature/v1-topic-aware-shorts, feature/v1-visual-development-lab]
   pull_request:
     paths:
       - "neokemet-studio/**"
@@ -30,6 +30,16 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npx tsx server/selftest-v1.ts
+      - run: npx tsx server/selftest-visual-lab.ts
+      - name: Render four original pyramid ramp shots in Remotion
+        run: npx tsx scripts/visual-lab-render-smoke.ts
+      - name: Keep ramp visual proof
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v1-visual-development-ramp-previews
+          path: neokemet-studio/workspace/visual-lab-smoke/*.png
+          if-no-files-found: ignore
       - name: Render SVG visual smoke previews
         run: node scripts/v1-visual-smoke.mjs
       - name: Keep V1 visual preview images

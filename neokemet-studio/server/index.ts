@@ -7,6 +7,8 @@ import { CATALOG } from "../shared/catalog.ts";
 import { validateIntent } from "../shared/intent.ts";
 import { parseProductionMarkdown } from "../shared/production.ts";
 import { planV1Short } from "../shared/v1Topics.ts";
+import { analyzeVisualLab, proposeOfflineRampArt } from "../shared/visualLab.ts";
+import { generateOllamaArt } from "./visual-lab-ai.ts";
 import { applySmartTemplates, suggestSmartTemplates } from "../shared/smart-selection.ts";
 import type { Project } from "../shared/schema.ts";
 import { slugify } from "../shared/timing.ts";
@@ -115,6 +117,28 @@ const handle = async (req: http.IncomingMessage, res: http.ServerResponse) => {
     // Validate every scene against the same project schema used for saving/rendering.
     const validated = parseProject({ title: String(input.title || "Untitled"), scenes: candidate.scenes });
     return json(res, { ...candidate, suggestedFormat: input.mode === "v1-topic-short" ? "9:16" : candidate.suggestedFormat, scenes: validated.scenes });
+  }
+  // Visual Lab runs only after an explicit click. Analysis and generation are proposals:
+  // no project files, old scenes or narration are touched until the user applies + saves.
+  if(p === "/api/visual-lab/analyze" && m === "POST"){
+    const input=JSON.parse((await body(req,5_000_000)).toString()||"{}");
+    return json(res,analyzeVisualLab(parseProject(input.project)));
+  }
+  if(p === "/api/visual-lab/generate" && m === "POST"){
+    const input=JSON.parse((await body(req,5_000_000)).toString()||"{}");
+    const candidate=parseProject(input.project);
+    if(!["offline","ollama"].includes(input.mode))throw new Error("Choose Offline Ramp or Local Ollama.");
+    const selected=input.mode as "offline"|"ollama";
+    const job=startJob("visual-lab",async(update)=>{
+      update(selected==="offline"?"Drawing new ramp illustrations locally…":"Asking local Ollama for editable geometry…",15);
+      const illustrated=selected==="offline"
+        ? proposeOfflineRampArt(candidate)
+        : await generateOllamaArt(candidate,loadSettings().ollamaUrl,loadSettings().ollamaModel);
+      update("Validating every proposed shot and matching scene IDs…",90);
+      if(JSON.stringify(illustrated.scenes.map(s=>s.id))!==JSON.stringify(candidate.scenes.map(s=>s.id)))throw new Error("Illustration and scene IDs do not match.");
+      return {proposals:illustrated.scenes,mode:selected,scenes:illustrated.scenes.length};
+    });
+    return json(res,{job:job.id});
   }
   // The smart selector is a dry run until a user explicitly approves scene IDs.
   // Neither route writes to disk, starts narration nor renders a video.
