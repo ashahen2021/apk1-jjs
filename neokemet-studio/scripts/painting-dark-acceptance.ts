@@ -57,7 +57,7 @@ try{
  }
  const args:string[]=[];
  for(const sample of samples)args.push("-i",path.join(framesDir,sample.file));
- const filters=samples.map((_,i)=>"["+i+":v]scale=540:960:flags=lanczos,setsar=1[v"+i+"]");
+ const filters=samples.map((_,i)=>"["+i+":v]scale=540:960[v"+i+"]");
  filters.push(samples.map((_,i)=>"[v"+i+"]").join("")+
    "xstack=inputs=8:layout=0_0|540_0|1080_0|1620_0|0_960|540_960|1080_960|1620_960:fill=black[out]");
  const sheet=path.join(out,"painting-the-dark-contact-sheet.png");
