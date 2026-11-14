@@ -13,7 +13,8 @@ const proj=JSON.parse(fs.readFileSync(file,"utf8"));
 const expected=["shorts15-v3-hook","shorts15-v3-danger","shorts15-v3-reveal","shorts15-v3-cta"];
 const durations=[3,5,4,3], shotCount=[2,3,3,2];
 if(proj.format!=="9:16"||proj.fps!==30)errors.push("Project must render at 9:16, 30 fps");
-if(proj.subtitles!==true)errors.push("Subtitles must be enabled");
+// Burned captions are a per-project production choice; the reserved caption lane is checked either way.
+if(proj.subtitles!==true)warnings.push("Burned captions are OFF for this project (subtitles is false). Turn Subtitles on in the Project tab if this Short should show them.");
 if(!Array.isArray(proj.scenes)||proj.scenes.length!==4)errors.push("Project must have 4 scenes");
 let total=0;const ids=new Set();
 for(let i=0;i<(proj.scenes||[]).length;i++){
@@ -26,7 +27,12 @@ for(let i=0;i<(proj.scenes||[]).length;i++){
  const words=s.narration?.trim().split(/\s+/).length||0;
  // Conservative estimate only; actual audio must be measured separately.
  if(words/135*60+.65>durations[i])warnings.push(`Scene ${i+1}: spoken pacing may overflow ${durations[i]}s; record, run validate and adjust before export.`);
- if(s.narrationFile&&!fs.existsSync(path.resolve(path.dirname(file),s.narrationFile)))errors.push(`Scene ${i+1}: missing audio file`);
+ // Narration audio is private and is not in Git. A project with no narration/ folder at all is a
+ // fresh clone: warn. A narration/ folder that exists but lacks a referenced file is a real error.
+ if(s.narrationFile&&!fs.existsSync(path.resolve(path.dirname(file),s.narrationFile))){
+  if(fs.existsSync(path.join(path.dirname(file),"narration")))errors.push(`Scene ${i+1}: missing audio file`);
+  else warnings.push(`Scene ${i+1}: narration audio is not on this computer (private, not in Git); timing uses estimates until it is copied or re-recorded.`);
+ }
 }
 if(total!==15)errors.push(`Expected 15.00s, got ${total}`);
 if(!proj.topic?.includes("YIS3_xrkv4I"))warnings.push("Related full documentary URL missing from topic");

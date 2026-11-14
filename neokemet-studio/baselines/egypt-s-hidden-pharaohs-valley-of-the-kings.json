@@ -1,0 +1,82 @@
+{
+  "schema": 1,
+  "slug": "egypt-s-hidden-pharaohs-valley-of-the-kings",
+  "projectFileSha256": "3accd1be1b1fb0b2dc06c7d3527460941aec2662e02459399f148a226c0025af",
+  "title": "Egypt’s Hidden Pharaohs | Valley of the Kings",
+  "format": "9:16",
+  "fps": 30,
+  "subtitles": false,
+  "audio": {
+    "music": "generated",
+    "musicVolume": 0.5,
+    "musicSeed": 1881,
+    "sfx": true,
+    "sfxVolume": 0.55,
+    "narrationVolume": 1
+  },
+  "sceneCount": 4,
+  "totalFrames": 554,
+  "seconds": 18.4667,
+  "scenes": [
+    {
+      "n": 1,
+      "id": "s01",
+      "template": "title",
+      "startFrame": 0,
+      "durationInFrames": 135,
+      "narrationSec": 3.1111,
+      "measured": false,
+      "cueCount": 1,
+      "cuesSha256": "364d27cdbd22f671a1d9befbfaf346e85eeb732881d6c57551bac8113ba8c491",
+      "renderInputSha256": "faafa10bd9a29684c6fe3ad5ccf43f3dd7b2e707a69c8887ebf235afacad1b96",
+      "narrationSha256": "7cda1c06a62e35f979ce3a4cf3cb049890f1e28139f843ec9d4223164079602d",
+      "narrationFile": null
+    },
+    {
+      "n": 2,
+      "id": "s02",
+      "template": "cutaway",
+      "startFrame": 135,
+      "durationInFrames": 135,
+      "narrationSec": 3.1111,
+      "measured": false,
+      "cueCount": 2,
+      "cuesSha256": "bafad1ee9377acfa27377ea08917006be69c6d02e66f88a83f8d1f774665a485",
+      "renderInputSha256": "2ea0e739b6541edd41f6bb22a00c5854cb3805b361b7453e8808f4c4ea335918",
+      "narrationSha256": "e33f7d1acc2cc4c8345b94da29a9261fb4e5b62e8c7d170116e613ba8bcb1670",
+      "narrationFile": null
+    },
+    {
+      "n": 3,
+      "id": "s03",
+      "template": "cutaway",
+      "startFrame": 270,
+      "durationInFrames": 122,
+      "narrationSec": 2.6667,
+      "measured": false,
+      "cueCount": 1,
+      "cuesSha256": "b29b87010cb6cba51438fcfd4fa170e86e4e4b05a7f88d880a8aa60b4833832a",
+      "renderInputSha256": "d8f5948c06a87f5513c675489cb199038fe6070a547aac2e7dc3576bd531119e",
+      "narrationSha256": "2387bd1a4095a667f2a5df4dc12c70c3d9118017aec762acb9be7ac1d115f23b",
+      "narrationFile": null
+    },
+    {
+      "n": 4,
+      "id": "s04",
+      "template": "end-card",
+      "startFrame": 392,
+      "durationInFrames": 162,
+      "narrationSec": 4,
+      "measured": false,
+      "cueCount": 2,
+      "cuesSha256": "8d36a64391e35223489b543b6c9358c7071c3185038c982762661be537ad64e4",
+      "renderInputSha256": "0312d756b35e8b987bd3db4841509116ce0c3213c841eb0102474a97f43ffc3f",
+      "narrationSha256": "d3b16011c017e44e1c6ff1e4ac20192df43b8afa7f15c5216f333d0f9d45feef",
+      "narrationFile": null
+    }
+  ],
+  "narrationFiles": [],
+  "warnings": [
+    "Film length is only 18.5 s."
+  ]
+}

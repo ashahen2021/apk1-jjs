@@ -23,6 +23,8 @@ import { elevenLabsSynthesize } from "./tts.ts";
 
 let n = 0;
 const test = async (name: string, fn: () => unknown) => { await fn(); n++; console.log("PASS  " + name); };
+let skipped = 0;
+const skip = (name: string, why: string) => { skipped++; console.log("SKIP  " + name + " — " + why); };
 
 // Any attempt to leave this machine during the tests is a failure.
 const realFetch = globalThis.fetch;
@@ -37,6 +39,10 @@ globalThis.fetch = ((input: RequestInfo | URL, init?: RequestInit) => {
 const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), "nk-phase3-"));
 const tmp = (name: string) => { const d = path.join(tmpRoot, name); fs.mkdirSync(d, { recursive: true }); return d; };
 const FULL = "the-royal-cache-full-documentary";
+// The 36-scene film and its voice files are private production data that are not in Git.
+// Checks that read it run wherever it is present and are reported as skipped elsewhere.
+const hasFull = fs.existsSync(path.join(PROJECTS_DIR, FULL, "project.json"));
+const fullTest = (name: string, fn: () => unknown) => hasFull ? test(name, fn) : skip(name, `private project "${FULL}" is not on this computer`);
 
 /** Every file under a folder with its size, modified time and content hash. */
 const snapshot = (dir: string): Record<string, string> => {
@@ -67,10 +73,18 @@ await test("every bundled project still matches its recorded baseline exactly", 
     const was = readBaseline(p.slug);
     assert.ok(was, `no baseline recorded for ${p.slug}`);
     const now = await captureBaseline(path.join(PROJECTS_DIR, p.slug));
-    assert.deepEqual(compareBaseline(was, now), [], `${p.slug} drifted from its baseline`);
+    let drift = compareBaseline(was, now);
+    // Narration that is private (kept out of Git) is absent on a fresh clone. When the whole
+    // recorded set is missing, compare everything that does not depend on measuring that audio.
+    const dir = path.join(PROJECTS_DIR, p.slug);
+    if (was.narrationFiles.length > 0 && was.narrationFiles.every((f) => !fs.existsSync(path.join(dir, f.file)))) {
+      console.log(`NOTE  ${p.slug}: private narration is not on this computer; audio-measured fields are not compared`);
+      drift = drift.filter((d) => !/^(scene \d+ (startFrame|durationInFrames|measured|cueCount|cuesSha256|renderInputSha256|narrationSec)|totalFrames|warnings|narration file missing)\b/.test(d));
+    }
+    assert.deepEqual(drift, [], `${p.slug} drifted from its baseline`);
   }
 });
-await test("Royal Cache documentary: 36 scenes in order, 23,522 frames (784.07 s), every voice measured", async () => {
+await fullTest("Royal Cache documentary: 36 scenes in order, 23,522 frames (784.07 s), every voice measured", async () => {
   const { project, dir } = loadProject(path.join(PROJECTS_DIR, FULL));
   const tl = await resolveTimeline(project, dir);
   assert.deepEqual(project.scenes.map((s) => s.id), Array.from({ length: 36 }, (_, i) => "s" + String(i + 1).padStart(2, "0")));
@@ -335,7 +349,7 @@ await test("the three outcomes are distinct: validated match, unsupported direct
   assert.equal(none.status, "no-direction");
   assert.deepEqual(none.alternatives, []);
 });
-await test("Royal Cache scenes 23, 30 and 31 are flagged with a concrete, actionable alternative", () => {
+await fullTest("Royal Cache scenes 23, 30 and 31 are flagged with a concrete, actionable alternative", () => {
   const { project } = loadProject(path.join(PROJECTS_DIR, FULL));
   const before = JSON.stringify(project);
   const report = validateIntent(project);
@@ -411,7 +425,7 @@ await test("narration identity covers text, voice, model and settings — and no
   const text = JSON.stringify(v);
   assert.ok(!text.includes("voice-AAA") && !text.includes("sk-secret-key"), "no raw voice id or key in the identity");
 });
-await test("existing narration is recognised as-is: no regeneration, no file touched, no manifest required", async () => {
+await fullTest("existing narration is recognised as-is: no regeneration, no file touched, no manifest required", async () => {
   // the 36-scene film: every clip matches its legacy text stamp
   const full = loadProject(path.join(PROJECTS_DIR, FULL));
   assert.equal(loadManifest(full.dir), null, "the reference project has no manifest and needs none");
@@ -522,4 +536,4 @@ await test("no bundled project file was created, moved, renamed, replaced or rew
 });
 
 fs.rmSync(tmpRoot, { recursive: true, force: true });
-console.log(`\n${n} checks passed.`);
+console.log(`\n${n} checks passed${skipped ? `, ${skipped} skipped (private production data not present)` : ""}.`);
