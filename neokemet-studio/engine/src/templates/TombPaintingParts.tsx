@@ -28,18 +28,20 @@ export const TombBlock:React.FC<{x:number;y:number;scale?:number}> = ({x,y,scale
  <path d="M20 180H240" fill="none"/>
  </Ink></g>;
 
-export const TombRamp:React.FC<{height?:number}> = ({height=470})=><Ink>
- <path d={"M-40 1640L780 "+(1640-height)+"L780 "+(1710-height)+"L-40 1790Z"} fill={P.ochreRed}/>
- <path d={"M-40 1612L780 "+(1612-height)} fill="none" strokeWidth={T.outline.width}/>
- <path d="M0 1760H1080" fill="none"/>
+export const TombRamp:React.FC<{height?:number}> = ({height=470})=>{
+ const y=T.composition.groundLineY;
+ return <Ink>
+  <path d={"M-40 "+y+"L780 "+(y-height)+"L780 "+(y-height+70)+"L-40 "+(y+110)+"Z"} fill={P.ochreRed}/>
+  <path d={"M-40 "+(y-28)+"L780 "+(y-height-28)} fill="none" strokeWidth={T.outline.width}/>
  </Ink>;
+};
 
 export const TombRiver:React.FC<{f?:number}> = ({f=0})=><g>
- <path d="M0 1430Q190 1380 370 1430T740 1430T1080 1430V1920H0Z" fill={P.egyptianBlue}/>
- <Ink><path d={"M0 1530Q220 "+(1490+Math.sin(f/10)*12)+" 440 1530T880 1530T1320 1530M-50 1730Q200 1680 440 1730T900 1730T1250 1730"} fill="none" stroke={P.gypsumWhite}/></Ink>
+ <path d="M0 1120Q190 1070 370 1120T740 1120T1080 1120V1920H0Z" fill={P.egyptianBlue}/>
+ <Ink><path d={"M0 1260Q220 "+(1220+Math.sin(f/10)*12)+" 440 1260T880 1260T1320 1260M-50 1500Q200 1450 440 1500T900 1500T1250 1500"} fill="none" stroke={P.gypsumWhite}/></Ink>
  </g>;
 
-export const TombBoat:React.FC<{f?:number}> = ({f=0})=><g transform={"translate(0 "+(Math.sin(f/10)*9)+")"}>
+export const TombBoat:React.FC<{f?:number}> = ({f=0})=><g transform={"translate(0 "+(-320+Math.sin(f/10)*9)+")"}>
  <Ink>
  <path d="M120 1460Q545 1545 970 1450Q900 1620 620 1650H360Q175 1620 120 1460Z" fill={P.ochreRed}/>
  <path d="M550 1460V670H585V1470Z" fill={P.ochreRed}/>
@@ -65,7 +67,7 @@ export const TombLamp:React.FC<{x?:number;y?:number;f?:number}> = ({x=540,y=1200
  <path d="M-5 -42Q-16 -109 0 -130Q22 -84 8 -46Z" fill={P.gypsumWhite}/>
  </Ink></g>;
 
-export const TombPaletteTable:React.FC = ()=><g>
+export const TombPaletteTable:React.FC = ()=><g transform="translate(0 -385)">
  <Ink><rect x="100" y="1350" width="890" height="86" fill={P.ochreRed}/>
  <path d="M165 1436V1630H218V1436M862 1436V1630H920V1436" fill={P.yellowOchre}/>
  {([P.yellowOchre,P.ochreRed,P.egyptianBlue,P.malachiteGreen] as string[]).map((c,i)=><g key={i}>
@@ -76,15 +78,15 @@ export const TombPaletteTable:React.FC = ()=><g>
 
 export const TombPapyrus:React.FC<{stage?:number;f?:number}> = ({stage=0,f=0})=><g>
  {stage===0 ? <><TombRiver f={f}/><Ink>{[100,260,410,560,725,875,1010].map((x,i)=><g key={i} transform={"rotate("+(Math.sin(f/18+i)*3)+" "+x+" 1450)"}>
- <path d={"M"+x+" 1480Q"+(x-30)+" 920 "+x+" 480"} fill="none" stroke={P.malachiteGreen} strokeWidth={T.outline.width}/>
+ <path d={"M"+x+" 1220Q"+(x-30)+" 920 "+x+" 480"} fill="none" stroke={P.malachiteGreen} strokeWidth={T.outline.width}/>
  <path d={"M"+(x-12)+" 840Q"+(x-122)+" 750 "+(x-95)+" 660Q"+(x+70)+" 680 "+(x-12)+" 840Z"} fill={P.malachiteGreen}/>
  <path d={"M"+x+" 670Q"+(x+120)+" 520 "+(x+55)+" 470Q"+(x-45)+" 500 "+x+" 670Z"} fill={P.malachiteGreen}/>
- </g>)}</Ink></> : <Ink>
+ </g>)}</Ink></> : <g transform="translate(0 -270)"><Ink>
  <rect x="100" y="1020" width="880" height="570" fill={P.yellowOchre}/>
  {Array.from({length:6},(_,i)=><rect key={i} x={170+i*118} y={1070} width={90} height={380} fill={P.gypsumWhite} stroke={P.carbonBlack}/>)}
  {stage>=2 && Array.from({length:4},(_,i)=><rect key={"h"+i} x={155} y={1110+i*96} width={770} height={67} fill={P.limestone} stroke={P.carbonBlack}/>)}
  {stage>=3 && <rect x="120" y="1150" width="845" height="190" fill={P.ochreRed}/>}
- </Ink>}
+ </Ink></g>}
  </g>;
 
 export const TombSceneStyle:React.FC<{mode:PaintMode;lightX?:number;lightY?:number;children:React.ReactNode}> = ({mode,lightX=T.glow.centerX,lightY=T.glow.centerY,children})=>{
