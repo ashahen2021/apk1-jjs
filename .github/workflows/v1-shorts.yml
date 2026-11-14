@@ -32,6 +32,15 @@ jobs:
       - run: npx tsx server/selftest-v1.ts
       - run: npx tsx server/selftest-visual-lab.ts
       - run: npx tsx server/selftest-tomb-flat.ts
+      - name: Render Tomb Painting Flat native template proofs
+        run: npx tsx scripts/tomb-flat-render-stills.ts
+      - name: Upload Tomb Painting Flat 1080x1920 preview stills
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: tomb-painting-flat-native-stills
+          path: neokemet-studio/workspace/tomb-flat-stills/*.png
+          if-no-files-found: error
       - name: Render four original pyramid ramp shots in Remotion
         run: npx tsx scripts/visual-lab-render-smoke.ts
       - name: Keep ramp visual proof
