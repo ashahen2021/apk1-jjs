@@ -119,24 +119,44 @@ const base=():ArtElement[]=>[
 type RampPhase = "intro"|"haul"|"growth"|"scale";
 const stageShots=(phase:RampPhase,sceneIndex:number):ArtShot[]=>{
  const options=[
-  {label:"A RAMP TO THE PYRAMID?",description:"Reveal the unfinished pyramid beside an earthen rising ramp", height:165,level:0},
-  {label:"STONE BLOCKS GO UPHILL",description:"Workers haul a block by rope up a sloping embankment",height:250,level:1},
-  {label:"AS THE PYRAMID ROSE",description:"Ramp grows together with the pyramid; moving stone on the slope",height:360,level:2},
-  {label:"BUT HOW LARGE A RAMP?",description:"Wide view showing the ramp length and scale problem",height:490,level:3},
+  {label:"A RAMP TO THE PYRAMID?",description:"Wide view of the unfinished pyramid beside an earthen rising ramp",height:165,level:0},
+  {label:"STONE BLOCKS GO UPHILL",description:"Workers haul blocks on sledges up a mudbrick slope",height:250,level:1},
+  {label:"THE RAMP HAD TO GROW",description:"Pyramid becomes taller and the ramp follows it",height:360,level:2},
+  {label:"HOW BIG WOULD IT GET?",description:"The ramp length exceeds the scale of the structure",height:490,level:3},
+  {label:"A BLOCK AND A ROPE",description:"Close view of the limestone block and stretched rope",height:0,level:0},
+  {label:"PULLING EVERY STONE",description:"Two workers pulling a cargo block up the slope",height:0,level:0},
  ];
- const mapping: Record<RampPhase,number[]>={intro:[0,1,0],haul:[1,1,2],growth:[2,2,3],scale:[3,0,3]};
+ // Every scene now starts with a genuinely different subject/composition.
+ const mapping: Record<RampPhase,number[]>={intro:[0,4,1],haul:[1,5,4],growth:[2,0,3],scale:[3,4,5]};
  return mapping[phase].map((k,variation)=>{
   const o=options[k],step=((sceneIndex+variation)%3)-1;
   const sh=base();
-  sh.push(...pyramid(o.level));
-  sh.push(...ramp(o.height));
-  const stoneY=1190-o.height*0.55-variation*16;
-  if(k!==3){sh.push(...block(370+variation*55,stoneY,12+variation*8));sh.push(...worker(220+variation*20,1140-variation*14,step));}
-  else{
-    sh.push(...worker(115,1320,.5));
-    sh.push(L(85,1420,920,1420,"terra",15));
-    sh.push(L(105,1460,105,1400,"ink",9),L(920,1460,920,1400,"ink",9));
-    sh.push(...block(470,1050));
+  if(k===4){
+    sh.push(R(180,900,690,330,"sand","earth"));
+    sh.push(L(225,970,825,970,"paper",12));
+    sh.push(L(240,1070,840,1070,"paper",8));
+    sh.push(L(340,900,170,630,"terra",18,18,-18));
+    sh.push(L(330,920,190,780,"gold",9,10,-10));
+    sh.push(...worker(155,1275,step));
+  }else if(k===5){
+    sh.push(...ramp(280));
+    sh.push(...worker(290,1230,step));
+    sh.push(...worker(520,1120,-step));
+    sh.push(...block(670,880,25));
+    sh.push(L(360,1040,690,914,"terra",15,18,-9));
+  }else{
+    sh.push(...pyramid(o.level));
+    sh.push(...ramp(o.height));
+    const stoneY=1190-o.height*0.55-variation*16;
+    if(k!==3){
+      sh.push(...block(370+variation*55,stoneY,12+variation*8));
+      sh.push(...worker(220+variation*20,1140-variation*14,step));
+    }else{
+      sh.push(...worker(115,1320,.5));
+      sh.push(L(85,1390,920,1390,"terra",15));
+      sh.push(L(105,1450,105,1370,"ink",9),L(920,1450,920,1370,"ink",9));
+      sh.push(...block(470,1050));
+    }
   }
   sh.push(L(80,1415,1000,1415,"teal",5));
   return ArtShotSchema.parse({label:o.label,description:o.description,shapes:sh});
@@ -144,10 +164,11 @@ const stageShots=(phase:RampPhase,sceneIndex:number):ArtShot[]=>{
 };
 const selectPhase=(s:Scene,index:number,total:number):RampPhase=>{
  const t=normalize(s).toLowerCase();
+ // Ending question/problem must win over a mention of "enormous" or "higher".
+ if(index===total-1 || (index>=total-2 && /(?:impossible|problem|huge|enormous|really|clever|theory|could)/.test(t))) return "scale";
  if(/(?:higher|larger|grew|grows|rise|longer|taller|enormous)/.test(t))return "growth";
  if(/(?:workers|pulled|hauling|blocks|stones|sled|ropes)/.test(t))return "haul";
- if(/(?:impossible|problem|huge|work|really|clever|theory|could)/.test(t)&&index>=total-2)return "scale";
- return index===0?"intro":index===total-1?"scale":"haul";
+ return index===0?"intro":"haul";
 };
 export const proposeOfflineRampArt=(p:Project)=>{
  const text=[p.title,p.topic,p.script,...p.scenes.map(normalize)].join(" ");
