@@ -65,7 +65,7 @@ const refreshProjects = async () => {
 };
 const openProject = async (s) => {
   if (dirty && !confirm("Discard unsaved changes?")) return;
-  try { project = await api(`/api/projects/${s}`); slug = s; resetSmartProject(); dirty = false; $("saved").textContent = ""; for (const k in thumbs) delete thumbs[k]; fill(); await refreshProjects(); refreshTimeline(); say(""); } catch (e) { fail(e); }
+  try { project = await api(`/api/projects/${s}`); slug = s; resetSmartProject(); window.resetVisualLab?.(); dirty = false; $("saved").textContent = ""; for (const k in thumbs) delete thumbs[k]; fill(); await refreshProjects(); refreshTimeline(); say(""); } catch (e) { fail(e); }
 };
 const save = async () => {
   try { project = await api(`/api/projects/${slug}`, { method: "PUT", headers: { "content-type": "application/json" }, body: JSON.stringify(project) }); dirty = false; $("saved").textContent = "Saved"; await refreshProjects(); } catch (e) { fail(e); throw e; }
@@ -440,7 +440,7 @@ const init = async () => {
   $("btnNew").onclick = async () => {
     const title = prompt("Title of the new video:"); if (!title) return;
     let s = slugify(title); const have = (await api("/api/projects")).map((p) => p.slug); let n = 2; while (have.includes(s)) s = `${slugify(title)}-${n++}`;
-    resetSmartProject(); slug = s; project = blankProject(title); dirty = false; await save(); fill(); refreshTimeline();
+    resetSmartProject(); window.resetVisualLab?.(); slug = s; project = blankProject(title); dirty = false; await save(); fill(); refreshTimeline();
   };
   $("fScriptFile").onchange = async (e) => { const f = e.target.files[0]; if (!f) return; project.script = await f.text(); $("fScript").value = project.script; markDirty(); say(`Imported ${f.name}.`, true); };
   // Replace the storyboard only after the complete candidate project has been
