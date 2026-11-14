@@ -50,6 +50,8 @@
       <div class="row">
         <label class="filebtn">Import .txt / .md<input type="file" id="fScriptFile" accept=".txt,.md,.markdown" hidden /></label>
         <button id="btnPlan" class="primary">Build storyboard from script</button>
+        <label class="check"><input id="fV1Topic" type="checkbox" /> V1 topic-specific illustrated Shorts (beta)</label>
+        <label>Length <select id="fV1Length"><option value="15">15 seconds</option><option value="30">30 seconds</option></select></label>
         <span class="muted">Works offline: scenes are chosen by keyword rules, then you edit them.</span>
       </div>
       <div class="card">
@@ -97,6 +99,8 @@
         <div class="row">
           <label class="filebtn">Choose production .md<input type="file" id="fProductionFile" accept=".md,.markdown,text/markdown" hidden /></label>
           <span id="productionFileName" class="muted">No production script selected</span>
+          <label class="check"><input id="productionV1Topic" type="checkbox" /> Use topic-specific V1 illustrations</label>
+          <label>Length <select id="productionV1Length"><option value="15">15 seconds</option><option value="30">30 seconds</option></select></label>
         </div>
         <div id="productionPreview" class="production-preview" hidden></div>
         <div class="row">
