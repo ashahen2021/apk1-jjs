@@ -75,3 +75,17 @@ The exact text of these requirements must be applied before artistic approval an
 
 ### GitHub validation
 `npm run typecheck`, `npm test`, `npx tsx server/selftest-v1.ts`, `npx tsx server/selftest-visual-lab.ts`, `npx tsx server/selftest-tomb-flat.ts`, `npx tsx scripts/tomb-flat-render-stills.ts`, and `npx tsx scripts/render-tomb-rig-poses.ts`.
+
+## Instruction 4 — Gardiner hieroglyphic sign identity and ancient oil lamps
+
+**Implemented in V1 only**; V3 remains untouched.
+
+- `engine/src/data/hieroglyphSigns.ts` stores **10 individually identifiable Gardiner signs** as simple, hand-drawn SVG paths: A1 seated man, D4 eye, D21 mouth, G17 owl, M17 reed, N35 water, Q3 stool, S34 ankh, R8 sacred flag, F35 heart + windpipe (nefer).
+- `GARDINER_SIGNS` maps the Gardiner code to the sign name, Unicode reference, meaning, restricted ink, and paths; `GARDINER_PATHS_BY_NAME` exposes name → path mapping to support more signs.
+- `engine/src/templates/HieroglyphWall.tsx` renders the signs as **two separated vertical columns**, with thin black divider rules and only Egyptian blue, red ochre, malachite green, and carbon-black glyphs; every path retains the standard 5px carbon-black outline.
+- `TombWall` now uses these sign columns instead of invented wall marks or an unsupported "eye on a pole". The columns are **illustrative reference signs**, not a meaningful transliterated funerary inscription; meaningful historically verified text must be composed and reviewed separately.
+- `engine/src/templates/EgyptianOilLamp.tsx` draws a shallow clay oil bowl with visible oil/wick, a small flame, and optional tall stand. The same oil-bowl component is reused in `TombLamp` and the character's `carrying-lamp` pose, without adding a second gradient.
+- `engine/src/HieroglyphLampProof.tsx` creates a visual review sheet rendered by `scripts/render-gardiner-lamps.ts` at native **1080×1920**, saved as `workspace/tomb-flat-stills/Gardiner-Ten-Signs-Clay-Lamps.png`. The existing V1 painting-dark still now also includes the historical wall symbols.
+- `server/selftest-gardiner.ts` confirms the exact 10 codes, paths, sign column layout, allowed inks, absence of unsafe SVG, historical lamp parts, and that the same prop is present in the articulated rig.
+
+**Reference identity checks:** Gardiner sign list (egyptianhieroglyphs.net), Sesh Nefer sign overview, Thot Sign List F35. These are simplified V1 drawings, not tracings of a specific tomb inscription or reproductions of archaeological photographs. Historical accuracy of individual stroke variants and full inscriptions still requires an Egyptological review before documentary publication.
