@@ -51,3 +51,27 @@ This commit delivers the **style foundation** only. The user has mentioned four 
 5. Final testing
 
 The exact text of these requirements must be applied before artistic approval and merging. Keep this branch a draft until the follow-on revisions pass tests and screenshots are reviewed.
+
+
+## Instruction 2 — Articulated Egyptian figures (implemented)
+- `engine/src/templates/EgyptianTombRig.tsx` is a native SVG rig on an **18-square Egyptian proportion grid**, with head in profile, frontal eye and shoulders, adult-sized limbs and characteristic profile stance.
+- SVG layers are separate groups: head, torso, hips, both upper arms, forearms, hands and legs; joint rotation drives slow motion without body bouncing.
+- Man/woman silhouettes and built-in poses: standing, painting, grinding pigment, carrying a lamp, and walking.
+- `TombPerson` is now a compatibility wrapper using this rig for all existing V1 subject illustrations.
+- Review composition: `engine/src/EgyptianRigPoseSheet.tsx`; generated PNG `EgyptianRig-Five-Poses.png`.
+
+## Instruction 3 — Vertical safe composition (implemented)
+- Central configuration: `engine/src/theme/tombPaintingFlat.ts`:
+  - No text above y=220 or below y=1500 (bottom 420px excluded).
+  - Scene's primary figures/actions are staged against the register y=1445, with main visual content in y=350–1450.
+  - Title is a **72–90px gypsum-white serif** in a carbon-black full-width band at y=1240–1440, not at the top.
+  - Word captions occupy **the exact same band**; titles automatically hide for frames when word captions are visible, avoiding overlaps.
+  - Every V1 shot uses a thin ochre-red register ground rule and ~4.5% slow push centered at the ground line; title and captions stay fixed.
+  - `planV1Short` schedules approximately 2–3-second illustrated cuts, prohibits adjacent identical motifs and limits each procedural motif to two occurrences in a rolling 20-second interval. `conformV1VisualCadence` adapts the **render-only** scene list if the measured voice changes scene length, without overwriting project.json.
+- `shared/wordTiming.ts` is the timestamp-driven caption scheduler. If verified `wordTimings` are attached to scene data, word timing follows those timestamps at frame precision.
+- **Limitation made explicit:** Existing ElevenLabs MP3s do not automatically contain word-level alignment. Without exact per-word metadata, captions use duration-weighted estimates within the measured spoken span, with a timeline warning. Audio itself is not altered. For exact lip/word timing, import verified alignment; do not market estimated sync as exact.
+- Subject-specific art approved in Visual Lab is never changed by automatic motif replacement. If that art cannot cover the measured duration, the timeline warns and requests additional unique art.
+- Video pace and authenticity still need final visual review; instruction #4 historical symbols and #5 final testing remain pending.
+
+### GitHub validation
+`npm run typecheck`, `npm test`, `npx tsx server/selftest-v1.ts`, `npx tsx server/selftest-visual-lab.ts`, `npx tsx server/selftest-tomb-flat.ts`, `npx tsx scripts/tomb-flat-render-stills.ts`, and `npx tsx scripts/render-tomb-rig-poses.ts`.
