@@ -146,8 +146,13 @@ export const V1TopicShortTemplate: React.FC<TemplateProps> = ({scene,seed}) => {
   const t = tr(pos-idx);
   const id = shots[idx];
   const Art = ART[id];
-  const label = LABELS[id] || "ILLUSTRATION NEEDED";
   const topic = String(scene.params?.topic ?? "missing");
+  const HOOKS: Record<string, string> = {
+    painting: "PAINTING IN DARKNESS?",
+    papyrus: "PAPER FROM A PLANT?",
+    transport: "HOW DID STONE MOVE?",
+  };
+  const label = scene.params?.hook === true && f < 90 && HOOKS[topic] ? HOOKS[topic] : (LABELS[id] || "ILLUSTRATION NEEDED");
   return (
     <g>
       <rect x="0" y="0" width="1080" height="1920" fill={C.paper}/>
