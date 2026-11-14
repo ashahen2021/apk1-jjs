@@ -116,8 +116,7 @@ export const TombSceneStyle:React.FC<{mode:PaintMode;lightX?:number;lightY?:numb
        <stop offset="50%" stopColor={P.tombDark} stopOpacity=".25"/>
        <stop offset="100%" stopColor={P.tombDark} stopOpacity={T.glow.outerDarkness}/>
      </radialGradient></defs>
-     <rect x="0" y="0" width={T.width} height={T.height} fill={P.tombDark} opacity={T.glow.outerDarkness}/>
-     <circle cx={glow.cx} cy={glow.cy} r={glow.radius} fill={"url(#"+gradientId+")"}/>
+     <rect x="0" y="0" width={T.width} height={T.height} fill={"url(#"+gradientId+")"}/>
    </g>}
    <path d={stoneNoisePath()} fill={P.carbonBlack} opacity={T.texture.opacity} stroke="none"/>
  </g>;
