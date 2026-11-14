@@ -2,7 +2,7 @@
 // No paid services, narration assets, ffmpeg renders or production edits.
 import assert from "node:assert/strict";
 import { planFromScript } from "../shared/planner.ts";
-import { planV1Short } from "../shared/v1Topics.ts";
+import { planV1Short,conformV1VisualCadence } from "../shared/v1Topics.ts";
 import { parseProject } from "./projects.ts";
 import { resolveTimeline } from "./timeline.ts";
 
@@ -61,6 +61,22 @@ const stone = await film("Nile Stone Transport", [
 assert.equal(stone.topic, "transport");
 assert.equal(stone.coverage, 1);
 assert.ok(String(stone.scenes[2].params?.shots).includes("ropes"));
+
+const stretched=conformV1VisualCadence(painting.scenes.map(s=>({scene:s,durationInFrames:Math.round(5.5*30)})),30);
+assert.equal(stretched.scenes.length,painting.scenes.length);
+assert.ok(stretched.scenes.every(s=>String(s.params?.shots??"").split(",").length>=2));
+assert.deepEqual(painting.scenes.map(s=>s.narration),stretched.scenes.map(s=>s.narration));
+assert.deepEqual(painting.scenes.map(s=>s.durationSec),stretched.scenes.map(s=>s.durationSec));
+let lastId="",history:{id:string;at:number}[]=[];
+for(let i=0;i<stretched.scenes.length;i++){
+ const beats=String(stretched.scenes[i].params?.shots??"").split(",");
+ for(let j=0;j<beats.length;j++){
+   const at=i*5.5 + j*5.5/beats.length;
+   assert.notEqual(beats[j],lastId);
+   assert.ok(history.filter(h=>h.id===beats[j]&&at-h.at<20).length<2);
+   history.push({id:beats[j],at});lastId=beats[j];
+ }
+}
 
 const unmatched = planV1Short(planFromScript("Stars", "Stars moved across the skies.\n\nAstronomers watched bright planets."), 15, "Stars");
 assert.equal(unmatched.topic, null);
