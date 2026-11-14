@@ -54,7 +54,13 @@ export const TombBoat:React.FC<{f?:number}> = ({f=0})=><g transform={"translate(
  </g>;
 
 export const TombWall:React.FC = ()=><g>
- <rect x="0" y="320" width="1080" height="1600" fill={P.limestone}/>
+ <rect x="0" y="0" width={T.width} height={T.height} fill={P.limestone}/>
+ {/* Stone courses remain full-bleed in both YouTube UI safe zones.
+     These are masonry divisions, not invented hieroglyphs. */}
+ <g stroke={P.ochreRed} strokeWidth={T.outline.width} fill="none" opacity=".65">
+  <path d="M0 90H1080M0 200H1080M0 315H1080M0 1580H1080M0 1720H1080M0 1850H1080"/>
+  <path d="M200 0V90M670 90V200M300 200V315M780 1580V1720M340 1720V1850M700 1850V1920"/>
+ </g>
  <Ink>
  <path d="M0 435H1080M0 1460H1080M0 1550H1080" fill="none" stroke={P.ochreRed} strokeWidth={T.outline.width}/>
  <path d="M0 650H1080M0 940H1080M0 1230H1080" fill="none" stroke={P.yellowOchre}/>
