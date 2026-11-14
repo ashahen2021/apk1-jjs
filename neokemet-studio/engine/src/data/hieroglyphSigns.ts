@@ -124,3 +124,7 @@ export const GARDINER_SIGNS:Readonly<Record<GardinerCode,GardinerSign>>={
   },
 };
 export const GARDINER_CODES=Object.freeze(Object.keys(GARDINER_SIGNS) as GardinerCode[]);
+/** Direct lookup from a sign's English name to its reusable vector paths. */
+export const GARDINER_PATHS_BY_NAME:Readonly<Record<string,readonly SignPath[]>>=
+  Object.freeze(Object.fromEntries(Object.values(GARDINER_SIGNS).map(sign=>[sign.name,sign.paths])));
+
