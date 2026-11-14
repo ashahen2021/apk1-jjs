@@ -96,6 +96,7 @@ export const TEMPLATES = {
   "royal-pharaohs": { label: "Royal Pharaohs", group: "Documentary", description: "A pharaoh — seated, standing or as a colossal statue — in a cinematic setting, with a name plate.", uses: ["label", "sublabel"] },
   "tomb-robbery": { label: "Tomb Robbery", group: "Documentary", description: "A royal burial shown in order, then opened, looted or damaged. Schematic and restrained.", uses: ["label", "sublabel"] },
   "priests-rewrapping": { label: "Priests Rewrapping", group: "Documentary", description: "Priests of Amun inspect, rewrap, label or carry a royal burial in a work chamber.", uses: ["label", "sublabel"] },
+  "v1-topic-short": { label: "V1 · Topic-aware SVG Short", group: "Documentary", description: "Original hand-drawn SVG objects/actions selected by subject and edited as short visual beats.", uses: ["label", "sublabel"] },
   "cinematic-royal-reveal": { label: "Cinematic Royal Reveal Â· V1 pilot", group: "Documentary", description: "Detailed golden royal portrait transitioning to a secret burial chamber; opt-in 9:16 pilot.", uses: ["label", "sublabel"] },
   "cinematic-tt320": { label: "Cinematic TT320 Â· V1 pilot", group: "Documentary", description: "Atmospheric descent and illustrated sectional view of the cache; schematic, opt-in 9:16 pilot.", uses: ["label", "sublabel"] },
   "shorts15-v3-hook": { label: "V3 Â· Cinematic Hook (2 shots)", group: "Documentary", description: "Detailed royal portrait to a premium photo-art burial chamber, with reserved title and subtitle lanes.", uses: ["label", "sublabel"] },

@@ -6,6 +6,7 @@ import path from "node:path";
 import { CATALOG } from "../shared/catalog.ts";
 import { validateIntent } from "../shared/intent.ts";
 import { parseProductionMarkdown } from "../shared/production.ts";
+import { planV1Short } from "../shared/v1Topics.ts";
 import { applySmartTemplates, suggestSmartTemplates } from "../shared/smart-selection.ts";
 import type { Project } from "../shared/schema.ts";
 import { slugify } from "../shared/timing.ts";
@@ -93,16 +94,27 @@ const handle = async (req: http.IncomingMessage, res: http.ServerResponse) => {
   if (p === "/api/projects" && m === "GET") return json(res, listProjects());
   if (p === "/api/outputs") return json(res, fs.existsSync(OUTPUT_DIR) ? fs.readdirSync(OUTPUT_DIR).filter((f) => f.endsWith(".mp4")).map((f) => ({ name: f, bytes: fs.statSync(path.join(OUTPUT_DIR, f)).size, mtime: fs.statSync(path.join(OUTPUT_DIR, f)).mtimeMs })).sort((a, b) => b.mtime - a.mtime) : []);
   if (p === "/api/plan" && m === "POST") {
-    const { title, script } = JSON.parse((await body(req)).toString());
-    return json(res, { scenes: planStoryboard(String(title ?? ""), String(script ?? "")) });
+    const input = JSON.parse((await body(req)).toString());
+    const title = String(input.title ?? "");
+    const base = planStoryboard(title, String(input.script ?? ""));
+    if (input.mode === "v1-topic-short") {
+      const planned = planV1Short(base, input.seconds === 30 ? 30 : 15, title);
+      return json(res, { scenes: parseProject({ title: title || "Untitled", scenes: planned.scenes }).scenes, warnings: planned.warnings, coverage: planned.coverage });
+    }
+    return json(res, { scenes: base });
   }
   // Preview a production Markdown document without modifying the current project.
   if (p === "/api/production/preview" && m === "POST") {
     const input = JSON.parse((await body(req, 750_000)).toString() || "{}");
     const candidate = parseProductionMarkdown(String(input.source ?? ""), String(input.title ?? "Untitled"));
+    if (input.mode === "v1-topic-short") {
+      const planned = planV1Short(candidate.scenes, input.seconds === 30 ? 30 : 15, String(input.title || ""));
+      candidate.scenes = planned.scenes;
+      candidate.warnings = [...candidate.warnings, ...planned.warnings];
+    }
     // Validate every scene against the same project schema used for saving/rendering.
     const validated = parseProject({ title: String(input.title || "Untitled"), scenes: candidate.scenes });
-    return json(res, { ...candidate, scenes: validated.scenes });
+    return json(res, { ...candidate, suggestedFormat: input.mode === "v1-topic-short" ? "9:16" : candidate.suggestedFormat, scenes: validated.scenes });
   }
   // The smart selector is a dry run until a user explicitly approves scene IDs.
   // Neither route writes to disk, starts narration nor renders a video.

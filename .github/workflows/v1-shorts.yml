@@ -1,0 +1,41 @@
+name: V1 illustrated Shorts checks
+
+on:
+  push:
+    branches: [feature/v1-topic-aware-shorts]
+  pull_request:
+    paths:
+      - "neokemet-studio/**"
+      - ".github/workflows/v1-shorts.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: neokemet-studio
+    env:
+      NEOKEMET_NO_PAID: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: neokemet-studio/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - run: npm run typecheck
+      - run: npm test
+      - run: npx tsx server/selftest-v1.ts
+      - name: Render SVG visual smoke previews
+        run: node scripts/v1-visual-smoke.mjs
+      - name: Keep V1 visual preview images
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v1-svg-visual-previews
+          path: neokemet-studio/v1-visual-previews/*.png
+          if-no-files-found: ignore

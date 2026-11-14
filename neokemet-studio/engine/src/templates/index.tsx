@@ -12,6 +12,7 @@ import { Scene10Sealed } from "../presets/royal-cache/Scene10Sealed";
 import { Scene13Chamber } from "../presets/royal-cache/Scene13Chamber";
 import { Scene18Hidden } from "../presets/royal-cache/Scene18Hidden";
 import { CharactersTemplate, LandscapeTemplate, ProcessionTemplate, TitleTemplate } from "./Basic";
+import { V1TopicShortTemplate } from "./V1TopicShort";
 import { CoffinChamberTemplate } from "./CoffinChamber";
 import type { TemplateProps } from "./common";
 import { CutawayTemplate } from "./Cutaway";
@@ -45,6 +46,7 @@ export const REGISTRY: Record<TemplateId, Entry> = {
   "royal-pharaohs": { Component: RoyalPharaohsTemplate },
   "tomb-robbery": { Component: TombRobberyTemplate },
   "priests-rewrapping": { Component: PriestsRewrappingTemplate },
+  "v1-topic-short": { Component: V1TopicShortTemplate },
   "cinematic-royal-reveal": { Component: CinematicRoyalReveal, bg: C.night },
   "cinematic-tt320": { Component: CinematicTT320, bg: C.night },
   "shorts15-v3-hook": { Component: Shorts15V3Hook, bg: C.night },

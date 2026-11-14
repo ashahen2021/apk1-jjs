@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "title": "Painting the Dark | V1 Illustrated Short",
+  "topic": "V1 illustrative Shorts acceptance demo (offline)",
+  "script": "How did Egyptian artists paint tombs in complete darkness?\n\nThey ground colourful pigments and worked by lamplight.\n\nDeep underground, brushes transformed bare stone into the underworld.\n\nTheir painted walls survived for thousands of years.",
+  "format": "9:16",
+  "fps": 30,
+  "subtitles": true,
+  "audio": {
+    "music": "generated",
+    "musicVolume": 0.4,
+    "musicSeed": 1881,
+    "sfx": true,
+    "sfxVolume": 0.4,
+    "narrationVolume": 1
+  },
+  "scenes": [
+    {
+      "id": "s01",
+      "template": "v1-topic-short",
+      "narration": "How did Egyptian artists paint tombs in complete darkness?",
+      "durationSec": 3.7666666666666666,
+      "label": "Painting the Dark | V1 Illustrated Short",
+      "params": {
+        "topic": "painting",
+        "shots": "lamp,artist",
+        "hook": true
+      },
+      "ambience": "auto"
+    },
+    {
+      "id": "s02",
+      "template": "v1-topic-short",
+      "narration": "They ground colourful pigments and worked by lamplight.",
+      "durationSec": 3.7333333333333334,
+      "params": {
+        "topic": "painting",
+        "shots": "pigments,lamp",
+        "hook": false
+      },
+      "ambience": "auto"
+    },
+    {
+      "id": "s03",
+      "template": "v1-topic-short",
+      "narration": "Deep underground, brushes transformed bare stone into the underworld.",
+      "durationSec": 3.7666666666666666,
+      "params": {
+        "topic": "painting",
+        "shots": "corridor,artist",
+        "hook": false
+      },
+      "ambience": "auto"
+    },
+    {
+      "id": "s04",
+      "template": "v1-topic-short",
+      "narration": "Their painted walls survived for thousands of years.",
+      "durationSec": 3.7333333333333334,
+      "params": {
+        "topic": "painting",
+        "shots": "mural,artist",
+        "hook": false
+      },
+      "ambience": "auto"
+    }
+  ]
+}
