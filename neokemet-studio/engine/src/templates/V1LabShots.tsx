@@ -38,7 +38,7 @@ export const V1LabShots:React.FC<{shots:ArtShot[];frame:number;duration:number;n
   return <g>
     <TombSceneStyle mode={mode} lightX={T.glow.centerX} lightY={T.glow.centerY}>
       <TombCameraPush frame={frame} duration={duration}>
-        <g transform="translate(0 -115) scale(1 1.37)">
+        <g transform="translate(0 -255) scale(1 1.06)">
           {shot.shapes.map((shape,i)=>draw(shape,i,t))}
         </g>
         <TombRegister/>
