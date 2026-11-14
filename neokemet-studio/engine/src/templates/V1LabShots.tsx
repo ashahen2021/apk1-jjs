@@ -3,7 +3,7 @@
 import React from "react";
 import type { ArtElement, ArtShot } from "../../../shared/visualLab.ts";
 import { getSceneLightingMode, tombLegacyColor, tombTheme as T, tombPalette as P } from "../theme/tombPaintingFlat";
-import { TombSceneStyle, TombSceneTitle } from "./TombPaintingParts";
+import { TombSceneStyle, TombSceneTitle, TombCameraPush, TombRegister } from "./TombPaintingParts";
 
 const draw=(shape:ArtElement,index:number,t:number):React.ReactNode=>{
   // Legacy Visual Lab art contained a large inset "picture" panel; remove it in the
@@ -29,17 +29,21 @@ const draw=(shape:ArtElement,index:number,t:number):React.ReactNode=>{
   })();
   return <g key={index} transform={"translate("+tx+" "+ty+")"}>{el}</g>;
 };
-export const V1LabShots:React.FC<{shots:ArtShot[];frame:number;duration:number;narration?:string}> = ({shots,frame,duration,narration=""})=>{
+export const V1LabShots:React.FC<{shots:ArtShot[];frame:number;duration:number;narration?:string;captionActive?:boolean}> = ({shots,frame,duration,narration="",captionActive=false})=>{
   const raw=Math.min(.999999,Math.max(0,frame/Math.max(1,duration)));
-  const pos=raw*shots.length,index=Math.floor(pos),t=pos-index;
+  const count=Math.max(1,Math.min(shots.length,Math.round((duration/30)/T.pacing.targetShotSec)));
+  const pos=raw*count,index=Math.floor(pos),t=pos-index;
   const shot=shots[index]??shots[0];
   const mode=getSceneLightingMode([narration,shot.description,shot.label].join(" "));
   return <g>
     <TombSceneStyle mode={mode} lightX={T.glow.centerX} lightY={T.glow.centerY}>
-      <g transform="translate(0 -115) scale(1 1.37)">
-        {shot.shapes.map((shape,i)=>draw(shape,i,t))}
-      </g>
+      <TombCameraPush frame={frame} duration={duration}>
+        <g transform="translate(0 -115) scale(1 1.37)">
+          {shot.shapes.map((shape,i)=>draw(shape,i,t))}
+        </g>
+        <TombRegister/>
+      </TombCameraPush>
     </TombSceneStyle>
-    <TombSceneTitle title={shot.label} mode={mode}/>
+    <TombSceneTitle title={shot.label} mode={mode} visible={!captionActive}/>
   </g>;
 };
