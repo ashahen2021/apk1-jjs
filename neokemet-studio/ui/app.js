@@ -470,7 +470,7 @@ const init = async () => {
       if (file.size > 500_000) throw new Error("This file is too large (max 500 KB).");
       const useV1 = $("productionV1Topic").checked;
       const response = await post("/api/production/preview", { source: await file.text(), title: project.title, mode: useV1 ? "v1-topic-short" : undefined, seconds: Number($("productionV1Length").value) });
-      stagedProduction = response;
+      stagedProduction = { ...response, v1Mode: useV1 };
       $("productionFileName").textContent = file.name;
       $("productionPreview").hidden = false;
       $("productionPreview").replaceChildren(
@@ -490,7 +490,7 @@ const init = async () => {
     if (!confirm(`Replace the current ${project.scenes.length}-scene storyboard with ${staged.scenes.length} imported scenes? Existing narration references will not be carried over. You must still click Save project afterward.`)) return;
     const extra = { script: staged.script };
     if ($("productionUseFormat").checked && staged.suggestedFormat) extra.format = staged.suggestedFormat;
-    if ($("productionV1Topic").checked) { extra.format = "9:16"; extra.fps = 30; extra.subtitles = true; }
+    if (staged.v1Mode === true) { extra.format = "9:16"; extra.fps = 30; extra.subtitles = true; }
     try {
       await adoptScenes(staged.scenes, extra);
       clearProductionPreview();
