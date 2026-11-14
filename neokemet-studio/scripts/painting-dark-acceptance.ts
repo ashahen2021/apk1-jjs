@@ -66,6 +66,7 @@ try{
  assert.equal(png.subarray(0,8).toString("hex"),"89504e470d0a1a0a");
  assert.equal(png.readUInt32BE(16),2160);assert.equal(png.readUInt32BE(20),1920);
  const motifsAdjacentDifferent=ids.every((id,i)=>i===0||id!==ids[i-1]);
+ assert.ok(motifsAdjacentDifferent,"Acceptance failed: two consecutive 2-second stills use the same V1 visual motif");
  const allTombMode=timeline.scenes.every(s=>getSceneLightingMode(s.scene)==="tomb");
  const palette=Object.values(P);
  const allSignsDataDriven=GARDINER_CODES.length===10 && GARDINER_CODES.every(id=>GARDINER_SIGNS[id].paths.length>0);
