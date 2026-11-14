@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import React from "react";
 import fs from "node:fs";
 import { renderToStaticMarkup } from "react-dom/server";
-import { GARDINER_SIGNS, GARDINER_CODES, type GardinerCode } from "../engine/src/data/hieroglyphSigns.ts";
+import { GARDINER_SIGNS, GARDINER_CODES, GARDINER_PATHS_BY_NAME, type GardinerCode } from "../engine/src/data/hieroglyphSigns.ts";
 import { HieroglyphSign, HieroglyphWallText, DEFAULT_GARDINER_COLUMNS } from "../engine/src/templates/HieroglyphWall.tsx";
 import { EgyptianOilLamp } from "../engine/src/templates/EgyptianOilLamp.tsx";
 import { EgyptianTombRig } from "../engine/src/templates/EgyptianTombRig.tsx";
@@ -21,6 +21,7 @@ for(const id of required){
    id+" must be a Unicode Egyptian hieroglyph");
  assert.ok(["egyptianBlue","ochreRed","malachiteGreen","carbonBlack"].includes(sign.ink));
  assert.ok(sign.paths.length>=1 && sign.paths.every(p=>/^M[-\d.\s]/.test(p.d)),id+" must have SVG path data");
+ assert.equal(GARDINER_PATHS_BY_NAME[sign.name],sign.paths,"name-to-path map must expose canonical paths");
  assert.ok(sign.paths.every(p=>!/url\(|<script|onload|javascript:|foreignObject/i.test(p.d)),id+" cannot contain executable SVG");
  const markup=renderToStaticMarkup(React.createElement(HieroglyphSign,{code:id}));
  assert.ok(markup.includes('data-gardiner="'+id+'"'));
