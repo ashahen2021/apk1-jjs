@@ -71,7 +71,7 @@ export const TombWall:React.FC = ()=><g>
  <Ink>
  <path d="M0 435H1080M0 1460H1080M0 1550H1080" fill="none" stroke={P.ochreRed} strokeWidth={T.outline.width}/>
  <path d="M0 650H1080M0 940H1080M0 1230H1080" fill="none" stroke={P.yellowOchre}/>
- <path d="M70 500H1010V1370H70Z" fill="none" stroke={P.malachiteGreen}/>
+ {/* No inner picture frame: registers continue edge-to-edge. */}
  </Ink>
  </g>;
 
