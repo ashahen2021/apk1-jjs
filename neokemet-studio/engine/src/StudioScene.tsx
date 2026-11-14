@@ -29,7 +29,7 @@ export const StudioScene: React.FC<SceneRenderProps> = ({ scene, format, fps, du
     <AbsoluteFill style={{ backgroundColor: v1Background }}>
       <ClockCtx.Provider value={clock}>
         <AnimatedScene format={format} bg={v1Background}>
-          {React.createElement(entry.Component as React.FC<{ scene: typeof scene; seed: number }>, { scene, seed, captionActive })}
+          {React.createElement(entry.Component as React.FC<{ scene: typeof scene; seed: number; captionActive?: boolean }>, { scene, seed, captionActive })}
         </AnimatedScene>
       </ClockCtx.Provider>
       {!v1TopicShort && <PrintOverlay seed={seed} soft={shorts15} />}
