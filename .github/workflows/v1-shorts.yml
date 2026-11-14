@@ -2,7 +2,7 @@ name: V1 illustrated Shorts checks
 
 on:
   push:
-    branches: [feature/v1-topic-aware-shorts]
+    branches: [feature/v1-topic-aware-shorts, feature/v1-visual-development-lab]
   pull_request:
     paths:
       - "neokemet-studio/**"
@@ -30,6 +30,7 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npx tsx server/selftest-v1.ts
+      - run: npx tsx server/selftest-visual-lab.ts
       - name: Render SVG visual smoke previews
         run: node scripts/v1-visual-smoke.mjs
       - name: Keep V1 visual preview images
