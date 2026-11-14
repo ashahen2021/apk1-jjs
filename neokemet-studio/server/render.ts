@@ -66,6 +66,7 @@ export const scenePropsOf = (project: Project, s: TimelineScene): SceneRenderPro
   fps: project.fps,
   durationInFrames: s.durationInFrames,
   cues: s.cues,
+  wordCues: s.wordCues,
   subtitles: project.subtitles,
 });
 
