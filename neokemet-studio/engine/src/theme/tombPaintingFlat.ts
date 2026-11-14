@@ -26,7 +26,7 @@ export const tombTheme = {
   texture: { color: tombPalette.carbonBlack, opacity: 0.04, count: 220, seed: 71 },
   glow: { radius: 710, centerX: 540, centerY: 920, innerDarkness: 0, outerDarkness: 0.81 },
   typography: { bandTop: 1240, bandBottom: 1440, titleBaseline: 1355, titleSize: 82, titleMinSize: 72, titleMaxSize: 90, labelMaxWidth: 940, captionBaseline: 1340, fontFamily: "Georgia, Times New Roman, serif" },
-  composition: { safeLeft: 72, safeRight: 72, topExclusion: 220, bottomExclusion: 420, subjectTop: 350, subjectBottom: 1450, groundLineY: 1445, fullBleed: true },
+  composition: { safeLeft: 72, safeRight: 72, topExclusion: 220, bottomExclusion: 420, subjectTop: 350, subjectBottom: 1450, groundLineY: 1225, fullBleed: true },
   pacing: { minShotSec: 2, targetShotSec: 2.5, maxShotSec: 3, pushInMin: 0.03, pushInMax: 0.06, repeatWindowSec: 20, maxRepeatedMotif: 2 },
   lighting: {
     day: { background: tombPalette.limestone, outsideGlowBrightness: 1 },
