@@ -54,6 +54,6 @@ assert.equal(unmatched.topic, null);
 assert.ok(unmatched.warnings.some(w => /must be drawn/i.test(w)));
 assert.equal(unmatched.scenes[0].params?.topic, "missing");
 
-const original = planFromScript("Standard", "A king ordered a temple.\n\nWorkers carried a coffin.\n\nThe story ended.");
+const original = planFromScript("Standard", "A king ordered a temple.\n\nWorkers carried the coffin in a funeral procession.\n\nThe story ended.");
 assert.deepEqual(original.map(s=>s.template), ["title","procession","end-card"]);
 console.log("PASS V1: 15s painting + 30s papyrus + 15s Nile transport + explicit missing art + unchanged standard planner");
