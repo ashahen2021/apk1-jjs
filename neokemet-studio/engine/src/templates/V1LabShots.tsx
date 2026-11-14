@@ -34,10 +34,12 @@ export const V1LabShots:React.FC<{shots:ArtShot[];frame:number;duration:number;n
   const pos=raw*shots.length,index=Math.floor(pos),t=pos-index;
   const shot=shots[index]??shots[0];
   const mode=getSceneLightingMode([narration,shot.description,shot.label].join(" "));
-  return <TombSceneStyle mode={mode} lightX={T.glow.centerX} lightY={T.glow.centerY}>
-    <g transform="translate(0 -115) scale(1 1.37)">
-      {shot.shapes.map((shape,i)=>draw(shape,i,t))}
-    </g>
+  return <g>
+    <TombSceneStyle mode={mode} lightX={T.glow.centerX} lightY={T.glow.centerY}>
+      <g transform="translate(0 -115) scale(1 1.37)">
+        {shot.shapes.map((shape,i)=>draw(shape,i,t))}
+      </g>
+    </TombSceneStyle>
     <TombSceneTitle title={shot.label} mode={mode}/>
-  </TombSceneStyle>;
+  </g>;
 };
