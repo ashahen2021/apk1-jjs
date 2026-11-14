@@ -1,5 +1,7 @@
 import React from "react";
 import { EgyptianTombRig, type TombRigPose, type TombRigSex } from "./EgyptianTombRig";
+import { HieroglyphWallText } from "./HieroglyphWall";
+import { EgyptianOilLamp } from "./EgyptianOilLamp";
 import { tombTheme as T, tombPalette as P, getSceneLightingMode, getSceneBackground, getGlowProps, getOutlineProps, stoneNoisePath } from "../theme/tombPaintingFlat";
 export type PaintMode = "day" | "tomb";
 export const Ink: React.FC<{children:React.ReactNode}> = ({children})=><g {...getOutlineProps()}>{children}</g>;
@@ -56,16 +58,14 @@ export const TombWall:React.FC = ()=><g>
  <Ink>
  <path d="M0 435H1080M0 1460H1080M0 1550H1080" fill="none" stroke={P.ochreRed} strokeWidth={T.outline.width}/>
  <path d="M0 650H1080M0 940H1080M0 1230H1080" fill="none" stroke={P.yellowOchre}/>
- {/* No inner picture frame: registers continue edge-to-edge. */}
+ {/* Gardiner signs are illustrative examples, never invented pole/eye glyphs. */}
  </Ink>
+ <HieroglyphWallText x={710} y={465} scale={.88}/>
  </g>;
 
-export const TombLamp:React.FC<{x?:number;y?:number;f?:number}> = ({x=540,y=1200,f=0})=><g transform={"translate("+x+" "+y+")"}>
- <Ink>
- <path d="M-88 12Q-84 -52 -12 -54Q80 -50 92 12Q0 49 -88 12Z" fill={P.yellowOchre}/>
- <path d="M-15 -35Q-56 -138 -6 -188Q46 -131 15 -72Q43 -101 43 -138Q82 -83 15 -34Z" fill={P.ochreRed} transform={"scale("+(1+Math.sin(f/5)*.04)+")"}/>
- <path d="M-5 -42Q-16 -109 0 -130Q22 -84 8 -46Z" fill={P.gypsumWhite}/>
- </Ink></g>;
+/** Consistent historical oil-lamp shape in every V1 illustration. */
+export const TombLamp:React.FC<{x?:number;y?:number;f?:number;variant?:"bowl"|"on-stand"}> = ({x=540,y=1040,f=0,variant="bowl"})=>
+ <EgyptianOilLamp x={x} y={y} flameFrame={f} variant={variant} scale={1}/>;
 
 export const TombPaletteTable:React.FC = ()=><g transform="translate(0 -385)">
  <Ink><rect x="100" y="1350" width="890" height="86" fill={P.ochreRed}/>
