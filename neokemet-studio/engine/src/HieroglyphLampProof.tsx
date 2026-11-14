@@ -12,11 +12,11 @@ export const HieroglyphLampProof:React.FC=()=> <AbsoluteFill style={{backgroundC
       fontWeight="bold" fill={P.carbonBlack}>GARDINER SIGN STUDY</text>
     <path d="M80 332H1000" fill="none" stroke={P.ochreRed} strokeWidth={T.outline.width}/>
     <HieroglyphWallText x={255} y={395} scale={1.72}/>
-    <text x="540" y="1765" textAnchor="middle" fill={P.carbonBlack} fontSize="30"
+    <text x="540" y="1895" textAnchor="middle" fill={P.carbonBlack} fontSize="30"
       fontFamily="Arial, sans-serif">Simplified sign forms · Not an Egyptian inscription</text>
     <EgyptianOilLamp x={260} y={1550} variant="bowl" scale={1.42}/>
-    <EgyptianOilLamp x={820} y={1440} variant="on-stand" scale={1.3}/>
+    <EgyptianOilLamp x={820} y={1470} variant="on-stand" scale={1.04}/>
     <text x="260" y="1815" textAnchor="middle" fontSize="35" fill={P.carbonBlack}>CLAY OIL BOWL</text>
-    <text x="820" y="1650" textAnchor="middle" fontSize="35" fill={P.carbonBlack}>BOWL ON STAND</text>
+    <text x="820" y="1815" textAnchor="middle" fontSize="35" fill={P.carbonBlack}>BOWL ON STAND</text>
   </svg>
 </AbsoluteFill>;
