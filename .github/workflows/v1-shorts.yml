@@ -46,6 +46,76 @@ jobs:
           name: tomb-painting-flat-native-stills
           path: neokemet-studio/workspace/tomb-flat-stills/*.png
           if-no-files-found: error
+      - name: Eight stills Painting the Dark (0s–14s) and acceptance checks
+        run: npx tsx scripts/painting-dark-acceptance.ts
+      - name: Upload Painting the Dark acceptance evidence
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v1-painting-dark-eight-stills-and-contact
+          path: neokemet-studio/workspace/painting-dark-acceptance/
+          if-no-files-found: warn
+      - name: Package independent Windows test studio (source + demo)
+        working-directory: .
+        shell: bash
+        run: |
+          set -euo pipefail
+          package="NeoKemetAI-Studio-V1-TombPaintingFlat-Windows"
+          mkdir -p "dist/$package"
+          rsync -a neokemet-studio/ "dist/$package/" \
+            --exclude='node_modules/' \
+            --exclude='workspace/' \
+            --exclude='*.mp3' --exclude='*.wav' --exclude='*.m4a' \
+            --exclude='*.flac' --exclude='*.mp4' --exclude='*.mov' \
+            --exclude='*.webm' --exclude='*.mkv' \
+            --exclude='*.ttf' --exclude='*.otf' \
+            --exclude='*.woff' --exclude='*.woff2' \
+            --exclude='*.log' --exclude='*.bak' \
+            --exclude='v1-visual-previews/'
+          mkdir -p "dist/$package/ACCEPTANCE-PAINTING-DARK"
+          cp -a neokemet-studio/workspace/painting-dark-acceptance/. \
+            "dist/$package/ACCEPTANCE-PAINTING-DARK/"
+          cat > "dist/$package/START-HERE.txt" <<'EOF'
+          NEOKEMETAI STUDIO - V1 TOMB PAINTING FLAT - WINDOWS TEST BUILD
+          ==============================================================
+          This is a SEPARATE TEST BUILD from feature/v1-tomb-painting-flat.
+          Your existing installed studio and all your private projects are untouched.
+
+          1. Extract this entire ZIP into a NEW folder.
+          2. Install Node.js 22 LTS or newer if necessary.
+          3. Double-click Start-NeoKemetAI-Studio.bat in this folder.
+             On first run, npm installs packages (requires internet).
+          4. Open http://127.0.0.1:4173 in the browser if not opened automatically.
+          5. To test Painting the Dark, use the reference project:
+             examples/v1-painting-dark-demo/project.json
+             (the studio can load it through a project copy/import).
+          6. Eight real 1080x1920 stills and a 2160x1920 contact sheet are
+             inside ACCEPTANCE-PAINTING-DARK/ with a machine-readable QA report.
+
+          IMPORTANT:
+          - Never paste your ElevenLabs API key into a shared project.
+          - This package contains NO private audio, keys, or saved user projects.
+          - Original project script, recorded audio (if you have it locally),
+            and original 450-frame demonstration timing were NOT changed.
+          - The demo uses estimated on-screen word times because original
+            per-word ElevenLabs timestamps and audio are not in GitHub.
+          - The output uses original local SVG drawings; no paid API calls.
+          - This is a test branch, NOT the stable/production release.
+
+          DEV COMMANDS (from this extracted folder):
+            npm.cmd ci --no-audit --no-fund
+            npm.cmd run typecheck
+            npm.cmd test
+            npm.cmd start
+          EOF
+          ( cd dist && zip -q -r "$package.zip" "$package" )
+          test -s "dist/$package.zip"
+      - name: Upload independent Windows V1 studio test ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: NeoKemetAI-Studio-V1-TombPaintingFlat-Windows
+          path: dist/NeoKemetAI-Studio-V1-TombPaintingFlat-Windows.zip
+          if-no-files-found: error
       - name: Render four original pyramid ramp shots in Remotion
         run: npx tsx scripts/visual-lab-render-smoke.ts
       - name: Keep ramp visual proof
