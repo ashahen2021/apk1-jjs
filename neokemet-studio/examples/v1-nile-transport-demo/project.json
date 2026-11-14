@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "title": "Stones Across the Nile | V1 Illustrated Short",
+  "topic": "V1 illustrative Shorts acceptance demo (offline)",
+  "script": "How did the builders move heavy stone blocks across Egypt?\n\nAt the quarry, workers dragged blocks up loading ramps.\n\nThey secured the cargo with thick ropes.\n\nThen boats sailed along the Nile to the building site.",
+  "format": "9:16",
+  "fps": 30,
+  "subtitles": true,
+  "audio": {
+    "music": "generated",
+    "musicVolume": 0.4,
+    "musicSeed": 1881,
+    "sfx": true,
+    "sfxVolume": 0.4,
+    "narrationVolume": 1
+  },
+  "scenes": [
+    {
+      "id": "s01",
+      "template": "v1-topic-short",
+      "narration": "How did the builders move heavy stone blocks across Egypt?",
+      "durationSec": 3.7666666666666666,
+      "label": "Stones Across the Nile | V1 Illustrated Short",
+      "params": {
+        "topic": "transport",
+        "shots": "quarry,load",
+        "hook": true
+      },
+      "ambience": "auto"
+    },
+    {
+      "id": "s02",
+      "template": "v1-topic-short",
+      "narration": "At the quarry, workers dragged blocks up loading ramps.",
+      "durationSec": 3.7333333333333334,
+      "params": {
+        "topic": "transport",
+        "shots": "load,ropes",
+        "hook": false
+      },
+      "ambience": "auto"
+    },
+    {
+      "id": "s03",
+      "template": "v1-topic-short",
+      "narration": "They secured the cargo with thick ropes.",
+      "durationSec": 3.7666666666666666,
+      "params": {
+        "topic": "transport",
+        "shots": "ropes,sail",
+        "hook": false
+      },
+      "ambience": "auto"
+    },
+    {
+      "id": "s04",
+      "template": "v1-topic-short",
+      "narration": "Then boats sailed along the Nile to the building site.",
+      "durationSec": 3.7333333333333334,
+      "params": {
+        "topic": "transport",
+        "shots": "sail,unload",
+        "hook": false
+      },
+      "ambience": "auto"
+    }
+  ]
+}
