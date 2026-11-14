@@ -34,7 +34,7 @@ export const tombTheme = {
   },
 } as const;
 
-const darknessTerms = /\b(tomb|burial|hidden chamber|shaft|cave|underground|dark(?:ness)?|night|lamplight|lamps?|torch(?:es)?|coffin|crypt|inside the mountain|underworld|passage|corridor)\b/i;
+const darknessTerms = /\b(tomb|burial|hidden chamber|shaft|cave|underground|dark(?:ness)?|night|lamplight|lamps?|torch(?:es)?|coffin|crypt|inside the mountain|underworld|painted walls?|tomb paintings?|passage|corridor)\b/i;
 export const getSceneLightingMode = (
   input: string | { narration?: string; label?: string; sublabel?: string; topic?: string; params?: Record<string,unknown>; production?: { visual?: string } }
 ): TombLightingMode => {
