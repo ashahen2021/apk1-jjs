@@ -5,7 +5,7 @@
   "script": "Egypt's greatest kings were hidden.\n\nRobbers struck. Priests rescued the royal mummies.\n\nOne secret shaft held them together.\n\nWatch the full Royal Cache.",
   "format": "9:16",
   "fps": 30,
-  "subtitles": false,
+  "subtitles": true,
   "audio": {
     "music": "generated",
     "musicVolume": 0.23,

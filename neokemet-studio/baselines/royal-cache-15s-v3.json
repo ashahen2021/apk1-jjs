@@ -1,11 +1,11 @@
 {
   "schema": 1,
   "slug": "royal-cache-15s-v3",
-  "projectFileSha256": "1e1c172f046f097eae55f141e9dc13f18adeb97b505155cac724774409902248",
+  "projectFileSha256": "2f4831ea7d7f7471c978dece52d145af639f6a69127e2b964bf87fd61a25a0e9",
   "title": "Egypt's Hidden Pharaohs | Shorts15 Cinematic V3",
   "format": "9:16",
   "fps": 30,
-  "subtitles": false,
+  "subtitles": true,
   "audio": {
     "music": "generated",
     "musicVolume": 0.23,
@@ -28,7 +28,7 @@
       "measured": true,
       "cueCount": 1,
       "cuesSha256": "82828ac7b82fb415833481618feb579e0a3f5fcd5965ff979a6f924aae6dac53",
-      "renderInputSha256": "1420847dcdcc87eddefa6cb1803ede3de7d889c7c025c05a649afb81a6b0ba3c",
+      "renderInputSha256": "6c2c2759683afd01ac9fd6f79264769ed4facee1a64351d6299b874e520b8234",
       "narrationSha256": "1e5b963d0908aff06ee7008718ab15f151f6bd451899791c717566c662a96caa",
       "narrationFile": "narration/01-s15v3-01.mp3"
     },
@@ -42,7 +42,7 @@
       "measured": true,
       "cueCount": 2,
       "cuesSha256": "68fb7161d31d710b37dc700c5be1c3598018c1d719da7f78f210f275f08b073e",
-      "renderInputSha256": "7e2be963c301b35d0cba2c7bb2057d0b663abc622a8087e10d855d1c173413c9",
+      "renderInputSha256": "06f9ac9d60d52b27c21a0aff6225b2169b10db09bfde34e95c27c8541bdba81f",
       "narrationSha256": "b7e255de9c9a388a16881177b117ac57035d0f1a8d9f19cc90f4b7900b426da1",
       "narrationFile": "narration/02-s15v3-02.mp3"
     },
@@ -56,7 +56,7 @@
       "measured": true,
       "cueCount": 1,
       "cuesSha256": "6a4fac50e16f7c24820d0e62bb29fda8ffea47c8f6967bf0f7ce55854c010049",
-      "renderInputSha256": "e2a3c401acd7eab40713b8c0ca5f20f12c03ef562f3b8c4e54ebeb6e15a929fa",
+      "renderInputSha256": "a74bed1eaed37a0dddc5770e0dbc8782a6f562b7c2ef2bc8b5bdec025258ab7b",
       "narrationSha256": "ec2052ef3d60fd7d543d661748bded03c7f68ce15513b67ecc233ed4d957d755",
       "narrationFile": "narration/03-s15v3-03.mp3"
     },
@@ -70,7 +70,7 @@
       "measured": true,
       "cueCount": 1,
       "cuesSha256": "17dbc0b06dac80363b6dbd1c0fd1df5ac7add2cca46d7ff2affe8f0d385ad081",
-      "renderInputSha256": "8b86e60fd9e49f19533e4999a2e4ebe28578346756e4b15b80d4df1093c04ff2",
+      "renderInputSha256": "320e0e8f23ebef20ec94119c883ad4ca59ba7a726da08226890fcd665b2a1a42",
       "narrationSha256": "3da2a9f486b280c27e4e34f0bd0e612ced8b9e68f7e2769a2513a275bf377025",
       "narrationFile": "narration/04-s15v3-04.mp3"
     }

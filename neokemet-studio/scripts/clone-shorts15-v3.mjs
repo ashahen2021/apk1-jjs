@@ -10,7 +10,7 @@ const s=title.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").sl
 const root=path.join(ROOT,"projects");let slug="shorts15-v3-"+s,n=2;
 while(fs.existsSync(path.join(root,slug)))slug="shorts15-v3-"+s.slice(0,31)+"-"+n++;
 const source=path.join(root,"royal-cache-15s-v3","project.json");
-const project=JSON.parse(fs.readFileSync(source,"utf8"));project.title=title;
+const project=JSON.parse(fs.readFileSync(source,"utf8"));project.title=title;project.subtitles=true;
 project.topic="V3 cinematic 15-second template. IMPORTANT: The supplied art and scene directions depict the Royal Cache. Replace those templates/assets if making a Short about a different historical subject.";
 project.scenes.forEach((scene,i)=>{scene.id=`v3-new-${String(i+1).padStart(2,"0")}-${slug.slice(-12)}`;delete scene.narrationFile;});
 fs.mkdirSync(path.join(root,slug),{recursive:false});

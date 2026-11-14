@@ -13,8 +13,7 @@ const proj=JSON.parse(fs.readFileSync(file,"utf8"));
 const expected=["shorts15-v3-hook","shorts15-v3-danger","shorts15-v3-reveal","shorts15-v3-cta"];
 const durations=[3,5,4,3], shotCount=[2,3,3,2];
 if(proj.format!=="9:16"||proj.fps!==30)errors.push("Project must render at 9:16, 30 fps");
-// Burned captions are a per-project production choice; the reserved caption lane is checked either way.
-if(proj.subtitles!==true)warnings.push("Burned captions are OFF for this project (subtitles is false). Turn Subtitles on in the Project tab if this Short should show them.");
+if(proj.subtitles!==true)errors.push("Subtitles must be enabled");
 if(!Array.isArray(proj.scenes)||proj.scenes.length!==4)errors.push("Project must have 4 scenes");
 let total=0;const ids=new Set();
 for(let i=0;i<(proj.scenes||[]).length;i++){
