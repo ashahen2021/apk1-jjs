@@ -57,7 +57,7 @@ export const GARDINER_SIGNS:Readonly<Record<GardinerCode,GardinerSign>>={
     ],
   },
   G17:{
-    gardiner:"G17",name:"owl",unicode:"𓅓",meaning:"owl, frontal head and winged body",ink:"carbonBlack",
+    gardiner:"G17",name:"owl",unicode:"𓅓",meaning:"owl, frontal head and winged body",ink:"ochreRed",
     paths:[
       p("M23 21L18 11L35 17Q50 7 65 17L82 10L77 29Q90 49 78 66L70 81L66 93H56L55 81H45L44 93H34L30 80Q13 63 16 42Q17 30 23 21Z",true),
       p("M23 35Q35 27 48 35Q62 27 77 36"),
@@ -72,11 +72,10 @@ export const GARDINER_SIGNS:Readonly<Record<GardinerCode,GardinerSign>>={
   M17:{
     gardiner:"M17",name:"reed leaf",unicode:"𓇋",meaning:"single reed leaf",ink:"malachiteGreen",
     paths:[
-      p("M50 94V17"),
-      p("M48 13Q20 26 23 52Q28 76 49 86Z",true),
-      p("M51 15Q76 28 72 51Q69 66 51 82Z",true),
-      p("M35 52Q39 61 48 68M65 40Q62 50 53 59"),
-      p("M35 94H64"),
+      p("M56 95V18"),
+      p("M57 13Q22 22 29 52Q33 70 54 80L59 89Z",true),
+      p("M37 48Q42 60 54 68"),
+      p("M36 95H73"),
     ],
   },
   N35:{
