@@ -2,7 +2,7 @@ name: V1 illustrated Shorts checks
 
 on:
   push:
-    branches: [feature/v1-topic-aware-shorts, feature/v1-visual-development-lab]
+    branches: [feature/v1-topic-aware-shorts, feature/v1-visual-development-lab, feature/v1-tomb-painting-flat]
   pull_request:
     paths:
       - "neokemet-studio/**"
@@ -31,6 +31,7 @@ jobs:
       - run: npm test
       - run: npx tsx server/selftest-v1.ts
       - run: npx tsx server/selftest-visual-lab.ts
+      - run: npx tsx server/selftest-tomb-flat.ts
       - name: Render four original pyramid ramp shots in Remotion
         run: npx tsx scripts/visual-lab-render-smoke.ts
       - name: Keep ramp visual proof
