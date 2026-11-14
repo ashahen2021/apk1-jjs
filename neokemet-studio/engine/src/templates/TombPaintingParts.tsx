@@ -104,13 +104,41 @@ export const TombSceneStyle:React.FC<{mode:PaintMode;lightX?:number;lightY?:numb
    <path d={stoneNoisePath()} fill={P.carbonBlack} opacity={T.texture.opacity} stroke="none"/>
  </g>;
 };
-export const TombSceneTitle:React.FC<{title:string;mode:PaintMode}> = ({title,mode})=>{
- const color=mode==="tomb"?P.gypsumWhite:P.carbonBlack;
- const longest=Math.max(1,title.length);
- const font=Math.min(T.typography.titleSize, 920/(longest*.64));
- return <g>
- <text x="540" y={T.typography.top} textAnchor="middle" fontSize={font} fontWeight="800" letterSpacing=".035em" fontFamily="Arial, sans-serif" fill={color}>{title.toUpperCase()}</text>
- <path d={"M210 "+(T.typography.top+33)+"H870"} stroke={mode==="tomb"?P.yellowOchre:P.ochreRed} strokeWidth={T.outline.width}/>
+/** Tomb murals are read in horizontal registers; action stands on an ochre-red ground line. */
+export const TombRegister:React.FC = ()=> <g data-layout="register" fill="none">
+ <path d={"M0 "+T.composition.groundLineY+"H"+T.width} stroke={P.ochreRed} strokeWidth={T.outline.width}/>
+ <path d={"M0 "+(T.composition.groundLineY+15)+"H"+T.width} stroke={P.carbonBlack} strokeWidth={T.outline.width}/>
+</g>;
+/** Restrained push-in: 3–6% overall, no bounce and no scaling of titles/captions. */
+export const TombCameraPush:React.FC<{frame:number;duration:number;children:React.ReactNode;strength?:number}> = ({frame,duration,children,strength=.045})=>{
+ const alpha=Math.min(1,Math.max(0,frame/Math.max(1,duration-1)));
+ const amount=Math.min(T.pacing.pushInMax,Math.max(T.pacing.pushInMin,strength));
+ const scale=1+alpha*amount;
+ return <g transform={"translate(540 920) scale("+scale.toFixed(5)+") translate(-540 -920)"}>{children}</g>;
+};
+export const TombSceneTitle:React.FC<{title:string;mode:PaintMode;visible?:boolean}> = ({title,mode,visible=true})=>{
+ if(!visible || !title.trim())return null;
+ const text=title.trim().toUpperCase();
+ const longest=text.length;
+ const size=Math.min(T.typography.titleMaxSize,Math.max(T.typography.titleMinSize,
+  T.typography.labelMaxWidth/Math.max(1,longest*.64)));
+ // Large serif text, wrapped onto two lines when necessary rather than shrunk below 72px.
+ const words=text.split(/\s+/);
+ const line1:string[]=[],line2:string[]=[];
+ for(const word of words) {
+   if(!line1.length || (line1.join(" ").length+word.length+1)<=18)line1.push(word);
+   else line2.push(word);
+ }
+ const lines=line2.length?[line1.join(" "),line2.join(" ")]:[text];
+ const labelFont=Math.min(size,T.typography.labelMaxWidth/(Math.max(1,...lines.map(l=>l.length))*.6));
+ const baseline=lines.length===1?T.typography.titleBaseline:T.typography.titleBaseline-40;
+ return <g data-layout="title-band" data-safe-zone="1250-1450">
+   <rect x="0" y={T.typography.bandTop} width={T.width} height={T.typography.bandBottom-T.typography.bandTop} fill={P.carbonBlack}/>
+   {lines.map((line,i)=><text key={i} x={540} y={baseline+i*82} textAnchor="middle"
+     fontSize={Math.max(58,labelFont)} fontFamily={T.typography.fontFamily} fontWeight={700} fill={P.gypsumWhite}>
+     {line}
+   </text>)}
+   <path d={"M0 "+(T.typography.bandTop-7)+"H"+T.width} stroke={P.ochreRed} strokeWidth={T.outline.width}/>
  </g>;
 };
 export { getSceneLightingMode };
