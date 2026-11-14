@@ -90,6 +90,7 @@ export const TEMPLATE_CAPABILITIES: Record<TemplateId, TemplateCapabilities> = {
   "royal-pharaohs": { core: ["pharaoh"], also: ["statue"] },
   "tomb-robbery": { core: ["looting", "burial-chamber"], also: ["coffin", "intruders", "chest"] },
   "priests-rewrapping": { core: ["priests"], also: ["coffin"] },
+  "v1-topic-short": { core: [] }, // per-shot capability validated by V1 semantic planner, not a fixed subject
   "cinematic-royal-reveal": { core: ["pharaoh", "coffin"], also: ["temple", "burial-chamber"] },
   "cinematic-tt320": { core: ["rock-cutaway", "coffin"], also: ["torch-light", "burial-chamber"] },
   "shorts15-v3-hook": { core: ["pharaoh", "coffin"], also: ["burial-chamber", "temple"] },
