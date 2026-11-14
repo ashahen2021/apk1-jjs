@@ -1,3 +1,8 @@
 *.bat text eol=crlf
 *.ps1 text eol=crlf
 *.sh text eol=lf
+
+# Project data is fingerprinted by the baselines (sha256), so it must check out
+# byte-for-byte on every computer regardless of the local core.autocrlf setting.
+projects/** -text
+baselines/** -text
