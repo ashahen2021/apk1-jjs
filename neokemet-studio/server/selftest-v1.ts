@@ -13,7 +13,20 @@ const film = async (title: string, script: string, length: 15 | 30) => {
   const timeline = await resolveTimeline(project, ".");
   assert.equal(timeline.totalFrames, length * 30);
   assert.ok(project.scenes.every(s => s.template === "v1-topic-short"));
-  assert.ok(project.scenes.every(s => !!s.params?.shots && String(s.params.shots).split(",").length >= 2));
+  assert.ok(project.scenes.every(s => !!s.params?.shots && String(s.params.shots).split(",").length >= 1));
+  const history:{id:string;at:number}[]=[];
+  let at=0;
+  for(const scene of project.scenes){
+    const beats=String(scene.params?.shots).split(",");
+    for(let i=0;i<beats.length;i++){
+      const t=at+i*(scene.durationSec ?? 0)/beats.length;
+      assert.notEqual(beats[i],history.at(-1)?.id,"No identical back-to-back V1 illustration");
+      assert.ok(history.filter(h=>h.id===beats[i]&&t-h.at<20).length<2,
+        "No illustration used more than twice in a 20-second interval");
+      history.push({id:beats[i],at:t});
+    }
+    at+=scene.durationSec??0;
+  }
   assert.ok(project.scenes.every(s => s.narration === base[project.scenes.indexOf(s)].narration));
   assert.equal(project.subtitles, true);
   return planned;
