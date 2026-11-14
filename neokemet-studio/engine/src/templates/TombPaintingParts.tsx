@@ -1,30 +1,13 @@
 import React from "react";
+import { EgyptianTombRig, type TombRigPose, type TombRigSex } from "./EgyptianTombRig";
 import { tombTheme as T, tombPalette as P, getSceneLightingMode, getSceneBackground, getGlowProps, getOutlineProps, stoneNoisePath } from "../theme/tombPaintingFlat";
 export type PaintMode = "day" | "tomb";
 export const Ink: React.FC<{children:React.ReactNode}> = ({children})=><g {...getOutlineProps()}>{children}</g>;
-export const TombPerson: React.FC<{x:number;y:number;scale?:number;pose?:"paint"|"haul"|"carry"|"scribe"|"stand";progress?:number}> = ({x,y,scale=1,pose="stand",progress=0})=>{
- const pull=pose==="haul"||pose==="carry",hand=pose==="paint"||pose==="scribe";
- const reach=hand ? -60-12*Math.sin(progress*6) : pull ? -12 : 20;
- return <g transform={"translate("+x+" "+y+") scale("+scale+")"}>
-   <Ink>
-     <path d="M-24 -192L-34 -46L-13 0L12 -2L18 -85L31 -16L61 3L83 -9L49 -119L45 -188Z" fill={P.yellowOchre}/>
-     <path d="M-45 -283Q-67 -325 -50 -373Q-34 -423 17 -425Q73 -422 79 -367L106 -346L80 -322Q69 -290 39 -276Z" fill={P.yellowOchre}/>
-     <path d="M-49 -378Q-60 -421 -17 -445Q45 -462 78 -411Q88 -397 85 -383Q24 -413 -49 -378Z" fill={P.carbonBlack}/>
-     <path d="M-9 -362Q22 -374 48 -359Q32 -341 2 -345Z" fill={P.gypsumWhite}/>
-     <path d="M15 -362L24 -345" fill="none"/>
-     <path d="M63 -323Q75 -313 84 -324" fill="none"/>
-     <path d="M-53 -278Q-10 -296 34 -286L54 -178Q5 -152 -64 -180Z" fill={P.ochreRed}/>
-     <path d="M-64 -183Q-10 -161 54 -182L67 -61Q-5 -43 -78 -63Z" fill={P.gypsumWhite}/>
-     <path d="M-65 -177H56M-61 -143H57" fill="none"/>
-     <path d="M-30 -278Q-86 -226 -91 -170Q-104 -126 -85 -90L-61 -102Q-63 -141 -57 -158L8 -214Z" fill={P.yellowOchre}/>
-     <path d={hand ? "M36 -270Q88 -277 92 -232L139 "+reach+"L119 "+(reach+18)+"L53 -190L17 -225Z" :
-       pull ? "M37 -270Q87 -284 102 -235L147 -215L158 -188L136 -171L76 -196L24 -223Z":
-              "M38 -270Q81 -278 90 -239L98 -115L67 -110L53 -195L15 -224Z"} fill={P.yellowOchre}/>
-     <path d="M-50 -60L-46 36L-6 42L10 -45M29 -49L45 41L85 47L74 -55" fill={P.yellowOchre}/>
-     <path d="M-49 33Q-79 28 -83 51H-9L-4 42M47 38Q72 28 95 54H38Z" fill={P.carbonBlack}/>
-   </Ink>
-   <path d="M-64 -190Q-8 -170 54 -190" stroke={P.egyptianBlue} strokeWidth={T.outline.width} fill="none"/>
- </g>;
+
+export const TombPerson:React.FC<{x:number;y:number;scale?:number;pose?:TombRigPose|"paint"|"haul"|"carry"|"scribe"|"stand";progress?:number;sex?:TombRigSex}> = ({x,y,scale=1,pose="stand",progress=0,sex="man"})=>{
+ const roles:Record<string,TombRigPose>={stand:"standing",paint:"painting",haul:"walking",carry:"carrying-lamp",scribe:"painting"};
+ const role=(roles[pose]??pose) as TombRigPose;
+ return <EgyptianTombRig x={x} y={Math.min(y,T.composition.groundLineY)} scale={scale} pose={role} sex={sex} progress={progress}/>;
 };
 
 export const TombSun:React.FC<{x?:number;y?:number}> = ({x=790,y=540})=><Ink>
