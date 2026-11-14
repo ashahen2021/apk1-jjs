@@ -3,6 +3,7 @@ import { Composition } from "remotion";
 import { FORMATS } from "../../shared/catalog.ts";
 import type { SceneRenderProps } from "../../shared/schema.ts";
 import { StudioScene } from "./StudioScene";
+import { EgyptianRigPoseSheet } from "./EgyptianRigPoseSheet";
 
 const defaults: SceneRenderProps = {
   scene: { id: "sample", template: "title", narration: "", environment: "giza-pyramids", label: "NeoKemetAI Animation Studio", sublabel: "Local documentary generator", ambience: "auto" },
@@ -15,6 +16,7 @@ const defaults: SceneRenderProps = {
 
 /** One composition: size, rate and length all come from the props the studio passes in. */
 export const RemotionRoot: React.FC = () => (
+  <>
   <Composition
     id="StudioScene"
     component={StudioScene}
@@ -30,4 +32,6 @@ export const RemotionRoot: React.FC = () => (
       height: FORMATS[props.format].height,
     })}
   />
+  <Composition id="EgyptianRigPoseSheet" component={EgyptianRigPoseSheet} durationInFrames={150} fps={30} width={1920} height={1080}/>
+  </>
 );
