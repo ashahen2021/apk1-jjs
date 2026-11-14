@@ -1,21 +1,24 @@
-// Offline visual smoke test: render representative V1 SVG artwork for inspection.
-// Does not call voice/image services or modify production project files.
+// Offline V1 visual smoke: use the studio's own render pipeline and publicDir.
 import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
-const files = ["v1-painting-dark-demo", "v1-papyrus-demo", "v1-nile-transport-demo"];
-const out = path.resolve("v1-visual-previews");
-fs.mkdirSync(out,{recursive:true});
-for(const slug of files){
-  const p=JSON.parse(fs.readFileSync(path.join("examples",slug,"project.json"),"utf8"));
+
+const demos = ["v1-painting-dark-demo", "v1-papyrus-demo", "v1-nile-transport-demo"];
+const outDir = path.resolve("v1-visual-previews");
+fs.mkdirSync(outDir, { recursive: true });
+for(const slug of demos){
+  const file = path.join("examples",slug,"project.json");
+  if(!fs.existsSync(file))throw new Error("Missing visual demo: "+file);
   for(const frame of [12,65]){
-    const scene=p.scenes[0];
-    const props={scene,format:"9:16",fps:30,durationInFrames:Math.round(scene.durationSec*30),cues:[],subtitles:false};
-    const json=path.join(out,slug+".json");
-    const png=path.join(out,slug+"-"+frame+".png");
-    fs.writeFileSync(json,JSON.stringify(props));
-    const result=spawnSync("npx",["--no-install","remotion","still","engine/src/index.ts","StudioScene",png,"--props",json,"--frame",String(frame)],{stdio:"inherit",env:{...process.env,NEOKEMET_NO_PAID:"1"}});
-    if(result.status!==0)throw new Error("Visual smoke render failed for "+slug+" frame "+frame);
-    console.log("PASS visual "+png);
+    // The studio CLI sets engine/public as the asset root, unlike bare Remotion CLI.
+    const proc = spawnSync("npx", ["--no-install","tsx","server/cli.ts","still",path.dirname(file),"1",String(frame)],
+      {encoding:"utf8",env:{...process.env,NEOKEMET_NO_PAID:"1"},maxBuffer:6*1024*1024});
+    if(proc.status!==0)throw new Error("Studio still failed: "+slug+" frame "+frame+"\n"+proc.stdout+"\n"+proc.stderr);
+    const lines=proc.stdout.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+    const png=lines.at(-1);
+    if(!png || !fs.existsSync(png))throw new Error("Studio still did not produce a file: "+proc.stdout);
+    const destination=path.join(outDir,slug+"-"+frame+".png");
+    fs.copyFileSync(png,destination);
+    console.log("PASS visual "+destination);
   }
 }
