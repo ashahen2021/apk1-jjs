@@ -7,9 +7,9 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { parseProject } from "../server/projects.ts";
-import { closeBrowser, renderScenePreview } from "../server/render.ts";
+import { closeBrowser, renderScenePreview, getBundle } from "../server/render.ts";
 import { resolveTimeline } from "../server/timeline.ts";
-import { spawnSync } from "node:child_process";
+import { openBrowser, selectComposition, renderStill } from "@remotion/renderer";
 import { WORKSPACE } from "../server/paths.ts";
 import { tombPalette as P, tombTheme as T, getSceneLightingMode } from "../engine/src/theme/tombPaintingFlat.ts";
 import { GARDINER_CODES, GARDINER_SIGNS } from "../engine/src/data/hieroglyphSigns.ts";
@@ -55,19 +55,19 @@ try{
    samples.push({second:sec,globalFrame,scene:scene.index+1,localFrame,artId,file:name});
    console.log("Rendered",name,"scene",scene.index+1,"illustration",artId);
  }
- const args:string[]=[];
- for(const sample of samples)args.push("-i",path.join(framesDir,sample.file));
- const filters=samples.map((_,i)=>"["+i+":v]scale=540:960[v"+i+"]");
- filters.push(samples.map((_,i)=>"[v"+i+"]").join("")+
-   "xstack=inputs=8:layout=0_0|540_0|1080_0|1620_0|0_960|540_960|1080_960|1620_960:fill=black[out]");
+ // Generate contact PNG inside the same Remotion engine, not optional system FFmpeg.
  const sheet=path.join(out,"painting-the-dark-contact-sheet.png");
- // Remotion's bundled FFmpeg is intentionally minimal and omits xstack.
- // Use the GitHub runner's system FFmpeg only for the optional contact sheet.
- const result=spawnSync("ffmpeg",["-hide_banner","-v","error","-y",...args,
-   "-filter_complex",filters.join(";"),"-map","[out]","-frames:v","1",sheet],
-   {encoding:"utf8",maxBuffer:2*1024*1024});
- if(result.error || result.status!==0)throw new Error(
-   "Contact sheet needs system FFmpeg with xstack: "+String(result.error??result.stderr));
+ const images=samples.map(sample=>
+   "data:image/png;base64,"+fs.readFileSync(path.join(framesDir,sample.file)).toString("base64"));
+ const serveUrl=await getBundle();
+ const sheetBrowser=await openBrowser("chrome");
+ try{
+   const props={images};
+   const composition=await selectComposition({serveUrl,id:"PaintingContactSheet",
+     inputProps:props,puppeteerInstance:sheetBrowser});
+   await renderStill({serveUrl,composition,inputProps:props,puppeteerInstance:sheetBrowser,
+     frame:0,output:sheet,scale:1,logLevel:"error"});
+ }finally{await sheetBrowser.close({silent:true});}
  const png=fs.readFileSync(sheet);
  assert.equal(png.subarray(0,8).toString("hex"),"89504e470d0a1a0a");
  assert.equal(png.readUInt32BE(16),2160);assert.equal(png.readUInt32BE(20),1920);
