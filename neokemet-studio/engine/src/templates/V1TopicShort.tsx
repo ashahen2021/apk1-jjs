@@ -2,7 +2,7 @@
 import React from "react";
 import { useClock } from "../components/AnimatedScene";
 import { tombPalette as P, tombTheme as T, getSceneLightingMode } from "../theme/tombPaintingFlat";
-import { TombPerson, TombWall, TombLamp, TombPaletteTable, TombPapyrus, TombRiver, TombBoat, TombPyramid, TombBlock, TombRamp, TombSceneStyle, TombSceneTitle, TombSun } from "./TombPaintingParts";
+import { TombPerson, TombWall, TombLamp, TombPaletteTable, TombPapyrus, TombRiver, TombBoat, TombPyramid, TombBlock, TombRamp, TombSceneStyle, TombSceneTitle, TombSun, TombCameraPush, TombRegister } from "./TombPaintingParts";
 import { V1LabShots } from "./V1LabShots";
 import type { TemplateProps } from "./common";
 
@@ -34,9 +34,9 @@ const V1Art:React.FC<ArtProps>=({id,f,t})=>{
   default:return <><TombWall/><TombSceneTitle mode="day" title="NEW ILLUSTRATION NEEDED"/></>;
  }
 };
-export const V1TopicShortTemplate:React.FC<TemplateProps>=({scene})=>{
+export const V1TopicShortTemplate:React.FC<TemplateProps>=({scene,captionActive=false})=>{
  const {f,D}=useClock();
- if(scene.artShots?.length)return <V1LabShots shots={scene.artShots} frame={f} duration={D} narration={scene.narration}/>;
+ if(scene.artShots?.length)return <V1LabShots shots={scene.artShots} frame={f} duration={D} narration={scene.narration} captionActive={captionActive}/>;
  const shots=String(scene.params?.shots??"").split(",").map(s=>s.trim()).filter(Boolean);
  const count=Math.max(1,shots.length),pos=Math.min(count-.00001,Math.max(0,f/Math.max(1,D)*count));
  const index=Math.floor(pos),t=pos-index,id=shots[index]??"";
@@ -45,8 +45,11 @@ export const V1TopicShortTemplate:React.FC<TemplateProps>=({scene})=>{
  const title=scene.params?.hook===true && f<90 && hooks[topic] ? hooks[topic] : labels[id]??"NEW ART NEEDED";
  return <g>
   <TombSceneStyle mode={mode} lightX={580} lightY={1230}>
-    <V1Art id={id} f={f} t={t}/>
+    <TombCameraPush frame={f} duration={D}>
+      <V1Art id={id} f={f} t={t}/>
+      <TombRegister/>
+    </TombCameraPush>
   </TombSceneStyle>
-  <TombSceneTitle title={title} mode={mode}/>
+  <TombSceneTitle title={title} mode={mode} visible={!captionActive}/>
  </g>;
 };
