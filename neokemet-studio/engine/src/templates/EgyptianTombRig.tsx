@@ -5,6 +5,7 @@
  */
 import React from "react";
 import { tombPalette as P, tombTheme as T, getOutlineProps } from "../theme/tombPaintingFlat";
+import { EgyptianOilLamp } from "./EgyptianOilLamp";
 
 export type TombRigPose = "standing" | "painting" | "grinding" | "carrying-lamp" | "walking";
 export type TombRigSex = "man" | "woman";
@@ -74,10 +75,7 @@ export const EgyptianTombRig: React.FC<TombRigProps> = ({
          <path d="M59 -160L104 -294" fill="none" stroke={P.carbonBlack} strokeWidth={T.outline.width}/>
          <path d="M99 -301L111 -322L109 -289Z" fill={P.egyptianBlue} {...stroke}/>
        </g>}
-       {pose==="carrying-lamp" && <g data-prop="lamp">
-         <path d="M45 -160L147 -160Q142 -136 96 -126Q54 -134 45 -160Z" fill={P.yellowOchre} {...stroke}/>
-         <path d="M90 -166Q67 -188 85 -214Q113 -192 101 -171Z" fill={P.ochreRed} {...stroke}/>
-       </g>}
+       {pose==="carrying-lamp" && <EgyptianOilLamp x={92} y={-154} scale={.42} variant="bowl"/>}
        {pose==="grinding" && <g data-prop="grinding-stone">
          <path d="M55 -152Q92 -167 130 -157L121 -138L61 -138Z" fill={P.ochreRed} {...stroke}/>
          <path d="M82 -152L106 -182L123 -170L103 -138Z" fill={P.limestone} {...stroke}/>
