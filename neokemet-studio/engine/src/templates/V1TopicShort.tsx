@@ -43,8 +43,10 @@ export const V1TopicShortTemplate:React.FC<TemplateProps>=({scene})=>{
  const topic=String(scene.params?.topic??"missing");
  const mode=(getSceneLightingMode(scene)==="tomb"||tombIds.has(id))?"tomb" as const:"day" as const;
  const title=scene.params?.hook===true && f<90 && hooks[topic] ? hooks[topic] : labels[id]??"NEW ART NEEDED";
- return <TombSceneStyle mode={mode} lightX={580} lightY={1230}>
-  <V1Art id={id} f={f} t={t}/>
+ return <g>
+  <TombSceneStyle mode={mode} lightX={580} lightY={1230}>
+    <V1Art id={id} f={f} t={t}/>
+  </TombSceneStyle>
   <TombSceneTitle title={title} mode={mode}/>
- </TombSceneStyle>;
+ </g>;
 };
