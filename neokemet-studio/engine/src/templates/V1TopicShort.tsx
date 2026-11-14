@@ -43,8 +43,14 @@ export const V1TopicShortTemplate:React.FC<TemplateProps>=({scene,captionActive=
  const topic=String(scene.params?.topic??"missing");
  const mode=(getSceneLightingMode(scene)==="tomb"||tombIds.has(id))?"tomb" as const:"day" as const;
  const title=scene.params?.hook===true && f<90 && hooks[topic] ? hooks[topic] : labels[id]??"NEW ART NEEDED";
+ // Align the sole radial lighting mask with the REAL bowl's wick position.
+ const lamps:Record<string,[number,number]>={
+   lamp:[540,1010],pigments:[860,890],artist:[730,1140],
+   corridor:[540,1130],mural:[540,1080]
+ };
+ const [lightX,lightY]=lamps[id]??[580,1120];
  return <g>
-  <TombSceneStyle mode={mode} lightX={580} lightY={1230}>
+  <TombSceneStyle mode={mode} lightX={lightX} lightY={lightY}>
     <TombCameraPush frame={f} duration={D}>
       <V1Art id={id} f={f} t={t}/>
       <TombRegister/>
