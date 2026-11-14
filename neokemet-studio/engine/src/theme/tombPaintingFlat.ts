@@ -51,7 +51,7 @@ export const getOutlineProps = () => ({
   strokeLinejoin: tombTheme.outline.join,
   strokeLinecap: tombTheme.outline.cap,
 } as const);
-export const getGlowProps = (mode: TombLightingMode, cx = tombTheme.glow.centerX, cy = tombTheme.glow.centerY) => ({
+export const getGlowProps = (mode: TombLightingMode, cx: number = tombTheme.glow.centerX, cy: number = tombTheme.glow.centerY) => ({
   enabled: mode === "tomb",
   cx, cy,
   radius: tombTheme.glow.radius,
