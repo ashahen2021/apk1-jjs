@@ -59,6 +59,7 @@ export const planV1Short = (sourceScenes: Scene[], seconds: 15 | 30, title = "")
   if (perScene > 8) warnings.push("Too few scenes for 1–2-second shots; split the script into more paragraphs.");
   if (!topic) warnings.push("No V1 illustration set matches this story. New visual assets must be drawn before publishing.");
   let matched = 0;
+  const shotHistory: {id:string;time:number}[] = [];
   const scenes: Scene[] = sourceScenes.map((s, i) => {
     // Distribute integer frames, not fractional seconds: 4 × 3.75 s rounds to 452 frames otherwise.
     const startFrame = Math.round(i * seconds * 30 / sourceScenes.length);
@@ -71,10 +72,30 @@ export const planV1Short = (sourceScenes: Scene[], seconds: 15 | 30, title = "")
     const candidates = topic ? [...V1_TOPICS[topic]] : [];
     // Prefer identified actions. Fill with related but different subject illustrations,
     // and report that the additional images are approximate rather than claiming exactness.
-    const amount = Math.max(2, Math.min(4, Math.round(perScene / 1.5)));
-    const beats: string[] = [...realMatches];
-    for (const b of candidates) if (beats.length < amount && !beats.includes(b)) beats.push(b);
-    const visible = beats.slice(0, amount);
+    // 2–3 second visual beats (rounding allows 1.875s for the 3.75s/2 case).
+    // Never repeat the same V1 illustration consecutively, or >2 times
+    // inside any sliding 20-second interval. Prefer semantically matched art.
+    const amount = Math.max(1, Math.min(4, Math.round(exactSeconds / 2.5)));
+    const visible: string[] = [];
+    const options = [...new Set([...realMatches,...candidates])];
+    for(let j=0;j<amount;j++){
+      const at=startFrame/30 + j*(exactSeconds/amount);
+      const previous=shotHistory.at(-1)?.id;
+      const available=options.find(b=>b!==previous &&
+        shotHistory.filter(old=>old.id===b && at-old.time<20).length<2);
+      if(!available){
+        const missing=`missing-art-${i+1}-${j+1}`;
+        visible.push(missing);
+        shotHistory.push({id:missing,time:at});
+        warnings.push(`Scene ${i+1}, shot ${j+1}: V1 has no unused, subject-relevant drawing available under the 20-second repeat limit; create original art in Visual Lab.`);
+      }else{
+        visible.push(available);
+        shotHistory.push({id:available,time:at});
+        const idx=options.indexOf(available);
+        // Round-robin after coverage choices to avoid identical compositions in sequence.
+        if(idx>=0){options.splice(idx,1);options.push(available);}
+      }
+    }
     // Avoid old generic opening/end cards; begin with the subject.
     const out: Scene = {
       ...s, template: "v1-topic-short",
