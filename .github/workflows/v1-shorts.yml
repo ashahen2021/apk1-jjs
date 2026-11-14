@@ -72,6 +72,16 @@ jobs:
             --exclude='*.woff' --exclude='*.woff2' \
             --exclude='*.log' --exclude='*.bak' \
             --exclude='v1-visual-previews/'
+          # Make the painting demo visible on the initial Projects screen.
+          mkdir -p "dist/$package/projects/painting-the-dark-v1-test"
+          cp neokemet-studio/examples/v1-painting-dark-demo/project.json              "dist/$package/projects/painting-the-dark-v1-test/project.json"
+          cat > "dist/$package/Start-V1-Safe-Test.bat" <<'EOF'
+          @echo off
+          setlocal
+          set "NEOKEMET_NO_PAID=1"
+          echo NeoKemetAI V1 test mode - paid cloud narration disabled.
+          call "%~dp0Start-NeoKemetAI-Studio.bat"
+          EOF
           mkdir -p "dist/$package/ACCEPTANCE-PAINTING-DARK"
           cp -a neokemet-studio/workspace/painting-dark-acceptance/. \
             "dist/$package/ACCEPTANCE-PAINTING-DARK/"
@@ -83,12 +93,11 @@ jobs:
 
           1. Extract this entire ZIP into a NEW folder.
           2. Install Node.js 22 LTS or newer if necessary.
-          3. Double-click Start-NeoKemetAI-Studio.bat in this folder.
+          3. Double-click Start-V1-Safe-Test.bat in this folder (cloud charges OFF).
              On first run, npm installs packages (requires internet).
           4. Open http://127.0.0.1:4173 in the browser if not opened automatically.
-          5. To test Painting the Dark, use the reference project:
-             examples/v1-painting-dark-demo/project.json
-             (the studio can load it through a project copy/import).
+          5. In the left Projects panel select "Painting the Dark | V1 Illustrated Short".
+             This reference project is preinstalled as a separate copy for testing.
           6. Eight real 1080x1920 stills and a 2160x1920 contact sheet are
              inside ACCEPTANCE-PAINTING-DARK/ with a machine-readable QA report.
 
