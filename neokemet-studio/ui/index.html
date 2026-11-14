@@ -27,8 +27,9 @@
       <button data-tab="project" class="on">1 · Project</button>
       <button data-tab="script">2 · Script</button>
       <button data-tab="storyboard">3 · Storyboard</button>
-      <button data-tab="audio">4 · Narration &amp; sound</button>
-      <button data-tab="export">5 · Export</button>
+      <button data-tab="visual-lab">4 · Visual Lab</button>
+      <button data-tab="audio">5 · Narration &amp; sound</button>
+      <button data-tab="export">6 · Export</button>
       <button data-tab="settings">Settings</button>
     </nav>
     <div id="banner" class="banner" hidden></div>
@@ -110,6 +111,32 @@
         </div>
       </div>
       <div id="scenes"></div>
+    </section>
+
+    <section id="tab-visual-lab" class="tab">
+      <div class="card">
+        <h3>Visual Development Lab — New artwork for every story</h3>
+        <p class="muted">Analyze the CURRENT storyboard, identify illustrations that do not match the narration, and develop NEW editable 2D SVG illustrations. Existing project files, scripts, voiceovers and finished videos remain unchanged until you approve and save.</p>
+        <div class="row">
+          <button id="btnLabAnalyze" class="primary">1 · Analyze script and scenes</button>
+          <span id="labStatus" class="muted">Start with an analysis. Nothing is sent to paid AI services.</span>
+        </div>
+        <div id="labAnalysis" class="card" hidden></div>
+      </div>
+      <div class="card">
+        <h4>2 · Develop the missing illustrations</h4>
+        <p class="muted">Offline Ramp creates illustrated pyramid-construction shots without any AI. Local Ollama can propose new SVG geometry for other subjects if you have installed a local model. Artwork is data, never executable code.</p>
+        <div class="row">
+          <button id="btnLabOffline" disabled>Generate Pyramid Ramp art (offline)</button>
+          <button id="btnLabOllama" disabled>Generate new art using local Ollama</button>
+        </div>
+        <div id="labArtwork" class="card" hidden></div>
+        <div class="row">
+          <button id="btnLabApply" class="primary" disabled>3 · Approve drawings for this project</button>
+          <button id="btnLabUndo" disabled>Undo art approval</button>
+          <span class="muted">After approval, use Preview frame in Storyboard, then save the project. Never overwrites narration.</span>
+        </div>
+      </div>
     </section>
 
     <section id="tab-audio" class="tab">
