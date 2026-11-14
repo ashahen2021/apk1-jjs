@@ -63,7 +63,7 @@ The exact text of these requirements must be applied before artistic approval an
 ## Instruction 3 — Vertical safe composition (implemented)
 - Central configuration: `engine/src/theme/tombPaintingFlat.ts`:
   - No text above y=220 or below y=1500 (bottom 420px excluded).
-  - Scene's primary figures/actions are staged against the register y=1445, with main visual content in y=350–1450.
+  - Scene's primary figures/actions are staged against the register y=1225, with main visual content in y=350–1450; characters and the register stay visible ABOVE the text band.
   - Title is a **72–90px gypsum-white serif** in a carbon-black full-width band at y=1240–1440, not at the top.
   - Word captions occupy **the exact same band**; titles automatically hide for frames when word captions are visible, avoiding overlaps.
   - Every V1 shot uses a thin ochre-red register ground rule and ~4.5% slow push centered at the ground line; title and captions stay fixed.
