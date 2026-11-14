@@ -468,7 +468,8 @@ const init = async () => {
     $("productionFileName").textContent = file.name + " — validating…";
     try {
       if (file.size > 500_000) throw new Error("This file is too large (max 500 KB).");
-      const response = await post("/api/production/preview", { source: await file.text(), title: project.title });
+      const useV1 = $("productionV1Topic").checked;
+      const response = await post("/api/production/preview", { source: await file.text(), title: project.title, mode: useV1 ? "v1-topic-short" : undefined, seconds: Number($("productionV1Length").value) });
       stagedProduction = response;
       $("productionFileName").textContent = file.name;
       $("productionPreview").hidden = false;
@@ -489,6 +490,7 @@ const init = async () => {
     if (!confirm(`Replace the current ${project.scenes.length}-scene storyboard with ${staged.scenes.length} imported scenes? Existing narration references will not be carried over. You must still click Save project afterward.`)) return;
     const extra = { script: staged.script };
     if ($("productionUseFormat").checked && staged.suggestedFormat) extra.format = staged.suggestedFormat;
+    if ($("productionV1Topic").checked) { extra.format = "9:16"; extra.fps = 30; extra.subtitles = true; }
     try {
       await adoptScenes(staged.scenes, extra);
       clearProductionPreview();
@@ -499,9 +501,10 @@ const init = async () => {
     if (project.scenes.some((s) => s.narration) && !confirm("Replace the current storyboard with one built from the script?")) return;
     const btn = $("btnPlan"); btn.disabled = true;
     try {
-      const r = await post("/api/plan", { title: project.title, script: project.script });
-      await adoptScenes(r.scenes);
-      say(`Storyboard built: ${r.scenes.length} scenes, one per paragraph. Check each scene, then generate narration.`, true);
+      const useV1 = $("fV1Topic").checked;
+      const r = await post("/api/plan", { title: project.title, script: project.script, mode: useV1 ? "v1-topic-short" : undefined, seconds: Number($("fV1Length").value) });
+      await adoptScenes(r.scenes, useV1 ? { format: "9:16", fps: 30, subtitles: true } : {});
+      say(useV1 ? `V1 illustrated Shorts: ${r.scenes.length} scenes. ${r.warnings.join(" ")}` : `Storyboard built: ${r.scenes.length} scenes, one per paragraph. Check each scene, then generate narration.`, true);
     } catch (e) { say(`The storyboard was not changed.\n${e.message}`); }
     finally { btn.disabled = false; }
   };
