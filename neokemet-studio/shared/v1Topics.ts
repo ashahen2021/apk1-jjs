@@ -56,9 +56,14 @@ export const planV1Short = (sourceScenes: Scene[], seconds: 15 | 30, title = "")
   const warnings: string[] = [];
   const perScene = seconds / sourceScenes.length;
   if (perScene < 2) throw new Error("Too many scenes for the selected Shorts duration (minimum 2 seconds each).");
+  if (perScene > 8) warnings.push("Too few scenes for 1–2-second shots; split the script into more paragraphs.");
   if (!topic) warnings.push("No V1 illustration set matches this story. New visual assets must be drawn before publishing.");
   let matched = 0;
   const scenes: Scene[] = sourceScenes.map((s, i) => {
+    // Distribute integer frames, not fractional seconds: 4 × 3.75 s rounds to 452 frames otherwise.
+    const startFrame = Math.round(i * seconds * 30 / sourceScenes.length);
+    const endFrame = Math.round((i + 1) * seconds * 30 / sourceScenes.length);
+    const exactSeconds = (endFrame - startFrame) / 30;
     const description = [s.production?.visual ?? "", s.narration].join(" ");
     const realMatches = topic ? BEAT_RULES[topic].filter(([re]) => re.test(description)).map(([, id]) => id) : [];
     if (realMatches.length) matched++;
@@ -73,7 +78,7 @@ export const planV1Short = (sourceScenes: Scene[], seconds: 15 | 30, title = "")
     // Avoid old generic opening/end cards; begin with the subject.
     const out: Scene = {
       ...s, template: "v1-topic-short",
-      durationSec: perScene, ambience: s.ambience ?? "auto",
+      durationSec: exactSeconds, ambience: s.ambience ?? "auto",
       label: i === 0 ? (s.label || "THE HIDDEN STORY") : s.label,
       params: {
         topic: topic ?? "missing",
