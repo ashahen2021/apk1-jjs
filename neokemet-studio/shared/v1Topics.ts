@@ -75,7 +75,7 @@ export const planV1Short = (sourceScenes: Scene[], seconds: 15 | 30, title = "")
     // 2–3 second visual beats (rounding allows 1.875s for the 3.75s/2 case).
     // Never repeat the same V1 illustration consecutively, or >2 times
     // inside any sliding 20-second interval. Prefer semantically matched art.
-    const amount = Math.max(1, Math.min(4, Math.round(exactSeconds / 2.5)));
+    const amount = Math.max(1, Math.min(4, Math.ceil(exactSeconds / 3)));
     const visible: string[] = [];
     const options = [...new Set([...realMatches,...candidates])];
     for(let j=0;j<amount;j++){
@@ -136,7 +136,7 @@ export const conformV1VisualCadence = (
     if(scene.template!=="v1-topic-short"){
       out.push(scene);current+=seconds;continue;
     }
-    const target=Math.max(1,Math.min(8,Math.round(seconds/2.5)));
+    const target=Math.max(1,Math.min(8,Math.ceil(seconds/3)));
     if(seconds/target>3.05)warnings.push(`Scene ${i+1}: a ${seconds.toFixed(1)}s narration exceeds the 8-shot safe V1 limit; shorten or split the scene.`);
     if(scene.artShots?.length){
       const n=Math.min(scene.artShots.length,target);
