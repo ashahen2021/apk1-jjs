@@ -18,6 +18,7 @@ export const StudioScene: React.FC<SceneRenderProps> = ({ scene, format, fps, du
   const frame = useCurrentFrame();
   const entry = resolveTemplate(scene.template);
   const shorts15 = scene.template.startsWith("shorts15-");
+  const v1TopicShort = scene.template === "v1-topic-short";
   const shorts15V3 = scene.template.startsWith("shorts15-v3-");
   const seed = seedOf(scene.id);
   const clock = { f: (frame * 30) / fps, D: (durationInFrames * 30) / fps, preset: !!entry.preset };
@@ -29,7 +30,7 @@ export const StudioScene: React.FC<SceneRenderProps> = ({ scene, format, fps, du
         </AnimatedScene>
       </ClockCtx.Provider>
       <PrintOverlay seed={seed} soft={shorts15} />
-      {subtitles && (shorts15V3 ? <Shorts15CaptionsV3 cues={cues} format={format} /> : shorts15 ? <Shorts15Captions cues={cues} format={format} /> : <Subtitles cues={cues} format={format} />)}
+      {subtitles && (shorts15V3 ? <Shorts15CaptionsV3 cues={cues} format={format} /> : (shorts15 || v1TopicShort) ? <Shorts15Captions cues={cues} format={format} /> : <Subtitles cues={cues} format={format} />)}
     </AbsoluteFill>
   );
 };
