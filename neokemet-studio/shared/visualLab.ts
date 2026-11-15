@@ -63,7 +63,8 @@ export const analyzeVisualLab = (p: Project) => {
     offlineAvailable:ramp || bespokePainting,
     offlineRecipe:ramp?"ramp":bespokePainting?"bespoke-painting":null,
     generated:rows.filter(r=>r.coverage==="custom").length,
-    missing:rows.filter(r=>r.coverage==="missing").length,
+    // An approximation still needs bespoke art even if old V1 motifs technically exist.
+    missing:rows.filter(r=>r.coverage==="missing" || (bespokePainting && r.coverage==="approximate")).length,
     scenes:rows,
     advice:ramp?"Offline ramp illustrator available: generate new geometry and motion, inspect, then approve."
       :bespokePainting?"A curated, project-specific tomb painting SVG pack is available offline. Generate, review and explicitly approve its artwork."
