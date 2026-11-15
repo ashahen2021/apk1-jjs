@@ -38,7 +38,7 @@ export const V1LabShots:React.FC<{shots:ArtShot[];frame:number;duration:number;n
       <TombCameraPush frame={frame} duration={duration}>
         {/* A full-bleed authentic stone environment remains visible in safe zones.
             The bespoke focal art is painted on top; no blank black bands. */}
-        <TombWall/>
+        {mode==="tomb" && <TombWall/>}
         <g data-artwork="bespoke-svg" data-safe-zone="350-1225">
           {shot.shapes.map((shape,i)=>draw(shape,i,t))}
         </g>
