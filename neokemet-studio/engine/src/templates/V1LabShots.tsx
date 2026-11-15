@@ -6,13 +6,10 @@ import { getSceneLightingMode, tombLegacyColor, tombTheme as T, tombPalette as P
 import { TombSceneStyle, TombSceneTitle, TombCameraPush, TombRegister } from "./TombPaintingParts";
 
 const draw=(shape:ArtElement,index:number,t:number):React.ReactNode=>{
-  // Legacy Visual Lab art contained a large inset "picture" panel; remove it in the
-  // new full-bleed presentation instead of treating it as an object.
-  if(shape.kind==="rect" && (shape.width??0)>850 && (shape.height??0)>750) return null;
   const outlined={
     fill:shape.fill==="none"?"none":tombLegacyColor(shape.fill),
-    stroke:P.carbonBlack,
-    strokeWidth:T.outline.width,
+    stroke:shape.stroke==="none"?P.carbonBlack:tombLegacyColor(shape.stroke),
+    strokeWidth:Math.min(40,Math.max(T.outline.width,shape.strokeWidth??T.outline.width)),
     strokeLinejoin:"round" as const,
     strokeLinecap:"round" as const,
     opacity:shape.opacity??1,
@@ -31,14 +28,15 @@ const draw=(shape:ArtElement,index:number,t:number):React.ReactNode=>{
 };
 export const V1LabShots:React.FC<{shots:ArtShot[];frame:number;duration:number;narration?:string;captionActive?:boolean}> = ({shots,frame,duration,narration="",captionActive=false})=>{
   const raw=Math.min(.999999,Math.max(0,frame/Math.max(1,duration)));
-  const count=Math.max(1,Math.min(shots.length,Math.round((duration/30)/T.pacing.targetShotSec)));
+  // Show each bespoke beat at Short cadence; a 3.75s scene shows 3 distinct 1.25s shots.
+  const count=Math.max(1,Math.min(shots.length,Math.ceil((duration/30)/1.6)));
   const pos=raw*count,index=Math.floor(pos),t=pos-index;
   const shot=shots[index]??shots[0];
   const mode=getSceneLightingMode([narration,shot.description,shot.label].join(" "));
   return <g>
     <TombSceneStyle mode={mode} lightX={T.glow.centerX} lightY={T.glow.centerY}>
       <TombCameraPush frame={frame} duration={duration}>
-        <g transform="translate(0 -255) scale(1 1.06)">
+        <g data-artwork="bespoke-svg" data-safe-zone="350-1225">
           {shot.shapes.map((shape,i)=>draw(shape,i,t))}
         </g>
         <TombRegister/>
