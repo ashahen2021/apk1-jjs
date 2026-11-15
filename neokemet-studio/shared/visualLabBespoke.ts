@@ -164,7 +164,7 @@ const compositions:ArtShot[][] = [
   ],
   [
     shot("PAINTED FOR ETERNITY","A full-width painted register with adult figures and a lotus design.",stoneWall("gold"),muralFigures(260,1184,.80),muralFigures(583,1184,.80),lotus(838,1005,1.25)),
-    shot("COLOURS THAT SURVIVE","Mineral blue, red and gold figures remain visible on decorated stone.",stoneWall(),muralFigures(330,1190,.82),muralFigures(775,1190,.82),cracks()),
+    shot("COLOURS THAT SURVIVE","Close view of surviving blue lotus, ochre pigment and mineral-painted funerary decoration.",stoneWall("blue"),lotus(545,861,2.25),cracks(),[oval(330,1048,65,43,"red","ink",6),oval(750,1048,65,43,"gold","ink",6),line(212,1100,877,1100,"blue",11)]),
     shot("WALLS STILL SPEAK","A wide painted wall with two processional figures and surviving colours.",stoneWall("red"),muralFigures(270,1184,.78),lotus(556,983,1.35),muralFigures(828,1184,.78)),
   ],
 ];
