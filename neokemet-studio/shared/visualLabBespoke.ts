@@ -64,14 +64,16 @@ const person = (x:number,ground:number,s=1,painting=false):Shapes => {
   const X=(v:number)=>Math.round(x+v*s), Y=(v:number)=>Math.round(ground+v*s);
   return [
     // Historical composite-view convention: face in profile, torso near-frontal.
-    oval(X(0),Y(-390),54*s,63*s,"earth","ink",6),
+    oval(X(0),Y(-390),48*s,52*s,"earth","ink",6),
     polygon([[X(39),Y(-399)],[X(75),Y(-379)],[X(45),Y(-363)]],"earth","ink",5),
-    oval(X(-18),Y(-425),60*s,34*s,"ink"),
+    oval(X(-18),Y(-431),55*s,28*s,"ink"),
     line(X(56),Y(-383),X(67),Y(-381),"ink",5),
-    rect(X(-64),Y(-325),132*s,155*s,"cream","ink",6),
-    polygon([[X(-77),Y(-181)],[X(82),Y(-181)],[X(105),Y(-92)],[X(-90),Y(-92)]],"white","red",6),
-    line(X(-48),Y(-93),X(-64),Y(-14),"earth",29*s),
-    line(X(61),Y(-93),X(93),Y(-13),"earth",29*s),
+    rect(X(-64),Y(-327),132*s,144*s,"cream","ink",6),
+    line(X(-43),Y(-315),X(45),Y(-315),"blue",8),
+    line(X(-61),Y(-188),X(66),Y(-188),"gold",10),
+    polygon([[X(-77),Y(-185)],[X(82),Y(-185)],[X(94),Y(-129)],[X(-90),Y(-129)]],"white","red",6),
+    line(X(-48),Y(-127),X(-64),Y(-14),"earth",27*s),
+    line(X(61),Y(-127),X(93),Y(-13),"earth",27*s),
     oval(X(-79),Y(-7),56*s,15*s,"earth","ink",5),
     oval(X(100),Y(-7),52*s,15*s,"earth","ink",5),
     line(X(-63),Y(-302),X(-110),Y(-218),"earth",26*s),
@@ -146,24 +148,24 @@ const shot = (label:string,description:string,...groups:Shapes[]):ArtShot => ({
 });
 const compositions:ArtShot[][] = [
   [
-    shot("IN COMPLETE DARKNESS","A tomb corridor, a standing oil lamp and a silhouetted adult painter.",tombInterior(),lamp(530,1001,.75),person(285,1187,.84),register()),
+    shot("IN COMPLETE DARKNESS","A tomb corridor, a standing oil lamp and a silhouetted adult painter.",tombInterior(),lamp(530,1001,.75),person(285,1187,1.06),register()),
     shot("LIGHT FROM ONE FLAME","A large oil lamp illuminates the limestone wall.",stoneWall(),lamp(520,872,1.55),lotus(793,884,1.05)),
-    shot("THE TOMB PAINTER","A painter approaches a painted wall with a brush and lamp.",stoneWall(),person(335,1193,.9,true),lamp(767,991,.78)),
+    shot("THE TOMB PAINTER","A painter approaches a painted wall with a brush and lamp.",stoneWall(),person(335,1193,1.07,true),lamp(767,991,.78)),
   ],
   [
     shot("MINERAL PIGMENTS","Mineral colours in stone bowls ready for a painter.",stoneWall(),pigmentTable(),lotus(542,579,.8)),
     shot("GRINDING RED OCHRE","A mortar, pestle and coloured mineral pigment samples shown close-up.",pigmentsClose()),
-    shot("COLOUR BY LAMPLIGHT","A painter and a broad pigment table illuminated by a portable lamp.",stoneWall(),person(313,1191,.72,true),pigmentTable(155,960),lamp(846,647,.62)),
+    shot("COLOUR BY LAMPLIGHT","A painter and a broad pigment table illuminated by a portable lamp.",stoneWall(),person(313,1191,.96,true),pigmentTable(155,960),lamp(846,647,.62)),
   ],
   [
     shot("BRUSH ON STONE","Close view of a brush painting a large figure on limestone.",brushDetail()),
-    shot("THE PAINTED UNDERWORLD","The artist paints beside coloured adult figures on a tomb wall.",stoneWall(),muralFigures(605,1180,.73),person(250,1180,.66,true),lamp(846,854,.62)),
-    shot("DEEP UNDERGROUND","A lamp and a working painter inside a stone-cut underground chamber.",tombInterior(),person(334,1170,.86,true),lamp(752,944,.83)),
+    shot("THE PAINTED UNDERWORLD","The artist paints beside coloured adult figures on a tomb wall.",stoneWall(),muralFigures(605,1180,.89),person(250,1180,.86,true),lamp(846,854,.62)),
+    shot("DEEP UNDERGROUND","A lamp and a working painter inside a stone-cut underground chamber.",tombInterior(),person(334,1170,1.04,true),lamp(752,944,.83)),
   ],
   [
-    shot("PAINTED FOR ETERNITY","A full-width painted register with adult figures and a lotus design.",stoneWall("gold"),muralFigures(260,1184,.64),muralFigures(583,1184,.64),lotus(838,1005,1.25)),
-    shot("COLOURS THAT SURVIVE","Mineral blue, red and gold figures remain visible on decorated stone.",stoneWall(),muralFigures(330,1190,.72),muralFigures(775,1190,.72),cracks()),
-    shot("WALLS STILL SPEAK","A wide painted wall with two processional figures and surviving colours.",stoneWall("red"),muralFigures(270,1184,.63),lotus(556,983,1.35),muralFigures(828,1184,.63)),
+    shot("PAINTED FOR ETERNITY","A full-width painted register with adult figures and a lotus design.",stoneWall("gold"),muralFigures(260,1184,.80),muralFigures(583,1184,.80),lotus(838,1005,1.25)),
+    shot("COLOURS THAT SURVIVE","Mineral blue, red and gold figures remain visible on decorated stone.",stoneWall(),muralFigures(330,1190,.82),muralFigures(775,1190,.82),cracks()),
+    shot("WALLS STILL SPEAK","A wide painted wall with two processional figures and surviving colours.",stoneWall("red"),muralFigures(270,1184,.78),lotus(556,983,1.35),muralFigures(828,1184,.78)),
   ],
 ];
 
