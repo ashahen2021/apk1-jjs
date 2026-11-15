@@ -62,13 +62,13 @@ jobs:
           set -euo pipefail
           package="NeoKemetAI-Studio-V1-TombPaintingFlat-Windows"
           mkdir -p "dist/$package"
+          # Include all six locally bundled SIL-OFL fonts required by Remotion.
           rsync -a neokemet-studio/ "dist/$package/" \
             --exclude='node_modules/' \
             --exclude='workspace/' \
             --exclude='*.mp3' --exclude='*.wav' --exclude='*.m4a' \
             --exclude='*.flac' --exclude='*.mp4' --exclude='*.mov' \
             --exclude='*.webm' --exclude='*.mkv' \
-            # Keep bundled SIL-OFL fonts; Remotion loads these by staticFile().
             --exclude='*.log' --exclude='*.bak' \
             --exclude='v1-visual-previews/'
           # Make the painting demo visible on the initial Projects screen.
