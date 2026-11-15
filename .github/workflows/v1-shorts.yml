@@ -40,7 +40,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: v1-bespoke-painting-eight-stills
+          name: v1-bespoke-painting-20-preview-stills
           path: neokemet-studio/workspace/bespoke-painting-preview/
           if-no-files-found: warn
       - name: Render Tomb Painting Flat native template proofs
@@ -108,6 +108,9 @@ jobs:
           echo No API key is bundled. Enter your own key under Settings.
           call "%~dp0Start-NeoKemetAI-Studio.bat"
           EOF
+          mkdir -p "dist/$package/BESPOKE-SVG-PREVIEWS"
+          cp -a neokemet-studio/workspace/bespoke-painting-preview/. \
+            "dist/$package/BESPOKE-SVG-PREVIEWS/"
           mkdir -p "dist/$package/ACCEPTANCE-PAINTING-DARK"
           cp -a neokemet-studio/workspace/painting-dark-acceptance/. \
             "dist/$package/ACCEPTANCE-PAINTING-DARK/"
@@ -133,7 +136,7 @@ jobs:
              This reference project is preinstalled as a separate copy for testing.
           6. In Visual Lab: Analyze script and scenes, then click
              Generate bespoke SVG art (offline). Review before approving.
-             A separate CI artifact contains eight 1080x1920 bespoke stills.
+             BESPOKE-SVG-PREVIEWS/ contains 8 timeline samples and all 12 bespoke shots.
              Eight original 1080x1920 stills and a 2160x1920 contact sheet are
              inside ACCEPTANCE-PAINTING-DARK/ with a machine-readable QA report.
 
