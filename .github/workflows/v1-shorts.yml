@@ -79,7 +79,13 @@ jobs:
           @echo off
           setlocal
           set "NEOKEMET_NO_PAID=1"
-          echo NeoKemetAI V1 test mode - paid cloud narration disabled.
+          rem Keep this beta test isolated from the user's older instance on 4173.
+          set "PORT=4174"
+          echo -------------------------------------------
+          echo NeoKemetAI V1 TOMB PAINTING FLAT TEST BUILD
+          echo Local studio: http://127.0.0.1:4174
+          echo Paid API calls are disabled in this test.
+          echo -------------------------------------------
           call "%~dp0Start-NeoKemetAI-Studio.bat"
           EOF
           mkdir -p "dist/$package/ACCEPTANCE-PAINTING-DARK"
@@ -95,8 +101,12 @@ jobs:
           2. Install Node.js 22 LTS or newer if necessary.
           3. Double-click Start-V1-Safe-Test.bat in this folder (cloud charges OFF).
              On first run, npm installs packages (requires internet).
-          4. Open http://127.0.0.1:4173 in the browser if not opened automatically.
+          4. Open http://127.0.0.1:4174 in the browser.
+             This beta uses port 4174, not the old studio port 4173.
+             Check the header label: V1 - TOMB PAINTING FLAT - TEST.
           5. In the left Projects panel select "Painting the Dark | V1 Illustrated Short".
+             If you see old user-recorded narration MP3 files, you opened
+             your previous studio/project, not this clean test package.
              This reference project is preinstalled as a separate copy for testing.
           6. Eight real 1080x1920 stills and a 2160x1920 contact sheet are
              inside ACCEPTANCE-PAINTING-DARK/ with a machine-readable QA report.
