@@ -2,7 +2,7 @@ name: V1 illustrated Shorts checks
 
 on:
   push:
-    branches: [feature/v1-topic-aware-shorts, feature/v1-visual-development-lab, feature/v1-tomb-painting-flat, feature/v1-bespoke-svg-artwork, feature/v1-great-pyramid-print-style]
+    branches: [feature/v1-topic-aware-shorts, feature/v1-visual-development-lab, feature/v1-tomb-painting-flat, feature/v1-bespoke-svg-artwork, feature/v1-great-pyramid-print-style, feature/v1-print-composition-diversity]
   pull_request:
     paths:
       - "neokemet-studio/**"

@@ -6,6 +6,7 @@ import path from "node:path";
 import { parseProject } from "./projects.ts";
 import { analyzeVisualLab, proposeOfflineArt, VisualPackageSchema } from "../shared/visualLab.ts";
 import { auditIllustrations } from "../shared/visualLabQuality.ts";
+import { PRINT_SHOT_PRIMARY_SUBJECTS, CLASSIC_PRINT_PAINTING_IDS } from "../engine/src/templates/GreatPyramidPrintPainting.tsx";
 
 const fixture=path.resolve("examples/v1-painting-dark-demo/project.json");
 const originalBytes=fs.readFileSync(fixture);
@@ -31,6 +32,14 @@ assert.equal(new Set(allLabels).size,12,"All bespoke labels differ across this f
 const recipes=pack.scenes.flatMap(s=>s.shots.map(shot=>shot.printRecipe));
 assert.equal(new Set(recipes).size,12,"Every film shot has its own premium original-print recipe");
 assert.ok(recipes.every(r=>typeof r==="string"&&r.startsWith("painting-dark/")),"Every shot uses the classic Great Pyramid print renderer");
+assert.deepEqual([...recipes].sort(),[...CLASSIC_PRINT_PAINTING_IDS].sort(),"All hand-authored print recipes are selected once");
+const primarySubjects=recipes.map(r=>PRINT_SHOT_PRIMARY_SUBJECTS[r!]);
+assert.ok(primarySubjects.every(Boolean),"Every rendered shot has a declared primary subject");
+assert.equal(new Set(primarySubjects).size,12,"No repeated shot's dominant subject: backgrounds/painters alone are insufficient");
+assert.notEqual(primarySubjects[0],primarySubjects[1],"Wide corridor must cut to an isolated lamp");
+assert.notEqual(primarySubjects[3],primarySubjects[4],"Pigment palette must cut to grinding macro");
+assert.notEqual(primarySubjects[6],primarySubjects[7],"Brush close-up must cut to Egyptian mural");
+
 assert.deepEqual(JSON.stringify(project),before,"Generating artwork is non-mutating");
 
 const approved=parseProject({...project,scenes:project.scenes.map((scene,i)=>({
