@@ -106,23 +106,147 @@ const PaintedLotus:React.FC<{x:number;y:number;s:number;seed:number}>=({x,y,s,se
   <path d="M-72 31Q0 51 72 31" stroke={C.terra} strokeWidth="6" fill="none"/>
 </g>;
 
-/** Exactly twelve author-directed scenes, all visibly distinct under classic print art. */
+/**
+ * Each shot must change its PRIMARY SUBJECT, SCALE, SPATIAL LAYOUT and camera
+ * from its neighbours. Classic Great Pyramid print language is preserved.
+ * Do not use the same wall/background as a blanket layer for all twelve shots.
+ */
+const WornPlaster:React.FC<{seed:number;x?:number;y?:number;w?:number;h?:number;dark?:boolean}>=
+({seed,x=114,y=462,w=850,h=720,dark=false})=><g>
+  <RRect x={x} y={y} w={w} h={h} seed={seed} fill={dark?C.sand:C.paperDark} amp={4}/>
+  <Streaks x={x+20} y={y+15} w={w-40} h={h-30} seed={seed+1} count={205} color={dark?C.paper:C.sand} opacity={.32} maxLen={165} thick={3}/>
+  <Stipple x={x+20} y={y+20} w={w-40} h={h-40} seed={seed+4} count={240} color={C.earth} opacity={.16} size={2.8}/>
+</g>;
+
+const WorkLight:React.FC<{f:number;x:number;y:number;seed:number;r?:number}>=({f,x,y,seed,r=330})=><g>
+  <Glow x={x} y={y} f={f} id={"work-light-"+seed} r={r} strength={.38}/>
+  <Dust f={f} x={Math.max(0,x-r)} y={y-r} w={Math.min(1000,r*2)} h={r*1.7} count={26} seed={seed} opacity={.30}/>
+</g>;
+
+const ColourSamples:React.FC<{seed:number;f:number}>=({seed,f})=><g>
+  <WornPlaster seed={seed} x={108} y={484} w={860} h={700}/>
+  <RRect x={144} y={930} w={800} h={244} seed={seed+3} fill={C.sand} amp={3}/>
+  {[
+    {x:260,y:716,s:1.08,c:C.terra},
+    {x:525,y:675,s:1.23,c:C.gold},
+    {x:797,y:718,s:1.04,c:C.teal},
+    {x:326,y:995,s:.84,c:C.shadow},
+    {x:755,y:990,s:.92,c:C.earth},
+  ].map((v,i)=><Bowl key={i} x={v.x} y={v.y} s={v.s} ink={v.c} seed={seed+i*3}/>)}
+  <RPoly pts={[[426,922],[454,882],[490,905],[475,949]]} seed={seed+8} fill={C.terra}/>
+  <RPoly pts={[[600,922],[649,873],[682,937],[637,958]]} seed={seed+9} fill={C.gold}/>
+  <Stipple x={185} y={680} w={725} h={470} seed={seed+10} count={140} color={C.earth} opacity={.16}/>
+  <Dust f={f} x={220} y={530} w={680} h={470} seed={seed+11} count={18} opacity={.20}/>
+</g>;
+
+const BrushMacro:React.FC<{f:number;seed:number}>=({f,seed})=><g>
+  <WornPlaster seed={seed} x={112} y={448} w={856} h={745}/>
+  <RPoly pts={[[345,1002],[348,777],[444,696],[520,732],[529,1024]]} seed={seed+2} fill={C.teal} amp={2.5}/>
+  <RPoly pts={[[344,1001],[442,692],[516,732],[471,837]]} seed={seed+3} fill={C.gold} amp={2}/>
+  <path d="M360 1026Q408 982 466 1020" stroke={C.terra} strokeWidth={12} fill="none"/>
+  <g transform={"rotate("+(Math.sin(f*.055)*2)+" 522 782)"}>
+    <path d="M860 1000L530 762" fill="none" stroke={C.earth} strokeWidth={49} strokeLinecap="round"/>
+    <path d="M552 782L481 721" fill="none" stroke={C.shadow} strokeWidth={20} strokeLinecap="round"/>
+    <path d="M497 737Q477 701 465 685L487 724Z" fill={C.terra}/>
+  </g>
+  <Streaks x={195} y={1100} w={680} h={80} seed={seed+5} count={42} color={C.earth} opacity={.28}/>
+</g>;
+
+const UndergroundWork:React.FC<{f:number;seed:number}>=({f,seed})=><g>
+  <RPoly pts={[[95,470],[985,470],[839,1192],[240,1192]]} seed={seed} fill={C.sand} amp={4}/>
+  <RPoly pts={[[232,490],[862,490],[742,1165],[344,1165]]} seed={seed+1} fill={C.earth} amp={2.5}/>
+  <RPoly pts={[[325,555],[750,555],[714,1160],[373,1160]]} seed={seed+2} fill={C.shadow} amp={3} opacity={.85}/>
+  <RPoly pts={[[400,659],[675,659],[666,1130],[417,1130]]} seed={seed+3} fill={C.paperDark} amp={2}/>
+  <Streaks x={176} y={550} w={728} h={612} seed={seed+4} count={160} color={C.gold} opacity={.33}/>
+  <Painter x={340} y={1176} h={254} f={f} seed={seed+3}/>
+  <Painter x={729} y={1160} h={196} f={f} seed={seed+4} dir={-1}/>
+  <ClayLamp x={550} y={1173} s={.61} f={f} id={"u"+seed}/>
+</g>;
+
+const ProcessionalRegister:React.FC<{seed:number;f:number}>=({seed,f})=><g>
+  <WornPlaster seed={seed} x={91} y={425} w={900} h={795}/>
+  <path d="M110 582H970M110 1017H970" stroke={C.terra} strokeWidth={9} opacity={.58}/>
+  {[220,440,660,865].map((x,i)=><g key={i}>
+    <Figure x={x} y={995} h={295+(i%2)*16} kind={i===0?"scribe":"priest"} dir={i%2?1:-1} armF={i===0?74:20}/>
+    {i!==0&&<g transform={"translate("+x+" 643) scale(.56)"}><PaintedLotus x={0} y={0} s={.5} seed={seed+i}/></g>}
+  </g>)}
+  <Stipple x={120} y={440} w={840} h={750} seed={seed+12} count={215} color={C.paper} opacity={.4}/>
+  <Dust f={f} x={120} y={430} w={840} h={690} seed={seed+14} count={22} opacity={.24}/>
+</g>;
+
+const AgedFragment:React.FC<{seed:number;f:number}>=({seed,f})=><g>
+  <WornPlaster seed={seed} x={129} y={460} w={820} h={735} dark/>
+  <RPoly pts={[[205,596],[520,553],[830,586],[805,1006],[633,1085],[280,1038]]} seed={seed+7} fill={C.paperDark} amp={6}/>
+  <path d="M215 616L804 614M230 1014L792 1014" stroke={C.terra} strokeWidth={7} opacity={.43}/>
+  <Figure x={406} y={1006} h={328} kind="scribe" dir={1} armF={55}/>
+  <PaintedLotus x={711} y={931} s={1.12} seed={seed+5}/>
+  <path d="M186 625l72 80l-16 56l48 82M827 561l-44 91l31 90l-40 70M552 1018l65 49l-20 64" stroke={C.earth} opacity={.43} strokeWidth={5} fill="none"/>
+  <Streaks x={160} y={497} w={760} h={630} seed={seed+18} color={C.cream} count={220} opacity={.52} maxLen={135} thick={4}/>
+  <Dust f={f} x={190} y={520} w={700} h={550} count={24} seed={seed+25} opacity={.22}/>
+</g>;
+
+export const PRINT_SHOT_PRIMARY_SUBJECTS:Record<string,string>={
+  "painting-dark/dark-corridor":"entrance-perspective",
+  "painting-dark/one-flame":"lamp-macro",
+  "painting-dark/tomb-painter":"working-artist",
+  "painting-dark/mineral-pigments":"mineral-palette-overhead",
+  "painting-dark/grinding-ochre":"mortar-pestle-macro",
+  "painting-dark/colour-lamplight":"palette-and-painter",
+  "painting-dark/brush-stone":"brush-contact-macro",
+  "painting-dark/underworld":"painted-procession",
+  "painting-dark/underground":"two-artist-tomb-interior",
+  "painting-dark/eternity":"full-width-register",
+  "painting-dark/lotus":"faded-lotus-closeup",
+  "painting-dark/wall-survives":"worn-painted-fragment",
+};
+
+/** Each print shot is independently blocked, not the same scene repainted. */
 const PrintContent:React.FC<{recipe:string;f:number;seed:number}>=({recipe,f,seed})=>{
-  switch(recipe){
-    case "painting-dark/dark-corridor":return <><TombPortal seed={seed} f={f}/><Painter x={870} h={230} f={f} seed={seed}/><ClayLamp x={690} y={1100} f={f} s={.5} id={"l"+seed}/></>;
-    case "painting-dark/one-flame":return <><RRect x={150} y={600} w={780} h={600} seed={seed} fill={C.sand}/><Streaks x={167} y={630} w={745} h={520} seed={seed+1} count={120} color={C.paper} opacity={.38}/><ClayLamp x={550} y={920} s={2.25} f={f} id={"l"+seed}/><Dust f={f} x={240} y={530} w={630} h={630} count={45} seed={seed} opacity={.45}/></>;
-    case "painting-dark/tomb-painter":return <><DecorativeWall seed={seed} figures={1}/><Painter x={250} h={370} f={f} seed={seed}/><ClayLamp x={820} y={1155} s={.55} f={f} id={"l"+seed}/></>;
-    case "painting-dark/mineral-pigments":return <><Worktable seed={seed} large/><Stipple x={160} y={500} w={745} h={430} count={180} seed={seed} color={C.gold} opacity={.15}/><PaintedLotus x={540} y={740} s={.9} seed={seed}/></>;
-    case "painting-dark/grinding-ochre":return <><Mortar seed={seed} f={f}/><Dust f={f} x={180} y={600} w={750} h={580} count={34} seed={seed} opacity={.45}/></>;
-    case "painting-dark/colour-lamplight":return <><DecorativeWall seed={seed} figures={0}/><Worktable seed={seed}/><Painter x={290} h={330} f={f} seed={seed}/><ClayLamp x={840} y={925} s={.72} f={f} id={"l"+seed}/></>;
-    case "painting-dark/brush-stone":return <><DecorativeWall seed={seed} figures={1} w={780}/><Painter x={810} h={430} f={f} seed={seed} dir={-1}/><path d="M565 818Q590 795 626 818" fill="none" stroke={C.terra} strokeWidth="13" strokeLinecap="round"/></>;
-    case "painting-dark/underworld":return <><DecorativeWall seed={seed} figures={2}/><Painter x={900} h={240} f={f} seed={seed}/><Dust f={f} x={210} y={555} w={685} h={590} count={35} seed={seed}/></>;
-    case "painting-dark/underground":return <><TombPortal seed={seed} f={f} open/><Painter x={334} h={320} f={f} seed={seed}/><ClayLamp x={719} y={1135} s={.63} f={f} id={"l"+seed}/></>;
-    case "painting-dark/eternity":return <><DecorativeWall seed={seed} figures={3} w={870}/><Streaks x={120} y={540} w={840} h={640} count={165} seed={seed} color={C.paper} opacity={.35}/></>;
-    case "painting-dark/lotus":return <><RRect x={150} y={500} w={780} h={700} seed={seed} fill={C.sand} amp={4}/><Streaks x={165} y={525} w={750} h={650} seed={seed+2} count={165} color={C.paper} opacity={.5}/><PaintedLotus x={540} y={910} s={2.8} seed={seed}/></>;
-    case "painting-dark/wall-survives":return <><DecorativeWall seed={seed} figures={2} w={880}/><Streaks x={130} y={580} w={820} h={560} seed={seed+1} count={210} color={C.cream} opacity={.42}/><Stipple x={150} y={580} w={800} h={540} seed={seed+9} count={220} color={C.earth} opacity={.28}/></>;
-    default:return null;
-  }
+ switch(recipe){
+  case "painting-dark/dark-corridor":return <>
+    <TombPortal seed={seed} f={f}/>
+    <Painter x={875} h={204} f={f} seed={seed} brush={false}/>
+    <ClayLamp x={692} y={1149} s={.42} f={f} id={"l"+seed}/>
+  </>;
+  case "painting-dark/one-flame":return <>
+    <WornPlaster seed={seed} x={119} y={565} w={844} h={650}/>
+    <WorkLight x={570} y={809} f={f} seed={seed} r={420}/>
+    <ClayLamp x={535} y={1039} s={2.06} f={f} id={"l"+seed}/>
+  </>;
+  case "painting-dark/tomb-painter":return <>
+    <WornPlaster seed={seed} x={327} y={465} w={600} h={710}/>
+    <DecorativeWall seed={seed+10} figures={1} w={450}/>
+    <Painter x={228} h={438} f={f} seed={seed} />
+    <ClayLamp x={856} y={1156} s={.49} f={f} id={"l"+seed}/>
+  </>;
+  case "painting-dark/mineral-pigments":return <ColourSamples seed={seed} f={f}/>;
+  case "painting-dark/grinding-ochre":return <>
+    <Mortar seed={seed} f={f}/>
+    <Dust f={f} x={180} y={580} w={735} h={590} count={39} seed={seed} opacity={.37}/>
+  </>;
+  case "painting-dark/colour-lamplight":return <>
+    <WornPlaster seed={seed} x={110} y={448} w={870} h={760}/>
+    <Worktable seed={seed}/>
+    <Painter x={240} h={398} f={f} seed={seed} brush={false}/>
+    <ClayLamp x={792} y={815} s={.84} f={f} id={"l"+seed}/>
+  </>;
+  case "painting-dark/brush-stone":return <BrushMacro seed={seed} f={f}/>;
+  case "painting-dark/underworld":return <ProcessionalRegister seed={seed} f={f}/>;
+  case "painting-dark/underground":return <UndergroundWork seed={seed} f={f}/>;
+  case "painting-dark/eternity":return <>
+    <WornPlaster seed={seed} x={92} y={441} w={900} h={757}/>
+    <DecorativeWall seed={seed+5} figures={3} w={845}/>
+    <Streaks x={122} y={508} w={833} h={653} seed={seed+9} count={155} color={C.paper} opacity={.37}/>
+  </>;
+  case "painting-dark/lotus":return <>
+    <WornPlaster seed={seed} x={150} y={480} w={770} h={750} dark/>
+    <PaintedLotus x={540} y={973} s={3.2} seed={seed}/>
+    <path d="M218 559L264 629L242 720M808 612L777 691L804 758" stroke={C.earth} opacity={.4} strokeWidth={7} fill="none"/>
+    <Streaks x={184} y={516} w={690} h={652} count={146} seed={seed+7} color={C.paper} opacity={.27}/>
+  </>;
+  case "painting-dark/wall-survives":return <AgedFragment seed={seed} f={f}/>;
+  default:return null;
+ }
 };
 
 export const CLASSIC_PRINT_PAINTING_IDS=[
@@ -143,10 +267,17 @@ export const CLASSIC_PRINT_PAINTING_IDS=[
 export const ClassicPrintPaintingShot:React.FC<Props>=({recipe,frame,duration,label,captionActive=false})=>{
   const seed=frameSeed(recipe);
   const progress=Math.max(0,Math.min(1,frame/Math.max(1,duration)));
-  const move=cameraMove(recipe.includes("grinding")||recipe.includes("lotus")?"push-in":"static",progress);
-  return <g data-style="great-pyramid-print" data-illustration={recipe}>
+  const camera=recipe.endsWith("dark-corridor")?"push-in":
+    recipe.endsWith("underworld")?"pan-left":
+    recipe.endsWith("underground")?"pull-back":
+    recipe.endsWith("eternity")?"pan-right":
+    recipe.endsWith("lotus")||recipe.endsWith("grinding-ochre")||recipe.endsWith("one-flame")?"push-in":"static";
+  const move=cameraMove(camera,progress);
+  const architectural=["tomb-painter","eternity"].some(x=>recipe.endsWith(x));
+  return <g data-style="great-pyramid-print" data-illustration={recipe}
+     data-primary-subject={PRINT_SHOT_PRIMARY_SUBJECTS[recipe]}>
     <Camera {...move} cy={950}>
-      <Backdrop env="tomb-wall" f={frame} seed={seed}/>
+      {architectural && <Backdrop env="tomb-wall" f={frame} seed={seed}/>}
       <PrintContent recipe={recipe} f={frame} seed={seed}/>
     </Camera>
     {!captionActive&&<Caption label={label} t={pulse(frame,0,10,duration-6,duration-1)} y={392}/>}
