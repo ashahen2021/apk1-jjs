@@ -3,7 +3,7 @@
 import React from "react";
 import type { ArtElement, ArtShot } from "../../../shared/visualLab.ts";
 import { getSceneLightingMode, tombLegacyColor, tombTheme as T, tombPalette as P } from "../theme/tombPaintingFlat";
-import { TombSceneStyle, TombSceneTitle, TombCameraPush, TombRegister } from "./TombPaintingParts";
+import { TombSceneStyle, TombSceneTitle, TombCameraPush, TombRegister, TombWall } from "./TombPaintingParts";
 
 const draw=(shape:ArtElement,index:number,t:number):React.ReactNode=>{
   const outlined={
@@ -36,6 +36,9 @@ export const V1LabShots:React.FC<{shots:ArtShot[];frame:number;duration:number;n
   return <g>
     <TombSceneStyle mode={mode} lightX={T.glow.centerX} lightY={T.glow.centerY}>
       <TombCameraPush frame={frame} duration={duration}>
+        {/* A full-bleed authentic stone environment remains visible in safe zones.
+            The bespoke focal art is painted on top; no blank black bands. */}
+        <TombWall/>
         <g data-artwork="bespoke-svg" data-safe-zone="350-1225">
           {shot.shapes.map((shape,i)=>draw(shape,i,t))}
         </g>
