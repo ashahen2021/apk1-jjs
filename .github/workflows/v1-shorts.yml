@@ -136,7 +136,8 @@ jobs:
              This reference project is preinstalled as a separate copy for testing.
           6. In Visual Lab: Analyze script and scenes, then click
              Generate bespoke SVG art (offline). Review before approving.
-             For the actual vintage print look, click 'Render actual frame' on a proposed shot.\n             BESPOKE-SVG-PREVIEWS/ contains 8 timeline samples and all 12 bespoke shots.
+             For the actual vintage print look, click 'Render actual frame' on a proposed shot.
+             BESPOKE-SVG-PREVIEWS/ contains 8 timeline samples and all 12 bespoke shots.
              Eight original 1080x1920 stills and a 2160x1920 contact sheet are
              inside ACCEPTANCE-PAINTING-DARK/ with a machine-readable QA report.
 
