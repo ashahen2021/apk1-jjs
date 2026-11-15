@@ -174,6 +174,23 @@ const ProcessionalRegister:React.FC<{seed:number;f:number}>=({seed,f})=><g>
   <Dust f={f} x={120} y={430} w={840} h={690} seed={seed+14} count={22} opacity={.24}/>
 </g>;
 
+/** A completed double-register wall rather than another line of standing people. */
+const FinishedTombMural:React.FC<{seed:number;f:number}>=({seed,f})=><g>
+  <WornPlaster seed={seed} x={104} y={445} w={875} h={785}/>
+  <RRect x={155} y={505} w={773} h={624} seed={seed+1} fill={C.paperDark} amp={2.5}/>
+  <path d="M157 546H926M157 836H926M157 1108H926" stroke={C.terra} strokeWidth={8} opacity={.75}/>
+  {[255,540,807].map((x,i)=><g key={i}>
+    <PaintedLotus x={x} y={728} s={i===1?1.14:.9} seed={seed+i*4}/>
+    <RPoly pts={[[x-98,755],[x+100,755],[x+115,775],[x-108,775]]} seed={seed+i+8} fill={C.gold} opacity={.4}/>
+  </g>)}
+  {[298,610,814].map((x,i)=><g key={i}>
+    <Figure x={x} y={1070} h={190} kind={i%2?"scribe":"priest"} dir={i%2?1:-1} armF={i%2?68:22}/>
+  </g>)}
+  <Streaks x={179} y={558} w={715} h={530} seed={seed+18} count={178} color={C.paper} opacity={.46} maxLen={155} thick={3}/>
+  <Stipple x={173} y={540} w={750} h={562} seed={seed+19} count={135} color={C.earth} opacity={.17}/>
+  <Dust f={f} x={140} y={500} w={770} h={650} seed={seed+22} count={26} opacity={.23}/>
+</g>;
+
 const AgedFragment:React.FC<{seed:number;f:number}>=({seed,f})=><g>
   <WornPlaster seed={seed} x={129} y={460} w={820} h={735} dark/>
   <RPoly pts={[[205,596],[520,553],[830,586],[805,1006],[633,1085],[280,1038]]} seed={seed+7} fill={C.paperDark} amp={6}/>
@@ -233,11 +250,7 @@ const PrintContent:React.FC<{recipe:string;f:number;seed:number}>=({recipe,f,see
   case "painting-dark/brush-stone":return <BrushMacro seed={seed} f={f}/>;
   case "painting-dark/underworld":return <ProcessionalRegister seed={seed} f={f}/>;
   case "painting-dark/underground":return <UndergroundWork seed={seed} f={f}/>;
-  case "painting-dark/eternity":return <>
-    <WornPlaster seed={seed} x={92} y={441} w={900} h={757}/>
-    <DecorativeWall seed={seed+5} figures={3} w={845}/>
-    <Streaks x={122} y={508} w={833} h={653} seed={seed+9} count={155} color={C.paper} opacity={.37}/>
-  </>;
+  case "painting-dark/eternity":return <FinishedTombMural seed={seed} f={f}/>;
   case "painting-dark/lotus":return <>
     <WornPlaster seed={seed} x={150} y={480} w={770} h={750} dark/>
     <PaintedLotus x={540} y={973} s={3.2} seed={seed}/>
