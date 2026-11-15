@@ -23,6 +23,8 @@ export const ArtElementSchema = z.object({
 }).strict();
 export const ArtShotSchema = z.object({
   label: z.string().min(3).max(48),
+  /** Optional checked, project-specific renderer. Geometric shapes remain a portable fallback. */
+  printRecipe: z.string().min(6).max(100).regex(/^[a-z0-9-]+\/[a-z0-9-]+$/).optional(),
   description: z.string().max(240).default(""),
   shapes: z.array(ArtElementSchema).min(4).max(60),
 }).strict();
