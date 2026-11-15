@@ -68,8 +68,7 @@ jobs:
             --exclude='*.mp3' --exclude='*.wav' --exclude='*.m4a' \
             --exclude='*.flac' --exclude='*.mp4' --exclude='*.mov' \
             --exclude='*.webm' --exclude='*.mkv' \
-            --exclude='*.ttf' --exclude='*.otf' \
-            --exclude='*.woff' --exclude='*.woff2' \
+            # Keep bundled SIL-OFL fonts; Remotion loads these by staticFile().
             --exclude='*.log' --exclude='*.bak' \
             --exclude='v1-visual-previews/'
           # Make the painting demo visible on the initial Projects screen.
@@ -129,6 +128,40 @@ jobs:
           EOF
           ( cd dist && zip -q -r "$package.zip" "$package" )
           test -s "dist/$package.zip"
+          # Regression: never release a ZIP that strips the local Remotion fonts.
+          for font in \
+            cormorant-garamond-latin-500-normal.woff2 \
+            cormorant-garamond-latin-600-normal.woff2 \
+            cormorant-garamond-latin-700-normal.woff2 \
+            josefin-sans-latin-400-normal.woff2 \
+            josefin-sans-latin-500-normal.woff2 \
+            josefin-sans-latin-600-normal.woff2; do
+            unzip -p "dist/$package.zip" "$package/engine/public/fonts/$font" >/dev/null || {
+              echo "::error::Required bundled font missing: $font"; exit 1;
+            }
+          done
+          for license in OFL-CormorantGaramond.txt OFL-JosefinSans.txt; do
+            unzip -p "dist/$package.zip" "$package/engine/public/fonts/$license" >/dev/null || {
+              echo "::error::Font license missing from Windows ZIP: $license"; exit 1;
+            }
+          done
+          echo "PASS: six bundled font files and two OFL licenses in Windows ZIP"
+      - name: Smoke-test extracted Windows ZIP in Remotion
+        shell: bash
+        working-directory: .
+        run: |
+          set -euo pipefail
+          package="NeoKemetAI-Studio-V1-TombPaintingFlat-Windows"
+          mkdir -p "$RUNNER_TEMP/studio-extract-smoke"
+          unzip -q "dist/$package.zip" -d "$RUNNER_TEMP/studio-extract-smoke"
+          cd "$RUNNER_TEMP/studio-extract-smoke/$package"
+          ln -s "$GITHUB_WORKSPACE/neokemet-studio/node_modules" node_modules
+          export NEOKEMET_NO_PAID=1
+          # This rendered still actually loads Josefin Sans and Cormorant
+          # from the EXTRACTED delivery package. A 404 fails the build.
+          ./node_modules/.bin/tsx scripts/render-gardiner-lamps.ts
+          test -s workspace/tomb-flat-stills/Gardiner-Ten-Signs-Clay-Lamps.png
+          echo "PASS: extracted Windows package renders with bundled local fonts"
       - name: Upload independent Windows V1 studio test ZIP
         uses: actions/upload-artifact@v4
         with:
