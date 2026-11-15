@@ -91,7 +91,7 @@ jobs:
           rem Keep this beta test isolated from the user's older instance on 4173.
           set "PORT=4174"
           echo -------------------------------------------
-          echo NeoKemetAI V1 TOMB PAINTING FLAT TEST BUILD
+          echo NeoKemetAI V1 GREAT PYRAMID PRINT TEST BUILD
           echo Local studio: http://127.0.0.1:4174
           echo Paid API calls are disabled in this test.
           echo -------------------------------------------
@@ -115,7 +115,7 @@ jobs:
           cp -a neokemet-studio/workspace/painting-dark-acceptance/. \
             "dist/$package/ACCEPTANCE-PAINTING-DARK/"
           cat > "dist/$package/START-HERE.txt" <<'EOF'
-          NEOKEMETAI STUDIO - V1 TOMB PAINTING FLAT - WINDOWS TEST BUILD
+          NEOKEMETAI STUDIO - V1 GREAT PYRAMID PRINT - WINDOWS TEST BUILD
           ==============================================================
           This is a SEPARATE TEST BUILD from feature/v1-bespoke-svg-artwork.
           Your existing installed studio and all your private projects are untouched.
@@ -126,7 +126,7 @@ jobs:
              On first run, npm installs packages (requires internet).
           4. Open http://127.0.0.1:4174 in the browser.
              This beta uses port 4174, not the old studio port 4173.
-             Check the header label: V1 - TOMB PAINTING FLAT - TEST.
+             Check the header label: V1 - GREAT PYRAMID PRINT - TEST.
           OPTIONAL: To enable paid ElevenLabs by explicit choice, launch
              Start-V1-Optional-ElevenLabs.bat and enable it in Settings.
              Replace any previously disclosed API key; do not share credentials.
@@ -136,7 +136,7 @@ jobs:
              This reference project is preinstalled as a separate copy for testing.
           6. In Visual Lab: Analyze script and scenes, then click
              Generate bespoke SVG art (offline). Review before approving.
-             BESPOKE-SVG-PREVIEWS/ contains 8 timeline samples and all 12 bespoke shots.
+             For the actual vintage print look, click 'Render actual frame' on a proposed shot.\n             BESPOKE-SVG-PREVIEWS/ contains 8 timeline samples and all 12 bespoke shots.
              Eight original 1080x1920 stills and a 2160x1920 contact sheet are
              inside ACCEPTANCE-PAINTING-DARK/ with a machine-readable QA report.
 
