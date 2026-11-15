@@ -34,7 +34,7 @@ export const StudioScene: React.FC<SceneRenderProps> = ({ scene, format, fps, du
         </AnimatedScene>
       </ClockCtx.Provider>
       {(!v1TopicShort || v1GreatPyramidPrint) && <PrintOverlay seed={seed} soft={shorts15} />}
-      {subtitles && (shorts15V3 ? <Shorts15CaptionsV3 cues={cues} format={format} /> : (shorts15 || v1TopicShort) ? <Shorts15Captions cues={cues} wordCues={wordCues} format={format} /> : <Subtitles cues={cues} format={format} />)}
+      {subtitles && (v1GreatPyramidPrint ? <Subtitles cues={cues} format={format} /> : shorts15V3 ? <Shorts15CaptionsV3 cues={cues} format={format} /> : (shorts15 || v1TopicShort) ? <Shorts15Captions cues={cues} wordCues={wordCues} format={format} /> : <Subtitles cues={cues} format={format} />)}
     </AbsoluteFill>
   );
 };
