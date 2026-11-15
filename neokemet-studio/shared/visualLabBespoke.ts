@@ -19,7 +19,7 @@ const rect = (x:number,y:number,width:number,height:number,fill:Color,stroke:Col
 const oval = (cx:number,cy:number,rx:number,ry:number,fill:Color,stroke:Color="none",strokeWidth=5):ArtElement =>
   ({kind:"ellipse",cx,cy,rx,ry,fill,stroke,strokeWidth,opacity:1,motionX:0,motionY:0});
 const line = (x1:number,y1:number,x2:number,y2:number,color:Color="ink",strokeWidth=7,motionX=0,motionY=0):ArtElement =>
-  ({kind:"line",x1,y1,x2,y2,fill:"none",stroke:color,strokeWidth,opacity:1,motionX,motionY});
+  ({kind:"line",x1,y1,x2,y2,fill:"none",stroke:color,strokeWidth:Math.min(40,strokeWidth),opacity:1,motionX,motionY});
 // SVG points are encoded as explicit x,y pairs.
 const polygon = (pairs:[number,number][],fill:Color,stroke:Color="none",strokeWidth=5):ArtElement =>
   ({kind:"polygon",points:pairs.map(([x,y])=>x+","+y).join(" "),fill,stroke,strokeWidth,opacity:1,motionX:0,motionY:0});
