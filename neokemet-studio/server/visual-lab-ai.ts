@@ -3,6 +3,7 @@
 import { z } from "zod";
 import type { Project } from "../shared/schema.ts";
 import { VisualPackageSchema } from "../shared/visualLab.ts";
+import { auditIllustrations } from "../shared/visualLabQuality.ts";
 
 export const generateOllamaArt = async (project:Project,url:string,model:string)=>{
   const target=new URL(url);
@@ -17,6 +18,8 @@ export const generateOllamaArt = async (project:Project,url:string,model:string)
     "Canvas: 1080 wide x 1920 high. Draw the subject LARGE and recognisable mostly within x=90..990, y=440..1370.",
     "Reserve y<370 for a bold shot label and y>1460 for captions/YouTube controls. Do not draw letters as geometry.",
     "Use pyramids, workers, ramps, ropes, stones, sleds, boats etc only if the narration or direction asks for them. Do not reuse generic people or temples for unrelated stories.",
+    "QUALITY GATE: at least 10 meaningful foreground shapes, 3 mineral colours, and illustrated foreground spanning 430px in width AND 340px in height; giant backgrounds do not count.",
+    "Every shot must have a different silhouette and layout; never repeat the same few geometric strokes under different labels.",
     "Each shape kind must be rect, ellipse, polygon, line, or path. Use palette names only: paper, paperDark, cream, sand, gold, earth, terra, teal, shadow, ink, night, none.",
     "Include kind-specific coordinates. For rect use x,y,width,height; ellipse cx,cy,rx,ry; line x1,y1,x2,y2; polygon points e.g. '100,800 400,650 600,900'; path d e.g. 'M100 800L300 650L550 820Z'.",
     "Make actors recognizable from bodies, head, limbs and tools; use many composited shapes, not text-only cards.",
@@ -39,6 +42,8 @@ export const generateOllamaArt = async (project:Project,url:string,model:string)
   catch{throw new Error("Local AI did not return valid illustration JSON. No project data changed.");}
   const result=VisualPackageSchema.safeParse(data);
   if(!result.success)throw new Error("Local AI artwork failed geometry validation: "+result.error.issues.slice(0,4).map(i=>i.path.join(".")+": "+i.message).join("; "));
+  const issues=auditIllustrations(result.data);
+  if(issues.length)throw new Error("Local AI returned legible JSON but weak illustration: "+issues.slice(0,4).map(i=>i.scene+"/"+i.shot+": "+i.reason).join("; ")+". No scenes changed. Use a curated project-specific SVG pack.");
   const ids=project.scenes.map(s=>s.id);
   if(JSON.stringify(result.data.scenes.map(s=>s.id))!==JSON.stringify(ids))throw new Error("Local AI changed scene IDs/order; no art applied.");
   return result.data;
