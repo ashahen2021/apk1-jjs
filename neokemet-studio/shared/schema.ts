@@ -23,6 +23,8 @@ export const SceneSchema = z.object({
   sublabel: z.string().max(120).optional(),
   prop: z.enum(PROP_IDS).optional(),
   variant: z.string().max(30).optional(),
+  /** Optional verified per-word alignment, seconds from speech onset (not clip start). */
+  wordTimings: z.array(z.object({word:z.string().min(1).max(80),startSec:z.number().min(0).max(300),endSec:z.number().min(0).max(300)}).strict()).max(240).optional(),
   /** Narration audio, relative to the project folder (wav / mp3 / m4a). */
   narrationFile: z.string().optional(),
   /** Foley bed: auto picks from the environment. */
@@ -86,11 +88,14 @@ export type AiStoryboard = z.infer<typeof AiStoryboardSchema>;
 
 /** Props handed to the Remotion compositions. */
 export type Cue = { from: number; to: number; text: string };
+export type WordCue = Cue;
+
 export type SceneRenderProps = {
   scene: Scene;
   format: keyof typeof import("./catalog.ts").FORMATS;
   fps: number;
   durationInFrames: number;
   cues: Cue[];
+  wordCues?: WordCue[];
   subtitles: boolean;
 };

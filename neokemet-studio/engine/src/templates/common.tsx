@@ -3,7 +3,7 @@ import type { Scene } from "../../../shared/schema.ts";
 import { Label, Rule } from "../components/Print";
 import { C, FONT_TITLE } from "../lib/theme";
 
-export type TemplateProps = { scene: Scene; seed: number };
+export type TemplateProps = { scene: Scene; seed: number; captionActive?: boolean };
 
 /** Deterministic seed from a scene id, so each scene gets its own terrain. */
 export const seedOf = (id: string) => {

@@ -1,6 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
-import type { Cue, Project, Scene } from "../shared/schema.ts";
+import type { Cue, Project, Scene, WordCue } from "../shared/schema.ts";
+import { buildWordCues } from "../shared/wordTiming.ts";
+import { conformV1VisualCadence } from "../shared/v1Topics.ts";
 import { buildCues, cueProblems, estimateSpeechSec, MIN_VO_TAIL, safeSceneSeconds, VO_LEAD } from "../shared/timing.ts";
 import { decodeAudio, speechSpan } from "./audio.ts";
 
@@ -13,6 +15,8 @@ export type TimelineScene = {
   narrationPath: string | null;
   estimated: boolean; // true when no audio exists and the length is a wpm estimate
   cues: Cue[];
+  wordCues: WordCue[];
+  wordTimingAligned: boolean;
 };
 export type Timeline = { scenes: TimelineScene[]; totalFrames: number; seconds: number; warnings: string[] };
 
@@ -55,9 +59,19 @@ export const resolveTimeline = async (project: Project, projectDir: string): Pro
       warnings.push(`Scene ${i + 1}: subtitles were left out because their timing could not be resolved (${bad[0]}).`);
       cues = [];
     }
-    scenes.push({ index: i, scene, startFrame: start, durationInFrames, narrationSec, narrationPath, estimated, cues });
+    const wordTiming = scene.template === "v1-topic-short"
+      ? buildWordCues(scene.narration, narrationSec, project.fps, durationInFrames, scene.wordTimings)
+      : {cues:[] as WordCue[],aligned:false};
+    if (scene.template === "v1-topic-short" && wordTiming.warning && scene.narration.trim())
+      warnings.push(`Scene ${i + 1}: ${wordTiming.warning}`);
+    scenes.push({ index: i, scene, startFrame: start, durationInFrames, narrationSec, narrationPath, estimated, cues, wordCues: wordTiming.cues, wordTimingAligned: wordTiming.aligned });
     start += durationInFrames;
   }
+  // Only in the resolved timeline, never in project.json: keep requested visual
+  // changes synchronized with measured narration without repeating motifs.
+  const cadence=conformV1VisualCadence(scenes.map(s=>({scene:s.scene,durationInFrames:s.durationInFrames})),project.fps);
+  for(let i=0;i<scenes.length;i++)scenes[i].scene=cadence.scenes[i];
+  warnings.push(...cadence.warnings);
   const seconds = start / project.fps;
   if (seconds < 20) warnings.push(`Film length is only ${seconds.toFixed(1)} s.`);
   return { scenes, totalFrames: start, seconds, warnings };

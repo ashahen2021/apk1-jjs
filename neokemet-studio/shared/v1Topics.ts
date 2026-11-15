@@ -59,6 +59,7 @@ export const planV1Short = (sourceScenes: Scene[], seconds: 15 | 30, title = "")
   if (perScene > 8) warnings.push("Too few scenes for 1–2-second shots; split the script into more paragraphs.");
   if (!topic) warnings.push("No V1 illustration set matches this story. New visual assets must be drawn before publishing.");
   let matched = 0;
+  const shotHistory: {id:string;time:number}[] = [];
   const scenes: Scene[] = sourceScenes.map((s, i) => {
     // Distribute integer frames, not fractional seconds: 4 × 3.75 s rounds to 452 frames otherwise.
     const startFrame = Math.round(i * seconds * 30 / sourceScenes.length);
@@ -71,10 +72,30 @@ export const planV1Short = (sourceScenes: Scene[], seconds: 15 | 30, title = "")
     const candidates = topic ? [...V1_TOPICS[topic]] : [];
     // Prefer identified actions. Fill with related but different subject illustrations,
     // and report that the additional images are approximate rather than claiming exactness.
-    const amount = Math.max(2, Math.min(4, Math.round(perScene / 1.5)));
-    const beats: string[] = [...realMatches];
-    for (const b of candidates) if (beats.length < amount && !beats.includes(b)) beats.push(b);
-    const visible = beats.slice(0, amount);
+    // 2–3 second visual beats (rounding allows 1.875s for the 3.75s/2 case).
+    // Never repeat the same V1 illustration consecutively, or >2 times
+    // inside any sliding 20-second interval. Prefer semantically matched art.
+    const amount = Math.max(1, Math.min(4, Math.ceil(exactSeconds / 3)));
+    const visible: string[] = [];
+    const options = [...new Set([...realMatches,...candidates])];
+    for(let j=0;j<amount;j++){
+      const at=startFrame/30 + j*(exactSeconds/amount);
+      const previous=shotHistory.at(-1)?.id;
+      const available=options.find(b=>b!==previous &&
+        shotHistory.filter(old=>old.id===b && at-old.time<20).length<2);
+      if(!available){
+        const missing=`missing-art-${i+1}-${j+1}`;
+        visible.push(missing);
+        shotHistory.push({id:missing,time:at});
+        warnings.push(`Scene ${i+1}, shot ${j+1}: V1 has no unused, subject-relevant drawing available under the 20-second repeat limit; create original art in Visual Lab.`);
+      }else{
+        visible.push(available);
+        shotHistory.push({id:available,time:at});
+        const idx=options.indexOf(available);
+        // Round-robin after coverage choices to avoid identical compositions in sequence.
+        if(idx>=0){options.splice(idx,1);options.push(available);}
+      }
+    }
     // Avoid old generic opening/end cards; begin with the subject.
     const out: Scene = {
       ...s, template: "v1-topic-short",
@@ -93,4 +114,65 @@ export const planV1Short = (sourceScenes: Scene[], seconds: 15 | 30, title = "")
   if (coverage < 0.8) warnings.push(`Semantic coverage ${Math.round(coverage * 100)}% is below the 80% production goal. Draw more subject-specific SVG shots before release.`);
   warnings.push("Voiceover must be checked against the 15/30s timeline; measured speech may require lengthening scenes. No paid audio is generated.");
   return { scenes, warnings, coverage, topic };
+};
+
+
+/**
+ * Adjust only the ephemeral render timeline to the measured narration duration.
+ * Never rewrites saved scene data or a user's approved artShots.
+ * Guarantees known procedural art is not repeated back-to-back or >2 times
+ * in any rolling 20-second window. Missing art is reported, not fabricated.
+ */
+export const conformV1VisualCadence = (
+  entries: readonly {scene:Scene;durationInFrames:number}[],fps:number
+): {scenes:Scene[];warnings:string[]}=>{
+  const history:{id:string;sec:number}[]=[];
+  const warnings:string[]=[];
+  const out:Scene[]=[];
+  let current=0;
+  for(let i=0;i<entries.length;i++){
+    const {scene,durationInFrames}=entries[i];
+    const seconds=durationInFrames/fps;
+    if(scene.template!=="v1-topic-short"){
+      out.push(scene);current+=seconds;continue;
+    }
+    const target=Math.max(1,Math.min(8,Math.ceil(seconds/3)));
+    if(seconds/target>3.05)warnings.push(`Scene ${i+1}: a ${seconds.toFixed(1)}s narration exceeds the 8-shot safe V1 limit; shorten or split the scene.`);
+    if(scene.artShots?.length){
+      const n=Math.min(scene.artShots.length,target);
+      if(seconds/n>3.05)warnings.push(`Scene ${i+1}: approved Visual Lab art has only ${n} unique shots for ${seconds.toFixed(1)} seconds. Add more art for 2–3-second cuts.`);
+      for(let j=0;j<n;j++){
+        const id=scene.artShots[j].label;
+        const at=current+j*seconds/n;
+        if(history.at(-1)?.id===id||history.filter(h=>h.id===id&&at-h.sec<20).length>=2)
+          warnings.push(`Scene ${i+1}: approved illustration "${id}" repeats too frequently. Review in Visual Lab before publishing.`);
+        history.push({id,sec:at});
+      }
+      out.push(scene);current+=seconds;continue;
+    }
+    const original=String(scene.params?.shots??"").split(",").map(x=>x.trim()).filter(Boolean);
+    const topic=String(scene.params?.topic??"") as V1Topic;
+    const available=[...new Set([...original,...(V1_TOPICS[topic]??[])])];
+    const selected:string[]=[];
+    for(let k=0;k<target;k++){
+      const at=current+k*seconds/target;
+      const last=history.at(-1)?.id;
+      const chosen=available.find(id=>id!==last &&
+        history.filter(h=>h.id===id&&at-h.sec<20).length<2);
+      if(chosen){
+        selected.push(chosen);
+        history.push({id:chosen,sec:at});
+        // Cycle the named candidates so each new beat begins with a new drawing.
+        available.splice(available.indexOf(chosen),1);available.push(chosen);
+      }else{
+        const missing=`art${i+1}b${k+1}`;
+        selected.push(missing);
+        history.push({id:missing,sec:at});
+        warnings.push(`Scene ${i+1}: the art library cannot supply enough unique 2–3s beats; create an original illustration in Visual Lab.`);
+      }
+    }
+    out.push({...scene,params:{...(scene.params??{}),shots:selected.join(",")}});
+    current+=seconds;
+  }
+  return {scenes:out,warnings};
 };

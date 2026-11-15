@@ -2,7 +2,7 @@
 // No paid services, narration assets, ffmpeg renders or production edits.
 import assert from "node:assert/strict";
 import { planFromScript } from "../shared/planner.ts";
-import { planV1Short } from "../shared/v1Topics.ts";
+import { planV1Short,conformV1VisualCadence } from "../shared/v1Topics.ts";
 import { parseProject } from "./projects.ts";
 import { resolveTimeline } from "./timeline.ts";
 
@@ -13,7 +13,20 @@ const film = async (title: string, script: string, length: 15 | 30) => {
   const timeline = await resolveTimeline(project, ".");
   assert.equal(timeline.totalFrames, length * 30);
   assert.ok(project.scenes.every(s => s.template === "v1-topic-short"));
-  assert.ok(project.scenes.every(s => !!s.params?.shots && String(s.params.shots).split(",").length >= 2));
+  assert.ok(project.scenes.every(s => !!s.params?.shots && String(s.params.shots).split(",").length >= 1));
+  const history:{id:string;at:number}[]=[];
+  let at=0;
+  for(const scene of project.scenes){
+    const beats=String(scene.params?.shots).split(",");
+    for(let i=0;i<beats.length;i++){
+      const t=at+i*(scene.durationSec ?? 0)/beats.length;
+      assert.notEqual(beats[i],history.at(-1)?.id,"No identical back-to-back V1 illustration");
+      assert.ok(history.filter(h=>h.id===beats[i]&&t-h.at<20).length<2,
+        "No illustration used more than twice in a 20-second interval");
+      history.push({id:beats[i],at:t});
+    }
+    at+=scene.durationSec??0;
+  }
   assert.ok(project.scenes.every(s => s.narration === base[project.scenes.indexOf(s)].narration));
   assert.equal(project.subtitles, true);
   return planned;
@@ -48,6 +61,22 @@ const stone = await film("Nile Stone Transport", [
 assert.equal(stone.topic, "transport");
 assert.equal(stone.coverage, 1);
 assert.ok(String(stone.scenes[2].params?.shots).includes("ropes"));
+
+const stretched=conformV1VisualCadence(painting.scenes.map(s=>({scene:s,durationInFrames:Math.round(5.5*30)})),30);
+assert.equal(stretched.scenes.length,painting.scenes.length);
+assert.ok(stretched.scenes.every(s=>String(s.params?.shots??"").split(",").length>=2));
+assert.deepEqual(painting.scenes.map(s=>s.narration),stretched.scenes.map(s=>s.narration));
+assert.deepEqual(painting.scenes.map(s=>s.durationSec),stretched.scenes.map(s=>s.durationSec));
+let lastId="",history:{id:string;at:number}[]=[];
+for(let i=0;i<stretched.scenes.length;i++){
+ const beats=String(stretched.scenes[i].params?.shots??"").split(",");
+ for(let j=0;j<beats.length;j++){
+   const at=i*5.5 + j*5.5/beats.length;
+   assert.notEqual(beats[j],lastId);
+   assert.ok(history.filter(h=>h.id===beats[j]&&at-h.at<20).length<2);
+   history.push({id:beats[j],at});lastId=beats[j];
+ }
+}
 
 const unmatched = planV1Short(planFromScript("Stars", "Stars moved across the skies.\n\nAstronomers watched bright planets."), 15, "Stars");
 assert.equal(unmatched.topic, null);

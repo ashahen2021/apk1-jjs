@@ -82,3 +82,6 @@ code { background: #F1DFBE; padding: 1px 5px; border-radius: 4px; font-size: 12.
 .smart-still img { max-width: 100%; max-height: 230px; width: auto; display: block; margin: 5px auto 0; }
 .smart-still b { font-size: 12px; }
 .smart-note { font-size: 12.5px; margin: 8px 0; }
+
+/* Distinct indicator: a user can identify the V1 test build without relying on port or stale thumbnails. */
+.build-identity { display:inline-block; margin-left:12px; padding:2px 9px; border:1px solid #D9A441; border-radius:4px; background:#12100E; color:#F4EFE3; font-family:system-ui,sans-serif; font-weight:700; font-size:11px; letter-spacing:.04em; vertical-align:middle; }
