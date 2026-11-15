@@ -188,9 +188,15 @@ const stageFor = (text:string,index:number,total:number):number => {
 export const proposePaintingBespokeArt = (project:Project):{scenes:{id:string;shots:ArtShot[]}[]} => {
   if(!supportsPaintingBespoke(project))throw new Error("No painting mural asset pack matches this script.");
   if(project.scenes.length>10)throw new Error("A custom illustration batch supports at most 10 scenes.");
-  return {scenes:project.scenes.map((scene,i)=>({
-    id:scene.id,
-    shots:compositions[stageFor(scene.narration.toLowerCase(),i,project.scenes.length)]
-      .map(s=>({label:s.label,description:s.description,shapes:s.shapes.map(shape=>({...shape}))})),
-  }))};
+  const recipes=[
+    ["painting-dark/dark-corridor","painting-dark/one-flame","painting-dark/tomb-painter"],
+    ["painting-dark/mineral-pigments","painting-dark/grinding-ochre","painting-dark/colour-lamplight"],
+    ["painting-dark/brush-stone","painting-dark/underworld","painting-dark/underground"],
+    ["painting-dark/eternity","painting-dark/lotus","painting-dark/wall-survives"],
+  ];
+  return {scenes:project.scenes.map((scene,i)=>{
+    const stage=stageFor(scene.narration.toLowerCase(),i,project.scenes.length);
+    return {id:scene.id, shots:compositions[stage]
+      .map((s,j)=>({label:s.label,description:s.description,printRecipe:recipes[stage][j],shapes:s.shapes.map(shape=>({...shape}))}))};
+  })};
 };

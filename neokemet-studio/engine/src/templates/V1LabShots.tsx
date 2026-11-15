@@ -4,6 +4,7 @@ import React from "react";
 import type { ArtElement, ArtShot } from "../../../shared/visualLab.ts";
 import { getSceneLightingMode, tombLegacyColor, tombTheme as T, tombPalette as P } from "../theme/tombPaintingFlat";
 import { TombSceneStyle, TombSceneTitle, TombCameraPush, TombRegister, TombWall } from "./TombPaintingParts";
+import { ClassicPrintPaintingShot } from "./GreatPyramidPrintPainting";
 
 const draw=(shape:ArtElement,index:number,t:number):React.ReactNode=>{
   const outlined={
@@ -33,6 +34,8 @@ export const V1LabShots:React.FC<{shots:ArtShot[];frame:number;duration:number;n
   const pos=raw*count,index=Math.floor(pos),t=pos-index;
   const shot=shots[index]??shots[0];
   const mode=getSceneLightingMode([narration,shot.description,shot.label].join(" "));
+  // The bespoke pack uses the ORIGINAL classic Great Pyramid print renderer.
+  if(shot.printRecipe?.startsWith("painting-dark/")) return <ClassicPrintPaintingShot recipe={shot.printRecipe} frame={frame} duration={duration} label={shot.label} captionActive={captionActive}/>;
   return <g>
     <TombSceneStyle mode={mode} lightX={T.glow.centerX} lightY={T.glow.centerY}>
       <TombCameraPush frame={frame} duration={duration}>

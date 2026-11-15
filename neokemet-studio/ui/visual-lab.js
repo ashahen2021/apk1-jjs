@@ -10,6 +10,7 @@
     red:"#B5452B",blue:"#2E6DA4",green:"#3E8E6E",white:"#F4EFE3",
   };
   let audit=null,draft=null,backup=null,activeSlug=null;
+  const previewObjectUrls=[];
   const snapshot=()=>JSON.stringify(project);
   const note=(value)=>{q("labStatus").textContent=value;};
   const node=(tag,klass,text)=>{
@@ -19,6 +20,7 @@
     return n;
   };
   const clearProposal=()=>{
+    for(const url of previewObjectUrls.splice(0))URL.revokeObjectURL(url);
     draft=null;
     q("labArtwork").replaceChildren();
     q("labArtwork").hidden=true;
@@ -79,21 +81,24 @@
   const showArtwork=(response)=>{
     const box=q("labArtwork");box.hidden=false;box.replaceChildren();
     box.append(node("h4","",response.scenes+" scenes of new proposed SVG art"));
-    box.append(node("p","muted","Preview drawings below. Changes will apply only after approval. Individual shot compositions may need manual artistic refinement."));
-    for(const proposal of response.proposals){
+    box.append(node("p","muted","Original Great Pyramid print-style shots: use Render actual frame on a thumbnail for the true Remotion print look (textured paper, original figures, camera and lighting). Geometric placeholders are NOT the final look. No project is changed before approval."));
+    for(const [sceneIndex,proposal] of response.proposals.entries()){
       const item=node("div","card");
       item.append(node("b","",`Scene ${proposal.id}: ${proposal.shots.length} new illustrated shots`));
       const gallery=node("div","row");
-      for(const shot of proposal.shots){
+      for(const [shotIndex,shot] of proposal.shots.entries()){
         const card=node("div","");
         card.style.cssText="max-width:220px;display:flex;flex-direction:column;gap:6px;align-items:center;";
         const thumb=previewSvg(shot);
+        let actualUrl=null;
         thumb.style.cursor="zoom-in";
         thumb.setAttribute("role","button");thumb.setAttribute("tabindex","0");thumb.setAttribute("aria-label","Open larger illustration preview");
         const expand=()=>{
           const dialog=node("dialog","");
           dialog.style.cssText="padding:16px;border:1px solid #C8952B;border-radius:12px;background:#F4EFE3;max-height:95vh;max-width:95vw;";
-          dialog.append(previewSvg(shot,true));
+          if(actualUrl){
+            const img=node("img","");img.src=actualUrl;img.style.cssText="width:min(540px,80vw);max-height:82vh;object-fit:contain;display:block;";dialog.append(img);
+          } else dialog.append(previewSvg(shot,true));
           const close=node("button","","Close preview");close.onclick=()=>dialog.close();dialog.append(close);
           dialog.addEventListener("close",()=>dialog.remove(),{once:true});
           document.body.append(dialog);dialog.showModal();
@@ -101,6 +106,38 @@
         thumb.onclick=expand;
         thumb.onkeydown=(e)=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();expand();}};
         card.append(thumb);
+        if(shot.printRecipe){
+          const button=node("button","","Render actual frame");
+          button.style.cssText="font-size:12px;max-width:205px;";
+          button.onclick=async()=>{
+            const original=button.textContent;button.disabled=true;button.textContent="Rendering actual print style…";
+            try{
+              const requestedSlug=slug,signature=snapshot();
+              const candidate=JSON.parse(signature);
+              const shotsById=new Map(response.proposals.map(p=>[p.id,p.shots]));
+              candidate.scenes=candidate.scenes.map((scene,i)=>({
+                ...scene,template:"v1-topic-short",
+                artShots:shotsById.get(scene.id),
+                durationSec:Math.max(scene.durationSec||0,5.1),
+                params:{...(scene.params||{}),hook:i===0},
+              }));
+              const at=(shotIndex+.5)/proposal.shots.length;
+              const blob=await api(`/api/projects/${requestedSlug}/preview?scene=${sceneIndex}&at=${at}`,{
+                method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({project:candidate}),
+              });
+              if(!isFresh(signature,requestedSlug))throw new Error("Project changed during preview; rerun analysis.");
+              const url=URL.createObjectURL(blob);previewObjectUrls.push(url);
+              actualUrl=url;
+              const img=node("img","");img.src=url;img.alt=shot.label+" — actual Great Pyramid print render";
+              img.style.cssText="width:216px;height:384px;object-fit:contain;border-radius:8px;cursor:zoom-in;";
+              img.onclick=expand;
+              thumb.replaceWith(img);
+              button.textContent="View large print preview";button.onclick=expand;
+            }catch(error){note("Print preview failed: "+(error.message||String(error)));button.textContent="Retry actual frame";}
+            finally{button.disabled=false;}
+          };
+          card.append(button);
+        }
         card.append(node("small","",shot.label));
         gallery.append(card);
       }

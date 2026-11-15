@@ -28,6 +28,9 @@ assert.ok(pack.scenes.flatMap(s=>s.shots).every(s=>s.shapes.length>=10),"All art
 assert.ok(pack.scenes.flatMap(s=>s.shots).every(s=>s.shapes.length<=60),"Remain inside SVG shape schema");
 const allLabels=pack.scenes.flatMap(s=>s.shots.map(x=>x.label));
 assert.equal(new Set(allLabels).size,12,"All bespoke labels differ across this film");
+const recipes=pack.scenes.flatMap(s=>s.shots.map(shot=>shot.printRecipe));
+assert.equal(new Set(recipes).size,12,"Every film shot has its own premium original-print recipe");
+assert.ok(recipes.every(r=>typeof r==="string"&&r.startsWith("painting-dark/")),"Every shot uses the classic Great Pyramid print renderer");
 assert.deepEqual(JSON.stringify(project),before,"Generating artwork is non-mutating");
 
 const approved=parseProject({...project,scenes:project.scenes.map((scene,i)=>({
