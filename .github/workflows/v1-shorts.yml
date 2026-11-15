@@ -2,7 +2,7 @@ name: V1 illustrated Shorts checks
 
 on:
   push:
-    branches: [feature/v1-topic-aware-shorts, feature/v1-visual-development-lab, feature/v1-tomb-painting-flat]
+    branches: [feature/v1-topic-aware-shorts, feature/v1-visual-development-lab, feature/v1-tomb-painting-flat, feature/v1-bespoke-svg-artwork]
   pull_request:
     paths:
       - "neokemet-studio/**"
@@ -31,8 +31,18 @@ jobs:
       - run: npm test
       - run: npx tsx server/selftest-v1.ts
       - run: npx tsx server/selftest-visual-lab.ts
+      - run: npx tsx server/selftest-bespoke.ts
       - run: npx tsx server/selftest-tomb-flat.ts
       - run: npx tsx server/selftest-gardiner.ts
+      - name: Render Painting the Dark bespoke SVG stills
+        run: npx tsx scripts/bespoke-art-render-smoke.ts
+      - name: Upload bespoke painting SVG stills
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v1-bespoke-painting-20-preview-stills
+          path: neokemet-studio/workspace/bespoke-painting-preview/
+          if-no-files-found: warn
       - name: Render Tomb Painting Flat native template proofs
         run: npx tsx scripts/tomb-flat-render-stills.ts
       - name: Render official five-pose articulated Egyptian rig sheet
@@ -87,13 +97,27 @@ jobs:
           echo -------------------------------------------
           call "%~dp0Start-NeoKemetAI-Studio.bat"
           EOF
+          # Users can explicitly opt in to paid ElevenLabs from Settings when
+          # running this alternate launcher; the default test launcher stays safe.
+          cat > "dist/$package/Start-V1-Optional-ElevenLabs.bat" <<'EOF'
+          @echo off
+          setlocal
+          set "NEOKEMET_NO_PAID="
+          set "PORT=4174"
+          echo Optional ElevenLabs launcher: requests can use paid credits if enabled in Settings.
+          echo No API key is bundled. Enter your own key under Settings.
+          call "%~dp0Start-NeoKemetAI-Studio.bat"
+          EOF
+          mkdir -p "dist/$package/BESPOKE-SVG-PREVIEWS"
+          cp -a neokemet-studio/workspace/bespoke-painting-preview/. \
+            "dist/$package/BESPOKE-SVG-PREVIEWS/"
           mkdir -p "dist/$package/ACCEPTANCE-PAINTING-DARK"
           cp -a neokemet-studio/workspace/painting-dark-acceptance/. \
             "dist/$package/ACCEPTANCE-PAINTING-DARK/"
           cat > "dist/$package/START-HERE.txt" <<'EOF'
           NEOKEMETAI STUDIO - V1 TOMB PAINTING FLAT - WINDOWS TEST BUILD
           ==============================================================
-          This is a SEPARATE TEST BUILD from feature/v1-tomb-painting-flat.
+          This is a SEPARATE TEST BUILD from feature/v1-bespoke-svg-artwork.
           Your existing installed studio and all your private projects are untouched.
 
           1. Extract this entire ZIP into a NEW folder.
@@ -103,11 +127,17 @@ jobs:
           4. Open http://127.0.0.1:4174 in the browser.
              This beta uses port 4174, not the old studio port 4173.
              Check the header label: V1 - TOMB PAINTING FLAT - TEST.
+          OPTIONAL: To enable paid ElevenLabs by explicit choice, launch
+             Start-V1-Optional-ElevenLabs.bat and enable it in Settings.
+             Replace any previously disclosed API key; do not share credentials.
           5. In the left Projects panel select "Painting the Dark | V1 Illustrated Short".
              If you see old user-recorded narration MP3 files, you opened
              your previous studio/project, not this clean test package.
              This reference project is preinstalled as a separate copy for testing.
-          6. Eight real 1080x1920 stills and a 2160x1920 contact sheet are
+          6. In Visual Lab: Analyze script and scenes, then click
+             Generate bespoke SVG art (offline). Review before approving.
+             BESPOKE-SVG-PREVIEWS/ contains 8 timeline samples and all 12 bespoke shots.
+             Eight original 1080x1920 stills and a 2160x1920 contact sheet are
              inside ACCEPTANCE-PAINTING-DARK/ with a machine-readable QA report.
 
           IMPORTANT:

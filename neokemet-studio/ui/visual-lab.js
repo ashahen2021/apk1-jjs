@@ -4,9 +4,10 @@
   const q = (id) => document.getElementById(id);
   const ns = "http://www.w3.org/2000/svg";
   const colors = {
-    paper:"#F8EBD2",paperDark:"#EEDDB9",cream:"#FBF3E2",sand:"#E1BF87",
-    gold:"#CA9856",earth:"#A86D3B",terra:"#CB664F",teal:"#54716A",
-    shadow:"#2D4845",ink:"#3B332C",night:"#22393A",none:"none",
+    paper:"#E9DCC0",paperDark:"#E9DCC0",cream:"#F4EFE3",sand:"#D9A441",
+    gold:"#D9A441",earth:"#B5452B",terra:"#B5452B",teal:"#3E8E6E",
+    shadow:"#1B1A17",ink:"#1B1A17",night:"#12100E",none:"none",
+    red:"#B5452B",blue:"#2E6DA4",green:"#3E8E6E",white:"#F4EFE3",
   };
   let audit=null,draft=null,backup=null,activeSlug=null;
   const snapshot=()=>JSON.stringify(project);
@@ -34,12 +35,12 @@
   };
   window.resetVisualLab=reset;
   const isFresh=(signature,requestedSlug)=>slug===requestedSlug && snapshot()===signature;
-  const previewSvg=(shot)=>{
+  const previewSvg=(shot,large=false)=>{
     const svg=document.createElementNS(ns,"svg");
     svg.setAttribute("viewBox","0 0 1080 1920");
-    svg.setAttribute("width","135");
-    svg.setAttribute("height","240");
-    svg.style.cssText="border:1px solid #C8952B;border-radius:8px;background:#F8EBD2;max-width:100%;";
+    svg.setAttribute("width",large?"540":"216");
+    svg.setAttribute("height",large?"960":"384");
+    svg.style.cssText="border:1px solid #C8952B;border-radius:8px;background:#E9DCC0;max-width:100%;";
     const bg=document.createElementNS(ns,"rect");
     Object.entries({x:0,y:0,width:1080,height:1920,fill:colors.paper}).forEach(([k,v])=>bg.setAttribute(k,String(v)));
     svg.append(bg);
@@ -51,8 +52,9 @@
         x1:shape.x1,y1:shape.y1,x2:shape.x2,y2:shape.y2,
         d:shape.d,points:shape.points,
         fill:colors[shape.fill]||"none",
-        stroke:colors[shape.stroke]||"none",
-        "stroke-width":shape.strokeWidth,
+        stroke:shape.stroke==="none"?"#1B1A17":colors[shape.stroke]||"#1B1A17",
+        "stroke-width":Math.max(5,Math.min(40,shape.strokeWidth||5)),
+        "stroke-linecap":"round","stroke-linejoin":"round",
         opacity:shape.opacity,
       };
       for(const [k,v] of Object.entries(props))if(v!==undefined)e.setAttribute(k,String(v));
@@ -84,8 +86,21 @@
       const gallery=node("div","row");
       for(const shot of proposal.shots){
         const card=node("div","");
-        card.style.cssText="max-width:145px;display:flex;flex-direction:column;gap:4px;align-items:center;";
-        card.append(previewSvg(shot));
+        card.style.cssText="max-width:220px;display:flex;flex-direction:column;gap:6px;align-items:center;";
+        const thumb=previewSvg(shot);
+        thumb.style.cursor="zoom-in";
+        thumb.setAttribute("role","button");thumb.setAttribute("tabindex","0");thumb.setAttribute("aria-label","Open larger illustration preview");
+        const expand=()=>{
+          const dialog=node("dialog","");
+          dialog.style.cssText="padding:16px;border:1px solid #C8952B;border-radius:12px;background:#F4EFE3;max-height:95vh;max-width:95vw;";
+          dialog.append(previewSvg(shot,true));
+          const close=node("button","","Close preview");close.onclick=()=>dialog.close();dialog.append(close);
+          dialog.addEventListener("close",()=>dialog.remove(),{once:true});
+          document.body.append(dialog);dialog.showModal();
+        };
+        thumb.onclick=expand;
+        thumb.onkeydown=(e)=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();expand();}};
+        card.append(thumb);
         card.append(node("small","",shot.label));
         gallery.append(card);
       }
@@ -103,8 +118,9 @@
       audit={signature,slug:sourceSlug,result};activeSlug=sourceSlug;
       displayAudit(result);
       q("btnLabOffline").disabled=!result.offlineAvailable;
+      q("btnLabOffline").textContent=result.offlineRecipe==="ramp"?"Generate pyramid ramp SVG (offline)":"Generate bespoke SVG art (offline)";
       q("btnLabOllama").disabled=false;
-      note(result.missing+" scenes need new illustrations; analysis did not change your project.");
+      note(result.offlineRecipe==="bespoke-painting"?"A curated tomb-painting SVG pack is ready. Review it before approval.":result.missing+" scenes need new illustrations; analysis did not change your project.");
     }catch(e){note(e.message||String(e));}
     finally{button.disabled=false;}
   };
@@ -112,7 +128,7 @@
     if(!audit || !isFresh(audit.signature,audit.slug)){note("Project changed. Run Analyze again.");return;}
     const button=q(mode==="offline"?"btnLabOffline":"btnLabOllama");
     button.disabled=true;clearProposal();
-    note(mode==="offline"?"Drawing the pyramid ramp locally…":"Local Ollama is proposing safe SVG geometry; this may take a while…");
+    note(mode==="offline"?"Composing new project-specific SVG illustrations locally…":"Local Ollama is proposing safe SVG geometry; this may take a while…");
     try{
       const {job}=await post("/api/visual-lab/generate",{project,mode});
       const result=await runJob(job,(j)=>note(j.status==="error"?(j.error||"Failed"):j.message));

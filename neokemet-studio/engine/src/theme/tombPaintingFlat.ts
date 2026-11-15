@@ -65,6 +65,7 @@ export const tombLegacyColor = (key: string): string => {
     paper:"limestone",paperDark:"limestone",cream:"gypsumWhite",sand:"yellowOchre",
     gold:"yellowOchre",earth:"ochreRed",terra:"ochreRed",teal:"malachiteGreen",
     shadow:"carbonBlack",ink:"carbonBlack",night:"tombDark",none:"carbonBlack",
+    red:"ochreRed",blue:"egyptianBlue",green:"malachiteGreen",white:"gypsumWhite",
   };
   if (key === "none") return "none";
   return tombPalette[map[key] ?? (key in tombPalette ? key as TombColor : "carbonBlack")];

@@ -2,8 +2,10 @@
 // User-approved illustrations are stored in project.json, so a project can move PCs.
 import { z } from "zod";
 import type { Project, Scene } from "./schema.ts";
+import { proposePaintingBespokeArt, supportsPaintingBespoke } from "./visualLabBespoke.ts";
+import { auditIllustrations } from "./visualLabQuality.ts";
 
-const PALETTE = ["paper","paperDark","cream","sand","gold","earth","terra","teal","shadow","ink","night","none"] as const;
+const PALETTE = ["paper","paperDark","cream","sand","gold","earth","terra","teal","shadow","ink","night","none","red","blue","green","white"] as const;
 const num = (min = -200, max = 2200) => z.number().finite().min(min).max(max);
 export const ArtElementSchema = z.object({
   kind: z.enum(["rect","ellipse","line","polygon","path"]),
@@ -40,6 +42,7 @@ const existingV1 = new Set(["lamp","pigments","artist","corridor","mural","reeds
 export const analyzeVisualLab = (p: Project) => {
   const full = [p.title,p.topic,p.script,...p.scenes.map(normalize)].join(" ");
   const ramp = isRamp(full);
+  const bespokePainting = !ramp && supportsPaintingBespoke(p);
   const rows = p.scenes.map((s,i) => {
     const fromText = normalize(s);
     const builtins = String(s.params?.shots ?? "").split(",").map(x=>x.trim()).filter(x=>existingV1.has(x));
@@ -57,12 +60,15 @@ export const analyzeVisualLab = (p: Project) => {
   });
   return {
     subject:ramp?"Pyramid rising ramp":p.topic||p.title,
-    offlineAvailable:ramp,
+    offlineAvailable:ramp || bespokePainting,
+    offlineRecipe:ramp?"ramp":bespokePainting?"bespoke-painting":null,
     generated:rows.filter(r=>r.coverage==="custom").length,
-    missing:rows.filter(r=>r.coverage==="missing").length,
+    // An approximation still needs bespoke art even if old V1 motifs technically exist.
+    missing:rows.filter(r=>r.coverage==="missing" || (bespokePainting && r.coverage==="approximate")).length,
     scenes:rows,
     advice:ramp?"Offline ramp illustrator available: generate new geometry and motion, inspect, then approve."
-      :"No offline art recipe exists yet for this topic. If Ollama is installed, its local model can propose editable SVG drawings. Otherwise add a supported recipe or draw the missing shots manually.",
+      :bespokePainting?"A curated, project-specific tomb painting SVG pack is available offline. Generate, review and explicitly approve its artwork."
+      :"No curated SVG pack exists for this subject yet. Commission a new bespoke object library or try experimental local AI; weak geometry will be rejected.",
   };
 };
 
@@ -177,4 +183,17 @@ export const proposeOfflineRampArt=(p:Project)=>{
  return VisualPackageSchema.parse({scenes:p.scenes.map((scene,i)=>({
    id:scene.id,shots:stageShots(selectPhase(scene,i,p.scenes.length),i),
  }))});
+};
+
+/** Dispatch approved offline subjects. Future per-film SVG packs plug in here. */
+export const proposeOfflineArt=(p:Project)=>{
+  const full=[p.title,p.topic,p.script,...p.scenes.map(normalize)].join(" ");
+  const candidate=isRamp(full)?proposeOfflineRampArt(p)
+    :supportsPaintingBespoke(p)?proposePaintingBespokeArt(p)
+    :null;
+  if(!candidate)throw new Error("No bespoke SVG pack is installed for this subject. Build a project-specific pack or use local Ollama.");
+  const checked=VisualPackageSchema.parse(candidate);
+  const issues=auditIllustrations(checked);
+  if(issues.length)throw new Error("Curated SVG pack failed visual checks: "+issues.slice(0,3).map(i=>i.scene+"/"+i.shot+": "+i.reason).join("; "));
+  return checked;
 };
