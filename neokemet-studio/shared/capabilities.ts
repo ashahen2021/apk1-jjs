@@ -96,6 +96,7 @@ export const TEMPLATE_CAPABILITIES: Record<TemplateId, TemplateCapabilities> = {
   "coffin-chamber": { core: ["coffin-row", "coffin"], also: ["torch-light"] },
   map: { core: ["route-map"] },
   construction: { core: ["ramp", "sledge", "stone-blocks"], also: ["quarry", "tools", "rope", "pyramids", "nile", "workers-1881", "hoist-by-rope"] },
+  obelisk: { core: ["obelisk"], also: ["quarry", "sledge", "rope", "nile", "tools", "workers-1881"] },
   shipyard: { core: ["shipyard", "ship-hull"], also: ["sailing-boat", "woodworking", "rope", "tools", "nile", "workers-1881", "hoist-by-rope"] },
   "end-card": { core: [] },
   "royal-pharaohs": { core: ["pharaoh"], also: ["statue"] },
