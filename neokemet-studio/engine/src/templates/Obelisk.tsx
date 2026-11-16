@@ -80,11 +80,13 @@ const Smoothing:React.FC<View> = ({f,seed,crew,tools}) => <g>
 const Hauling:React.FC<View> = ({f,seed,crew,tools}) => <g>
   <FarDesert f={f} seed={seed} ridgeY={1020} pyramids={false}/>
   <Layer depth={1}>
-    <rect x={115} y={1270} width={660} height={40} rx={12} fill={S}/>
-    {[170,350,530,710].map(x=><circle key={x} cx={x} cy={1313} r={18} fill={C.shadow}/>)}
+    {/* Two parallel wooden runners, not wheels: the obelisk travels on a sledge. */}
+    <path d="M110 1266 H800 L826 1298 H105Z" fill={S} stroke={C.shadow} strokeWidth={4}/>
+    <path d="M120 1304 H798" stroke={C.earth} strokeWidth={15} strokeLinecap="round"/>
+    <path d="M126 1320 H790" stroke={C.shadow} strokeWidth={5} strokeLinecap="round"/>
     <Obelisk x={135} y={1140} length={700} thick={105}/>
     <Rope pts={[[810,1250],[960,1320],[1050,1325]]} sag={10} width={6}/>
-    <Workers x={840} y={1410} n={Math.min(crew,3)} f={f} spacing={96} h={160}/>
+    <Workers x={754} y={1410} n={Math.min(crew,3)} f={f} spacing={104} h={160}/>
     <SiteFloor f={f} seed={seed}/>
     {tools && <ToolKit x={230} y={1470} set="haulers" s={1.15}/>}
   </Layer>
@@ -142,9 +144,14 @@ const Erection:React.FC<View> = ({f,D,seed,crew,tools}) => {
 const Monument:React.FC<View> = ({f,seed,crew}) => <g>
   <FarDesert f={f} seed={seed} ridgeY={1100} pyramids={false}/>
   <Layer depth={0.65}>
-    <rect x={660} y={900} width={380} height={390} fill={C.sand} stroke={S} strokeWidth={6}/>
-    <path d="M630 900 L850 700 L1070 900Z" fill={C.gold} stroke={S} strokeWidth={5}/>
-    {[718,812,906].map(x=><rect key={x} x={x} y={1000} width={36} height={290} fill={C.cream} stroke={S} strokeWidth={4}/>)}
+    {/* Battered New Kingdom temple pylon, not a classical triangular pediment. */}
+    <path d="M648 910 H805 L820 1295 H620 Z" fill={C.sand} stroke={S} strokeWidth={6}/>
+    <path d="M872 910 H1050 L1080 1295 H845 Z" fill={C.sand} stroke={S} strokeWidth={6}/>
+    <path d="M807 1015 H870 V1295 H807Z" fill={C.shadow}/>
+    <path d="M630 925 H1060 M630 964 H1060" stroke={C.gold} strokeWidth={10}/>
+    {[693,940].map(x=><g key={x} fill="none" stroke={S} strokeWidth={4} opacity={0.65}>
+      <path d={"M"+x+" 1008 h72 v155 h-72Z M"+(x+14)+" 1045 h44 M"+(x+14)+" 1090 h44 M"+(x+14)+" 1135 h44"}/>
+    </g>)}
   </Layer>
   <Layer depth={1}>
     <rect x={150} y={1290} width={355} height={55} fill={S}/>
