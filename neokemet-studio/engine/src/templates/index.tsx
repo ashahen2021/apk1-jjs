@@ -16,6 +16,7 @@ import { CoffinChamberTemplate } from "./CoffinChamber";
 import { ConstructionTemplate } from "./Construction";
 import type { TemplateProps } from "./common";
 import { ShipyardTemplate } from "./Shipyard";
+import { ObeliskTemplate } from "./Obelisk";
 import { CutawayTemplate } from "./Cutaway";
 import { PriestsRewrappingTemplate, RoyalPharaohsTemplate, TombRobberyTemplate } from "./Documentary";
 import { ArtifactTemplate, EndCardTemplate, MapTemplate, TombInteriorTemplate } from "./Special";
@@ -42,6 +43,7 @@ export const REGISTRY: Record<TemplateId, Entry> = {
   map: { Component: MapTemplate },
   construction: { Component: ConstructionTemplate },
   shipyard: { Component: ShipyardTemplate },
+  obelisk: { Component: ObeliskTemplate },
   "end-card": { Component: EndCardTemplate },
   "royal-pharaohs": { Component: RoyalPharaohsTemplate },
   "tomb-robbery": { Component: TombRobberyTemplate },

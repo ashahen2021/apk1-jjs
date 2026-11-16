@@ -58,6 +58,27 @@ export const castFromText = (text: string, mode: "act" | "walk" = "act"): NonNul
 /** A file-style project name ("My_Film_Production") reads badly as a title card. */
 export const displayTitle = (title: string) => title.replace(/_+/g, " ").replace(/\s+/g, " ").trim();
 
+// Obelisks need a dedicated subject-specific renderer. General mentions of
+// stone, ropes and river transport must not send them to pyramid construction.
+const OBELISK_CUE = /\bobelisks?\b|\bobelisk\s+(?:shaft|monument|erection)\b/i;
+const OBELISK_VIEWS: [string, RegExp][] = [
+  ["erection", /erect|raising|raised|tilt|lift into place|set (?:it|the stone) upright/i],
+  ["temple obelisk", /completed|standing before|temple pylon|ray in stone|final beauty/i],
+  ["river transport", /sail|voyage|river journey|north by river|down the nile|nile carried|along the nile|barge (?:sailing|travelling)/i],
+  ["barge loading", /load|loaded|loading|riverbank|onto (?:a|the) barge|toward the barge|down to the nile/i],
+  ["sledge hauling", /sledge|drag|hauled|hauling|pull|ropes? (?:pull|haul)|transport overland/i],
+  ["smoothing", /smooth|polish|shaped|shaping|dress(?:ed|ing)|finishing/i],
+  ["trench carving", /trench|pounder|pounding|cut from the rock|chipp|chisell|carv|cut around|freeing/i],
+  ["granite quarry", /quarry|aswan|bedrock|living granite|born in granite/i],
+];
+/** Specify a visual stage; accept a topic context only when explicitly passed. */
+export const obeliskFromText = (text: string, context = ""): Record<string, string | boolean> | undefined => {
+  if (!OBELISK_CUE.test(text) && !OBELISK_CUE.test(context)) return undefined;
+  const view = OBELISK_VIEWS.find(([, cue]) => cue.test(text))?.[0] ?? "granite quarry";
+  const crew = /six|many workers|large crew|teams of|dozens/i.test(text) ? "six" : /two (?:men|workers)|pair of/i.test(text) ? "two" : "four";
+  return { view, crew };
+};
+
 // ---- Building work: which construction picture the text asks for ----------
 const BUILD_CUE = /\bramps?\b|\bsledges?\b|\bsleds?\b|sled runners?|\bquarr(?:y|ies|ied|ying)\b|stone barges?|(?:limestone|granite|stone|casing) blocks?/i;
 const BUILD_VIEWS: [string, RegExp[]][] = [
@@ -114,13 +135,15 @@ export const shipyardFromText = (text: string): Record<string, string | boolean>
  * parameters when the text is about one of them, undefined otherwise.
  */
 export const workSceneFromText = (text: string): { template: TemplateId; params: Record<string, string | boolean> } | undefined => {
+  const obelisk = obeliskFromText(text);
+  if (obelisk) return { template: "obelisk", params: obelisk };
   const build = constructionFromText(text);
   if (build) return { template: "construction", params: build };
   const ship = shipyardFromText(text);
   if (ship) return { template: "shipyard", params: ship };
   return undefined;
 };
-export const WORK_TEMPLATES: readonly TemplateId[] = ["construction", "shipyard"];
+export const WORK_TEMPLATES: readonly TemplateId[] = ["construction", "shipyard", "obelisk"];
 
 const CAMERAS: CameraId[] = ["push-in", "pan-right", "rise", "pan-left", "pull-back"];
 
@@ -148,7 +171,7 @@ export const planScene = (text: string, i: number, total: number, title: string,
   if (i === total - 1 && total > 2) return { ...base, template: "end-card", environment: env ?? "deir-el-bahari", label: displayTitle(title), camera: "pull-back" };
   let template: TemplateId = "landscape";
   let extra: Partial<Scene> = {};
-  const work = workSceneFromText(text);
+  const work = workSceneFromText(text) ?? (OBELISK_CUE.test(title) ? {template: "obelisk" as const, params: obeliskFromText(text, title)!} : undefined);
   if (work) { template = work.template; extra = { params: work.params }; }
   else if (/shaft|passage|corridor|underground|descend|beneath the|cut into the rock/i.test(text)) template = "cutaway";
   else if (/burial chamber|tomb|sarcophag|grave goods|treasure/i.test(text)) { template = "tomb-interior"; extra = { variant: /robb|loot|thie|stolen|plunder|broke/i.test(text) ? "looted" : "intact" }; }

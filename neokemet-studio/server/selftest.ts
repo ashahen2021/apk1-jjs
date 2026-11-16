@@ -345,4 +345,27 @@ await test("Smart Template Selection UI has real controls and parseable JavaScri
   assert.ok(app.includes("undoSmartSelection"), "undo action is missing");
 });
 
+
+await test("Obelisk production import selects eight distinct dedicated SVG views without altering scene narration", () => {
+  const fixture = fs.readFileSync(path.join(PROJECTS_DIR, "..", "docs", "obelisk-test", "ancient-egyptian-obelisks.production.md"), "utf8");
+  const imported = parseProductionMarkdown(fixture, "Ancient Egyptian Obelisks");
+  const expected = ["granite quarry", "trench carving", "smoothing", "sledge hauling", "barge loading", "river transport", "erection", "temple obelisk"];
+  assert.equal(imported.scenes.length, 8);
+  assert.deepEqual(imported.scenes.map((scene) => scene.template), Array(8).fill("obelisk"));
+  assert.deepEqual(imported.scenes.map((scene) => scene.params?.view), expected);
+  assert.ok(imported.scenes.every((scene) => scene.narration.length > 20 && scene.production?.visual));
+  assert.ok(imported.scenes.every((scene) => scene.label && !/\.production|\.md/i.test(scene.label)));
+  assert.deepEqual(new Set(imported.scenes.map((scene) => scene.params?.view)).size, 8);
+  assert.ok(!imported.warnings.some((w) => /same picture/.test(w)));
+  parseProject({ title: "Obelisk test", scenes: imported.scenes });
+});
+await test("Obelisk plain-script planner prefers obelisk over construction without affecting other subjects", () => {
+  const obelisk = planFromScript("Ancient Obelisks", "Intro.\n\nWorkers carved a trench around the obelisk in Aswan.\n\nTeams pulled the obelisk on a sledge.\n\nEnd.");
+  assert.equal(obelisk[1].template, "obelisk");
+  assert.equal(obelisk[1].params?.view, "trench carving");
+  assert.equal(obelisk[2].template, "obelisk");
+  assert.equal(obelisk[2].params?.view, "sledge hauling");
+  assert.ok(planFromScript("Great Pyramid", "Intro.\n\nCrews dragged stone blocks on sledges.\n\nEnd.")[1].template === "construction");
+});
+
 console.log(`\n${n} checks passed.`);
