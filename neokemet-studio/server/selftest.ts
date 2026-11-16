@@ -360,12 +360,12 @@ await test("Obelisk production import selects eight distinct dedicated SVG views
   parseProject({ title: "Obelisk test", scenes: imported.scenes });
 });
 await test("Obelisk plain-script planner prefers obelisk over construction without affecting other subjects", () => {
-  const obelisk = planFromScript("Ancient Obelisks", "Intro.\\n\\nWorkers carved a trench around the obelisk in Aswan.\\n\\nTeams pulled the obelisk on a sledge.\\n\\nEnd.");
+  const obelisk = planFromScript("Ancient Obelisks", "Intro.\n\nWorkers carved a trench around the obelisk in Aswan.\n\nTeams pulled the obelisk on a sledge.\n\nEnd.");
   assert.equal(obelisk[1].template, "obelisk");
   assert.equal(obelisk[1].params?.view, "trench carving");
   assert.equal(obelisk[2].template, "obelisk");
   assert.equal(obelisk[2].params?.view, "sledge hauling");
-  assert.ok(planFromScript("Great Pyramid", "Intro.\\n\\nCrews dragged stone blocks on sledges.\\n\\nEnd.")[1].template === "construction");
+  assert.ok(planFromScript("Great Pyramid", "Intro.\n\nCrews dragged stone blocks on sledges.\n\nEnd.")[1].template === "construction");
 });
 
 console.log(`\n${n} checks passed.`);
