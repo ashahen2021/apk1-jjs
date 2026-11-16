@@ -94,6 +94,7 @@ export const TEMPLATES = {
   map: { label: "Journey map", group: "Generic", description: "Dotted route drawn between three sites on a desert map.", uses: ["label", "sublabel"] },
   construction: { label: "Construction", group: "Generic", description: "Building work drawn for real: ramp, sledge, block, rope and crew; also quarry, river barge and two diagram views.", uses: ["camera", "label", "sublabel"] },
   shipyard: { label: "Shipyard", group: "Generic", description: "Boatbuilding from timber to a vessel under sail: yard, timber, shaping, frame, assembly, rigging, launch and sailing views.", uses: ["camera", "label", "sublabel"] },
+  obelisk: { label: "Obelisk", group: "Generic", description: "The making of an obelisk in eight stages: granite quarry, trench carving, smoothing, sledge hauling, barge loading, river transport, erection and the finished obelisk before its temple.", uses: ["camera", "label", "sublabel"] },
   "end-card": { label: "End card", group: "Generic", description: "Closing landscape with end title and a credit line.", uses: ["environment", "label", "sublabel"] },
   "royal-pharaohs": { label: "Royal Pharaohs", group: "Documentary", description: "A pharaoh — seated, standing or as a colossal statue — in a cinematic setting, with a name plate.", uses: ["label", "sublabel"] },
   "tomb-robbery": { label: "Tomb Robbery", group: "Documentary", description: "A royal burial shown in order, then opened, looted or damaged. Schematic and restrained.", uses: ["label", "sublabel"] },
@@ -133,6 +134,13 @@ export type ParamDef =
 export const TEMPLATE_PARAMS: Partial<Record<TemplateId, readonly ParamDef[]>> = {
   shipyard: [
     { key: "view", label: "What the shot shows", type: "select", options: ["shipyard", "timber", "shaping", "frame", "assembly", "rigging", "launch", "sailing"], default: "shipyard" },
+    { key: "crew", label: "Size of the crew", type: "select", options: ["two", "four", "six"], default: "four" },
+    { key: "facing", label: "Direction of the composition", type: "select", options: ["right", "left"], default: "right" },
+    { key: "heading", label: "On-screen text style", type: "select", options: ["caption", "title"], default: "caption" },
+    { key: "showTools", label: "Tools and materials in the foreground", type: "boolean", default: true },
+  ],
+  obelisk: [
+    { key: "view", label: "Stage of the work", type: "select", options: ["granite quarry", "trench carving", "smoothing", "sledge hauling", "barge loading", "river transport", "erection", "temple obelisk"], default: "granite quarry" },
     { key: "crew", label: "Size of the crew", type: "select", options: ["two", "four", "six"], default: "four" },
     { key: "facing", label: "Direction of the composition", type: "select", options: ["right", "left"], default: "right" },
     { key: "heading", label: "On-screen text style", type: "select", options: ["caption", "title"], default: "caption" },

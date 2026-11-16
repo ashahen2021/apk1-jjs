@@ -109,18 +109,51 @@ export const shipyardFromText = (text: string): Record<string, string | boolean>
   return { view, crew };
 };
 
+// ---- Obelisks: which stage of the work the text asks for ------------------
+const OBELISK_CUE = /\bobelisks?\b/i;
+// Listed from the most particular stage to the most general: on a tie the earlier one wins.
+const OBELISK_VIEWS: [string, RegExp[]][] = [
+  ["trench carving", [/\btrench/i, /dolerite|\bpound(?:s|ed|ing|ers?)?\b/i, /bedrock/i, /undercut|cut(?:ting)? (?:it |the obelisk |the shaft )?(?:free|out|loose)|free(?:d|ing)? (?:it|the)/i, /\bbruis|\bhammer/i]],
+  ["smoothing", [/\bsmooth/i, /\bpolish/i, /dress(?:ed|ing)\b|rubb(?:ed|ing)|abrasive|\bgrind/i, /inscri|hieroglyph|carv(?:e|ed|ing) (?:the |its )?(?:signs|texts?|names?)/i, /\bfaces\b|surfaces?\b/i, /sculptors?|draughtsm[ae]n/i]],
+  ["sledge hauling", [/\bsledges?\b|\bsleds?\b/i, /\bhaul|\bdragg?(?:ed|ing|s)?\b|\bpull(?:ed|ing|s)?\b/i, /\bropes?\b/i, /\brollers?\b|\btrack\b|causeway|overland/i, /hundreds|thousands|gangs?|teams? of/i]],
+  ["barge loading", [/\bload(?:s|ed|ing)?\b/i, /onto (?:a |the |its |an? \w+ )?(?:barge|boat|ship|vessel|deck)/i, /\bquay\b|harbou?r|\bdock|embankment|riverbank|\bcanal\b|moored/i, /\bbarges?\b/i, /\baboard\b|on board/i]],
+  ["river transport", [/\btow(?:s|ed|ing)?\b|tow.?boats?/i, /\boars?\b|rowers?|rowed/i, /downstream|down the (?:nile|river)|along the (?:nile|river)|on the (?:nile|river)|river journey|voyage/i, /transport|carr(?:y|ies|ied|ying)|float(?:s|ed|ing)?\b|drift/i, /\bbarges?\b/i]],
+  ["erection", [/\berect/i, /rais(?:e|es|ed|ing)\b|\bupright\b|stood it|set (?:it )?up/i, /sand.?(?:pit|box|filled|ramp|funnel)|\bsand\b/i, /pedestal/i, /\btilt|lower(?:ed|ing)?\b|pivot/i, /\bramps?\b/i]],
+  ["temple obelisk", [/completed|finished|\bstands?\b|standing|\bstood\b/i, /\btemples?\b|karnak|luxor|heliopolis/i, /pylons?|gateway|courtyard|forecourt/i, /electrum|gilded|gold(?:en)?\b|pyramidion|gleam|\bsun\b/i, /\bpair\b|priests?|pharaoh|dedicat/i]],
+  ["granite quarry", [/\bquarr/i, /aswan/i, /granite/i, /outcrops?|boulders?|rock face|\bhills?\b/i, /unfinished|marked out|wide shot|establishing|overview/i]],
+];
 /**
- * Work scenes drawn for real (building, boatbuilding): the template and its
+ * Parameters for the "obelisk" template when the text is about the making,
+ * moving or raising of an obelisk; undefined otherwise. An obelisk that is
+ * only mentioned, with nothing said about any stage of the work, is left alone.
+ */
+export const obeliskFromText = (text: string): Record<string, string | boolean> | undefined => {
+  if (!OBELISK_CUE.test(text)) return undefined;
+  let view = "", best = 0;
+  for (const [name, cues] of OBELISK_VIEWS) {
+    const n = cues.filter((re) => re.test(text)).length;
+    if (n > best) { best = n; view = name; }
+  }
+  if (!view) return undefined;
+  const crew = /hundreds|dozens|thousands|large (?:crew|team|gang)|many (?:workers|men)|teams of|gangs of/i.test(text) ? "six" : /two (?:men|workers|priests)|a pair of (?:men|workers)|a lone|single (?:man|worker|figure)/i.test(text) ? "two" : "four";
+  return { view, crew };
+};
+
+/**
+ * Work scenes drawn for real (obelisks, building, boatbuilding): the template and its
  * parameters when the text is about one of them, undefined otherwise.
  */
 export const workSceneFromText = (text: string): { template: TemplateId; params: Record<string, string | boolean> } | undefined => {
+  // an obelisk scene also talks of quarries, sledges and barges, so it is asked first
+  const obelisk = obeliskFromText(text);
+  if (obelisk) return { template: "obelisk", params: obelisk };
   const build = constructionFromText(text);
   if (build) return { template: "construction", params: build };
   const ship = shipyardFromText(text);
   if (ship) return { template: "shipyard", params: ship };
   return undefined;
 };
-export const WORK_TEMPLATES: readonly TemplateId[] = ["construction", "shipyard"];
+export const WORK_TEMPLATES: readonly TemplateId[] = ["construction", "shipyard", "obelisk"];
 
 const CAMERAS: CameraId[] = ["push-in", "pan-right", "rise", "pan-left", "pull-back"];
 

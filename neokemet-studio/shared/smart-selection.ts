@@ -5,6 +5,8 @@ import type { TemplateId } from "./catalog.ts";
 import { matchDocumentaryTemplate } from "./documentary.ts";
 import { matchReusableRoyalCacheShot } from "./reusable.ts";
 import { defaultParams } from "./params.ts";
+import { obeliskFromText } from "./planner.ts";
+import { affirmed } from "./production.ts";
 import type { Project, Scene } from "./schema.ts";
 
 const SPECIALIZED = new Set<TemplateId>([
@@ -57,7 +59,10 @@ export function suggestSmartTemplates(project: Project): SmartPreview {
       continue;
     }
     const visual = scene.production?.visual?.trim() ?? "";
-    if (!visual) { withoutVisual++; continue; }
+    // A scene that already shows the obelisk as an object is about an obelisk
+    // whatever else it lacks, so its narration may pick the stage of the work.
+    const obeliskObject = scene.template === "artifact" && scene.prop === "obelisk";
+    if (!visual && !obeliskObject) { withoutVisual++; continue; }
     const title = scene.production?.sceneTitle ?? "";
     let template: TemplateId | undefined;
     let params: Record<string, string | boolean> | undefined;
@@ -71,12 +76,12 @@ export function suggestSmartTemplates(project: Project): SmartPreview {
     const tt320Geometry = /section through rock|cross.section|cutaway/i.test(visual) &&
       /shaft/i.test(visual) && /passage|corridor|chamber/i.test(visual) &&
       /tt.?320/i.test(title + " " + scene.narration);
-    const reusable = matchReusableRoyalCacheShot(visual) ??
+    const reusable = (visual ? matchReusableRoyalCacheShot(visual) : null) ??
       (tt320Geometry ? { template: "rc-08" as TemplateId, params: defaultParams("rc-08") } : null);
     if (reusable) {
       template = reusable.template; params = reusable.params;
       reason = reuseReason[template] ?? "Strong visual cue for an existing animation.";
-    } else {
+    } else if (visual) {
       // The full direction + narration may refine the parameters, but a
       // narration-only reference must never trigger changes to an edited scene.
       const directed = matchDocumentaryTemplate({ visual, title });
@@ -85,6 +90,16 @@ export function suggestSmartTemplates(project: Project): SmartPreview {
         template = refined.template; params = refined.params;
         reason = documentaryReason[template] ?? "The scene direction matches a documentary template.";
         confidence = directed.score >= 6 ? "high" : "medium";
+      }
+    }
+    // The obelisk template draws the stage of the work the direction describes.
+    if (!template) {
+      const directed = visual ? obeliskFromText(affirmed(visual)) : undefined;
+      const stage = directed ?? (obeliskObject ? obeliskFromText(scene.narration) : undefined);
+      if (stage) {
+        template = "obelisk"; params = { ...defaultParams("obelisk"), ...stage };
+        reason = "The scene is about making, moving or raising an obelisk: the Obelisk template draws that stage (" + String(stage.view) + ").";
+        confidence = directed ? "high" : "medium";
       }
     }
     // No change is safer than suggesting a generic or identical template.

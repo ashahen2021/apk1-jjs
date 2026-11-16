@@ -96,6 +96,12 @@ textures). Everything is seeded, so the same project always renders the same fra
   and two officials; actions: stand, walk, talk, read a papyrus, carry a torch, hold a staff, point.
 - **Objects** — royal coffin, papyrus scroll, canopic jars, amulets, seated statue, obelisk,
   treasure chest; plus biers, boats, stalls, columns, palms, houses.
+- **Obelisk template** — the making of an obelisk in eight stages, chosen with the
+  "Stage of the work" field: granite quarry, trench carving, smoothing, sledge hauling,
+  barge loading, river transport, erection, temple obelisk. A production script that
+  describes one of these stages selects it on import; an existing obelisk scene can take
+  it from the Template dropdown or through Smart Template Selection, keeping its narration,
+  audio, timing, labels and camera. Test film: `projects/the-making-of-an-obelisk`.
 - **Cameras** — push in, pull back, pan left / right, rise, static, all with multiplane parallax.
 
 ## Documentary templates (phase 1)

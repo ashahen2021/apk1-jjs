@@ -65,7 +65,7 @@ export const HaulTeam: React.FC<{ a: P2; b: P2; at: number; n: number; h: number
   );
 };
 
-export type HeldTool = "mallet" | "adze" | "axe" | "saw" | "chisel";
+export type HeldTool = "mallet" | "adze" | "axe" | "saw" | "chisel" | "pounder" | "polisher";
 /** Tools drawn for the hand: grip at (0,0), working end up the shaft (−y). Figure units (a figure is 100 tall). */
 const HELD: Record<HeldTool, React.ReactNode> = {
   mallet: <g><path d="M-1.4 4L1.4 4L1.2 -20L-1.2 -20Z" fill={C.earth} /><path d="M-6 -29Q0 -32 6 -29L5 -19L-5 -19Z" fill={C.gold} stroke={C.earth} strokeWidth={0.6} /></g>,
@@ -73,6 +73,10 @@ const HELD: Record<HeldTool, React.ReactNode> = {
   axe: <g><path d="M-1.3 4L1.3 4L1.3 -27L-1.3 -27Z" fill={C.earth} /><path d="M1 -26L10 -29Q13 -22 10 -15L1 -18Z" fill={C.terra} /></g>,
   saw: <g><path d="M-1.6 5L1.6 5L1.6 -5L-1.6 -5Z" fill={C.earth} /><path d="M-1.2 -5L1.6 -5L2.6 -36L0.4 -37Z" fill={C.terra} /><path d="M2.6 -36L1.6 -5" stroke={C.shadow} strokeWidth={0.9} strokeDasharray="1.2 1.2" /></g>,
   chisel: <g><path d="M-1.2 3L1.2 3L1 -8L-1 -8Z" fill={C.earth} /><path d="M-1 -8L1 -8L1.6 -17L-1.6 -17Z" fill={C.terra} /></g>,
+  // dolerite pounding ball, held in both hands
+  pounder: <g><circle cx={0} cy={-1} r={6.4} fill={C.shadow} /><path d="M-3.6 -4.2Q-0.5 -6.6 3 -4.6" stroke={C.teal} strokeWidth={1.4} fill="none" strokeLinecap="round" /></g>,
+  // flat rubbing stone for dressing a surface
+  polisher: <g><path d="M-7 -1.5Q-7 -4.5 -3 -4.5L4 -4.5Q7.5 -4.5 7.5 -1.5L7.5 2L-7 2Z" fill={C.paperDark} stroke={C.earth} strokeWidth={0.9} /></g>,
 };
 /** Arm swing and tool tilt for each tool: [arm raised, arm struck, tilt raised, tilt struck, strokes per frame]. */
 const SWING: Record<HeldTool, [number, number, number, number, number]> = {
@@ -81,7 +85,11 @@ const SWING: Record<HeldTool, [number, number, number, number, number]> = {
   axe: [136, 62, -30, 96, 0.14],
   saw: [74, 52, 140, 140, 0.3],
   chisel: [66, 62, 60, 60, 0.2],
+  pounder: [146, 36, 0, 0, 0.17],
+  polisher: [62, 34, 0, 0, 0.24],
 };
+/** Tools worked with both hands: the back arm follows the front one. */
+const TWO_HANDED: readonly HeldTool[] = ["saw", "chisel", "pounder", "polisher"];
 
 /**
  * A figure at work with a tool in its front hand. The stroke is a quick blow
@@ -96,7 +104,7 @@ export const ToolWorker: React.FC<{ x: number; y: number; h: number; f: number; 
   return (
     <g>
       {shadow && <GroundShadow x={x + dir * 6} y={y} w={h * 0.4} />}
-      <Figure x={x} y={y} h={h} kind={kind} dir={dir} lean={lean} armF={armF} armB={tool === "saw" || tool === "chisel" ? armF - 14 : 24} />
+      <Figure x={x} y={y} h={h} kind={kind} dir={dir} lean={lean} armF={armF} armB={TWO_HANDED.includes(tool) ? armF - 14 : 24} />
       <g transform={`translate(${hx.toFixed(1)} ${hy.toFixed(1)}) scale(${(dir * h) / 100} ${h / 100}) rotate(${tilt.toFixed(1)})`}>{HELD[tool]}</g>
     </g>
   );

@@ -3,7 +3,7 @@
 // Narration is the only text sent onward to a speech provider.
 import { matchDocumentaryTemplate } from "./documentary.ts";
 import { matchReusableRoyalCacheShot } from "./reusable.ts";
-import { castFromText, envFromText, planScene, WORK_TEMPLATES, workSceneFromText } from "./planner.ts";
+import { castFromText, envFromText, obeliskFromText, planScene, WORK_TEMPLATES, workSceneFromText } from "./planner.ts";
 import { MAX_SCENES, type Scene } from "./schema.ts";
 
 type Draft = {
@@ -37,7 +37,7 @@ const onScreenText = (visual: string): string | undefined => {
 };
 const PLACE_TEMPLATES = new Set(["title", "landscape", "characters", "procession", "end-card"]);
 // Only templates whose caption sits in clear sky; interiors and diagrams keep their own layout.
-const LABELLED_TEMPLATES = new Set(["title", "end-card", "landscape", "characters", "procession", "artifact", "map", "construction", "shipyard"]);
+const LABELLED_TEMPLATES = new Set(["title", "end-card", "landscape", "characters", "procession", "artifact", "map", "construction", "shipyard", "obelisk"]);
 
 export function parseProductionMarkdown(source: string, projectTitle = "Untitled"): ProductionImport {
   if (!source.trim()) throw new Error("The production Markdown file is empty.");
@@ -129,7 +129,10 @@ export function parseProductionMarkdown(source: string, projectTitle = "Untitled
     // Structural diagrams asked for explicitly (cutaway, map, rows of coffins) are left alone.
     if (i > 0 && i < drafts.length - 1 && !["cutaway", "map", "coffin-chamber"].includes(s.template)) {
       const m = matchDocumentaryTemplate({ visual, title: d.title, narration });
-      if (m) {
+      // A direction about working an obelisk is not a burial scene, even when it
+      // mentions linen (an awning) or priests: those two templates leave it alone.
+      const obeliskWork = m && m.template !== "royal-pharaohs" && obeliskFromText(affirmed(v));
+      if (m && !obeliskWork) {
         s.template = m.template;
         s.params = m.params;
         claimed = true;

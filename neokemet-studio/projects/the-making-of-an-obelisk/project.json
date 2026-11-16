@@ -1,0 +1,187 @@
+{
+  "version": 1,
+  "title": "The Making of an Obelisk",
+  "topic": "Example scenes for the three documentary templates",
+  "script": "Among the rulers later hidden in the cache was Ramesses the Second, who reigned for sixty-six years.\n\nTheir original burial places had been threatened by thieves. Gold vanished, coffins were damaged, and royal mummies were disturbed.\n\nPriests of Amun repaired damaged burials and carefully rewrapped royal bodies in fresh linen.",
+  "format": "9:16",
+  "fps": 30,
+  "subtitles": true,
+  "audio": {
+    "music": "generated",
+    "musicVolume": 0.5,
+    "musicSeed": 1881,
+    "sfx": true,
+    "sfxVolume": 0.55,
+    "narrationVolume": 1
+  },
+  "scenes": [
+    {
+      "id": "s01",
+      "template": "obelisk",
+      "narration": "Every obelisk began as part of a granite hill at Aswan.",
+      "durationSec": 6,
+      "camera": "push-in",
+      "label": "CUT FROM ONE STONE",
+      "ambience": "wind",
+      "params": {
+        "view": "granite quarry",
+        "crew": "four",
+        "heading": "title"
+      },
+      "production": {
+        "sourceNumber": 1,
+        "sceneTitle": "The Granite of Aswan",
+        "chapter": "",
+        "visual": "The granite quarry at Aswan: rounded outcrops above the river, an obelisk marked out in the rock and half cut free, quarrymen at work along it. Heading \"CUT FROM ONE STONE\".",
+        "sound": "Wind over stone."
+      }
+    },
+    {
+      "id": "s02",
+      "template": "obelisk",
+      "narration": "Copper could not cut granite, so the men pounded it away with balls of dolerite.",
+      "durationSec": 6,
+      "camera": "pan-right",
+      "label": "POUNDED OUT OF THE ROCK",
+      "ambience": "auto",
+      "params": {
+        "view": "trench carving",
+        "crew": "four",
+        "heading": "caption"
+      },
+      "production": {
+        "sourceNumber": 2,
+        "sceneTitle": "Pounding the Trench",
+        "chapter": "",
+        "visual": "Close in the trench beside the obelisk: workers stand in the cut and pound the bedrock with dolerite balls, dust rising at every blow. Label: \"POUNDED OUT OF THE ROCK\".",
+        "sound": "Stone on stone."
+      }
+    },
+    {
+      "id": "s03",
+      "template": "obelisk",
+      "narration": "Freed from the rock, its four faces were rubbed smooth and cut with the king's names.",
+      "durationSec": 6,
+      "camera": "rise",
+      "label": "SMOOTHED AND INSCRIBED",
+      "ambience": "auto",
+      "params": {
+        "view": "smoothing",
+        "crew": "four",
+        "heading": "caption"
+      },
+      "production": {
+        "sourceNumber": 3,
+        "sceneTitle": "Smoothing the Faces",
+        "chapter": "",
+        "visual": "The obelisk lies on timber baulks under a linen awning while men polish its faces smooth with rubbing stones and sand, and a sculptor carves the hieroglyphs. Label: \"SMOOTHED AND INSCRIBED\".",
+        "sound": "Stone rubbing on stone."
+      }
+    },
+    {
+      "id": "s04",
+      "template": "obelisk",
+      "narration": "Then hundreds of men dragged it to the river.",
+      "durationSec": 6,
+      "camera": "pan-left",
+      "label": "HAULED BY HAND",
+      "ambience": "auto",
+      "params": {
+        "view": "sledge hauling",
+        "crew": "six",
+        "heading": "caption"
+      },
+      "production": {
+        "sourceNumber": 4,
+        "sceneTitle": "Hauled to the River",
+        "chapter": "",
+        "visual": "The obelisk lashed to a great wooden sledge on rollers, hauled along a track by gangs of men on long ropes while water is poured under the runners. Label: \"HAULED BY HAND\".",
+        "sound": "Men heaving in time."
+      }
+    },
+    {
+      "id": "s05",
+      "template": "obelisk",
+      "narration": "At the riverbank it was drawn aboard a barge built for it alone.",
+      "durationSec": 6,
+      "camera": "pull-back",
+      "label": "ONTO THE BARGE",
+      "ambience": "auto",
+      "params": {
+        "view": "barge loading",
+        "crew": "four",
+        "heading": "caption"
+      },
+      "production": {
+        "sourceNumber": 5,
+        "sceneTitle": "Onto the Barge",
+        "chapter": "",
+        "visual": "At the embankment the obelisk is loaded onto a great barge moored at the riverbank: a gang on deck draws it aboard while men with levers ease it off the quay. Label: \"ONTO THE BARGE\".",
+        "sound": "Timber creaking."
+      }
+    },
+    {
+      "id": "s06",
+      "template": "obelisk",
+      "narration": "Towed by lines of rowers, the barge carried it down the Nile.",
+      "durationSec": 6,
+      "camera": "push-in",
+      "label": "DOWN THE NILE",
+      "ambience": "auto",
+      "params": {
+        "view": "river transport",
+        "crew": "four",
+        "heading": "caption"
+      },
+      "production": {
+        "sourceNumber": 6,
+        "sceneTitle": "Down the Nile",
+        "chapter": "",
+        "visual": "The laden barge carries the obelisk down the Nile, towed by boats with oars; the temple it is bound for stands on the far bank. Label: \"DOWN THE NILE\".",
+        "sound": "Oars in water."
+      }
+    },
+    {
+      "id": "s07",
+      "template": "obelisk",
+      "narration": "At the temple it was let down through sand onto its base, and hauled upright.",
+      "durationSec": 6,
+      "camera": "pan-right",
+      "label": "RAISED UPRIGHT",
+      "ambience": "auto",
+      "params": {
+        "view": "erection",
+        "crew": "four",
+        "heading": "caption"
+      },
+      "production": {
+        "sourceNumber": 7,
+        "sceneTitle": "Raised Upright",
+        "chapter": "",
+        "visual": "The obelisk is erected: tilted off the end of a brick ramp, its foot lowered through a sand-filled pit onto the pedestal while a gang on ropes pulls it upright. Label: \"RAISED UPRIGHT\".",
+        "sound": "Ropes straining."
+      }
+    },
+    {
+      "id": "s08",
+      "template": "obelisk",
+      "narration": "And there it stood, its golden point catching the first light of the sun.",
+      "durationSec": 6,
+      "camera": "rise",
+      "label": "FOR THE SUN",
+      "ambience": "auto",
+      "params": {
+        "view": "temple obelisk",
+        "crew": "four",
+        "heading": "title"
+      },
+      "production": {
+        "sourceNumber": 8,
+        "sceneTitle": "Before the Temple",
+        "chapter": "",
+        "visual": "The completed obelisk stands with its pair before the temple pylon, gilded pyramidion gleaming, priests small at its foot. Heading \"FOR THE SUN\". No unrelated end card. Rise.",
+        "sound": "A held chord."
+      }
+    }
+  ]
+}

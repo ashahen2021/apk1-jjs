@@ -557,6 +557,79 @@ await test("building directions select the construction template, each with its 
   assert.notEqual(plain[2].template, "construction");
 });
 
+await test("obelisk directions select the obelisk template, one distinct stage each", async () => {
+  const { parseProductionMarkdown } = await import("../shared/production.ts");
+  const { planFromScript, obeliskFromText, workSceneFromText } = await import("../shared/planner.ts");
+  const { paramProblems, paramOf } = await import("../shared/params.ts");
+  const { TEMPLATE_PARAMS, TEMPLATES } = await import("../shared/catalog.ts");
+  const stages = ["granite quarry", "trench carving", "smoothing", "sledge hauling", "barge loading", "river transport", "erection", "temple obelisk"];
+  // the storyboard dropdowns are built from the catalog: the template and its eight stages must be there
+  assert.equal(TEMPLATES.obelisk.group, "Generic");
+  const view = TEMPLATE_PARAMS.obelisk!.find((d) => d.key === "view")!;
+  assert.deepEqual(view.type === "select" ? [...view.options] : [], stages);
+  const film = parseProductionMarkdown(fs.readFileSync(path.join(PROJECTS_DIR, "the-making-of-an-obelisk", "production-script.md"), "utf8"), "The Making of an Obelisk");
+  assert.ok(film.scenes.every((s) => s.template === "obelisk"));
+  assert.deepEqual(film.scenes.map((s) => s.params?.view), stages);
+  assert.ok(!film.warnings.some((w) => /same picture/.test(w)));
+  assert.equal(film.scenes[0].params?.heading, "title");
+  assert.equal(film.scenes[3].params?.crew, "six", "hundreds of men is a large crew");
+  assert.equal(film.scenes[2].label, "SMOOTHED AND INSCRIBED");
+  for (const s of film.scenes) assert.deepEqual(paramProblems(s), []);
+  // the bundled project is exactly what the importer produces from its script
+  const saved = loadProject(path.join(PROJECTS_DIR, "the-making-of-an-obelisk")).project;
+  assert.deepEqual(saved.scenes.map((s) => [s.template, s.params, s.narration, s.label]), film.scenes.map((s) => [s.template, s.params, s.narration, s.label]));
+  // a repeated stage is mirrored, not drawn twice
+  const sc = (n: number, visual: string) => `**Scene 0${n} — S${n}**\n\n**Voiceover**\nLine ${n}.\n\n**Visual:** ${visual}\n**Sound / transition:** None.\n`;
+  const twice = parseProductionMarkdown([sc(1, "Title."), sc(2, "Gangs haul the obelisk on a sledge with ropes."), sc(3, "Men haul the obelisk on its sledge with ropes."), sc(4, "End.")].join("\n"), "T");
+  assert.equal(twice.scenes[1].params?.view, "sledge hauling");
+  assert.equal(twice.scenes[2].params?.view, "sledge hauling");
+  assert.notDeepEqual(twice.scenes[1].params, twice.scenes[2].params);
+  // an obelisk that is only mentioned stays an object; other work scenes are not captured
+  assert.equal(obeliskFromText("An obelisk."), undefined);
+  assert.equal(obeliskFromText("Workers drag stone blocks up a ramp on sledges."), undefined);
+  assert.equal(workSceneFromText("Workers drag limestone blocks up a ramp on sledges.")?.template, "construction");
+  assert.equal(workSceneFromText("A shipyard beside the Nile with a hull on the stocks.")?.template, "shipyard");
+  const plain = planFromScript("T", "Intro.\n\nAn obelisk of Hatshepsut.\n\nThe obelisk was raised upright on its pedestal.\n\nEnd.");
+  assert.equal(plain[1].template, "artifact");
+  assert.equal(plain[1].prop, "obelisk");
+  assert.equal(plain[2].template, "obelisk");
+  assert.equal(plain[2].params?.view, "erection");
+  // a scene switched to the template by hand, with no params yet, draws the first stage
+  assert.equal(paramOf({ template: "obelisk" }, "view"), "granite quarry");
+});
+
+await test("an existing obelisk scene can take the obelisk template without losing narration or settings", async () => {
+  const { suggestSmartTemplates, applySmartTemplates } = await import("../shared/smart-selection.ts");
+  const source = parseProject({ title: "Obelisks of Karnak", format: "16:9", scenes: [
+    { id: "s01", template: "title", label: "OBELISKS", narration: "Intro." },
+    // from a plain script: the obelisk shown as an object, already narrated and timed
+    { id: "s02", template: "artifact", prop: "obelisk", label: "RAISED", sublabel: "Karnak", camera: "rise", durationSec: 21.5, narrationFile: "narration/s02.mp3", ambience: "wind",
+      narration: "The obelisk was raised upright on its pedestal with a sand ramp." },
+    // from a production script: a generic landscape standing in for the direction
+    { id: "s03", template: "landscape", environment: "nile-valley", cast: [{ kind: "bearer", action: "walk" }], label: "ON THE RIVER", narrationFile: "narration/s03.mp3",
+      narration: "It travelled north.", production: { sourceNumber: 3, sceneTitle: "The voyage", chapter: "II", visual: "A barge carries the obelisk down the Nile, towed by boats with oars.", sound: "Water." } },
+    // an obelisk only in passing: left alone
+    { id: "s04", template: "landscape", environment: "temple-courtyard", narration: "The court was quiet.",
+      production: { sourceNumber: 4, sceneTitle: "The court", chapter: "II", visual: "A quiet temple courtyard with columns.", sound: "" } },
+    { id: "s05", template: "end-card", narration: "End." },
+  ] });
+  const before = JSON.stringify(source);
+  const preview = suggestSmartTemplates(source);
+  assert.equal(JSON.stringify(source), before, "analysis never changes the project");
+  assert.deepEqual(preview.suggestions.map((s) => [s.sceneId, s.proposedTemplate, s.proposedParams.view]), [["s02", "obelisk", "erection"], ["s03", "obelisk", "river transport"]]);
+  const applied = applySmartTemplates(source, ["s02", "s03"]).project;
+  for (const i of [1, 2]) {
+    const was: Record<string, unknown> = { ...source.scenes[i] }, now: Record<string, unknown> = { ...applied.scenes[i] };
+    assert.equal(now.template, "obelisk");
+    delete was.template; delete was.params; delete now.template; delete now.params;
+    assert.deepEqual(now, was, "narration, audio, timing, labels, camera and notes are untouched");
+  }
+  assert.deepEqual(applied.scenes[3], source.scenes[3]);
+  parseProject(applied);
+  // choosing it by hand in the storyboard dropdown also validates, whatever the scene held before
+  parseProject({ ...source, scenes: source.scenes.map((s, i) => (i === 1 ? { ...s, template: "obelisk", params: { view: "erection", crew: "four", facing: "right", heading: "caption", showTools: true } } : s)) });
+});
+
 // ============================================================================
 // Nothing above may have touched a bundled project
 // ============================================================================
