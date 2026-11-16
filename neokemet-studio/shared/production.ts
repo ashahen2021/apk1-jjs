@@ -195,7 +195,7 @@ export function parseProductionMarkdown(source: string, projectTitle = "Untitled
     // On-screen text: what the direction quotes, else a short scene title.
     const quoted = onScreenText(visual);
     const cleanTitle = d.title.replace(/\s*\([^)]*\)\s*$/, "").trim();
-    if (s.template === "obelisk" && !quoted && cleanTitle && !/^scene\\s*\\d+$/i.test(cleanTitle)) s.label = cleanTitle.slice(0, 70);
+    if (s.template === "obelisk" && !quoted && cleanTitle && !/^scene\s*\d+$/i.test(cleanTitle)) s.label = cleanTitle.slice(0, 70);
     if (quoted && LABELLED_TEMPLATES.has(s.template)) s.label = quoted.slice(0, 70);
     else if (i > 0 && i < drafts.length - 1 && LABELLED_TEMPLATES.has(s.template) && !s.label && cleanTitle.length <= 32 && !/^scene\s*\d+$/i.test(cleanTitle)) s.label = cleanTitle;
 
