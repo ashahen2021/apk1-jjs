@@ -1,0 +1,34 @@
+name: Obelisk SVG regression
+on:
+  pull_request:
+    paths:
+      - 'neokemet-studio/**'
+      - '.github/workflows/obelisk-regression.yml'
+  workflow_dispatch:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: neokemet-studio
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: neokemet-studio/package-lock.json
+      - run: npm ci
+      - name: TypeScript
+        run: npm run typecheck
+      - name: Existing + obelisk regression tests
+        run: npm test
+      - name: Generate sixteen PNGs from dedicated Obelisk template
+        run: npx tsx scripts/verify-obelisk-visuals.ts
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: obelisk-visual-stills
+          path: neokemet-studio/workspace/obelisk-visual-check/
+          if-no-files-found: warn
