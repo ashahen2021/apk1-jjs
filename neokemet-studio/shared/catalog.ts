@@ -93,6 +93,7 @@ export const TEMPLATES = {
   "coffin-chamber": { label: "Coffin chamber", group: "Generic", description: "Torchlight travelling along a row of coffins.", uses: ["label"] },
   map: { label: "Journey map", group: "Generic", description: "Dotted route drawn between three sites on a desert map.", uses: ["label", "sublabel"] },
   construction: { label: "Construction", group: "Generic", description: "Building work drawn for real: ramp, sledge, block, rope and crew; also quarry, river barge and two diagram views.", uses: ["camera", "label", "sublabel"] },
+  obelisk: { label: "Obelisk", group: "Generic", description: "Granite quarry, trench, smoothing, hauling, barge loading, river journey, erection and completed monument.", uses: ["camera", "label", "sublabel"] },
   shipyard: { label: "Shipyard", group: "Generic", description: "Boatbuilding from timber to a vessel under sail: yard, timber, shaping, frame, assembly, rigging, launch and sailing views.", uses: ["camera", "label", "sublabel"] },
   "end-card": { label: "End card", group: "Generic", description: "Closing landscape with end title and a credit line.", uses: ["environment", "label", "sublabel"] },
   "royal-pharaohs": { label: "Royal Pharaohs", group: "Documentary", description: "A pharaoh — seated, standing or as a colossal statue — in a cinematic setting, with a name plate.", uses: ["label", "sublabel"] },
@@ -131,6 +132,13 @@ export type ParamDef =
   | { key: string; label: string; type: "boolean"; default: boolean };
 
 export const TEMPLATE_PARAMS: Partial<Record<TemplateId, readonly ParamDef[]>> = {
+  obelisk: [
+    { key: "view", label: "What the shot shows", type: "select", options: ["granite quarry", "trench carving", "smoothing", "sledge hauling", "barge loading", "river transport", "erection", "temple obelisk"], default: "granite quarry" },
+    { key: "crew", label: "Size of the crew", type: "select", options: ["two", "four", "six"], default: "four" },
+    { key: "facing", label: "Direction of the composition", type: "select", options: ["right", "left"], default: "right" },
+    { key: "heading", label: "On-screen text style", type: "select", options: ["caption", "title"], default: "caption" },
+    { key: "showTools", label: "Tools and materials in foreground", type: "boolean", default: true },
+  ],
   shipyard: [
     { key: "view", label: "What the shot shows", type: "select", options: ["shipyard", "timber", "shaping", "frame", "assembly", "rigging", "launch", "sailing"], default: "shipyard" },
     { key: "crew", label: "Size of the crew", type: "select", options: ["two", "four", "six"], default: "four" },
