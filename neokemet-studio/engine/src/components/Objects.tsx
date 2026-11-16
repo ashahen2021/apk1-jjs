@@ -156,3 +156,176 @@ export const Bier: React.FC<{ cx: number; ground: number; h: number; dist: numbe
     </g>
   );
 };
+
+// ---- Construction: stone, sledges, rope, tools, barges --------------------
+// Same print language as everything above: rough-edged flat shapes, dry-brush
+// streaks, palette colours only. Each piece is drawn around its own base point.
+
+/** Dressed limestone block. Base centre at (x, y). */
+export const StoneBlock: React.FC<{ x: number; y: number; w?: number; h?: number; seed?: number; color?: string; shade?: string }> = ({ x, y, w = 120, h = 80, seed = 1, color = C.cream, shade = C.sand }) => (
+  <g>
+    <RRect x={x - w / 2} y={y - h} w={w} h={h} seed={seed} fill={color} amp={1.6} />
+    <RRect x={x + w * 0.22} y={y - h} w={w * 0.28} h={h} seed={seed + 1} fill={shade} amp={1.2} opacity={0.75} />
+    <rect x={x - w / 2} y={y - h * 0.16} width={w} height={h * 0.16} fill={C.gold} opacity={0.35} />
+    <Streaks x={x - w / 2} y={y - h} w={w} h={h * 0.9} seed={seed + 2} count={Math.max(6, Math.round(w / 12))} color={C.gold} opacity={0.4} maxLen={w * 0.5} thick={2} />
+    <path d={`M${x - w / 2} ${y - h}h${w}`} stroke={C.paper} strokeWidth={3} opacity={0.7} />
+  </g>
+);
+
+/** Twisted rope through the given points, with a little sag between them. */
+export const Rope: React.FC<{ pts: [number, number][]; sag?: number; width?: number; color?: string }> = ({ pts, sag = 6, width = 5, color = C.shadow }) => {
+  if (pts.length < 2) return null;
+  let d = `M${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`;
+  for (let i = 1; i < pts.length; i++) {
+    const [ax, ay] = pts[i - 1], [bx, by] = pts[i];
+    d += `Q${((ax + bx) / 2).toFixed(1)} ${((ay + by) / 2 + sag).toFixed(1)} ${bx.toFixed(1)} ${by.toFixed(1)}`;
+  }
+  return (
+    <g fill="none" strokeLinecap="round">
+      <path d={d} stroke={color} strokeWidth={width} />
+      <path d={d} stroke={C.sand} strokeWidth={width * 0.45} strokeDasharray={`${width * 0.9} ${width * 1.6}`} opacity={0.75} />
+    </g>
+  );
+};
+
+/**
+ * Wooden sledge in side view with an upturned runner, optionally carrying a
+ * lashed block. Runner bottom centre at (x, y); `angle` tilts it onto a slope
+ * (degrees, negative = climbing to the right). The front is on the right.
+ */
+export const Sledge: React.FC<{ x: number; y: number; w?: number; angle?: number; seed?: number; block?: { w: number; h: number } | null }> = ({ x, y, w = 220, angle = 0, seed = 1, block = { w: 150, h: 96 } }) => {
+  const r = w / 2, t = Math.max(8, w * 0.055);
+  return (
+    <g transform={`translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${angle.toFixed(2)})`}>
+      <ellipse cx={0} cy={3} rx={r * 1.05} ry={Math.max(4, w * 0.03)} fill={C.shadow} opacity={0.2} />
+      {/* runner with the characteristic upturned nose */}
+      <path d={`M${-r} 0L${r - t * 2} 0Q${r + t * 0.6} 0 ${r + t * 1.5} ${-t * 2.4}L${r + t * 0.3} ${-t * 2.4}Q${r - t * 0.2} ${-t} ${r - t * 2.2} ${-t}L${-r} ${-t}Z`} fill={C.earth} />
+      <path d={`M${-r} ${-t}L${r - t * 2.2} ${-t}`} stroke={C.gold} strokeWidth={2} opacity={0.7} />
+      {/* cross-beam ends */}
+      {[-0.72, -0.24, 0.24, 0.66].map((k, i) => <rect key={i} x={r * k - t * 0.55} y={-t * 2.05} width={t * 1.1} height={t * 1.1} fill={C.shadow} />)}
+      {block && (
+        <g>
+          <StoneBlock x={-r * 0.08} y={-t * 2.05} w={block.w} h={block.h} seed={seed + 3} />
+          {/* lashings over the load */}
+          {(w >= 100 ? [-0.3, 0.26] : []).map((k, i) => (
+            <path key={i} d={`M${-r * 0.08 + block.w * k} ${-t * 1.2}L${-r * 0.08 + block.w * k} ${-t * 2.05 - block.h - 2}`} stroke={C.shadow} strokeWidth={Math.max(1.2, w * 0.016)} opacity={0.8} />
+          ))}
+          <path d={`M${-r * 0.08 - block.w / 2 - 2} ${-t * 2.05 - block.h * 0.62}h${block.w + 4}`} stroke={C.shadow} strokeWidth={Math.max(1, w * 0.013)} opacity={0.6} />
+        </g>
+      )}
+    </g>
+  );
+};
+
+/** Wooden mallet lying on the ground. Base centre at (0,0). */
+export const Mallet: React.FC = () => (
+  <g>
+    <path d="M-34 -6L14 -10L14 -3L-34 -1Z" fill={C.earth} />
+    <path d="M10 -24Q30 -28 34 -12Q32 2 12 0Z" fill={C.gold} />
+    <path d="M14 -20Q26 -22 29 -12" stroke={C.paper} strokeWidth={2} fill="none" opacity={0.5} />
+  </g>
+);
+/** Copper chisel. Base centre at (0,0). */
+export const Chisel: React.FC = () => (
+  <g>
+    <path d="M-26 -5L4 -7L4 -1L-26 -1Z" fill={C.earth} />
+    <path d="M4 -8L30 -5L34 -3L4 0Z" fill={C.terra} />
+  </g>
+);
+/** Water jar, used to wet the track ahead of a sledge. Base centre at (0,0). */
+export const WaterJar: React.FC<{ c?: string }> = ({ c = C.terra }) => (
+  <g>
+    <path d="M-8 -52L8 -52L7 -44Q22 -30 17 -8Q14 0 0 0Q-14 0 -17 -8Q-22 -30 -7 -44Z" fill={c} />
+    <rect x={-10} y={-56} width={20} height={6} fill={C.earth} />
+    <path d="M-12 -28Q0 -22 12 -28" stroke={C.cream} strokeWidth={3} fill="none" opacity={0.7} />
+  </g>
+);
+/** Woven basket of rubble. Base centre at (0,0). */
+export const Basket: React.FC = () => (
+  <g>
+    <path d="M-26 -30L26 -30L19 0L-19 0Z" fill={C.gold} />
+    <path d="M-24 -22L24 -22M-22 -13L22 -13M-20 -5L20 -5" stroke={C.earth} strokeWidth={2.4} opacity={0.75} />
+    <path d="M-24 -30Q-12 -44 0 -38Q12 -46 24 -30Z" fill={C.paperDark} />
+  </g>
+);
+/** Coil of spare rope. Centre at (0,0). */
+export const RopeCoil: React.FC = () => (
+  <g fill="none" stroke={C.shadow}>
+    <ellipse cx={0} cy={-8} rx={30} ry={10} strokeWidth={5} />
+    <ellipse cx={0} cy={-13} rx={24} ry={8} strokeWidth={4.5} opacity={0.85} />
+    <ellipse cx={0} cy={-18} rx={17} ry={6} strokeWidth={4} opacity={0.7} />
+    <path d="M26 -6Q44 -2 52 4" strokeWidth={4.5} strokeLinecap="round" />
+  </g>
+);
+/** Stack of roller timbers seen end-on. Base centre at (0,0). */
+export const TimberStack: React.FC = () => (
+  <g>
+    {[[-28, -13], [0, -13], [28, -13], [-14, -36], [14, -36], [0, -59]].map(([cx, cy], i) => (
+      <g key={i}>
+        <circle cx={cx} cy={cy} r={13} fill={C.earth} />
+        <circle cx={cx} cy={cy} r={7} fill="none" stroke={C.gold} strokeWidth={2} opacity={0.7} />
+      </g>
+    ))}
+  </g>
+);
+/** Long lever on a stone fulcrum. Base centre at (0,0). */
+export const Lever: React.FC = () => (
+  <g>
+    <path d="M-12 0L-6 -16L8 -16L14 0Z" fill={C.paperDark} stroke={C.sand} strokeWidth={1.5} />
+    <path d="M-70 -4L74 -40L76 -34L-68 2Z" fill={C.earth} />
+  </g>
+);
+
+/** Adze lying on the ground. Base centre at (0,0). */
+export const AdzeTool: React.FC = () => (
+  <g>
+    <path d="M-40 -4L30 -12L31 -6L-40 2Z" fill={C.earth} />
+    <path d="M26 -14L34 -12L44 12L36 14L24 -6Z" fill={C.terra} />
+  </g>
+);
+/** Pull saw lying on the ground. Base centre at (0,0). */
+export const SawTool: React.FC = () => (
+  <g>
+    <path d="M-44 -9L-22 -11L-22 -1L-44 -1Z" fill={C.earth} />
+    <path d="M-22 -11L44 -8L46 -3L-22 0Z" fill={C.terra} />
+    <path d="M-20 1L44 -2" stroke={C.shadow} strokeWidth={2.4} strokeDasharray="3 3" />
+  </g>
+);
+
+export type ToolSet = "masons" | "haulers" | "quarry" | "shipwrights";
+/**
+ * A working kit laid out on the ground, left to right from (x, y).
+ * `set` picks which pieces appear, so two scenes need not show the same kit.
+ */
+export const ToolKit: React.FC<{ x: number; y: number; s?: number; set?: ToolSet }> = ({ x, y, s = 1, set = "haulers" }) => {
+  const pieces: Record<ToolSet, React.ReactNode[]> = {
+    haulers: [<RopeCoil key="a" />, <WaterJar key="b" />, <TimberStack key="c" />, <Lever key="d" />],
+    masons: [<Mallet key="a" />, <Chisel key="b" />, <Basket key="c" />, <WaterJar key="d" c={C.gold} />],
+    quarry: [<Basket key="a" />, <Mallet key="b" />, <Chisel key="c" />, <Lever key="d" />],
+    shipwrights: [<AdzeTool key="a" />, <SawTool key="b" />, <Mallet key="c" />, <RopeCoil key="d" />],
+  };
+  const offsets: Record<ToolSet, number[]> = { haulers: [0, 92, 178, 310], masons: [0, 86, 160, 236], quarry: [0, 84, 160, 270], shipwrights: [0, 104, 200, 290] };
+  return (
+    <g transform={`translate(${x} ${y}) scale(${s})`}>
+      {pieces[set].map((p, i) => <g key={i} transform={`translate(${offsets[set][i]} 0)`}>{p}</g>)}
+    </g>
+  );
+};
+
+/** River barge carrying a lashed block, with a steering oar. Waterline centre at (x, y). */
+export const StoneBarge: React.FC<{ x: number; y: number; s?: number; seed?: number }> = ({ x, y, s = 1, seed = 1 }) => (
+  <g transform={`translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(${s})`}>
+    <path d="M-210 -8Q-190 30 -120 34L130 34Q196 30 232 -30L190 -8Z" fill={C.earth} />
+    <path d="M-204 -8L190 -8" stroke={C.gold} strokeWidth={4} opacity={0.7} />
+    <path d="M232 -30Q244 -46 238 -62" stroke={C.earth} strokeWidth={9} fill="none" strokeLinecap="round" />
+    <path d="M-210 -8Q-226 -26 -220 -44" stroke={C.earth} strokeWidth={9} fill="none" strokeLinecap="round" />
+    {/* deck beams, then the load */}
+    <rect x={-96} y={-20} width={200} height={12} fill={C.shadow} />
+    <StoneBlock x={4} y={-20} w={150} h={84} seed={seed + 2} />
+    <path d="M-52 -20L-52 -106M58 -20L58 -106M-72 -74L80 -74" stroke={C.shadow} strokeWidth={3.5} opacity={0.75} />
+    {/* steering oar */}
+    <path d="M-150 -70L-232 30" stroke={C.shadow} strokeWidth={6} strokeLinecap="round" />
+    <path d="M-232 30l-14 26l22 -6Z" fill={C.shadow} />
+    <rect x={-230} y={40} width={480} height={4} fill={C.paper} opacity={0.6} />
+  </g>
+);

@@ -514,6 +514,50 @@ await test("paid narration is blocked outright when NEOKEMET_NO_PAID=1, before a
 });
 
 // ============================================================================
+// Construction scenes: directions choose and configure the drawing
+// ============================================================================
+await test("building directions select the construction template, each with its own view", async () => {
+  const { parseProductionMarkdown } = await import("../shared/production.ts");
+  const { planFromScript } = await import("../shared/planner.ts");
+  const { paramProblems } = await import("../shared/params.ts");
+  const sc = (n: number, title: string, visual: string) => `**Scene 0${n} — ${title}**\n\n**Voiceover**\nLine ${n}.\n\n**Visual:** ${visual}\n**Sound / transition:** None.\n`;
+  const md = [
+    sc(1, "Hook", 'A nearly completed pyramid appears beside a gigantic straight ramp. Heading "ONE GIANT RAMP?". Avoid temple courtyards.'),
+    sc(2, "Hauling", 'Limestone blocks on wooden sledges; workers lean into a taut hauling rope. Label: "BLOCKS PULLED UPHILL".'),
+    sc(3, "Hauling again", "Workers pull a sledge with a taut rope up the ramp."),
+    sc(4, "Scale", "A side-view scale diagram lengthens the ramp, with a height marker."),
+    sc(5, "Quarry", "Masons with mallets cut limestone blocks in the quarry."),
+    sc(6, "River", "A barge carries stone blocks along the Nile."),
+    sc(7, "Tomb", "Workers use ropes to lower coffins down the shaft; no ramps."),
+    sc(8, "End", "Split frame comparing the pyramid alone with the giant ramp."),
+  ].join("\n");
+  const r = parseProductionMarkdown(md, "Ramp Test");
+  const views = r.scenes.map((s) => (s.template === "construction" ? String(s.params?.view) : s.template));
+  assert.deepEqual(views, ["ramp wide", "hauling", "hauling", "ramp growth", "quarry", "river transport", "cutaway", "comparison"]);
+  assert.equal(r.scenes[0].params?.stage, "nearly complete");
+  assert.equal(r.scenes[0].params?.heading, "title");
+  assert.equal(r.scenes[0].label, "ONE GIANT RAMP?");
+  assert.equal(r.scenes[1].label, "BLOCKS PULLED UPHILL");
+  assert.equal(r.scenes[1].params?.heading, "caption");
+  // the repeated hauling scene is not the same drawing
+  assert.notDeepEqual(r.scenes[1].params, r.scenes[2].params);
+  assert.equal(r.scenes[2].params?.facing, "left");
+  assert.ok(!r.warnings.some((w) => /same picture/.test(w)));
+  for (const s of r.scenes) assert.deepEqual(paramProblems(s), []);
+  // a subject the engine was never hand-directed for: eight directions, eight different pictures
+  const ship = parseProductionMarkdown(fs.readFileSync(path.join(PROJECTS_DIR, "ancient-egyptian-shipbuilding", "production-script.md"), "utf8"), "Ancient Egyptian Shipbuilding");
+  assert.ok(ship.scenes.every((s) => s.template === "shipyard"));
+  assert.deepEqual(ship.scenes.map((s) => s.params?.view), ["shipyard", "timber", "shaping", "frame", "assembly", "rigging", "launch", "sailing"]);
+  assert.ok(!ship.warnings.some((w) => /same picture/.test(w)));
+  for (const s of ship.scenes) assert.deepEqual(paramProblems(s), []);
+  // plain scripts get it too; text with no building work is untouched
+  const plain = planFromScript("T", "Intro.\n\nWorkers dragged stone blocks up a mud-brick ramp on sledges.\n\nPriests sealed the tomb.\n\nEnd.");
+  assert.equal(plain[1].template, "construction");
+  assert.equal(plain[1].params?.view, "hauling");
+  assert.notEqual(plain[2].template, "construction");
+});
+
+// ============================================================================
 // Nothing above may have touched a bundled project
 // ============================================================================
 await test("no bundled project file was created, moved, renamed, replaced or rewritten by any check", () => {

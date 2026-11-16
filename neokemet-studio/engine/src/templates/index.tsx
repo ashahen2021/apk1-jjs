@@ -13,7 +13,9 @@ import { Scene13Chamber } from "../presets/royal-cache/Scene13Chamber";
 import { Scene18Hidden } from "../presets/royal-cache/Scene18Hidden";
 import { CharactersTemplate, LandscapeTemplate, ProcessionTemplate, TitleTemplate } from "./Basic";
 import { CoffinChamberTemplate } from "./CoffinChamber";
+import { ConstructionTemplate } from "./Construction";
 import type { TemplateProps } from "./common";
+import { ShipyardTemplate } from "./Shipyard";
 import { CutawayTemplate } from "./Cutaway";
 import { PriestsRewrappingTemplate, RoyalPharaohsTemplate, TombRobberyTemplate } from "./Documentary";
 import { ArtifactTemplate, EndCardTemplate, MapTemplate, TombInteriorTemplate } from "./Special";
@@ -38,6 +40,8 @@ export const REGISTRY: Record<TemplateId, Entry> = {
   cutaway: { Component: CutawayTemplate },
   "coffin-chamber": { Component: CoffinChamberTemplate, bg: C.night },
   map: { Component: MapTemplate },
+  construction: { Component: ConstructionTemplate },
+  shipyard: { Component: ShipyardTemplate },
   "end-card": { Component: EndCardTemplate },
   "royal-pharaohs": { Component: RoyalPharaohsTemplate },
   "tomb-robbery": { Component: TombRobberyTemplate },

@@ -92,6 +92,8 @@ export const TEMPLATES = {
   cutaway: { label: "Tomb cutaway", group: "Generic", description: "Section through rock: shaft, passages, chamber, torch-lit party.", uses: ["label", "sublabel"] },
   "coffin-chamber": { label: "Coffin chamber", group: "Generic", description: "Torchlight travelling along a row of coffins.", uses: ["label"] },
   map: { label: "Journey map", group: "Generic", description: "Dotted route drawn between three sites on a desert map.", uses: ["label", "sublabel"] },
+  construction: { label: "Construction", group: "Generic", description: "Building work drawn for real: ramp, sledge, block, rope and crew; also quarry, river barge and two diagram views.", uses: ["camera", "label", "sublabel"] },
+  shipyard: { label: "Shipyard", group: "Generic", description: "Boatbuilding from timber to a vessel under sail: yard, timber, shaping, frame, assembly, rigging, launch and sailing views.", uses: ["camera", "label", "sublabel"] },
   "end-card": { label: "End card", group: "Generic", description: "Closing landscape with end title and a credit line.", uses: ["environment", "label", "sublabel"] },
   "royal-pharaohs": { label: "Royal Pharaohs", group: "Documentary", description: "A pharaoh — seated, standing or as a colossal statue — in a cinematic setting, with a name plate.", uses: ["label", "sublabel"] },
   "tomb-robbery": { label: "Tomb Robbery", group: "Documentary", description: "A royal burial shown in order, then opened, looted or damaged. Schematic and restrained.", uses: ["label", "sublabel"] },
@@ -129,6 +131,21 @@ export type ParamDef =
   | { key: string; label: string; type: "boolean"; default: boolean };
 
 export const TEMPLATE_PARAMS: Partial<Record<TemplateId, readonly ParamDef[]>> = {
+  shipyard: [
+    { key: "view", label: "What the shot shows", type: "select", options: ["shipyard", "timber", "shaping", "frame", "assembly", "rigging", "launch", "sailing"], default: "shipyard" },
+    { key: "crew", label: "Size of the crew", type: "select", options: ["two", "four", "six"], default: "four" },
+    { key: "facing", label: "Direction of the composition", type: "select", options: ["right", "left"], default: "right" },
+    { key: "heading", label: "On-screen text style", type: "select", options: ["caption", "title"], default: "caption" },
+    { key: "showTools", label: "Tools and materials in the foreground", type: "boolean", default: true },
+  ],
+  construction: [
+    { key: "view", label: "What the shot shows", type: "select", options: ["ramp wide", "hauling", "ramp growth", "comparison", "quarry", "river transport"], default: "ramp wide" },
+    { key: "crew", label: "Size of the hauling crew", type: "select", options: ["two", "four", "six"], default: "four" },
+    { key: "stage", label: "How far the pyramid has risen", type: "select", options: ["early", "half built", "nearly complete"], default: "half built" },
+    { key: "facing", label: "Direction of the composition", type: "select", options: ["right", "left"], default: "right" },
+    { key: "heading", label: "On-screen text style", type: "select", options: ["caption", "title"], default: "caption" },
+    { key: "showTools", label: "Tools and materials in the foreground", type: "boolean", default: true },
+  ],
   "rc-07": [
     { key: "framing", label: "Framing", type: "select", options: ["original", "close-up", "wide"], default: "original" },
     { key: "movement", label: "Camera adjustment", type: "select", options: ["original", "push in", "pull back", "pan left", "pan right"], default: "original" },

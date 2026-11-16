@@ -1,0 +1,187 @@
+{
+  "version": 1,
+  "title": "Ancient Egyptian Shipbuilding",
+  "topic": "Example scenes for the three documentary templates",
+  "script": "Among the rulers later hidden in the cache was Ramesses the Second, who reigned for sixty-six years.\n\nTheir original burial places had been threatened by thieves. Gold vanished, coffins were damaged, and royal mummies were disturbed.\n\nPriests of Amun repaired damaged burials and carefully rewrapped royal bodies in fresh linen.",
+  "format": "9:16",
+  "fps": 30,
+  "subtitles": true,
+  "audio": {
+    "music": "generated",
+    "musicVolume": 0.5,
+    "musicSeed": 1881,
+    "sfx": true,
+    "sfxVolume": 0.55,
+    "narrationVolume": 1
+  },
+  "scenes": [
+    {
+      "id": "s01",
+      "template": "shipyard",
+      "narration": "Along the Nile, Egypt built the boats that carried a kingdom.",
+      "durationSec": 6,
+      "camera": "push-in",
+      "label": "BUILT ON THE NILE",
+      "ambience": "auto",
+      "params": {
+        "view": "shipyard",
+        "crew": "four",
+        "heading": "title"
+      },
+      "production": {
+        "sourceNumber": 1,
+        "sceneTitle": "The Shipyard",
+        "chapter": "",
+        "visual": "An Egyptian shipyard beside the Nile: a hull on the stocks, stacked timber, a reed shelter, the river behind. Heading \"BUILT ON THE NILE\".",
+        "sound": "River ambience."
+      }
+    },
+    {
+      "id": "s02",
+      "template": "shipyard",
+      "narration": "Good timber was scarce, so cedar logs came in by water.",
+      "durationSec": 6,
+      "camera": "pan-right",
+      "label": "CEDAR FROM AFAR",
+      "ambience": "auto",
+      "params": {
+        "view": "timber",
+        "crew": "four",
+        "heading": "caption"
+      },
+      "production": {
+        "sourceNumber": 2,
+        "sceneTitle": "Timber Arrives",
+        "chapter": "",
+        "visual": "A boatyard bank where cedar logs are unloaded from a river boat and carried ashore to the timber pile. Label: \"CEDAR FROM AFAR\".",
+        "sound": "Water against a hull."
+      }
+    },
+    {
+      "id": "s03",
+      "template": "shipyard",
+      "narration": "Carpenters shaped every plank by hand.",
+      "durationSec": 6,
+      "camera": "rise",
+      "label": "SHAPED BY HAND",
+      "ambience": "auto",
+      "params": {
+        "view": "shaping",
+        "crew": "four",
+        "heading": "caption"
+      },
+      "production": {
+        "sourceNumber": 3,
+        "sceneTitle": "Shaping the Timber",
+        "chapter": "",
+        "visual": "Craftsmen shaping wooden hull components: one works a plank with an adze, another is sawing; finished curved pieces wait beside them. Label: \"SHAPED BY HAND\".",
+        "sound": "Adze on wood."
+      }
+    },
+    {
+      "id": "s04",
+      "template": "shipyard",
+      "narration": "First came the keel, then the ribs that gave the hull its form.",
+      "durationSec": 6,
+      "camera": "pan-left",
+      "label": "KEEL AND RIBS",
+      "ambience": "auto",
+      "params": {
+        "view": "frame",
+        "crew": "four",
+        "heading": "caption"
+      },
+      "production": {
+        "sourceNumber": 4,
+        "sceneTitle": "Keel and Ribs",
+        "chapter": "",
+        "visual": "The keel and ribs of a hull standing on the stocks like a skeleton; a rib is offered up and driven home. Label: \"KEEL AND RIBS\".",
+        "sound": "Mallet blows."
+      }
+    },
+    {
+      "id": "s05",
+      "template": "shipyard",
+      "narration": "Planks were lashed together with rope, not nailed.",
+      "durationSec": 6,
+      "camera": "pull-back",
+      "label": "BOUND WITH ROPE",
+      "ambience": "auto",
+      "params": {
+        "view": "assembly",
+        "crew": "four",
+        "heading": "caption"
+      },
+      "production": {
+        "sourceNumber": 5,
+        "sceneTitle": "Bound With Rope",
+        "chapter": "",
+        "visual": "Workers assembling a vessel using ropes and wooden tools: lashings pulled tight over the planked hull, mallets driving the joints home. Label: \"BOUND WITH ROPE\".",
+        "sound": "Rope creaking."
+      }
+    },
+    {
+      "id": "s06",
+      "template": "shipyard",
+      "narration": "Then the mast was hauled upright.",
+      "durationSec": 6,
+      "camera": "push-in",
+      "label": "RAISING THE MAST",
+      "ambience": "auto",
+      "params": {
+        "view": "rigging",
+        "crew": "four",
+        "heading": "caption"
+      },
+      "production": {
+        "sourceNumber": 6,
+        "sceneTitle": "Raising the Mast",
+        "chapter": "",
+        "visual": "A gang hoists the mast of the finished hull upright with a long rope; the furled sail waits on the ground. Label: \"RAISING THE MAST\".",
+        "sound": "Men heaving in time."
+      }
+    },
+    {
+      "id": "s07",
+      "template": "shipyard",
+      "narration": "At last the hull slid down into the river.",
+      "durationSec": 6,
+      "camera": "pan-right",
+      "label": "INTO THE RIVER",
+      "ambience": "auto",
+      "params": {
+        "view": "launch",
+        "crew": "four",
+        "heading": "caption"
+      },
+      "production": {
+        "sourceNumber": 7,
+        "sceneTitle": "The Launch",
+        "chapter": "",
+        "visual": "Launch day: the finished hull slides down the slipway into the water while the yard pushes from behind. Label: \"INTO THE RIVER\".",
+        "sound": "A great splash."
+      }
+    },
+    {
+      "id": "s08",
+      "template": "shipyard",
+      "narration": "And a new boat took the wind on the Nile.",
+      "durationSec": 6,
+      "camera": "pull-back",
+      "label": "UNDER SAIL",
+      "ambience": "wind",
+      "params": {
+        "view": "sailing",
+        "crew": "four",
+        "heading": "title"
+      },
+      "production": {
+        "sourceNumber": 8,
+        "sceneTitle": "Under Sail",
+        "chapter": "",
+        "visual": "A completed cargo boat sailing on the Nile, sail set, cargo on deck, helmsman at the steering oar. Heading \"UNDER SAIL\". No unrelated end card.",
+        "sound": "Wind in the sail."
+      }
+    }
+  ]
+}

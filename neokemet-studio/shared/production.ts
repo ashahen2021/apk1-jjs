@@ -3,7 +3,7 @@
 // Narration is the only text sent onward to a speech provider.
 import { matchDocumentaryTemplate } from "./documentary.ts";
 import { matchReusableRoyalCacheShot } from "./reusable.ts";
-import { planScene } from "./planner.ts";
+import { castFromText, envFromText, planScene, WORK_TEMPLATES, workSceneFromText } from "./planner.ts";
 import { MAX_SCENES, type Scene } from "./schema.ts";
 
 type Draft = {
@@ -23,6 +23,21 @@ export type ProductionImport = {
   warnings: string[];
   summary: { sceneCount: number; chapters: number; approximateMinutes?: number };
 };
+
+/**
+ * Drop what the director rules out ("no Giza pyramids", "avoid generic temple
+ * courtyards") so a forbidden subject cannot select itself.
+ */
+export const affirmed = (direction: string) => direction.replace(/\b(?:no|not|never|without|avoid(?:ing)?)\b[^.;,]*/gi, " ");
+
+/** Text the direction asks to see on screen: label "X", heading "X", caption: "X". */
+const onScreenText = (visual: string): string | undefined => {
+  const m = /\b(?:label|heading|caption)s?\b[^"“.;]{0,40}["“]([^"”]{2,60})["”]/i.exec(visual);
+  return m ? m[1].trim() : undefined;
+};
+const PLACE_TEMPLATES = new Set(["title", "landscape", "characters", "procession", "end-card"]);
+// Only templates whose caption sits in clear sky; interiors and diagrams keep their own layout.
+const LABELLED_TEMPLATES = new Set(["title", "end-card", "landscape", "characters", "procession", "artifact", "map", "construction", "shipyard"]);
 
 export function parseProductionMarkdown(source: string, projectTitle = "Untitled"): ProductionImport {
   if (!source.trim()) throw new Error("The production Markdown file is empty.");
@@ -89,6 +104,8 @@ export function parseProductionMarkdown(source: string, projectTitle = "Untitled
   if (drafts.some((d) => !d.visual.length)) warnings.push("One or more scenes have no Visual direction.");
   if (drafts.some((d) => !d.sound.length)) warnings.push("One or more scenes have no Sound / transition direction.");
   warnings.push("Visual and sound directions are saved as editable production notes. Existing SVG templates approximate them; unique choreography and sound cues are not automatically performed.");
+  // The place the film as a whole is about, for scenes whose own text names none.
+  const filmEnv = envFromText(affirmed(drafts.map((d) => d.visual.join(" ")).join(" ")));
   const scenes: Scene[] = drafts.map((d, i) => {
     const narration = d.narration.join(" ").replace(/\s+/g, " ").trim();
     const visual = d.visual.join(" ").replace(/\s+/g, " ").trim();
@@ -96,6 +113,7 @@ export function parseProductionMarkdown(source: string, projectTitle = "Untitled
     const v = visual.toLowerCase();
     const s = planScene(narration, i, drafts.length, projectTitle);
     s.id = "s" + String(i + 1).padStart(2, "0");
+    let claimed = false;
     // Prioritise the director's visual instruction over keyword guesses from narration.
     if (i > 0 && i < drafts.length - 1) {
       if (/cutaway|section through|cross.section|shaft|underground|tomb plan|passage|corridor|rock.cut/.test(v)) s.template = "cutaway";
@@ -114,6 +132,7 @@ export function parseProductionMarkdown(source: string, projectTitle = "Untitled
       if (m) {
         s.template = m.template;
         s.params = m.params;
+        claimed = true;
         delete s.cast; delete s.prop; delete s.variant;
       }
     }
@@ -125,21 +144,63 @@ export function parseProductionMarkdown(source: string, projectTitle = "Untitled
       if (reuse) {
         s.template = reuse.template;
         s.params = reuse.params;
+        claimed = true;
         delete s.cast; delete s.prop; delete s.variant;
       }
     }
-    if (/deir el.bahari|hatshepsut/.test(v)) s.environment = "deir-el-bahari";
-    else if (/theban|cliff|limestone|valley of the kings/.test(v)) s.environment = "theban-cliffs";
-    else if (/nile|river|boat|barge/.test(v)) s.environment = "nile-valley";
-    else if (/village|family home|town/.test(v)) s.environment = "village";
-    else if (/market/.test(v)) s.environment = "market";
-    else if (/temple|karnak/.test(v)) s.environment = "temple-courtyard";
+    // The setting comes from what the direction asks for, never from what it rules out.
+    const want = affirmed(v);
+    if (/pyramid|giza|khufu|sphinx|\bramps?\b|sledges?/.test(want)) s.environment = "giza-pyramids";
+    else if (/deir el.bahari|hatshepsut/.test(want)) s.environment = "deir-el-bahari";
+    else if (/theban|cliff|limestone|valley of the kings/.test(want)) s.environment = "theban-cliffs";
+    else if (/nile|river|boat|barge/.test(want)) s.environment = "nile-valley";
+    else if (/village|family home|town/.test(want)) s.environment = "village";
+    else if (/market/.test(want)) s.environment = "market";
+    else if (/temple|karnak/.test(want)) s.environment = "temple-courtyard";
+    else if (/desert|dunes?|\bsands?\b/.test(want)) s.environment = "open-desert";
+    // A place template chosen from the direction must not fall back to a default
+    // backdrop when the narration names the place.
+    if (PLACE_TEMPLATES.has(s.template) && !s.environment) { const e = envFromText(narration) ?? filmEnv; if (e) s.environment = e; }
+
+    // People named in the direction are the cast; narration is only the fallback.
+    if (s.template === "characters") {
+      const seen = castFromText(want);
+      if (seen.length) s.cast = seen;
+      else if (!s.cast?.length) { const spoken = castFromText(narration); if (spoken.length) s.cast = spoken; }
+    } else if (s.template === "landscape") {
+      const seen = castFromText(want, "walk").slice(0, 3);
+      if (seen.length) s.cast = seen;
+    }
+
+    // Building work gets the picture the direction describes (ramp, sledge, crew,
+    // quarry, barge), unless a documentary or hand-directed shot already claimed it.
+    // Here the first and last scenes count too: "no unrelated end card" is a common
+    // direction, and the heading is set as a title over the art.
+    const build = claimed ? undefined : workSceneFromText(want) ?? (WORK_TEMPLATES.includes(s.template) ? workSceneFromText(narration) : undefined);
+    if (build) {
+      s.template = build.template;
+      const edge = i === 0 || i === drafts.length - 1;
+      s.params = { ...build.params, heading: edge || /\bheading\b|headline/.test(want) ? "title" : "caption" };
+      delete s.cast; delete s.prop; delete s.variant; delete s.environment;
+    } else if (WORK_TEMPLATES.includes(s.template)) {
+      // narration alone suggested it, but the direction asks for something else
+      s.template = "landscape";
+      delete s.params;
+      if (!s.environment) s.environment = envFromText(narration) ?? filmEnv ?? "open-desert";
+    }
+
+    // On-screen text: what the direction quotes, else a short scene title.
+    const quoted = onScreenText(visual);
+    const cleanTitle = d.title.replace(/\s*\([^)]*\)\s*$/, "").trim();
+    if (quoted && LABELLED_TEMPLATES.has(s.template)) s.label = quoted.slice(0, 70);
+    else if (i > 0 && i < drafts.length - 1 && LABELLED_TEMPLATES.has(s.template) && !s.label && cleanTitle.length <= 32 && !/^scene\s*\d+$/i.test(cleanTitle)) s.label = cleanTitle;
 
     if (/pull.back|withdraw|zoom out/.test(v)) s.camera = "pull-back";
     else if (/push.in|zoom in|close.up|slow reveal/.test(v)) s.camera = "push-in";
     else if (/rise|top.down|from above/.test(v)) s.camera = "rise";
     else if (/pan left/.test(v)) s.camera = "pan-left";
     else if (/pan|drift|travels? along/.test(v)) s.camera = "pan-right";
+    if (s.template === "construction" && ["ramp growth", "comparison"].includes(String(s.params?.view))) s.camera = "static";
     if (/wind/.test(sound.toLowerCase())) s.ambience = "wind";
     else if (/silence|hush|quiet/.test(sound.toLowerCase())) s.ambience = "none";
     s.production = {
@@ -155,6 +216,26 @@ export function parseProductionMarkdown(source: string, projectTitle = "Untitled
     delete s.narrationFile;
     return s;
   });
+  // Different directions that end up as the same picture are reported, not hidden.
+  // Construction scenes can be told apart automatically: later repeats are
+  // mirrored and given a different crew, so no two are the same drawing.
+  const built = new Map<string, number>();
+  const CREWS = ["four", "six", "two"];
+  scenes.forEach((s) => {
+    if (!WORK_TEMPLATES.includes(s.template)) return;
+    const key = s.template + JSON.stringify(s.params);
+    const k = built.get(key) ?? 0;
+    built.set(key, k + 1);
+    if (k > 0) s.params = { ...s.params, facing: k % 2 ? "left" : "right", crew: CREWS[(CREWS.indexOf(String(s.params?.crew)) + Math.ceil(k / 2)) % CREWS.length] };
+  });
+  const sameAs = new Map<string, number[]>();
+  scenes.forEach((s, i) => {
+    if (i === 0 || i === scenes.length - 1) return;
+    const key = JSON.stringify([s.template, s.environment, s.cast, s.prop, s.variant, s.params]);
+    sameAs.set(key, [...(sameAs.get(key) ?? []), drafts[i].number]);
+  });
+  for (const numbers of sameAs.values())
+    if (numbers.length > 1) warnings.push("Scenes " + numbers.join(", ") + " have different directions but will draw the same picture. Change the template, setting, cast or prop of some of them in the Storyboard.");
   const script = scenes.map((s) => s.narration).join("\n\n");
   const approximateSeconds = drafts.reduce((n, d) => n + (d.estimateSeconds || 0), 0);
   const suggestedFormat = /(?:Target|Delivery)[^\n]*(?:16:9|1920\s*[×x]\s*1080)/i.test(source) ? "16:9" : undefined;
