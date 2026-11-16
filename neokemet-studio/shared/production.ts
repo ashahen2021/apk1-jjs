@@ -3,7 +3,7 @@
 // Narration is the only text sent onward to a speech provider.
 import { matchDocumentaryTemplate } from "./documentary.ts";
 import { matchReusableRoyalCacheShot } from "./reusable.ts";
-import { castFromText, envFromText, planScene, WORK_TEMPLATES, workSceneFromText } from "./planner.ts";
+import { castFromText, envFromText, planScene, obeliskFromText, WORK_TEMPLATES, workSceneFromText } from "./planner.ts";
 import { MAX_SCENES, type Scene } from "./schema.ts";
 
 type Draft = {
@@ -37,7 +37,7 @@ const onScreenText = (visual: string): string | undefined => {
 };
 const PLACE_TEMPLATES = new Set(["title", "landscape", "characters", "procession", "end-card"]);
 // Only templates whose caption sits in clear sky; interiors and diagrams keep their own layout.
-const LABELLED_TEMPLATES = new Set(["title", "end-card", "landscape", "characters", "procession", "artifact", "map", "construction", "shipyard"]);
+const LABELLED_TEMPLATES = new Set(["title", "end-card", "landscape", "characters", "procession", "artifact", "map", "construction", "shipyard", "obelisk"]);
 
 export function parseProductionMarkdown(source: string, projectTitle = "Untitled"): ProductionImport {
   if (!source.trim()) throw new Error("The production Markdown file is empty.");
@@ -176,7 +176,10 @@ export function parseProductionMarkdown(source: string, projectTitle = "Untitled
     // quarry, barge), unless a documentary or hand-directed shot already claimed it.
     // Here the first and last scenes count too: "no unrelated end card" is a common
     // direction, and the heading is set as a title over the art.
-    const build = claimed ? undefined : workSceneFromText(want) ?? (WORK_TEMPLATES.includes(s.template) ? workSceneFromText(narration) : undefined);
+    const obeliskParams = claimed ? undefined : obeliskFromText(d.title + " " + want + " " + narration, projectTitle);
+    const build = obeliskParams
+      ? { template: "obelisk" as const, params: obeliskParams }
+      : claimed ? undefined : workSceneFromText(want) ?? (WORK_TEMPLATES.includes(s.template) ? workSceneFromText(narration) : undefined);
     if (build) {
       s.template = build.template;
       const edge = i === 0 || i === drafts.length - 1;
@@ -192,6 +195,7 @@ export function parseProductionMarkdown(source: string, projectTitle = "Untitled
     // On-screen text: what the direction quotes, else a short scene title.
     const quoted = onScreenText(visual);
     const cleanTitle = d.title.replace(/\s*\([^)]*\)\s*$/, "").trim();
+    if (s.template === "obelisk" && !quoted && cleanTitle && !/^scene\\s*\\d+$/i.test(cleanTitle)) s.label = cleanTitle.slice(0, 70);
     if (quoted && LABELLED_TEMPLATES.has(s.template)) s.label = quoted.slice(0, 70);
     else if (i > 0 && i < drafts.length - 1 && LABELLED_TEMPLATES.has(s.template) && !s.label && cleanTitle.length <= 32 && !/^scene\s*\d+$/i.test(cleanTitle)) s.label = cleanTitle;
 
