@@ -62,8 +62,8 @@ export const displayTitle = (title: string) => title.replace(/_+/g, " ").replace
 // stone, ropes and river transport must not send them to pyramid construction.
 const OBELISK_CUE = /\bobelisks?\b|\bobelisk\s+(?:shaft|monument|erection)\b/i;
 const OBELISK_VIEWS: [string, RegExp][] = [
-  ["temple obelisk", /completed|standing|upright|monument|temple pylon|ray in stone|final beauty/i],
-  ["erection", /erect|raising|raised|upright|tilt|lift into place|set (?:it|the stone) upright/i],
+  ["erection", /erect|raising|raised|tilt|lift into place|set (?:it|the stone) upright/i],
+  ["temple obelisk", /completed|standing before|temple pylon|ray in stone|final beauty/i],
   ["river transport", /sail|voyage|river journey|north by river|down the nile|nile carried|along the nile|barge (?:sailing|travelling)/i],
   ["barge loading", /load|loaded|loading|riverbank|onto (?:a|the) barge|toward the barge|down to the nile/i],
   ["sledge hauling", /sledge|drag|hauled|hauling|pull|ropes? (?:pull|haul)|transport overland/i],
